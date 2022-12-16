@@ -1,0 +1,45 @@
+.container1{
+  border-color: rgb(15, 15, 0);
+  border-style: solid;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 90%);
+  height: 100vh;
+  align-items: center;
+}
+
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 70px;
+  line-height: 112px;
+}
+
+.pg {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 84px;
+}
+
+.labo {
+  width: 650px;
+}
