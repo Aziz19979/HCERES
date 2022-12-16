@@ -5,7 +5,7 @@
 ## Initialisation du projet
 
 * Require java 8+, maven, npm, postgres
-* Executer le fichier [HCERES.sql](hceres/src/main/SQLdata/HCERES.sql) dans votre base de donnee
+* Executer le fichier [HCERES.sql](hceres/src/main/SQLdata/HCERES.sql) dans votre base de données
 * Copier le fichier [application_template.properties](hceres/src/main/resources/application_template.properties)
   la configuration en meme endroit avec le nom application.properties
 * Modifier la configuration pour la connection a la base de donnee selon votre setup.
