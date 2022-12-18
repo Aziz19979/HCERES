@@ -19,7 +19,6 @@ COMPONENTS="hceres-frontend/src/components/Activity"
 SERVICES="hceres-frontend/src/services"
 TemplateEntity="Education" ## Use CamelCase writing for template model
 
-
 # initialize subfolder locations from content root
 PROJECT_LOCATION=$(pwd)
 SCRIPT_FOLDER_LOCATION=$(dirname "$0")
@@ -27,26 +26,25 @@ GENERATED_CODE_FOLDER="$PROJECT_LOCATION/GeneratedCode"
 COMPONENTS_LOCATION="$PROJECT_LOCATION/$COMPONENTS"
 SERVICES_LOCATION="$PROJECT_LOCATION/$SERVICES"
 
-
 if [ $# == 0 ]; then
-  >&2 echo "No ModelEntity name was provided"
-  >&2 echo "Usage example:"
-  >&2 echo "$0 ModelEntity"
-  >&2 echo "Or"
-  >&2 echo "$0 ModelEntity ModelForm.csv"
+  echo >&2 "No ModelEntity name was provided"
+  echo >&2 "Usage example:"
+  echo >&2 "$0 ModelEntity"
+  echo >&2 "Or"
+  echo >&2 "$0 ModelEntity ModelForm.csv"
 fi
 
 ModelEntity=$1
 
-check_if_folder_exist () {
+check_if_folder_exist() {
   folderArg=$1
   # Check if component folder exist
   if [ -d "$folderArg" ]; then
-      echo "$folderArg exists."
+    echo "$folderArg exists."
   else
     # print to standard error
-    >&2 echo "$folderArg doesn't exist"
-    >&2 echo "Execute this file from root project directory as working directory"
+    echo >&2 "$folderArg doesn't exist"
+    echo >&2 "Execute this file from root project directory as working directory"
     exit 1
   fi
 }
@@ -54,8 +52,8 @@ check_if_folder_exist () {
 CamelCase_to_separate_by_dash() {
   # https://stackoverflow.com/questions/8502977/linux-bash-camel-case-string-to-separate-by-dash
   sed --expression 's/\([A-Z]\)/-\L\1/g' \
-      --expression 's/^-//'              \
-      <<< "$1"
+  --expression 's/^-//' \
+  <<<"$1"
 }
 
 template_package=$(CamelCase_to_separate_by_dash "$TemplateEntity")
@@ -104,8 +102,7 @@ echo "Package $template_package renamed to $target_package"
 # 4. replace all occurrences of templateEntity to modelEntity
 if [ -z ${allCreatedFixedFiles+x} ]; then declare -A allCreatedFixedFiles; fi
 
-while IFS= read -r -d '' templateFile
-do
+while IFS= read -r -d '' templateFile; do
   let count++
   echo "Found file no. $count"
   echo "$templateFile"
@@ -125,14 +122,13 @@ do
     echo "Replaced $TemplateEntity with $ModelEntity"
 
     # 4. replace all occurrences of templateEntity to ModelEntity
-    templateEntity="$(tr '[:upper:]' '[:lower:]' <<< ${TemplateEntity:0:1})${TemplateEntity:1}"
-    modelEntity="$(tr '[:upper:]' '[:lower:]' <<< ${ModelEntity:0:1})${ModelEntity:1}"
+    templateEntity="$(tr '[:upper:]' '[:lower:]' <<<${TemplateEntity:0:1})${TemplateEntity:1}"
+    modelEntity="$(tr '[:upper:]' '[:lower:]' <<<${ModelEntity:0:1})${ModelEntity:1}"
     sed -i "s/$templateEntity/$modelEntity/g" "$modelFile"
     echo "Replaced $templateEntity with $modelEntity "
     allCreatedFixedFiles+=(["$count"]="$modelFile")
   fi
-done <   <(find "$GENERATED_CODE_FOLDER" -mtime -7 -name '*.js' -print0)
-
+done < <(find "$GENERATED_CODE_FOLDER" -mtime -7 -name '*.js' -print0)
 
 if [ $# == 2 ]; then
   source "$SCRIPT_FOLDER_LOCATION/CreateFormBootstrap.sh" "$2"
