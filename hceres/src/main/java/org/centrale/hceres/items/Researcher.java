@@ -8,10 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.List;
@@ -39,7 +36,11 @@ public class Researcher implements Serializable {
     @Basic(optional = false)
     @Column(name = "researcher_id")
     private Integer researcherId;
-    
+
+    public Researcher(Integer researcherId) {
+        this.researcherId = researcherId;
+    }
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)

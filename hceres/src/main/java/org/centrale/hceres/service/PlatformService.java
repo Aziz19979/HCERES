@@ -16,12 +16,9 @@ public class PlatformService {
 
     @Autowired
     PlatformRepository platformRepository;
-    @Autowired
-    private ResearchRepository researchRepo;
+
     @Autowired
     private ActivityRepository activityRepo;
-    @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
 
 
     public List<Activity> getPlatforms() {
@@ -40,53 +37,37 @@ public class PlatformService {
 
     public Activity savePlatform(@RequestBody Map<String, Object> request) throws ParseException {
 
-        Platform platfomToSave = new Platform();
+        Platform platform = new Platform();
 
         // Creation Date
-        platfomToSave.setCreationDate(RequestParser.getAsDate(request.get("creationDate")));
+        platform.setCreationDate(RequestParser.getAsDate(request.get("creationDate")));
 
         // Description
-        platfomToSave.setDescription(RequestParser.getAsString(request.get("description")));
+        platform.setDescription(RequestParser.getAsString(request.get("description")));
 
         // Managers
-        platfomToSave.setManagers(RequestParser.getAsString(request.get("managers")));
+        platform.setManagers(RequestParser.getAsString(request.get("managers")));
 
         // Affiliation
-        platfomToSave.setAffiliation(RequestParser.getAsString(request.get("affiliation")));
+        platform.setAffiliation(RequestParser.getAsString(request.get("affiliation")));
 
         // Labellisation
-        platfomToSave.setLabellisation(RequestParser.getAsString(request.get("labellisation")));
+        platform.setLabellisation(RequestParser.getAsString(request.get("labellisation")));
 
         // Open Private Researches
-        platfomToSave.setOpenPrivateResearchers(RequestParser.getAsBoolean(request.get("openPrivateResearchers")));
+        platform.setOpenPrivateResearchers(RequestParser.getAsBoolean(request.get("openPrivateResearchers")));
 
 
         // Activity :
         Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.PLATFORM.getId());
-        activity.setTypeActivity(typeActivity);
-
+        platform.setActivity(activity);
+        activity.setPlatform(platform);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.PLATFORM.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
 
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        platfomToSave.setActivity(savedActivity);
-
-
-        // Created platform id :
-        Integer idPlatform = activity.getIdActivity();
-        platfomToSave.setIdActivity(idPlatform);
-
-        // Persist Platform to database :
-        Platform savePlatform = platformRepository.save(platfomToSave);
-        savedActivity.setPlatform(savePlatform);
-        return savedActivity;
+        activity = activityRepo.save(activity);
+        return activity;
     }
 }

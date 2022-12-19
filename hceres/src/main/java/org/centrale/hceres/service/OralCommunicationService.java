@@ -1,9 +1,7 @@
 package org.centrale.hceres.service;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.OralCommunication;
@@ -28,17 +26,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Map;
-
 @Data
 @Service
 public class OralCommunicationService {
 
-    /**
-     * Instanciation
-     */
-    @Autowired
-    private ResearchRepository researchRepo;
 
     @Autowired
     private OralCommunicationRepository oralCommunicationRepo;
@@ -48,9 +39,6 @@ public class OralCommunicationService {
 
     @Autowired
     private MeetingRepository meetingRepo;
-
-    @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
 
     @Autowired
     private ActivityRepository activityRepo;
@@ -74,21 +62,16 @@ public class OralCommunicationService {
     @Transactional
     public Activity saveOralCommunication(@RequestBody Map<String, Object> request) throws ParseException {
 
-        OralCommunication oralCommunicationTosave = new OralCommunication();
+        OralCommunication oralCommunication = new OralCommunication();
 
         // OralCommunicationTitle :
-        oralCommunicationTosave.setOralCommunicationTitle(RequestParser.getAsString(request.get("OralCommunicationTitle")));
+        oralCommunication.setOralCommunicationTitle(RequestParser.getAsString(request.get("OralCommunicationTitle")));
 
         // OralCommunicationDat :
-        oralCommunicationTosave.setOralCommunicationDat(RequestParser.getAsDate(request.get("OralCommunicationDate")));
+        oralCommunication.setOralCommunicationDat(RequestParser.getAsDate(request.get("OralCommunicationDate")));
 
         // Authors :
-        oralCommunicationTosave.setAuthors(RequestParser.getAsString(request.get("Authors")));
-
-        // Activity :
-        Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId());
-        activity.setTypeActivity(typeActivity);
+        oralCommunication.setAuthors(RequestParser.getAsString(request.get("Authors")));
 
         // Meeting
         Meeting meeting = new Meeting();
@@ -97,40 +80,26 @@ public class OralCommunicationService {
         meeting.setMeetingLocation(RequestParser.getAsString(request.get("MeetingLocation")));
         meeting.setMeetingStart(RequestParser.getAsDate(request.get("MeetingStart")));
         meeting.setMeetingEnd(RequestParser.getAsDate(request.get("MeetingEnd")));
-
-        Meeting savedMeeting = meetingRepo.save(meeting);
-        oralCommunicationTosave.setMeetingId(savedMeeting);
+        oralCommunication.setMeetingId(meeting);
 
 
         // TypeOralCommunication :
         TypeOralCommunication typeOralCommunication = new TypeOralCommunication();
         typeOralCommunication.setTypeOralCommunicationName(RequestParser.getAsString(request.get("TypeOralCommunicationName")));
-        TypeOralCommunication savetypeOralCommunication = typeOralCommunicationRepo.save(typeOralCommunication);
-        oralCommunicationTosave.setTypeOralCommunicationId(savetypeOralCommunication);
+        oralCommunication.setTypeOralCommunicationId(typeOralCommunication);
 
+
+        // Activity :
+        Activity activity = new Activity();
+        oralCommunication.setActivity(activity);
+        activity.setOralCommunication(oralCommunication);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
 
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        oralCommunicationTosave.setActivity(savedActivity);
-
-
-        // Id :
-        Integer idOralCommunicationTosave = activity.getIdActivity();
-        oralCommunicationTosave.setIdActivity(idOralCommunicationTosave);
-
-        // Enregistrer dans la base de données :
-        OralCommunication saveOralCommunication = oralCommunicationRepo.save(oralCommunicationTosave);
-
-        savedActivity.setOralCommunication(saveOralCommunication);
-        return savedActivity;
+        activity = activityRepo.save(activity);
+        return activity;
     }
 
 }

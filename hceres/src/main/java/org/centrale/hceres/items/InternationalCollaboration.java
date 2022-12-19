@@ -93,6 +93,6 @@ public class InternationalCollaboration implements Serializable {
 
     @JsonIgnore
     @JoinColumn(name = "type_collab_id", referencedColumnName = "type_collab_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private TypeCollab typeCollabId;
 }

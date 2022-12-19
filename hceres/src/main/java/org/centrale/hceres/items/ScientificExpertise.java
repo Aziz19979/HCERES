@@ -58,6 +58,6 @@ public class ScientificExpertise implements Serializable {
 
 
     @JoinColumn(name = "scientific_expertise_type_id", referencedColumnName = "scientific_expertise_type_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private ScientificExpertiseType scientificExpertiseTypeId;
 }

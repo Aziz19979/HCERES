@@ -25,12 +25,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "reviewing_journal_articles")
-/*@NamedQueries({
-    @NamedQuery(name = "ReviewArticle.findAll", query = "SELECT r FROM ReviewArticle r"),
-    @NamedQuery(name = "ReviewArticle.findByIdActivity", query = "SELECT r FROM ReviewArticle r WHERE r.idActivity = :idActivity"),
-    @NamedQuery(name = "ReviewArticle.findByYear", query = "SELECT r FROM ReviewArticle r WHERE r.year = :year"),
-    @NamedQuery(name = "ReviewArticle.findByNbReviewedArticles", query = "SELECT r FROM ReviewArticle r WHERE r.nbReviewedArticles = :nbReviewedArticles"),
-    @NamedQuery(name = "ReviewArticle.findByImpactFactor", query = "SELECT r FROM ReviewArticle r WHERE r.impactFactor = :impactFactor")})*/
 @Getter
 @Setter
 @NoArgsConstructor

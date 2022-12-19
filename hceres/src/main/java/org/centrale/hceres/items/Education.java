@@ -61,10 +61,10 @@ public class Education implements Serializable {
 
     @JsonIgnore
     @JoinColumn(name = "education_involvment_id", referencedColumnName = "education_involvment_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private EducationInvolvment educationInvolvmentId;
     @JsonIgnore
     @JoinColumn(name = "education_level_id", referencedColumnName = "education_level_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private EducationLevel educationLevelId;
 }

@@ -64,10 +64,10 @@ public class OralCommunication implements Serializable {
 
 
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Meeting meetingId;
     @JsonIgnore
     @JoinColumn(name = "type_oral_communication_id", referencedColumnName = "type_oral_communication_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private TypeOralCommunication typeOralCommunicationId;
 }

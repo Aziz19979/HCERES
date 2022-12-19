@@ -2,11 +2,7 @@ package org.centrale.hceres.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Researcher;
@@ -26,22 +22,12 @@ import javax.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Map;
-
 @Data
 @Service
 public class SeiIndustrialRDContractService {
-    /**
-     * Instanciation
-     */
-    @Autowired
-    private ResearchRepository researchRepo;
 
     @Autowired
     private ActivityRepository activityRepo;
-
-    @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
 
     @Autowired
     private SeiIndustrialRDContractRepository seiIndustrialRDContractRepo;
@@ -71,54 +57,37 @@ public class SeiIndustrialRDContractService {
     @Transactional
     public Activity saveIndustrialContract(@RequestBody Map<String, Object> request) throws ParseException {
 
-        SeiIndustrialRDContract seiIndustrialRDContractToSave = new SeiIndustrialRDContract();
+        SeiIndustrialRDContract seiIndustrialRDContract = new SeiIndustrialRDContract();
 
         // StartDate :
-        seiIndustrialRDContractToSave.setStartDate(RequestParser.getAsDate(request.get("StartDate")));
+        seiIndustrialRDContract.setStartDate(RequestParser.getAsDate(request.get("StartDate")));
 
         // NameCompanyInvolved :
-        seiIndustrialRDContractToSave.setNameCompanyInvolved(RequestParser.getAsString(request.get("NameCompanyInvolved")));
+        seiIndustrialRDContract.setNameCompanyInvolved(RequestParser.getAsString(request.get("NameCompanyInvolved")));
 
         // ProjectTitle :
-        seiIndustrialRDContractToSave.setProjectTitle(RequestParser.getAsString(request.get("ProjectTitle")));
+        seiIndustrialRDContract.setProjectTitle(RequestParser.getAsString(request.get("ProjectTitle")));
 
         // AgreementAmount :
-        seiIndustrialRDContractToSave.setAgreementAmount(RequestParser.getAsInteger(request.get("AgreementAmount")));
+        seiIndustrialRDContract.setAgreementAmount(RequestParser.getAsInteger(request.get("AgreementAmount")));
 
         // EndDate :
-        seiIndustrialRDContractToSave.setEndDate(RequestParser.getAsDate(request.get("EndDate")));
+        seiIndustrialRDContract.setEndDate(RequestParser.getAsDate(request.get("EndDate")));
 
         // AssociatedPubliRef
-        seiIndustrialRDContractToSave.setAssociatedPubliRef(RequestParser.getAsString(request.get("AssociatedPubliRef")));
+        seiIndustrialRDContract.setAssociatedPubliRef(RequestParser.getAsString(request.get("AssociatedPubliRef")));
 
         // Activity :
         Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
-        activity.setTypeActivity(typeActivity);
-
+        seiIndustrialRDContract.setActivity(activity);
+        activity.setSeiIndustrialRDContract(seiIndustrialRDContract);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
 
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        seiIndustrialRDContractToSave.setActivity(savedActivity);
-
-
-        // Id de l'education :
-        Integer idEducation = activity.getIdActivity();
-        seiIndustrialRDContractToSave.setIdActivity(idEducation);
-
-        // Enregistrer Education dans la base de données :
-        SeiIndustrialRDContract seiIndustrialRDContractSaved = seiIndustrialRDContractRepo.save(seiIndustrialRDContractToSave);
-
-        savedActivity.setSeiIndustrialRDContract(seiIndustrialRDContractSaved);
-        return savedActivity;
+        activity = activityRepo.save(activity);
+        return activity;
     }
 
 }
