@@ -30,6 +30,7 @@ fi
 
 ModelEntityJavaFile=$1
 ModelEntity=$(basename -s ".java" "$1")
+modelEntity="$(tr '[:upper:]' '[:lower:]' <<<"${ModelEntity:0:1}")${ModelEntity:1}"
 
 check_if_folder_exist() {
   folderArg=$1
@@ -66,6 +67,13 @@ mkdir "$GENERATED_CODE_FOLDER"
 rm "$csvDataFile"
 echo "data Label, html type, variableName, initialVariableNameValue, jsonPath" >>"$csvDataFile"
 
+# Generated save method for service
+ModelJavaService="$GENERATED_CODE_FOLDER/$JAVA_PROJECT_RELATIVE_PATH/$ModelEntity""Service.java"
+mkdir "$GENERATED_CODE_FOLDER/$JAVA_PROJECT_RELATIVE_PATH"
+rm "$ModelJavaService"
+echo "public Activity save$ModelEntity(@RequestBody Map<String, Object> request) throws ParseException {" >>"$ModelJavaService"
+
+
 declare -A ignored_annotation_fields=(
                                       ["@Id"]=1
                                       ["@JsonIgnore"]=1
@@ -82,8 +90,10 @@ declare -A java_to_html_type=(
                                 ["int"]="number"
                                 ["long"]="number"
                                 ["float"]="number"
+                                ["double"]="number"
                                 ["Integer"]="number"
                                 ["Float"]="number"
+                                ["Double"]="number"
                                 ["BigDecimal"]="number"
                                 ["Date"]="date"
                                 ["boolean"]="bool"
@@ -105,6 +115,10 @@ append_csv_data(){
   prefixJsonParam=$2
   ((files_count++))
   echo "Reading file $files_count : $modelFileParam"
+
+  ModelEntityParam=$(basename -s ".java" "$modelFileParam")
+  modelEntityParam="$(tr '[:upper:]' '[:lower:]' <<<"${ModelEntityParam:0:1}")${ModelEntityParam:1}"
+  echo "        $ModelEntityParam $modelEntityParam = new $ModelEntityParam();" >> "$ModelJavaService"
 
   local count=0
   ignore_next_field=false
@@ -129,7 +143,10 @@ append_csv_data(){
         echo "$line"
     fi
 
-    IFS=' =;' read -r visibility javaDataType variableName <<< "$line"
+    IFS=' =;' read -r visibility javaDataTypeGL variableNameGl <<< "$line"
+    local javaDataType=$javaDataTypeGL
+    local variableName=$variableNameGl
+    local VariableName="$(tr '[:lower:]' '[:upper:]' <<<"${variableName:0:1}")${variableName:1}"
 
     # check if visibility is private
     if [[ "$visibility" == "private" ]]; then
@@ -158,6 +175,7 @@ append_csv_data(){
       if [[ -n "$htmlDataType" ]]; then
         echo "Variable mapping to html exist: $htmlDataType"
         echo "$variableName, $htmlDataType, $variableName, ${react_default_value["$htmlDataType"]}, $prefixJsonParam.$variableName" >> "$csvDataFile"
+        echo "        $modelEntityParam.set$VariableName(RequestParser.getAs$javaDataType(request.get(\"$variableName\")));" >> "$ModelJavaService"
 
       else
         echo "Searching project for User Defined Type..."
@@ -186,24 +204,29 @@ append_csv_data(){
           echo >&2 "Current children of inner model $innerModelFile are $innerChildrenModels"
           echo "Inner Model file found at: $innerModelFile"
           append_csv_data "$innerModelFile" "$prefixJsonParam.$variableName"
+          local lowerJavaDataType="$(tr '[:upper:]' '[:lower:]' <<<"${javaDataType:0:1}")${javaDataType:1}"
+          echo "        $modelEntityParam.set$VariableName($lowerJavaDataType);" >> "$ModelJavaService"
         else
           echo >&2 "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
           echo >&2 "Variable mapping to html doesn't exist: $javaDataType"
           echo >&2 "$modelFileParam: line $count."
           echo >&2 "Fix mapping then lunch script again"
-          echo >&2 "Possible fix: add mapping to java_to_html_type script array"
+          echo >&2 "Possible fix: add mapping in java_to_html_type script array"
           echo >&2 "Possible fix: add @JsonIgnore annotation to java field"
           echo >&2 "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+          continue
         fi
       fi
     fi
   done <"$modelFileParam"
 }
 
-modelEntity="$(tr '[:upper:]' '[:lower:]' <<<"${ModelEntity:0:1}")${ModelEntity:1}"
 
 append_csv_data "$ModelEntityJavaFile" "$modelEntity"
 
+echo "}" >>"$ModelJavaService"
+
+echo "Service java template created at $ModelJavaService"
 echo "CSV data created at $csvDataFile"
 echo "Change first column label to have appropriate french name"
 echo "After that save your csv somewhere and lunch script as follow:"
