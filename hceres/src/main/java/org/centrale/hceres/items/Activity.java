@@ -41,8 +41,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "activity")
-@NamedQueries({
-        @NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a")})
 @Getter
 @Setter
 @NoArgsConstructor

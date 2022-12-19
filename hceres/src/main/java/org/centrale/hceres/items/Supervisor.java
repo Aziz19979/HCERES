@@ -33,10 +33,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "supervisor")
-@NamedQueries({
-    @NamedQuery(name = "Supervisor.findAll", query = "SELECT s FROM Supervisor s"),
-    @NamedQuery(name = "Supervisor.findBySupervisorId", query = "SELECT s FROM Supervisor s WHERE s.supervisorId = :supervisorId"),
-    @NamedQuery(name = "Supervisor.findBySupervisorPercentage", query = "SELECT s FROM Supervisor s WHERE s.supervisorPercentage = :supervisorPercentage")})
 @Getter
 @Setter
 @NoArgsConstructor

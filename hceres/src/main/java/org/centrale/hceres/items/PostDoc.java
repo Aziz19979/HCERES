@@ -26,18 +26,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "post_doc")
-@NamedQueries({
-    @NamedQuery(name = "PostDoc.findAll", query = "SELECT p FROM PostDoc p"),
-    @NamedQuery(name = "PostDoc.findByIdActivity", query = "SELECT p FROM PostDoc p WHERE p.idActivity = :idActivity"),
-    @NamedQuery(name = "PostDoc.findByNamePostDoc", query = "SELECT p FROM PostDoc p WHERE p.namePostDoc = :namePostDoc"),
-    @NamedQuery(name = "PostDoc.findByNameSupervisor", query = "SELECT p FROM PostDoc p WHERE p.nameSupervisor = :nameSupervisor"),
-    @NamedQuery(name = "PostDoc.findByArrivalDate", query = "SELECT p FROM PostDoc p WHERE p.arrivalDate = :arrivalDate"),
-    @NamedQuery(name = "PostDoc.findByDepartureDate", query = "SELECT p FROM PostDoc p WHERE p.departureDate = :departureDate"),
-    @NamedQuery(name = "PostDoc.findByDuration", query = "SELECT p FROM PostDoc p WHERE p.duration = :duration"),
-    @NamedQuery(name = "PostDoc.findByNationality", query = "SELECT p FROM PostDoc p WHERE p.nationality = :nationality"),
-    @NamedQuery(name = "PostDoc.findByOriginalLab", query = "SELECT p FROM PostDoc p WHERE p.originalLab = :originalLab"),
-    @NamedQuery(name = "PostDoc.findByAssociatedFunding", query = "SELECT p FROM PostDoc p WHERE p.associatedFunding = :associatedFunding"),
-    @NamedQuery(name = "PostDoc.findByAssociatedPubliRef", query = "SELECT p FROM PostDoc p WHERE p.associatedPubliRef = :associatedPubliRef")})
 @Getter
 @Setter
 @NoArgsConstructor

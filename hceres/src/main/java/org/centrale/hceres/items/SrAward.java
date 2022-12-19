@@ -41,12 +41,6 @@ import org.hibernate.engine.internal.CascadePoint;
  */
 @Entity
 @Table(name = "sr_award")
-@NamedQueries({
-    @NamedQuery(name = "SrAward.findAll", query = "SELECT s FROM SrAward s"),
-    @NamedQuery(name = "SrAward.findByIdActivity", query = "SELECT s FROM SrAward s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "SrAward.findByAwardeeName", query = "SELECT s FROM SrAward s WHERE s.awardeeName = :awardeeName"),
-    @NamedQuery(name = "SrAward.findByAwardDate", query = "SELECT s FROM SrAward s WHERE s.awardDate = :awardDate"),
-    @NamedQuery(name = "SrAward.findByDescription", query = "SELECT s FROM SrAward s WHERE s.description = :description")})
 @Getter
 @Setter
 @NoArgsConstructor

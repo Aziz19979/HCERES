@@ -36,15 +36,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "research_contract_funded_public_charitable_inst")
-@NamedQueries({
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findAll", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByIdActivity", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.idActivity = :idActivity"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByDateContractAward", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.dateContractAward = :dateContractAward"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByFundingIntitution", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.fundingIntitution = :fundingIntitution"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByProjectTitle", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.projectTitle = :projectTitle"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByStartYear", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.startYear = :startYear"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByEndYear", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.endYear = :endYear"),
-    @NamedQuery(name = "ResearchContractFundedPublicCharitableInst.findByGrantAmount", query = "SELECT r FROM ResearchContractFundedPublicCharitableInst r WHERE r.grantAmount = :grantAmount")})
 @Getter
 @Setter
 @NoArgsConstructor

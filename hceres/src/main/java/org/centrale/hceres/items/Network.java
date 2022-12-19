@@ -36,17 +36,6 @@ import javax.persistence.CascadeType;
  */
 @Entity
 @Table(name = "network")
-@NamedQueries({
-    @NamedQuery(name = "Network.findAll", query = "SELECT n FROM Network n"),
-    @NamedQuery(name = "Network.findByIdActivity", query = "SELECT n FROM Network n WHERE n.idActivity = :idActivity"),
-    @NamedQuery(name = "Network.findByStartDate", query = "SELECT n FROM Network n WHERE n.startDate = :startDate"),
-    @NamedQuery(name = "Network.findByNameNetwork", query = "SELECT n FROM Network n WHERE n.nameNetwork = :nameNetwork"),
-    @NamedQuery(name = "Network.findByActiveNetwork", query = "SELECT n FROM Network n WHERE n.activeNetwork = :activeNetwork"),
-    @NamedQuery(name = "Network.findByAssociatedFunding", query = "SELECT n FROM Network n WHERE n.associatedFunding = :associatedFunding"),
-    @NamedQuery(name = "Network.findByNbResultingPublications", query = "SELECT n FROM Network n WHERE n.nbResultingPublications = :nbResultingPublications"),
-    @NamedQuery(name = "Network.findByRefResultingPublications", query = "SELECT n FROM Network n WHERE n.refResultingPublications = :refResultingPublications"),
-    @NamedQuery(name = "Network.findByUmrCoordinated", query = "SELECT n FROM Network n WHERE n.umrCoordinated = :umrCoordinated"),
-    @NamedQuery(name = "Network.findByAgreementSigned", query = "SELECT n FROM Network n WHERE n.agreementSigned = :agreementSigned")})
 @Getter
 @Setter
 @NoArgsConstructor

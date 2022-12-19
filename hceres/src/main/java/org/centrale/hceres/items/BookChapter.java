@@ -36,16 +36,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "book_chapter")
-@NamedQueries({
-    @NamedQuery(name = "BookChapter.findAll", query = "SELECT b FROM BookChapter b"),
-    @NamedQuery(name = "BookChapter.findByIdActivity", query = "SELECT b FROM BookChapter b WHERE b.idActivity = :idActivity"),
-    @NamedQuery(name = "BookChapter.findByPublicationDate", query = "SELECT b FROM BookChapter b WHERE b.publicationDate = :publicationDate"),
-    @NamedQuery(name = "BookChapter.findByBookTitle", query = "SELECT b FROM BookChapter b WHERE b.bookTitle = :bookTitle"),
-    @NamedQuery(name = "BookChapter.findByChapterTitle", query = "SELECT b FROM BookChapter b WHERE b.chapterTitle = :chapterTitle"),
-    @NamedQuery(name = "BookChapter.findByEditor", query = "SELECT b FROM BookChapter b WHERE b.editor = :editor"),
-    @NamedQuery(name = "BookChapter.findByNbPage", query = "SELECT b FROM BookChapter b WHERE b.nbPage = :nbPage"),
-    @NamedQuery(name = "BookChapter.findByAuthors", query = "SELECT b FROM BookChapter b WHERE b.authors = :authors"),
-    @NamedQuery(name = "BookChapter.findByAdditionalInfo", query = "SELECT b FROM BookChapter b WHERE b.additionalInfo = :additionalInfo")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -37,15 +37,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "sei_industrial_r_d_contract")
-@NamedQueries({
-    @NamedQuery(name = "SeiIndustrialRDContract.findAll", query = "SELECT s FROM SeiIndustrialRDContract s"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByIdActivity", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByStartDate", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.startDate = :startDate"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByNameCompanyInvolved", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.nameCompanyInvolved = :nameCompanyInvolved"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByProjectTitle", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.projectTitle = :projectTitle"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByAgreementAmount", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.agreementAmount = :agreementAmount"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByEndDate", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.endDate = :endDate"),
-    @NamedQuery(name = "SeiIndustrialRDContract.findByAssociatedPubliRef", query = "SELECT s FROM SeiIndustrialRDContract s WHERE s.associatedPubliRef = :associatedPubliRef")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -35,12 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "connection")
-@NamedQueries({
-    @NamedQuery(name = "Connection.findAll", query = "SELECT c FROM Connection c"),
-    @NamedQuery(name = "Connection.findByConnectionCode", query = "SELECT c FROM Connection c WHERE c.connectionCode = :connectionCode"),
-    @NamedQuery(name = "Connection.findByConnectionLogin", query = "SELECT c FROM Connection c WHERE c.connectionLogin = :connectionLogin"),
-    @NamedQuery(name = "Connection.findByConnectionExpire", query = "SELECT c FROM Connection c WHERE c.connectionExpire = :connectionExpire"),
-    @NamedQuery(name = "Connection.findByConnectionStatus", query = "SELECT c FROM Connection c WHERE c.connectionStatus = :connectionStatus")})
 @Getter
 @Setter
 @NoArgsConstructor

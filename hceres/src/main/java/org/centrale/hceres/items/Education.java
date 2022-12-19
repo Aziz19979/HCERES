@@ -37,13 +37,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "education")
-@NamedQueries({
-    @NamedQuery(name = "Education.findAll", query = "SELECT e FROM Education e"),
-    @NamedQuery(name = "Education.findByIdActivity", query = "SELECT e FROM Education e WHERE e.idActivity = :idActivity"),
-    @NamedQuery(name = "Education.findByEducationCourseName", query = "SELECT e FROM Education e WHERE e.educationCourseName = :educationCourseName"),
-    @NamedQuery(name = "Education.findByEducationCompletion", query = "SELECT e FROM Education e WHERE e.educationCompletion = :educationCompletion"),
-    @NamedQuery(name = "Education.findByEducationDescription", query = "SELECT e FROM Education e WHERE e.educationDescription = :educationDescription"),
-    @NamedQuery(name = "Education.findByEducationFormation", query = "SELECT e FROM Education e WHERE e.educationFormation = :educationFormation")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -36,11 +36,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "public_outreach")
-@NamedQueries({
-    @NamedQuery(name = "PublicOutreach.findAll", query = "SELECT p FROM PublicOutreach p"),
-    @NamedQuery(name = "PublicOutreach.findByIdActivity", query = "SELECT p FROM PublicOutreach p WHERE p.idActivity = :idActivity"),
-    @NamedQuery(name = "PublicOutreach.findByCompletionDate", query = "SELECT p FROM PublicOutreach p WHERE p.completionDate = :completionDate"),
-    @NamedQuery(name = "PublicOutreach.findByDescription", query = "SELECT p FROM PublicOutreach p WHERE p.description = :description")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -31,13 +31,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "publication_statistics")
-@NamedQueries({
-    @NamedQuery(name = "PublicationStatistics.findAll", query = "SELECT p FROM PublicationStatistics p"),
-    @NamedQuery(name = "PublicationStatistics.findByTeamId", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsPK.teamId = :teamId"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsYear", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsPK.publicationStatisticsYear = :publicationStatisticsYear"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsPdc", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsPdc = :publicationStatisticsPdc"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsCollabInt", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsCollabInt = :publicationStatisticsCollabInt"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsCollabLabo", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsCollabLabo = :publicationStatisticsCollabLabo")})
 @Getter
 @Setter
 @NoArgsConstructor

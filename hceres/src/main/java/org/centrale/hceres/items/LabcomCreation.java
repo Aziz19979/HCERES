@@ -35,15 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "labcom_creation")
-@NamedQueries({
-    @NamedQuery(name = "LabcomCreation.findAll", query = "SELECT l FROM LabcomCreation l"),
-    @NamedQuery(name = "LabcomCreation.findByIdActivity", query = "SELECT l FROM LabcomCreation l WHERE l.idActivity = :idActivity"),
-    @NamedQuery(name = "LabcomCreation.findByLabcomCreationName", query = "SELECT l FROM LabcomCreation l WHERE l.labcomCreationName = :labcomCreationName"),
-    @NamedQuery(name = "LabcomCreation.findByContractStartDate", query = "SELECT l FROM LabcomCreation l WHERE l.contractStartDate = :contractStartDate"),
-    @NamedQuery(name = "LabcomCreation.findByNameCompanyInvolved", query = "SELECT l FROM LabcomCreation l WHERE l.nameCompanyInvolved = :nameCompanyInvolved"),
-    @NamedQuery(name = "LabcomCreation.findByTitleProject", query = "SELECT l FROM LabcomCreation l WHERE l.titleProject = :titleProject"),
-    @NamedQuery(name = "LabcomCreation.findByContractEndDate", query = "SELECT l FROM LabcomCreation l WHERE l.contractEndDate = :contractEndDate"),
-    @NamedQuery(name = "LabcomCreation.findByAssociatedPubliRef", query = "SELECT l FROM LabcomCreation l WHERE l.associatedPubliRef = :associatedPubliRef")})
 @Getter
 @Setter
 @NoArgsConstructor

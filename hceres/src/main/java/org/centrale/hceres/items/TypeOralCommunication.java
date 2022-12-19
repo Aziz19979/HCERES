@@ -35,10 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "type_oral_communication")
-@NamedQueries({
-    @NamedQuery(name = "TypeOralCommunication.findAll", query = "SELECT t FROM TypeOralCommunication t"),
-    @NamedQuery(name = "TypeOralCommunication.findByTypeOralCommunicationId", query = "SELECT t FROM TypeOralCommunication t WHERE t.typeOralCommunicationId = :typeOralCommunicationId"),
-    @NamedQuery(name = "TypeOralCommunication.findByTypeOralCommunicationName", query = "SELECT t FROM TypeOralCommunication t WHERE t.typeOralCommunicationName = :typeOralCommunicationName")})
 @Getter
 @Setter
 @NoArgsConstructor

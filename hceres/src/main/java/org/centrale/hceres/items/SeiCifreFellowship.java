@@ -35,16 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "sei_cifre_fellowship")
-@NamedQueries({
-    @NamedQuery(name = "SeiCifreFellowship.findAll", query = "SELECT s FROM SeiCifreFellowship s"),
-    @NamedQuery(name = "SeiCifreFellowship.findByIdActivity", query = "SELECT s FROM SeiCifreFellowship s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "SeiCifreFellowship.findByContractStartDate", query = "SELECT s FROM SeiCifreFellowship s WHERE s.contractStartDate = :contractStartDate"),
-    @NamedQuery(name = "SeiCifreFellowship.findByNameFellow", query = "SELECT s FROM SeiCifreFellowship s WHERE s.nameFellow = :nameFellow"),
-    @NamedQuery(name = "SeiCifreFellowship.findByNameCompanyInvolved", query = "SELECT s FROM SeiCifreFellowship s WHERE s.nameCompanyInvolved = :nameCompanyInvolved"),
-    @NamedQuery(name = "SeiCifreFellowship.findByTitleThesis", query = "SELECT s FROM SeiCifreFellowship s WHERE s.titleThesis = :titleThesis"),
-    @NamedQuery(name = "SeiCifreFellowship.findByContractEndDate", query = "SELECT s FROM SeiCifreFellowship s WHERE s.contractEndDate = :contractEndDate"),
-    @NamedQuery(name = "SeiCifreFellowship.findByContractAmount", query = "SELECT s FROM SeiCifreFellowship s WHERE s.contractAmount = :contractAmount"),
-    @NamedQuery(name = "SeiCifreFellowship.findByAssociatedPubliRef", query = "SELECT s FROM SeiCifreFellowship s WHERE s.associatedPubliRef = :associatedPubliRef")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -34,10 +34,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "type_patent")
-@NamedQueries({
-    @NamedQuery(name = "TypePatent.findAll", query = "SELECT t FROM TypePatent t"),
-    @NamedQuery(name = "TypePatent.findByTypePatentId", query = "SELECT t FROM TypePatent t WHERE t.typePatentId = :typePatentId"),
-    @NamedQuery(name = "TypePatent.findByNameChoice", query = "SELECT t FROM TypePatent t WHERE t.nameChoice = :nameChoice")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -32,11 +32,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "parameter")
-@NamedQueries({
-    @NamedQuery(name = "Parameter.findAll", query = "SELECT p FROM Parameter p"),
-    @NamedQuery(name = "Parameter.findByParameterId", query = "SELECT p FROM Parameter p WHERE p.parameterId = :parameterId"),
-    @NamedQuery(name = "Parameter.findByParameterName", query = "SELECT p FROM Parameter p WHERE p.parameterName = :parameterName"),
-    @NamedQuery(name = "Parameter.findByParameterValue", query = "SELECT p FROM Parameter p WHERE p.parameterValue = :parameterValue")})
 @Getter
 @Setter
 @NoArgsConstructor

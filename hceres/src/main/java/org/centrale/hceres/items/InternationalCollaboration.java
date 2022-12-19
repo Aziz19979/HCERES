@@ -38,22 +38,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "national_international_collaboration")
-@NamedQueries({
-    @NamedQuery(name = "InternationalCollaboration.findAll", query = "SELECT n FROM InternationalCollaboration n"),
-    @NamedQuery(name = "InternationalCollaboration.findByIdActivity", query = "SELECT n FROM InternationalCollaboration n WHERE n.idActivity = :idActivity"),
-    @NamedQuery(name = "InternationalCollaboration.findByDateProjectStart", query = "SELECT n FROM InternationalCollaboration n WHERE n.dateProjectStart = :dateProjectStart"),
-    @NamedQuery(name = "InternationalCollaboration.findByPartnerEntity", query = "SELECT n FROM InternationalCollaboration n WHERE n.partnerEntity = :partnerEntity"),
-    @NamedQuery(name = "InternationalCollaboration.findByCountryStateCity", query = "SELECT n FROM InternationalCollaboration n WHERE n.countryStateCity = :countryStateCity"),
-    @NamedQuery(name = "InternationalCollaboration.findByPiPartners", query = "SELECT n FROM InternationalCollaboration n WHERE n.piPartners = :piPartners"),
-    @NamedQuery(name = "InternationalCollaboration.findByMailPartners", query = "SELECT n FROM InternationalCollaboration n WHERE n.mailPartners = :mailPartners"),
-    @NamedQuery(name = "InternationalCollaboration.findByProjetcTitle", query = "SELECT n FROM InternationalCollaboration n WHERE n.projectTitle = :projetcTitle"),
-    @NamedQuery(name = "InternationalCollaboration.findByStrategicRecurringCollab", query = "SELECT n FROM InternationalCollaboration n WHERE n.strategicRecurringCollab = :strategicRecurringCollab"),
-    @NamedQuery(name = "InternationalCollaboration.findByActiveProject", query = "SELECT n FROM InternationalCollaboration n WHERE n.activeProject = :activeProject"),
-    @NamedQuery(name = "InternationalCollaboration.findByAssociatedFunding", query = "SELECT n FROM InternationalCollaboration n WHERE n.associatedFunding = :associatedFunding"),
-    @NamedQuery(name = "InternationalCollaboration.findByNumberResultingPublications", query = "SELECT n FROM InternationalCollaboration n WHERE n.numberResultingPublications = :numberResultingPublications"),
-    @NamedQuery(name = "InternationalCollaboration.findByRefJointPublication", query = "SELECT n FROM InternationalCollaboration n WHERE n.refJointPublication = :refJointPublication"),
-    @NamedQuery(name = "InternationalCollaboration.findByUmrCoordinated", query = "SELECT n FROM InternationalCollaboration n WHERE n.umrCoordinated = :umrCoordinated"),
-    @NamedQuery(name = "InternationalCollaboration.findByAgreementSigned", query = "SELECT n FROM InternationalCollaboration n WHERE n.agreementSigned = :agreementSigned")})
 @Getter
 @Setter
 @NoArgsConstructor

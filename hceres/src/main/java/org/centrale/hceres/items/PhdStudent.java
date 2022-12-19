@@ -40,14 +40,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "phd_student")
-@NamedQueries({
-    @NamedQuery(name = "PhdStudent.findAll", query = "SELECT p FROM PhdStudent p"),
-    @NamedQuery(name = "PhdStudent.findByPhdStudentId", query = "SELECT p FROM PhdStudent p WHERE p.phdStudentId = :phdStudentId"),
-    @NamedQuery(name = "PhdStudent.findByPhdStart", query = "SELECT p FROM PhdStudent p WHERE p.phdStart = :phdStart"),
-    @NamedQuery(name = "PhdStudent.findByPhdMainFunding", query = "SELECT p FROM PhdStudent p WHERE p.phdMainFunding = :phdMainFunding"),
-    @NamedQuery(name = "PhdStudent.findByPhdDefenseDate", query = "SELECT p FROM PhdStudent p WHERE p.phdDefenseDate = :phdDefenseDate"),
-    @NamedQuery(name = "PhdStudent.findByPhdDuration", query = "SELECT p FROM PhdStudent p WHERE p.phdDuration = :phdDuration"),
-    @NamedQuery(name = "PhdStudent.findByPhdFutur", query = "SELECT p FROM PhdStudent p WHERE p.phdFutur = :phdFutur")})
 @Getter
 @Setter
 @NoArgsConstructor

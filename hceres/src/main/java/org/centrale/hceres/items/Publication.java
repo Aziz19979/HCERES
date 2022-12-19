@@ -29,15 +29,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "publication")
-@NamedQueries({
-    @NamedQuery(name = "Publication.findAll", query = "SELECT p FROM Publication p"),
-    @NamedQuery(name = "Publication.findByIdActivity", query = "SELECT p FROM Publication p WHERE p.idActivity = :idActivity"),
-    @NamedQuery(name = "Publication.findByTitle", query = "SELECT p FROM Publication p WHERE p.title = :title"),
-    @NamedQuery(name = "Publication.findByAuthors", query = "SELECT p FROM Publication p WHERE p.authors = :authors"),
-    @NamedQuery(name = "Publication.findBySource", query = "SELECT p FROM Publication p WHERE p.source = :source"),
-    @NamedQuery(name = "Publication.findByPublicationDate", query = "SELECT p FROM Publication p WHERE p.publicationDate = :publicationDate"),
-    @NamedQuery(name = "Publication.findByPmid", query = "SELECT p FROM Publication p WHERE p.pmid = :pmid"),
-    @NamedQuery(name = "Publication.findByImpactFactor", query = "SELECT p FROM Publication p WHERE p.impactFactor = :impactFactor")})
 @Getter
 @Setter
 @NoArgsConstructor

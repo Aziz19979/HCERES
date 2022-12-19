@@ -36,10 +36,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "mail_activity")
-@NamedQueries({
-    @NamedQuery(name = "MailActivity.findAll", query = "SELECT m FROM MailActivity m"),
-    @NamedQuery(name = "MailActivity.findByMailActivityId", query = "SELECT m FROM MailActivity m WHERE m.mailActivityId = :mailActivityId"),
-    @NamedQuery(name = "MailActivity.findByMailActivityDate", query = "SELECT m FROM MailActivity m WHERE m.mailActivityDate = :mailActivityDate")})
 @Getter
 @Setter
 @NoArgsConstructor

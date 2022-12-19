@@ -40,12 +40,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "oral_communication")
-@NamedQueries({
-    @NamedQuery(name = "OralCommunication.findAll", query = "SELECT o FROM OralCommunication o"),
-    @NamedQuery(name = "OralCommunication.findByIdActivity", query = "SELECT o FROM OralCommunication o WHERE o.idActivity = :idActivity"),
-    @NamedQuery(name = "OralCommunication.findByOralCommunicationTitle", query = "SELECT o FROM OralCommunication o WHERE o.oralCommunicationTitle = :oralCommunicationTitle"),
-    @NamedQuery(name = "OralCommunication.findByOralCommunicationDat", query = "SELECT o FROM OralCommunication o WHERE o.oralCommunicationDat = :oralCommunicationDat"),
-    @NamedQuery(name = "OralCommunication.findByAuthors", query = "SELECT o FROM OralCommunication o WHERE o.authors = :authors")})
 @Getter
 @Setter
 @NoArgsConstructor

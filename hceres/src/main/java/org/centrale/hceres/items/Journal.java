@@ -36,10 +36,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "journal")
-@NamedQueries({
-    @NamedQuery(name = "Journal.findAll", query = "SELECT j FROM Journal j"),
-    @NamedQuery(name = "Journal.findByJournalId", query = "SELECT j FROM Journal j WHERE j.journalId = :journalId"),
-    @NamedQuery(name = "Journal.findByJournalName", query = "SELECT j FROM Journal j WHERE j.journalName = :journalName")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -37,18 +37,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "sei_clinical_trial")
-@NamedQueries({
-    @NamedQuery(name = "SeiClinicalTrial.findAll", query = "SELECT s FROM SeiClinicalTrial s"),
-    @NamedQuery(name = "SeiClinicalTrial.findByIdActivity", query = "SELECT s FROM SeiClinicalTrial s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "SeiClinicalTrial.findByStartDate", query = "SELECT s FROM SeiClinicalTrial s WHERE s.startDate = :startDate"),
-    @NamedQuery(name = "SeiClinicalTrial.findByCoordinatorPartner", query = "SELECT s FROM SeiClinicalTrial s WHERE s.coordinatorPartner = :coordinatorPartner"),
-    @NamedQuery(name = "SeiClinicalTrial.findByTitleClinicalTrial", query = "SELECT s FROM SeiClinicalTrial s WHERE s.titleClinicalTrial = :titleClinicalTrial"),
-    @NamedQuery(name = "SeiClinicalTrial.findByEndDate", query = "SELECT s FROM SeiClinicalTrial s WHERE s.endDate = :endDate"),
-    @NamedQuery(name = "SeiClinicalTrial.findByRegistrationNb", query = "SELECT s FROM SeiClinicalTrial s WHERE s.registrationNb = :registrationNb"),
-    @NamedQuery(name = "SeiClinicalTrial.findBySponsorName", query = "SELECT s FROM SeiClinicalTrial s WHERE s.sponsorName = :sponsorName"),
-    @NamedQuery(name = "SeiClinicalTrial.findByIncludedPatientsNb", query = "SELECT s FROM SeiClinicalTrial s WHERE s.includedPatientsNb = :includedPatientsNb"),
-    @NamedQuery(name = "SeiClinicalTrial.findByFunding", query = "SELECT s FROM SeiClinicalTrial s WHERE s.funding = :funding"),
-    @NamedQuery(name = "SeiClinicalTrial.findByFundingAmount", query = "SELECT s FROM SeiClinicalTrial s WHERE s.fundingAmount = :fundingAmount")})
 @Getter
 @Setter
 @NoArgsConstructor

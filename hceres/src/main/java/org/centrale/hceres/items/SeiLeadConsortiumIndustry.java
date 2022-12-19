@@ -36,15 +36,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "sei_lead_consortium_industry")
-@NamedQueries({
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findAll", query = "SELECT s FROM SeiLeadConsortiumIndustry s"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByIdActivity", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByConsortiumStartDate", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.consortiumStartDate = :consortiumStartDate"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByNameConsortium", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.nameConsortium = :nameConsortium"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByTitleProject", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.titleProject = :titleProject"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByPrivatePartyInvolved", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.privatePartyInvolved = :privatePartyInvolved"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByConsortiumEndDate", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.consortiumEndDate = :consortiumEndDate"),
-    @NamedQuery(name = "SeiLeadConsortiumIndustry.findByAssociatedPubliRef", query = "SELECT s FROM SeiLeadConsortiumIndustry s WHERE s.associatedPubliRef = :associatedPubliRef")})
 @Getter
 @Setter
 @NoArgsConstructor

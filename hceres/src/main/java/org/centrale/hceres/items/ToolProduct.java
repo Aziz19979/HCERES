@@ -41,13 +41,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "tool_product")
-@NamedQueries({
-    @NamedQuery(name = "ToolProduct.findAll", query = "SELECT t FROM ToolProduct t"),
-    @NamedQuery(name = "ToolProduct.findByIdActivity", query = "SELECT t FROM ToolProduct t WHERE t.idActivity = :idActivity"),
-    @NamedQuery(name = "ToolProduct.findByToolProductNam", query = "SELECT t FROM ToolProduct t WHERE t.toolProductNam = :toolProductNam"),
-    @NamedQuery(name = "ToolProduct.findByToolProductCreation", query = "SELECT t FROM ToolProduct t WHERE t.toolProductCreation = :toolProductCreation"),
-    @NamedQuery(name = "ToolProduct.findByToolProductAuthors", query = "SELECT t FROM ToolProduct t WHERE t.toolProductAuthors = :toolProductAuthors"),
-    @NamedQuery(name = "ToolProduct.findByToolProductDescription", query = "SELECT t FROM ToolProduct t WHERE t.toolProductDescription = :toolProductDescription")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -38,24 +38,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "incoming_mobility")
-@NamedQueries({
-    @NamedQuery(name = "IncomingMobility.findAll", query = "SELECT i FROM IncomingMobility i"),
-    @NamedQuery(name = "IncomingMobility.findByIdActivity", query = "SELECT i FROM IncomingMobility i WHERE i.idActivity = :idActivity"),
-    @NamedQuery(name = "IncomingMobility.findByNameSeniorScientist", query = "SELECT i FROM IncomingMobility i WHERE i.nameSeniorScientist = :nameSeniorScientist"),
-    @NamedQuery(name = "IncomingMobility.findByArrivalDate", query = "SELECT i FROM IncomingMobility i WHERE i.arrivalDate = :arrivalDate"),
-    @NamedQuery(name = "IncomingMobility.findByDepartureDate", query = "SELECT i FROM IncomingMobility i WHERE i.departureDate = :departureDate"),
-    @NamedQuery(name = "IncomingMobility.findByDuration", query = "SELECT i FROM IncomingMobility i WHERE i.duration = :duration"),
-    @NamedQuery(name = "IncomingMobility.findByNationality", query = "SELECT i FROM IncomingMobility i WHERE i.nationality = :nationality"),
-    @NamedQuery(name = "IncomingMobility.findByOriginalLabName", query = "SELECT i FROM IncomingMobility i WHERE i.originalLabName = :originalLabName"),
-    @NamedQuery(name = "IncomingMobility.findByOriginaLabLocation", query = "SELECT i FROM IncomingMobility i WHERE i.originaLabLocation = :originaLabLocation"),
-    @NamedQuery(name = "IncomingMobility.findByPiPartner", query = "SELECT i FROM IncomingMobility i WHERE i.piPartner = :piPartner"),
-    @NamedQuery(name = "IncomingMobility.findByProjectTitle", query = "SELECT i FROM IncomingMobility i WHERE i.projectTitle = :projectTitle"),
-    @NamedQuery(name = "IncomingMobility.findByAssociatedFunding", query = "SELECT i FROM IncomingMobility i WHERE i.associatedFunding = :associatedFunding"),
-    @NamedQuery(name = "IncomingMobility.findByPublicationReference", query = "SELECT i FROM IncomingMobility i WHERE i.publicationReference = :publicationReference"),
-    @NamedQuery(name = "IncomingMobility.findByStrategicRecurringCollab", query = "SELECT i FROM IncomingMobility i WHERE i.strategicRecurringCollab = :strategicRecurringCollab"),
-    @NamedQuery(name = "IncomingMobility.findByActiveProject", query = "SELECT i FROM IncomingMobility i WHERE i.activeProject = :activeProject"),
-    @NamedQuery(name = "IncomingMobility.findByUmrCoordinated", query = "SELECT i FROM IncomingMobility i WHERE i.umrCoordinated = :umrCoordinated"),
-    @NamedQuery(name = "IncomingMobility.findByAgreementSigned", query = "SELECT i FROM IncomingMobility i WHERE i.agreementSigned = :agreementSigned")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -35,10 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "institution")
-@NamedQueries({
-    @NamedQuery(name = "Institution.findAll", query = "SELECT i FROM Institution i"),
-    @NamedQuery(name = "Institution.findByInstitutionId", query = "SELECT i FROM Institution i WHERE i.institutionId = :institutionId"),
-    @NamedQuery(name = "Institution.findByInstitutionName", query = "SELECT i FROM Institution i WHERE i.institutionName = :institutionName")})
 @Getter
 @Setter
 @NoArgsConstructor

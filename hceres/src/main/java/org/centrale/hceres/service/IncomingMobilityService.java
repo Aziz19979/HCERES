@@ -55,7 +55,7 @@ public class IncomingMobilityService {
     /**
      * permet de retourner la liste
      */
-    public List<Activity> getIncomingMobilitys() {
+    public List<Activity> getIncomingMobilities() {
         return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INCOMING_MOBILITY.getId());
     }
 

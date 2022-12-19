@@ -21,8 +21,8 @@ public class IncomingMobilityController {
      * return a list of activities of specified type only
      */
     @GetMapping(value = "/IncomingMobilities")
-    public List<Activity> getIncomingMobilitys() {
-        return incomingMobilityService.getIncomingMobilitys();
+    public List<Activity> getIncomingMobilities() {
+        return incomingMobilityService.getIncomingMobilities();
     }
 
     /**

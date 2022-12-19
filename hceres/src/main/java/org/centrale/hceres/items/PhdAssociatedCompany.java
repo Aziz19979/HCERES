@@ -32,12 +32,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "phd_associated_company")
-@NamedQueries({
-    @NamedQuery(name = "PhdAssociatedCompany.findAll", query = "SELECT p FROM PhdAssociatedCompany p"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByPhdStudentId", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyPK.phdStudentId = :phdStudentId"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByCompanyId", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyPK.companyId = :companyId"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByPhdAssociatedCompanyStart", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyStart = :phdAssociatedCompanyStart"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByPhdAssociatedCompanyEnd", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyEnd = :phdAssociatedCompanyEnd")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -32,10 +32,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "project_evaluation")
-@NamedQueries({
-    @NamedQuery(name = "ProjectEvaluation.findAll", query = "SELECT p FROM ProjectEvaluation p"),
-    @NamedQuery(name = "ProjectEvaluation.findByIdActivity", query = "SELECT p FROM ProjectEvaluation p WHERE p.idActivity = :idActivity"),
-    @NamedQuery(name = "ProjectEvaluation.findByYear", query = "SELECT p FROM ProjectEvaluation p WHERE p.year = :year")})
 @Getter
 @Setter
 @NoArgsConstructor

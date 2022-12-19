@@ -39,12 +39,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "scientific_expertise")
-@NamedQueries({
-    @NamedQuery(name = "ScientificExpertise.findAll", query = "SELECT s FROM ScientificExpertise s"),
-    @NamedQuery(name = "ScientificExpertise.findByIdActivity", query = "SELECT s FROM ScientificExpertise s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "ScientificExpertise.findByStartDate", query = "SELECT s FROM ScientificExpertise s WHERE s.startDate = :startDate"),
-    @NamedQuery(name = "ScientificExpertise.findByEndDate", query = "SELECT s FROM ScientificExpertise s WHERE s.endDate = :endDate"),
-    @NamedQuery(name = "ScientificExpertise.findByDescription", query = "SELECT s FROM ScientificExpertise s WHERE s.description = :description")})
 @Getter
 @Setter
 @NoArgsConstructor

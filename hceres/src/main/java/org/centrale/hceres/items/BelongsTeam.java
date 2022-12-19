@@ -35,11 +35,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "belongs_team")
-@NamedQueries({
-    @NamedQuery(name = "BelongsTeam.findAll", query = "SELECT b FROM BelongsTeam b"),
-    @NamedQuery(name = "BelongsTeam.findByIdBelongsTeam", query = "SELECT b FROM BelongsTeam b WHERE b.idBelongsTeam = :idBelongsTeam"),
-    @NamedQuery(name = "BelongsTeam.findByOnboardingDate", query = "SELECT b FROM BelongsTeam b WHERE b.onboardingDate = :onboardingDate"),
-    @NamedQuery(name = "BelongsTeam.findByLeavingDate", query = "SELECT b FROM BelongsTeam b WHERE b.leavingDate = :leavingDate")})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -36,30 +36,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "patent")
-@NamedQueries({
-    @NamedQuery(name = "Patent.findAll", query = "SELECT p FROM Patent p"),
-    @NamedQuery(name = "Patent.findByIdActivity", query = "SELECT p FROM Patent p WHERE p.idActivity = :idActivity"),
-    @NamedQuery(name = "Patent.findByTitle", query = "SELECT p FROM Patent p WHERE p.title = :title"),
-    @NamedQuery(name = "Patent.findByRegistrationDate", query = "SELECT p FROM Patent p WHERE p.registrationDate = :registrationDate"),
-    @NamedQuery(name = "Patent.findByFilingDate", query = "SELECT p FROM Patent p WHERE p.filingDate = :filingDate"),
-    @NamedQuery(name = "Patent.findByAcceptationDate", query = "SELECT p FROM Patent p WHERE p.acceptationDate = :acceptationDate"),
-    @NamedQuery(name = "Patent.findByLicensingDate", query = "SELECT p FROM Patent p WHERE p.licensingDate = :licensingDate"),
-    @NamedQuery(name = "Patent.findByInventors", query = "SELECT p FROM Patent p WHERE p.inventors = :inventors"),
-    @NamedQuery(name = "Patent.findByCoOwners", query = "SELECT p FROM Patent p WHERE p.coOwners = :coOwners"),
-    @NamedQuery(name = "Patent.findByPriorityNumber", query = "SELECT p FROM Patent p WHERE p.priorityNumber = :priorityNumber"),
-    @NamedQuery(name = "Patent.findByPriorityDate", query = "SELECT p FROM Patent p WHERE p.priorityDate = :priorityDate"),
-    @NamedQuery(name = "Patent.findByPublicationNumber", query = "SELECT p FROM Patent p WHERE p.publicationNumber = :publicationNumber"),
-    @NamedQuery(name = "Patent.findByPublicationDate", query = "SELECT p FROM Patent p WHERE p.publicationDate = :publicationDate"),
-    @NamedQuery(name = "Patent.findByInpiLink", query = "SELECT p FROM Patent p WHERE p.inpiLink = :inpiLink"),
-    @NamedQuery(name = "Patent.findByStatus", query = "SELECT p FROM Patent p WHERE p.status = :status"),
-    @NamedQuery(name = "Patent.findByPctExtensionObtained", query = "SELECT p FROM Patent p WHERE p.pctExtensionObtained = :pctExtensionObtained"),
-    @NamedQuery(name = "Patent.findByPublicationNumberPctExtension", query = "SELECT p FROM Patent p WHERE p.publicationNumberPctExtension = :publicationNumberPctExtension"),
-    @NamedQuery(name = "Patent.findByPublicationDatePctExtension", query = "SELECT p FROM Patent p WHERE p.publicationDatePctExtension = :publicationDatePctExtension"),
-    @NamedQuery(name = "Patent.findByInternationalExtension", query = "SELECT p FROM Patent p WHERE p.internationalExtension = :internationalExtension"),
-    @NamedQuery(name = "Patent.findByPublicationNumberInternationalExtension", query = "SELECT p FROM Patent p WHERE p.publicationNumberInternationalExtension = :publicationNumberInternationalExtension"),
-    @NamedQuery(name = "Patent.findByPublicationDateInternationalExtension", query = "SELECT p FROM Patent p WHERE p.publicationDateInternationalExtension = :publicationDateInternationalExtension"),
-    @NamedQuery(name = "Patent.findByRefTransferContract", query = "SELECT p FROM Patent p WHERE p.refTransferContract = :refTransferContract"),
-    @NamedQuery(name = "Patent.findByNameCompanyInvolved", query = "SELECT p FROM Patent p WHERE p.nameCompanyInvolved = :nameCompanyInvolved")})
 @Getter
 @Setter
 @NoArgsConstructor

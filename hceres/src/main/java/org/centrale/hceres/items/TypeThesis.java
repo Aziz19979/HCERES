@@ -34,10 +34,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "type_thesis")
-@NamedQueries({
-    @NamedQuery(name = "TypeThesis.findAll", query = "SELECT t FROM TypeThesis t"),
-    @NamedQuery(name = "TypeThesis.findByTypeThesisId", query = "SELECT t FROM TypeThesis t WHERE t.typeThesisId = :typeThesisId"),
-    @NamedQuery(name = "TypeThesis.findByTypeThesisName", query = "SELECT t FROM TypeThesis t WHERE t.typeThesisName = :typeThesisName")})
 @Getter
 @Setter
 @NoArgsConstructor

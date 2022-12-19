@@ -35,11 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "mail_template")
-@NamedQueries({
-    @NamedQuery(name = "MailTemplate.findAll", query = "SELECT m FROM MailTemplate m"),
-    @NamedQuery(name = "MailTemplate.findByMailTemplateId", query = "SELECT m FROM MailTemplate m WHERE m.mailTemplateId = :mailTemplateId"),
-    @NamedQuery(name = "MailTemplate.findByMailTemplateTitle", query = "SELECT m FROM MailTemplate m WHERE m.mailTemplateTitle = :mailTemplateTitle"),
-    @NamedQuery(name = "MailTemplate.findByMailTemplateContent", query = "SELECT m FROM MailTemplate m WHERE m.mailTemplateContent = :mailTemplateContent")})
 @Getter
 @Setter
 @NoArgsConstructor

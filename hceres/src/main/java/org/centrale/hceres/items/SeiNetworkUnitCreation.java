@@ -35,15 +35,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "sei_network_unit_creation")
-@NamedQueries({
-    @NamedQuery(name = "SeiNetworkUnitCreation.findAll", query = "SELECT s FROM SeiNetworkUnitCreation s"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByIdActivity", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.idActivity = :idActivity"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByNetworkStartDate", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.networkStartDate = :networkStartDate"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByNameNetwork", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.nameNetwork = :nameNetwork"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByNamePartner", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.namePartner = :namePartner"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByTitleProject", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.titleProject = :titleProject"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByNetworkEndDate", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.networkEndDate = :networkEndDate"),
-    @NamedQuery(name = "SeiNetworkUnitCreation.findByAssociatedPubliRef", query = "SELECT s FROM SeiNetworkUnitCreation s WHERE s.associatedPubliRef = :associatedPubliRef")})
 @Getter
 @Setter
 @NoArgsConstructor
