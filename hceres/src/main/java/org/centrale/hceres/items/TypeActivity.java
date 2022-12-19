@@ -17,17 +17,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,10 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "type_activity")
-@NamedQueries({
-        @NamedQuery(name = "TypeActivity.findAll", query = "SELECT t FROM TypeActivity t"),
-        @NamedQuery(name = "TypeActivity.findByIdTypeActivity", query = "SELECT t FROM TypeActivity t WHERE t.idTypeActivity = :idTypeActivity"),
-        @NamedQuery(name = "TypeActivity.findByNameType", query = "SELECT t FROM TypeActivity t WHERE t.nameType = :nameType")})
 @Getter
 @Setter
 @NoArgsConstructor

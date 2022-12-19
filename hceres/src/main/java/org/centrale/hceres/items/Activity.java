@@ -19,30 +19,13 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author kwyhr
  */
 @Entity
 @Table(name = "activity")
-@NamedQueries({
-        @NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -57,11 +40,11 @@ public class Activity implements Serializable {
     @Column(name = "id_activity")
     private Integer idActivity;
 
-    @Column(name = "id_type_activity", insertable = false, updatable = false)
+    @Column(name = "id_type_activity")
     private Integer idTypeActivity;
 
-    @JoinColumn(name = "id_type_activity", referencedColumnName = "id_type_activity")
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_type_activity", referencedColumnName = "id_type_activity", insertable = false, updatable = false)
+    @ManyToOne
     private TypeActivity typeActivity;
 
     public void setTypeActivity(TypeActivity typeActivity) {

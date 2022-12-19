@@ -16,22 +16,10 @@ import java.util.*;
 @Service
 public class PostDocService {
 
-    /**
-     * Instanciation
-     */
-    @Autowired
-    private ResearchRepository researchRepo;
     @Autowired
     private PostDocRepository postDocRepository;
     @Autowired
     private ActivityRepository activityRepo;
-    @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
-
-    public Optional<PostDoc> getPostDoc(final Integer id) {
-        return postDocRepository.findById(id);
-    }
-
 
     /**
      * permet de retourner la liste
@@ -81,32 +69,15 @@ public class PostDocService {
 
         // Activity :
         Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.POST_DOC.getId());
-        activity.setTypeActivity(typeActivity);
-
+        postDocToSave.setActivity(activity);
+        activity.setPostDoc(postDocToSave);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.POST_DOC.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
-
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        postDocToSave.setActivity(savedActivity);
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
 
 
-        // Added PostDoc Id :
-        Integer idPostDoc = activity.getIdActivity();
-        postDocToSave.setIdActivity(idPostDoc);
-
-
-        // Persist PostDoc object to the data base :
-        PostDoc savePostDoc = postDocRepository.save(postDocToSave);
-
-        savedActivity.setPostDoc(savePostDoc);
-        return savedActivity;
+        activity = activityRepo.save(activity);
+        return activity;
     }
 }

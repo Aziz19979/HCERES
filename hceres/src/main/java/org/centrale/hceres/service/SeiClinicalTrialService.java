@@ -2,12 +2,7 @@ package org.centrale.hceres.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SeiClinicalTrial;
@@ -29,27 +24,10 @@ import lombok.Data;
 @Service
 public class SeiClinicalTrialService {
 
-    /**
-     * Instanciation
-     */
-    @Autowired
-    private ResearchRepository researchRepo;
     @Autowired
     private SeiClinicalTrialRepository seiClinicalTrialRepo;
     @Autowired
     private ActivityRepository activityRepo;
-    @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
-
-    /**
-     * retourner l'elmt selon son id
-     *
-     * @param id : id de l'elmt
-     * @return : elmt a retourner
-     */
-    public Optional<SeiClinicalTrial> getSeiClinicalTrial(final Integer id) {
-        return seiClinicalTrialRepo.findById(id);
-    }
 
     /**
      * permet de retourner la liste
@@ -74,65 +52,46 @@ public class SeiClinicalTrialService {
      */
     public Activity saveSeiClinicalTrial(@RequestBody Map<String, Object> request) throws ParseException {
 
-        SeiClinicalTrial SeiClinicalTrialTosave = new SeiClinicalTrial();
-
+        SeiClinicalTrial seiClinicalTrial = new SeiClinicalTrial();
 
         // setStartDate :
-        SeiClinicalTrialTosave.setStartDate(RequestParser.getAsDate(request.get("startDate")));
+        seiClinicalTrial.setStartDate(RequestParser.getAsDate(request.get("startDate")));
 
         // setEndDate :
-        SeiClinicalTrialTosave.setEndDate(RequestParser.getAsDate(request.get("endDate")));
+        seiClinicalTrial.setEndDate(RequestParser.getAsDate(request.get("endDate")));
 
         // setCoordinatorPartner :
-        SeiClinicalTrialTosave.setCoordinatorPartner(RequestParser.getAsBoolean(request.get("coordinatorPartner")));
+        seiClinicalTrial.setCoordinatorPartner(RequestParser.getAsBoolean(request.get("coordinatorPartner")));
 
         // setTitleClinicalTrial :
-        SeiClinicalTrialTosave.setTitleClinicalTrial(RequestParser.getAsString(request.get("titleClinicalTrial")));
+        seiClinicalTrial.setTitleClinicalTrial(RequestParser.getAsString(request.get("titleClinicalTrial")));
 
         // setRegistrationNb :
-        SeiClinicalTrialTosave.setRegistrationNb(RequestParser.getAsString(request.get("registrationNb")));
+        seiClinicalTrial.setRegistrationNb(RequestParser.getAsString(request.get("registrationNb")));
 
         // setSponsorName :
-        SeiClinicalTrialTosave.setSponsorName(RequestParser.getAsString(request.get("sponsorName")));
+        seiClinicalTrial.setSponsorName(RequestParser.getAsString(request.get("sponsorName")));
 
         // setIncludedPatientsNb :
-        SeiClinicalTrialTosave.setIncludedPatientsNb(RequestParser.getAsInteger(request.get("includedPatientsNb")));
+        seiClinicalTrial.setIncludedPatientsNb(RequestParser.getAsInteger(request.get("includedPatientsNb")));
 
         // setFunding :
-        SeiClinicalTrialTosave.setFunding(RequestParser.getAsString(request.get("funding")));
+        seiClinicalTrial.setFunding(RequestParser.getAsString(request.get("funding")));
 
         // setFundingAmount :
-        SeiClinicalTrialTosave.setFundingAmount(RequestParser.getAsInteger(request.get("fundingAmount")));
+        seiClinicalTrial.setFundingAmount(RequestParser.getAsInteger(request.get("fundingAmount")));
 
         // Activity :
         Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL.getId());
-        activity.setTypeActivity(typeActivity);
-
+        seiClinicalTrial.setActivity(activity);
+        activity.setSeiClinicalTrial(seiClinicalTrial);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
 
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        SeiClinicalTrialTosave.setActivity(savedActivity);
-
-        // Id de l'SeiClinicalTrial :
-        Integer idSeiClinicalTrial = activity.getIdActivity();
-        SeiClinicalTrialTosave.setIdActivity(idSeiClinicalTrial);
-
-        // Enregistrer SeiClinicalTrial dans la base de données :
-        SeiClinicalTrial saveSeiClinicalTrial = seiClinicalTrialRepo.save(SeiClinicalTrialTosave);
-
-        // wrap all objects in activity
-        savedActivity.setSeiClinicalTrial(saveSeiClinicalTrial);
+        activity = activityRepo.save(activity);
         return activity;
     }
-
 
 }

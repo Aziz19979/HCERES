@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,10 +25,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "function_editorial_activity")
 /*
-@NamedQueries({
-    @NamedQuery(name = "FunctionEditorialActivity.findAll", query = "SELECT f FROM FunctionEditorialActivity f"),
-    @NamedQuery(name = "FunctionEditorialActivity.findByFunctionEditorialActivityId", query = "SELECT f FROM FunctionEditorialActivity f WHERE f.functionEditorialActivityId = :functionEditorialActivityId"),
-    @NamedQuery(name = "FunctionEditorialActivity.findByFunctionEditorialActivityName", query = "SELECT f FROM FunctionEditorialActivity f WHERE f.functionEditorialActivityName = :functionEditorialActivityName")})
 */
 @Getter
 @Setter
@@ -57,5 +43,4 @@ public class FunctionEditorialActivity implements Serializable {
     private String functionEditorialActivityName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "functionEditorialActivityId")
     private List<EditorialActivity> editorialActivityList;
-
 }

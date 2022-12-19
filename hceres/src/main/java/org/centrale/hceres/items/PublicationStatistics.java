@@ -14,15 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -31,13 +23,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "publication_statistics")
-@NamedQueries({
-    @NamedQuery(name = "PublicationStatistics.findAll", query = "SELECT p FROM PublicationStatistics p"),
-    @NamedQuery(name = "PublicationStatistics.findByTeamId", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsPK.teamId = :teamId"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsYear", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsPK.publicationStatisticsYear = :publicationStatisticsYear"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsPdc", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsPdc = :publicationStatisticsPdc"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsCollabInt", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsCollabInt = :publicationStatisticsCollabInt"),
-    @NamedQuery(name = "PublicationStatistics.findByPublicationStatisticsCollabLabo", query = "SELECT p FROM PublicationStatistics p WHERE p.publicationStatisticsCollabLabo = :publicationStatisticsCollabLabo")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -66,5 +51,4 @@ public class PublicationStatistics implements Serializable {
     @JoinColumn(name = "team_id", referencedColumnName = "team_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Team team;
-
 }

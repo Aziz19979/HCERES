@@ -17,28 +17,24 @@ import java.util.Optional;
 public class SrAwardController {
 
     @Autowired
-    SrAwardService SrAwardService;
+    private SrAwardService srAwardService;
 
-
+    /**
+     * return a list of activities of specified type only
+     */
     @GetMapping("/SrAwards")
     public List<Activity> getSrAwards() {
-        return SrAwardService.getSrAwards();
+        return srAwardService.getSrAwards();
     }
 
-
-    @GetMapping("Api/SrAward/{id}")
-    public SrAward getSrAward(@PathVariable("id") final Integer id) {
-        Optional<SrAward> SrAward = SrAwardService.getSrAward(id);
-        if(SrAward.isPresent()) {
-            return SrAward.get();
-        } else {
-            return null;
-        }
-    }
-
+    /**
+     * create an element in database
+     *
+     * @return Activity
+     */
     @PostMapping(value = "/SrAward/Create")
     public Activity createSrAward(@RequestBody Map<String, Object> request) throws ParseException {
-        return SrAwardService.saveSrAward(request);
+        return srAwardService.saveSrAward(request);
     }
 
     /**
@@ -49,7 +45,6 @@ public class SrAwardController {
     @DeleteMapping("/SrAward/Delete/{id}")
 
     public void deleteSrAward(@RequestBody @PathVariable("id") final Integer id) {
-        SrAwardService.deleteSrAward(id);
+        srAwardService.deleteSrAward(id);
     }
-
 }

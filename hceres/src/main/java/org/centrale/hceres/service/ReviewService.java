@@ -20,8 +20,6 @@ public class ReviewService {
     @Autowired
     private ActivityRepository activityRepo;
     @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
-    @Autowired
     private JournalRepository journalRepository;
 
     /**
@@ -43,59 +41,37 @@ public class ReviewService {
     @Transactional
     public Activity saveReviewArticle(@RequestBody Map<String, Object> request) {
 
-        ReviewArticle reviewToSave = new ReviewArticle();
+        ReviewArticle reviewArticle = new ReviewArticle();
 
         // Year
-        Integer year = RequestParser.getAsInteger(request.get("year"));
-        reviewToSave.setYear(year);
+        reviewArticle.setYear(RequestParser.getAsInteger(request.get("year")));
 
         // nb_reviewed_articles
-        Integer nbReviewedArticles = RequestParser.getAsInteger(request.get("nbReviewedArticles"));
-        reviewToSave.setNbReviewedArticles(nbReviewedArticles);
+        reviewArticle.setNbReviewedArticles(RequestParser.getAsInteger(request.get("nbReviewedArticles")));
 
         // impact_factor
-
-        BigDecimal impactFactor = new BigDecimal(RequestParser.getAsString(request.get("impactFactor")));
-        reviewToSave.setImpactFactor(impactFactor);
-
-        // Activity :
-        Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES.getId());
-        activity.setTypeActivity(typeActivity);
-
-
-        // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
-
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        reviewToSave.setActivity(savedActivity);
-
-        // Created Editorial id :
-        Integer idReview = activity.getIdActivity();
-        reviewToSave.setIdActivity(idReview);
+        reviewArticle.setImpactFactor(new BigDecimal(RequestParser.getAsString(request.get("impactFactor"))));
 
         // Creating journal object with given name in form (must include in future the possibility to select among the existing journals)
         String journalName = RequestParser.getAsString(request.get("journalName"));
 
-        if (journalRepository.findByName(journalName) == null) {
-            Journal journal = new Journal();
+        Journal journal = journalRepository.findByName(journalName);
+        if (journal == null) {
+            journal = new Journal();
             journal.setJournalName(journalName);
-            reviewToSave.setJournalId(journal);
-        } else {
-            Journal journal = journalRepository.findByName(journalName);
-            reviewToSave.setJournalId(journal);
         }
+        reviewArticle.setJournalId(journal);
 
-        // Persist Platform to database :
-        ReviewArticle saveReview = ReviewArticleRepository.save(reviewToSave);
-        savedActivity.setReviewArticle(saveReview);
-        return savedActivity;
+        // Activity :
+        Activity activity = new Activity();
+        reviewArticle.setActivity(activity);
+        activity.setReviewArticle(reviewArticle);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES.getId());
 
+        // get list of researcher doing this activity - currently only one is sent
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
+
+        activity = activityRepo.save(activity);
+        return activity;
     }
 }

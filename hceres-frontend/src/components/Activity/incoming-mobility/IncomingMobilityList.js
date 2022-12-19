@@ -18,12 +18,12 @@ import {GrDocumentCsv} from "react-icons/gr";
 import IncomingMobilityAdd from "./IncomingMobilityAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListIncomingMobilitys} from "../../../services/incoming-mobility/IncomingMobilityActions";
+import {fetchListIncomingMobilities} from "../../../services/incoming-mobility/IncomingMobilityActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import IncomingMobilityDelete from "./IncomingMobilityDelete";
 
 // If targetResearcher is set in props display related information only (
-// else load list des tous les incomingMobilitys du database
+// else load list des tous les incomingMobilities du database
 function IncomingMobilityList(props) {
     // parameter constant (List Template)
     const targetResearcher = props.targetResearcher;
@@ -74,7 +74,7 @@ function IncomingMobilityList(props) {
     React.useEffect(() => {
         if (!targetResearcher) {
             // attention that method always change reference to variable not only its content
-            fetchListIncomingMobilitys().then(list => setIncomingMobilityList(list))
+            fetchListIncomingMobilities().then(list => setIncomingMobilityList(list))
         } else
             fetchResearcherActivities(targetResearcher.researcherId)
                 .then(list => {
@@ -184,7 +184,7 @@ function IncomingMobilityList(props) {
         let title = "IncomingMobility"
         if (!targetResearcher) {
             columns.push(chercheursColumnOfActivity)
-            title = "Liste des incomingMobilitys pour les Chercheurs"
+            title = "Liste des incomingMobilities pour les Chercheurs"
         }
         const CaptionElement = <div>
             <h3> {title} - &nbsp;

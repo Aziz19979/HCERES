@@ -17,17 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,10 +27,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "tool_product_type")
-@NamedQueries({
-    @NamedQuery(name = "ToolProductType.findAll", query = "SELECT t FROM ToolProductType t"),
-    @NamedQuery(name = "ToolProductType.findByToolProductTypeId", query = "SELECT t FROM ToolProductType t WHERE t.toolProductTypeId = :toolProductTypeId"),
-    @NamedQuery(name = "ToolProductType.findByToolProductTypeName", query = "SELECT t FROM ToolProductType t WHERE t.toolProductTypeName = :toolProductTypeName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -61,5 +47,4 @@ public class ToolProductType implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toolProductTypeId")
     private List<ToolProduct> toolProductList;
-
 }

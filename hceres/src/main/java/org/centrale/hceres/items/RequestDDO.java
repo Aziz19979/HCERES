@@ -17,5 +17,4 @@ public class RequestDDO {
     String ScientificExpertiseDescription ;
     Date ScientificExpertiseStartDate ;
     Date ScientificExpertiseEndDate;
-
 }

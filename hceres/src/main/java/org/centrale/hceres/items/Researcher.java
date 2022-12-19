@@ -8,27 +8,12 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 //import org.centrale.tools.Utilities;
@@ -39,15 +24,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "researcher")
-@NamedQueries({
-    @NamedQuery(name = "Researcher.findAll", query = "SELECT r FROM Researcher r"),
-    @NamedQuery(name = "Researcher.findByResearcherId", query = "SELECT r FROM Researcher r WHERE r.researcherId = :researcherId"),
-    @NamedQuery(name = "Researcher.findByResearcherSurname", query = "SELECT r FROM Researcher r WHERE r.researcherSurname = :researcherSurname"),
-    @NamedQuery(name = "Researcher.findByResearcherName", query = "SELECT r FROM Researcher r WHERE r.researcherName = :researcherName"),
-    @NamedQuery(name = "Researcher.findByResearcherEmail", query = "SELECT r FROM Researcher r WHERE r.researcherEmail = :researcherEmail"),
-    @NamedQuery(name = "Researcher.findByResearcherOrcid", query = "SELECT r FROM Researcher r WHERE r.researcherOrcid = :researcherOrcid"),
-    @NamedQuery(name = "Researcher.findByResearcherLogin", query = "SELECT r FROM Researcher r WHERE r.researcherLogin = :researcherLogin"),
-    @NamedQuery(name = "Researcher.findByResearcherPassword", query = "SELECT r FROM Researcher r WHERE r.researcherPassword = :researcherPassword")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -60,7 +36,11 @@ public class Researcher implements Serializable {
     @Basic(optional = false)
     @Column(name = "researcher_id")
     private Integer researcherId;
-    
+
+    public Researcher(Integer researcherId) {
+        this.researcherId = researcherId;
+    }
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
@@ -113,5 +93,4 @@ public class Researcher implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcherId")
     private List<BelongsTeam> belongsTeamList;
-
 }

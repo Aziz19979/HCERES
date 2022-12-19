@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
@@ -33,10 +23,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "supervisor")
-@NamedQueries({
-    @NamedQuery(name = "Supervisor.findAll", query = "SELECT s FROM Supervisor s"),
-    @NamedQuery(name = "Supervisor.findBySupervisorId", query = "SELECT s FROM Supervisor s WHERE s.supervisorId = :supervisorId"),
-    @NamedQuery(name = "Supervisor.findBySupervisorPercentage", query = "SELECT s FROM Supervisor s WHERE s.supervisorPercentage = :supervisorPercentage")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -57,5 +43,4 @@ public class Supervisor implements Serializable {
     @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
     @ManyToOne(optional = false)
     private Researcher researcherId;
-
 }

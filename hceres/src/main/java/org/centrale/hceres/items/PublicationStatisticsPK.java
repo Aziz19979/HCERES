@@ -11,9 +11,7 @@ package org.centrale.hceres.items;
 import lombok.*;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -36,5 +34,4 @@ public class PublicationStatisticsPK implements Serializable {
     @NotNull
     @Column(name = "publication_statistics_year")
     private int publicationStatisticsYear;
-
 }

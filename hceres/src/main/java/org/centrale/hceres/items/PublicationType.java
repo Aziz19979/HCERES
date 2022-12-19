@@ -17,17 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -36,10 +26,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "publication_type")
-@NamedQueries({
-    @NamedQuery(name = "PublicationType.findAll", query = "SELECT p FROM PublicationType p"),
-    @NamedQuery(name = "PublicationType.findByPublicationTypeId", query = "SELECT p FROM PublicationType p WHERE p.publicationTypeId = :publicationTypeId"),
-    @NamedQuery(name = "PublicationType.findByPublicationTypeName", query = "SELECT p FROM PublicationType p WHERE p.publicationTypeName = :publicationTypeName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -58,5 +44,4 @@ public class PublicationType implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicationTypeId")
     private List<Publication> publicationList;
-
 }

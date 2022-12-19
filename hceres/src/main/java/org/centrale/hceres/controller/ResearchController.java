@@ -45,7 +45,7 @@ public class ResearchController {
 	 * @return : liste des chercheurs
 	 */
 	@GetMapping("/Researchers")
-	public Iterable<Researcher> getResearchers() {
+	public List<Researcher> getResearchers() {
 		return rs.getResearchers();
 	}
 

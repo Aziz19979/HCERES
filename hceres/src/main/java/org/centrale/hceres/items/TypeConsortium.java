@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,10 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "type_consortium")
-@NamedQueries({
-    @NamedQuery(name = "TypeConsortium.findAll", query = "SELECT t FROM TypeConsortium t"),
-    @NamedQuery(name = "TypeConsortium.findByTypeConsortiumId", query = "SELECT t FROM TypeConsortium t WHERE t.typeConsortiumId = :typeConsortiumId"),
-    @NamedQuery(name = "TypeConsortium.findByTypeConsortiumName", query = "SELECT t FROM TypeConsortium t WHERE t.typeConsortiumName = :typeConsortiumName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,5 +41,4 @@ public class TypeConsortium implements Serializable {
     private String typeConsortiumName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeConsortiumId")
     private List<SeiLeadConsortiumIndustry> seiLeadConsortiumIndustryList;
-
 }

@@ -48,5 +48,4 @@ public class PostDocController {
     public void deletePostDoc(@RequestBody @PathVariable("id") final Integer id) {
         postDocService.deletePostDoc(id);
     }
-
 }

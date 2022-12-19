@@ -47,5 +47,4 @@ public class EditorialController {
     public void deleteEditorialActivity(@RequestBody @PathVariable("id") final Integer id) {
         editorialService.deleteEditorialActivity(id);
     }
-
 }

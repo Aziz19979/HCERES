@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,10 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "evaluation_thesis_role")
-@NamedQueries({
-    @NamedQuery(name = "EvaluationThesisRole.findAll", query = "SELECT e FROM EvaluationThesisRole e"),
-    @NamedQuery(name = "EvaluationThesisRole.findByEvaluationThesisRoleId", query = "SELECT e FROM EvaluationThesisRole e WHERE e.evaluationThesisRoleId = :evaluationThesisRoleId"),
-    @NamedQuery(name = "EvaluationThesisRole.findByEvaluationThesisRoleName", query = "SELECT e FROM EvaluationThesisRole e WHERE e.evaluationThesisRoleName = :evaluationThesisRoleName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,5 +41,4 @@ public class EvaluationThesisRole implements Serializable {
     private String evaluationThesisRoleName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluationThesisRoleId")
     private List<EvaluationThesis> evaluationThesisList;
-
 }

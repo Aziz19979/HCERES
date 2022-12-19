@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,10 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "employer")
-@NamedQueries({
-    @NamedQuery(name = "Employer.findAll", query = "SELECT e FROM Employer e"),
-    @NamedQuery(name = "Employer.findByIdEmployer", query = "SELECT e FROM Employer e WHERE e.idEmployer = :idEmployer"),
-    @NamedQuery(name = "Employer.findByNameEmployer", query = "SELECT e FROM Employer e WHERE e.nameEmployer = :nameEmployer")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,5 +41,4 @@ public class Employer implements Serializable {
     private String nameEmployer;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployer")
     private List<Contract> contractList;
-
 }

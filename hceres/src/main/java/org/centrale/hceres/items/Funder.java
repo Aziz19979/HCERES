@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,10 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "funder")
-@NamedQueries({
-    @NamedQuery(name = "Funder.findAll", query = "SELECT f FROM Funder f"),
-    @NamedQuery(name = "Funder.findByFunderId", query = "SELECT f FROM Funder f WHERE f.funderId = :funderId"),
-    @NamedQuery(name = "Funder.findByFunderName", query = "SELECT f FROM Funder f WHERE f.funderName = :funderName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -59,5 +45,4 @@ public class Funder implements Serializable {
     private String funderName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "funderId")
     private List<ProjectEvaluation> projectEvaluationList;
-
 }

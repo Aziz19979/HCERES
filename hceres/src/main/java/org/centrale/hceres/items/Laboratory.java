@@ -15,19 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,11 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "laboratory")
-@NamedQueries({
-    @NamedQuery(name = "Laboratory.findAll", query = "SELECT l FROM Laboratory l"),
-    @NamedQuery(name = "Laboratory.findByLaboratoryId", query = "SELECT l FROM Laboratory l WHERE l.laboratoryId = :laboratoryId"),
-    @NamedQuery(name = "Laboratory.findByLaboratoryName", query = "SELECT l FROM Laboratory l WHERE l.laboratoryName = :laboratoryName"),
-    @NamedQuery(name = "Laboratory.findByLaboratoryAcronym", query = "SELECT l FROM Laboratory l WHERE l.laboratoryAcronym = :laboratoryAcronym")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -67,5 +50,4 @@ public class Laboratory implements Serializable {
     private Institution institutionId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratoryId")
     private List<Team> teamList;
-
 }

@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,10 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "education_involvment")
-@NamedQueries({
-    @NamedQuery(name = "EducationInvolvment.findAll", query = "SELECT e FROM EducationInvolvment e"),
-    @NamedQuery(name = "EducationInvolvment.findByEducationInvolvmentId", query = "SELECT e FROM EducationInvolvment e WHERE e.educationInvolvmentId = :educationInvolvmentId"),
-    @NamedQuery(name = "EducationInvolvment.findByEducationInvolvmentName", query = "SELECT e FROM EducationInvolvment e WHERE e.educationInvolvmentName = :educationInvolvmentName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -61,5 +47,4 @@ public class EducationInvolvment implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "educationInvolvmentId")
     private List<Education> educationList;
-
 }

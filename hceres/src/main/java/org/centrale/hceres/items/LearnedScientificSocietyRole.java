@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,10 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "learned_scientific_society_role")
-@NamedQueries({
-    @NamedQuery(name = "LearnedScientificSocietyRole.findAll", query = "SELECT l FROM LearnedScientificSocietyRole l"),
-    @NamedQuery(name = "LearnedScientificSocietyRole.findByLearnedScientificSocietyRoleId", query = "SELECT l FROM LearnedScientificSocietyRole l WHERE l.learnedScientificSocietyRoleId = :learnedScientificSocietyRoleId"),
-    @NamedQuery(name = "LearnedScientificSocietyRole.findByNameChoice", query = "SELECT l FROM LearnedScientificSocietyRole l WHERE l.nameChoice = :nameChoice")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,5 +41,4 @@ public class LearnedScientificSocietyRole implements Serializable {
     private String nameChoice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "learnedScientificSocietyRoleId")
     private List<LearnedScientificSociety> learnedScientificSocietyList;
-
 }

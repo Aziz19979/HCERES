@@ -17,19 +17,11 @@ public class EditorialService {
     @Autowired
     EditorialRepository editorialRepository;
     @Autowired
-    private ResearchRepository researchRepo;
-    @Autowired
     private ActivityRepository activityRepo;
-    @Autowired
-    private TypeActivityRepository typeActivityLevelRepo;
     @Autowired
     private JournalRepository journalRepository;
     @Autowired
     private FunctionEditorialActivityRepository functionEditorialActivityRepository;
-
-    public Optional<EditorialActivity> getEditorial(final Integer id) {
-        return editorialRepository.findById(id);
-    }
 
     /**
      * permet de retourner la liste
@@ -49,101 +41,52 @@ public class EditorialService {
 
     public Activity saveEditorial(@RequestBody Map<String, Object> request) throws ParseException {
 
-        EditorialActivity editorialToSave = new EditorialActivity();
+        EditorialActivity editorial = new EditorialActivity();
 
         // Start Date
-        editorialToSave.setStartDate(RequestParser.getAsDate(request.get("startDate")));
+        editorial.setStartDate(RequestParser.getAsDate(request.get("startDate")));
 
         // Start Date
-        editorialToSave.setEndDate(RequestParser.getAsDate(request.get("endDate")));
+        editorial.setEndDate(RequestParser.getAsDate(request.get("endDate")));
 
         // Impact Factor
         String impactFactor = RequestParser.getAsString(request.get("impactFactor"));
         BigDecimal impactFactorInt = new BigDecimal(impactFactor);
-        editorialToSave.setImpactFactor(impactFactorInt);
+        editorial.setImpactFactor(impactFactorInt);
 
         // Activity :
         Activity activity = new Activity();
-        TypeActivity typeActivity = typeActivityLevelRepo.getById(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY.getId());
-        activity.setTypeActivity(typeActivity);
-
+        editorial.setActivity(activity);
+        activity.setEditorialActivity(editorial);
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        Integer researcherId = RequestParser.getAsInteger(request.get("researcherId"));
-        Optional<Researcher> researcherOp = researchRepo.findById(researcherId);
-        Researcher researcher = researcherOp.get();
-
-        List<Researcher> activityResearch = new ArrayList<>();
-        activityResearch.add(researcher);
-        activity.setResearcherList(activityResearch);
-
-        Activity savedActivity = activityRepo.save(activity);
-        editorialToSave.setActivity(savedActivity);
-
-        // Created Editorial id :
-        Integer idEditorial = activity.getIdActivity();
-        editorialToSave.setIdActivity(idEditorial);
+        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
 
         // Creating journal object with given name in form (must include in future the possibility to select among the existing journals)
         String journalName = RequestParser.getAsString(request.get("journalName"));
 
-        if (journalRepository.findByName(journalName) == null) {
-            Journal journal = new Journal();
+        Journal journal = journalRepository.findByName(journalName);
+        if (journal == null) {
+            journal = new Journal();
             journal.setJournalName(journalName);
-            editorialToSave.setJournalId(journal);
-        } else {
-            Journal journal = journalRepository.findByName(journalName);
-            editorialToSave.setJournalId(journal);
         }
+        editorial.setJournalId(journal);
 
 
-        //Creating an editing function
+        // Creating an editing function
         // Search in dataBase by function name if it doesn't exist create It
         String functionName = RequestParser.getAsString(request.get("functionName"));
-        if (functionEditorialActivityRepository.findByName(functionName) == null) {
-            FunctionEditorialActivity functionEditorialActivity = new FunctionEditorialActivity();
-
+        FunctionEditorialActivity functionEditorialActivity = functionEditorialActivityRepository.findByName(functionName);
+        if (functionEditorialActivity == null) {
+            functionEditorialActivity = new FunctionEditorialActivity();
             // Setting the function Name
             functionEditorialActivity.setFunctionEditorialActivityName(functionName);
-
-            // Getting existing List of editorial activities
-            List<EditorialActivity> List = functionEditorialActivity.getEditorialActivityList();
-
-            // Adding the new editorial activity to the List
-            if (List == null) {
-                List = new ArrayList<EditorialActivity>();
-            }
-            List.add(editorialToSave);
-            functionEditorialActivity.setEditorialActivityList(List);
-
-            // Persist Function editorial activity
-            //functionEditorialActivityRepository.save(functionEditorialActivity);
-
-            // Adding id to editorial activity
-            editorialToSave.setFunctionEditorialActivityId(functionEditorialActivity);
-        } else {
-            FunctionEditorialActivity functionEditorialActivity = functionEditorialActivityRepository.findByName(functionName);
-
-            // Getting existing List of editorial activities
-            List<EditorialActivity> List = functionEditorialActivity.getEditorialActivityList();
-
-            // Adding the new editorial activity to the List
-
-            List.add(editorialToSave);
-            functionEditorialActivity.setEditorialActivityList(List);
-
-            // Persist Function editorial activity
-            //functionEditorialActivityRepository.save(functionEditorialActivity);
-
-            // Adding id to editorial activity
-            editorialToSave.setFunctionEditorialActivityId(functionEditorialActivity);
         }
+        editorial.setFunctionEditorialActivityId(functionEditorialActivity);
 
-        // Persist Platform to database :
-        EditorialActivity saveEditorial = editorialRepository.save(editorialToSave);
+        activity = activityRepo.save(activity);
 
-        //Wrap all saved objects in activity
-        savedActivity.setEditorialActivity(saveEditorial);
-        return savedActivity;
+        return activity;
     }
 }

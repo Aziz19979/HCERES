@@ -16,22 +16,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -40,13 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "team")
-@NamedQueries({
-    @NamedQuery(name = "Team.findAll", query = "SELECT t FROM Team t"),
-    @NamedQuery(name = "Team.findByTeamId", query = "SELECT t FROM Team t WHERE t.teamId = :teamId"),
-    @NamedQuery(name = "Team.findByTeamName", query = "SELECT t FROM Team t WHERE t.teamName = :teamName"),
-    @NamedQuery(name = "Team.findByTeamCreation", query = "SELECT t FROM Team t WHERE t.teamCreation = :teamCreation"),
-    @NamedQuery(name = "Team.findByTeamEnd", query = "SELECT t FROM Team t WHERE t.teamEnd = :teamEnd"),
-    @NamedQuery(name = "Team.findByTeamLastReport", query = "SELECT t FROM Team t WHERE t.teamLastReport = :teamLastReport")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -82,5 +60,4 @@ public class Team implements Serializable {
     @JoinColumn(name = "laboratory_id", referencedColumnName = "laboratory_id")
     @ManyToOne(optional = false)
     private Laboratory laboratoryId;
-
 }

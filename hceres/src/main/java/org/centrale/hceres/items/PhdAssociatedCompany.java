@@ -15,16 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  *
@@ -32,12 +23,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "phd_associated_company")
-@NamedQueries({
-    @NamedQuery(name = "PhdAssociatedCompany.findAll", query = "SELECT p FROM PhdAssociatedCompany p"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByPhdStudentId", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyPK.phdStudentId = :phdStudentId"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByCompanyId", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyPK.companyId = :companyId"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByPhdAssociatedCompanyStart", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyStart = :phdAssociatedCompanyStart"),
-    @NamedQuery(name = "PhdAssociatedCompany.findByPhdAssociatedCompanyEnd", query = "SELECT p FROM PhdAssociatedCompany p WHERE p.phdAssociatedCompanyEnd = :phdAssociatedCompanyEnd")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -63,5 +48,4 @@ public class PhdAssociatedCompany implements Serializable {
     @JoinColumn(name = "phd_student_id", referencedColumnName = "phd_student_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PhdStudent phdStudent;
-
 }

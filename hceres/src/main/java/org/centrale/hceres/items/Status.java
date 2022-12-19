@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,10 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "status")
-@NamedQueries({
-    @NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s"),
-    @NamedQuery(name = "Status.findByIdStatus", query = "SELECT s FROM Status s WHERE s.idStatus = :idStatus"),
-    @NamedQuery(name = "Status.findByNameStatus", query = "SELECT s FROM Status s WHERE s.nameStatus = :nameStatus")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -58,5 +44,4 @@ public class Status implements Serializable {
     private String nameStatus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idStatus")
     private List<Contract> contractList;
-
 }

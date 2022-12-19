@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,10 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "public_outreach_type")
-@NamedQueries({
-    @NamedQuery(name = "PublicOutreachType.findAll", query = "SELECT p FROM PublicOutreachType p"),
-    @NamedQuery(name = "PublicOutreachType.findByPublicOutreachTypeId", query = "SELECT p FROM PublicOutreachType p WHERE p.publicOutreachTypeId = :publicOutreachTypeId"),
-    @NamedQuery(name = "PublicOutreachType.findByPublicOutreachTypeName", query = "SELECT p FROM PublicOutreachType p WHERE p.publicOutreachTypeName = :publicOutreachTypeName")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,5 +41,4 @@ public class PublicOutreachType implements Serializable {
     private String publicOutreachTypeName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicOutreachTypeId")
     private List<PublicOutreach> publicOutreachList;
-
 }

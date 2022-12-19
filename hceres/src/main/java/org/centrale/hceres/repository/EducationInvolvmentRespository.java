@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 // permet d'executer les requetes sur la base de donnees
 @Repository
 public interface EducationInvolvmentRespository extends JpaRepository<EducationInvolvment, Integer> {
-
 }

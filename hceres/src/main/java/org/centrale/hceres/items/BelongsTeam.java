@@ -15,19 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 /**
  *
@@ -35,11 +23,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "belongs_team")
-@NamedQueries({
-    @NamedQuery(name = "BelongsTeam.findAll", query = "SELECT b FROM BelongsTeam b"),
-    @NamedQuery(name = "BelongsTeam.findByIdBelongsTeam", query = "SELECT b FROM BelongsTeam b WHERE b.idBelongsTeam = :idBelongsTeam"),
-    @NamedQuery(name = "BelongsTeam.findByOnboardingDate", query = "SELECT b FROM BelongsTeam b WHERE b.onboardingDate = :onboardingDate"),
-    @NamedQuery(name = "BelongsTeam.findByLeavingDate", query = "SELECT b FROM BelongsTeam b WHERE b.leavingDate = :leavingDate")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -64,5 +47,4 @@ public class BelongsTeam implements Serializable {
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     @ManyToOne(optional = false)
     private Team teamId;
-
 }

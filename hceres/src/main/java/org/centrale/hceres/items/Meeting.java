@@ -17,19 +17,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -39,14 +27,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "meeting")
-@NamedQueries({
-    @NamedQuery(name = "Meeting.findAll", query = "SELECT m FROM Meeting m"),
-    @NamedQuery(name = "Meeting.findByMeetingId", query = "SELECT m FROM Meeting m WHERE m.meetingId = :meetingId"),
-    @NamedQuery(name = "Meeting.findByNeetingName", query = "SELECT m FROM Meeting m WHERE m.meetingName = :neetingName"),
-    @NamedQuery(name = "Meeting.findByMeetingYear", query = "SELECT m FROM Meeting m WHERE m.meetingYear = :meetingYear"),
-    @NamedQuery(name = "Meeting.findByMeetingLocation", query = "SELECT m FROM Meeting m WHERE m.meetingLocation = :meetingLocation"),
-    @NamedQuery(name = "Meeting.findByMeetingStart", query = "SELECT m FROM Meeting m WHERE m.meetingStart = :meetingStart"),
-    @NamedQuery(name = "Meeting.findByMeetingEnd", query = "SELECT m FROM Meeting m WHERE m.meetingEnd = :meetingEnd")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -92,5 +72,4 @@ public class Meeting implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "meetingId")
     private List<OralCommunication> oralCommunicationList;
-
 }

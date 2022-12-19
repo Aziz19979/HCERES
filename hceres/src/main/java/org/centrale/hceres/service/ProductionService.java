@@ -63,16 +63,6 @@ public class ProductionService {
     }
 
     /**
-     * retourner l'elmt selon son id
-     *
-     * @param id : id de l'elmt
-     * @return : elmt a retourner
-     */
-    public Optional<ToolProduct> getToolProduct(final Integer id) {
-        return prodRepo.findById(id);
-    }
-
-    /**
      * supprimer l'elmt selon son id
      *
      * @param id : id de l'elmt

@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -34,10 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "type_research_contract")
-@NamedQueries({
-    @NamedQuery(name = "TypeResearchContract.findAll", query = "SELECT t FROM TypeResearchContract t"),
-    @NamedQuery(name = "TypeResearchContract.findByIdType", query = "SELECT t FROM TypeResearchContract t WHERE t.idType = :idType"),
-    @NamedQuery(name = "TypeResearchContract.findByNameChoice", query = "SELECT t FROM TypeResearchContract t WHERE t.nameChoice = :nameChoice")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -55,5 +41,4 @@ public class TypeResearchContract implements Serializable {
     private String nameChoice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idType")
     private List<ResearchContractFundedPublicCharitableInst> researchContractFundedPublicCharitableInstList;
-
 }

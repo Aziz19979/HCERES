@@ -15,19 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -36,12 +24,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "contract")
-@NamedQueries({
-    @NamedQuery(name = "Contract.findAll", query = "SELECT c FROM Contract c"),
-    @NamedQuery(name = "Contract.findByIdContract", query = "SELECT c FROM Contract c WHERE c.idContract = :idContract"),
-    @NamedQuery(name = "Contract.findByStartContract", query = "SELECT c FROM Contract c WHERE c.startContract = :startContract"),
-    @NamedQuery(name = "Contract.findByEndContract", query = "SELECT c FROM Contract c WHERE c.endContract = :endContract"),
-    @NamedQuery(name = "Contract.findByFunctionContract", query = "SELECT c FROM Contract c WHERE c.functionContract = :functionContract")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -75,5 +57,4 @@ public class Contract implements Serializable {
     @JoinColumn(name = "id_status", referencedColumnName = "id_status")
     @ManyToOne(optional = false)
     private Status idStatus;
-
 }

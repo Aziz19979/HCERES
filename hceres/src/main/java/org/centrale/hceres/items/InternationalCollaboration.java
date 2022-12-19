@@ -15,19 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,22 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "national_international_collaboration")
-@NamedQueries({
-    @NamedQuery(name = "InternationalCollaboration.findAll", query = "SELECT n FROM InternationalCollaboration n"),
-    @NamedQuery(name = "InternationalCollaboration.findByIdActivity", query = "SELECT n FROM InternationalCollaboration n WHERE n.idActivity = :idActivity"),
-    @NamedQuery(name = "InternationalCollaboration.findByDateProjectStart", query = "SELECT n FROM InternationalCollaboration n WHERE n.dateProjectStart = :dateProjectStart"),
-    @NamedQuery(name = "InternationalCollaboration.findByPartnerEntity", query = "SELECT n FROM InternationalCollaboration n WHERE n.partnerEntity = :partnerEntity"),
-    @NamedQuery(name = "InternationalCollaboration.findByCountryStateCity", query = "SELECT n FROM InternationalCollaboration n WHERE n.countryStateCity = :countryStateCity"),
-    @NamedQuery(name = "InternationalCollaboration.findByPiPartners", query = "SELECT n FROM InternationalCollaboration n WHERE n.piPartners = :piPartners"),
-    @NamedQuery(name = "InternationalCollaboration.findByMailPartners", query = "SELECT n FROM InternationalCollaboration n WHERE n.mailPartners = :mailPartners"),
-    @NamedQuery(name = "InternationalCollaboration.findByProjetcTitle", query = "SELECT n FROM InternationalCollaboration n WHERE n.projectTitle = :projetcTitle"),
-    @NamedQuery(name = "InternationalCollaboration.findByStrategicRecurringCollab", query = "SELECT n FROM InternationalCollaboration n WHERE n.strategicRecurringCollab = :strategicRecurringCollab"),
-    @NamedQuery(name = "InternationalCollaboration.findByActiveProject", query = "SELECT n FROM InternationalCollaboration n WHERE n.activeProject = :activeProject"),
-    @NamedQuery(name = "InternationalCollaboration.findByAssociatedFunding", query = "SELECT n FROM InternationalCollaboration n WHERE n.associatedFunding = :associatedFunding"),
-    @NamedQuery(name = "InternationalCollaboration.findByNumberResultingPublications", query = "SELECT n FROM InternationalCollaboration n WHERE n.numberResultingPublications = :numberResultingPublications"),
-    @NamedQuery(name = "InternationalCollaboration.findByRefJointPublication", query = "SELECT n FROM InternationalCollaboration n WHERE n.refJointPublication = :refJointPublication"),
-    @NamedQuery(name = "InternationalCollaboration.findByUmrCoordinated", query = "SELECT n FROM InternationalCollaboration n WHERE n.umrCoordinated = :umrCoordinated"),
-    @NamedQuery(name = "InternationalCollaboration.findByAgreementSigned", query = "SELECT n FROM InternationalCollaboration n WHERE n.agreementSigned = :agreementSigned")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -62,10 +34,15 @@ public class InternationalCollaboration implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id_activity")
     private Integer idActivity;
+
+    @JsonIgnore
+    @JoinColumn(name = "id_activity")
+    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    private Activity activity;
+
     
     @Column(name = "date_project_start")
     @Temporal(TemporalType.DATE)
@@ -113,13 +90,9 @@ public class InternationalCollaboration implements Serializable {
     
     @Column(name = "agreement_signed")
     private Boolean agreementSigned;
-    @JsonIgnore
-    @JoinColumn(name = "id_activity", referencedColumnName = "id_activity", insertable = false, updatable = false)
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    private Activity activity;
+
     @JsonIgnore
     @JoinColumn(name = "type_collab_id", referencedColumnName = "type_collab_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private TypeCollab typeCollabId;
-
 }

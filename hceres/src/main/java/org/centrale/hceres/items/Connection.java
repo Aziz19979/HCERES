@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,12 +25,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "connection")
-@NamedQueries({
-    @NamedQuery(name = "Connection.findAll", query = "SELECT c FROM Connection c"),
-    @NamedQuery(name = "Connection.findByConnectionCode", query = "SELECT c FROM Connection c WHERE c.connectionCode = :connectionCode"),
-    @NamedQuery(name = "Connection.findByConnectionLogin", query = "SELECT c FROM Connection c WHERE c.connectionLogin = :connectionLogin"),
-    @NamedQuery(name = "Connection.findByConnectionExpire", query = "SELECT c FROM Connection c WHERE c.connectionExpire = :connectionExpire"),
-    @NamedQuery(name = "Connection.findByConnectionStatus", query = "SELECT c FROM Connection c WHERE c.connectionStatus = :connectionStatus")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -69,5 +53,4 @@ public class Connection implements Serializable {
     @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
     @ManyToOne
     private Researcher researcherId;
-
 }
