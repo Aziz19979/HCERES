@@ -19,7 +19,7 @@ TEMPLATE_ENTITY_RELATIVE_PATH="hceres/src/main/java/org/centrale/hceres/items/Sr
 
 # initialize subfolder locations from content root
 PROJECT_FOLDER=$(pwd)
-SCRIPT_FOLDER=$(dirname "$0")
+SCRIPT_FOLDER_LOCATION=$(dirname "$0")
 GENERATED_CODE_FOLDER="$PROJECT_FOLDER/GeneratedCode"
 JAVA_PROJECT_FOLDER="$JAVA_PROJECT_RELATIVE_PATH"
 TEMPLATE_ENTITY_FILE="$TEMPLATE_ENTITY_RELATIVE_PATH"
@@ -59,7 +59,7 @@ check_if_file_exist() {
   fi
 }
 
-# check files and folder existance
+# check files and folder existence
 check_if_folder_exist "$JAVA_PROJECT_FOLDER"
 check_if_file_exist "$TEMPLATE_ENTITY_FILE"
 check_if_file_exist "$ModelEntityJavaFile"
@@ -123,6 +123,8 @@ done < <(find "$JAVA_PROJECT_FOLDER" -mtime -7 -name "*$TemplateEntity*java" -pr
 
 rm "$GENERATED_CODE_FOLDER/$ModelEntityJavaFile"
 cp --parent "$ModelEntityJavaFile" "$GENERATED_CODE_FOLDER"
+
+source "$SCRIPT_FOLDER_LOCATION/GenerateCSVData.sh" "$ModelEntityJavaFile"
 
 echo "${#allCreatedFixedFiles[@]} files are created in $GENERATED_CODE_FOLDER"
 for i in ${allCreatedFixedFiles[*]}; do echo "$i"; done

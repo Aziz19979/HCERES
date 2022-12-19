@@ -5,7 +5,7 @@
 # This script will generate form based on csv comma separated data having following
 # fields:
 #
-# data Label, type, variableName, initialVariableNameValue, jsonPath
+# data Label, html type, variableName, initialVariableNameValue, jsonPath
 #
 # Predefined input form template are present in "formTemplate" folder next to
 # the script
