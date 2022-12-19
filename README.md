@@ -33,8 +33,9 @@
 * Spring boot Backend
     - Right click on [pom.xml](hceres/pom.xml)
     - add as maven project
-    - Intellij détecte le reste et ajoute la configuration de lancement
-    - sinon en haut à droite, cliquer sur le drop down list de run → Edit run configuration
+    - Naviguer vers la classe [org.centrale.hceres.HceresApplication](hceres/src/main/java/org/centrale/hceres/HceresApplication.java) 
+  puis lancer la fonction main, ce lancement est sauvegardé par Intellij dans la configuration.
+    - ou bien en haut à droite, cliquer sur le drop down list de run → Edit run configuration
     - cliquer le button + pour ajouter une nouvelle configuration
     - Choisir spring boot
         - choisir le
@@ -43,7 +44,9 @@
     - Ok
 
 * React Frontend
-    - En haut a droite, cliquer sur le drop down list de run → Edit run configuration
+    - Right click on [package.json](hceres-frontend/package.json) → Show npm Scrips → Lancer le script 'start'
+      ce lancement est sauvegardé par Intellij dans la configuration.
+    - Ou bien en haut à droite, cliquer sur le drop down list de run → Edit run configuration
     - cliquer le button + new configuration
     - Choisir npm
         - package json pointant vers [package.json](hceres-frontend/package.json) automatiquement suggéré par Intellij
