@@ -34,10 +34,15 @@ public class Platform implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id_activity")
     private Integer idActivity;
+
+    @JsonIgnore
+    @JoinColumn(name = "id_activity")
+    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    private Activity activity;
+
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -55,9 +60,5 @@ public class Platform implements Serializable {
     private String labellisation;
     @Column(name = "open_private_researchers")
     private Boolean openPrivateResearchers;
-    @JsonIgnore
-    @JoinColumn(name = "id_activity", referencedColumnName = "id_activity", insertable = false, updatable = false)
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    private Activity activity;
 
 }

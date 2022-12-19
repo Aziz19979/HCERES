@@ -46,5 +46,4 @@ public class ScientificExpertiseController {
         scientificExpertiseService.deleteScientificExpertise(id);
     }
 
-
 }

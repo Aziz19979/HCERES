@@ -119,7 +119,6 @@ public class ScientificExpertiseService {
         return savedActivity;
     }
 
-
 }
 
 

@@ -39,22 +39,23 @@ public class ReviewArticle implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id_activity")
     private Integer idActivity;
+
+    @JsonIgnore
+    @JoinColumn(name = "id_activity")
+    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    private Activity activity;
+
     @Column(name = "year")
     private Integer year;
     @Column(name = "nb_reviewed_articles")
     private Integer nbReviewedArticles;
     @Column(name = "impact_factor")
     private BigDecimal impactFactor;
-    @JoinColumn(name = "id_activity", referencedColumnName = "id_activity", insertable = false, updatable = false)
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Activity activity;
+
     @JoinColumn(name = "journal_id", referencedColumnName = "journal_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Journal journalId;
-
 }

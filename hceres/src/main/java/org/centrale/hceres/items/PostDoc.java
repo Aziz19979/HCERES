@@ -34,10 +34,15 @@ public class PostDoc implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id_activity")
     private Integer idActivity;
+
+    @JsonIgnore
+    @JoinColumn(name = "id_activity")
+    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    private Activity activity;
+
     @Size(max = 256)
     @Column(name = "name_post_doc")
     private String namePostDoc;
@@ -64,9 +69,5 @@ public class PostDoc implements Serializable {
     @Size(max = 256)
     @Column(name = "associated_publi_ref")
     private String associatedPubliRef;
-    @JoinColumn(name = "id_activity", referencedColumnName = "id_activity", insertable = false, updatable = false)
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Activity activity;
 
 }

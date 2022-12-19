@@ -151,6 +151,5 @@ public class IncomingMobilityService {
         return savedActivity;
     }
 
-
 }
 

@@ -45,5 +45,4 @@ public class IncomingMobilityController {
     public void deleteIncomingMobility(@RequestBody @PathVariable("id") final Integer id) {
         incomingMobilityService.deleteIncomingMobility(id);
     }
-
 }

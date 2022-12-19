@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SeiIndustrialRDContractRepository extends JpaRepository<SeiIndustrialRDContract, Integer> {
-
 }

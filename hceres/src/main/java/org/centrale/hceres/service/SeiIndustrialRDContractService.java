@@ -121,5 +121,4 @@ public class SeiIndustrialRDContractService {
         return savedActivity;
     }
 
-
 }

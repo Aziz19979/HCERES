@@ -47,6 +47,5 @@ public class SeiClinicalTrialController {
     public void deleteSeiClinicalTrial(@RequestBody @PathVariable("id") final Integer id) {
         SeiClinicalTrialService.deleteSeiClinicalTrial(id);
     }
-
 }
 

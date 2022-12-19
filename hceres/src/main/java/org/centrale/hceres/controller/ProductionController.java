@@ -37,21 +37,6 @@ public class ProductionController {
 
 		return productService.getToolProduct();
 	}
-
-	/**
-	 * avoir un elmt grace a son id
-	 * @param id : id de l'elmt
-	 * @return : l'elmt 
-	 */
-	@GetMapping("/{id}")
-	public ToolProduct getToolProduct(@PathVariable("id") final Integer id) {
-		Optional<ToolProduct> product = productService.getToolProduct(id);
-		if(product.isPresent()) {
-			return product.get();
-		} else {
-			return null;
-		}
-	}
 	
 	/**
 	 * ajouter un elmt a la base de donnees

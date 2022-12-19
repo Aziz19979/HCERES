@@ -15,17 +15,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
@@ -51,5 +41,4 @@ public class ProjectEvaluationCategory implements Serializable {
     private String projectEvaluationCategoryName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectEvaluationCategoryId")
     private List<ProjectEvaluation> projectEvaluationList;
-
 }

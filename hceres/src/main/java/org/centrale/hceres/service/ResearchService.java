@@ -1,5 +1,6 @@
 package org.centrale.hceres.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class ResearchService {
     /**
      * permet d'avoir la liste des chercheurs
      */
-    public Iterable<Researcher> getResearchers() {
+    public List<Researcher> getResearchers() {
         return researchRepo.findAll();
     }
 
@@ -72,5 +73,4 @@ public class ResearchService {
 
         return saveResearcher;
     }
-
 }
