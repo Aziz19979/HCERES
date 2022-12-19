@@ -9,18 +9,20 @@ export const fetchListIncomingMobilities = async () => {
     return MyGlobalVar.listeIncomingMobilities;
 }
 
-export const addIncomingMobility  = async (data) => {
+export const addIncomingMobility = async (data) => {
     return await axios.post("http://localhost:9000/IncomingMobility/Create", data).then(response => {
-        if (MyGlobalVar.listeIncomingMobilities)
+        if (MyGlobalVar.listeIncomingMobilities) {
+            response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,
             // so it will not trigger change state, therefore creating copy of the array
             // using concat method
             MyGlobalVar.listeIncomingMobilities = MyGlobalVar.listeIncomingMobilities.concat([response.data])
+        }
         return response
     });
 }
 
-export const deleteIncomingMobility  = async (idActivity) => {
+export const deleteIncomingMobility = async (idActivity) => {
     return await axios.delete("http://localhost:9000/IncomingMobility/Delete/" + idActivity).then(response => {
         // change to a new reference => cause change state immediately
         MyGlobalVar.listeIncomingMobilities = MyGlobalVar.deleteActivity(MyGlobalVar.listeIncomingMobilities, idActivity)

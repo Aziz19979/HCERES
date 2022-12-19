@@ -9,18 +9,20 @@ export const fetchListSeiClinicalTrials = async () => {
     return MyGlobalVar.listeSeiClinicalTrials;
 }
 
-export const addSeiClinicalTrial  = async (data) => {
+export const addSeiClinicalTrial = async (data) => {
     return await axios.post("http://localhost:9000/SeiClinicalTrial/Create", data).then(response => {
-        if (MyGlobalVar.listeSeiClinicalTrials)
+        if (MyGlobalVar.listeSeiClinicalTrials) {
+            response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,
             // so it will not trigger change state, therefore creating copy of the array
             // using concat method
             MyGlobalVar.listeSeiClinicalTrials = MyGlobalVar.listeSeiClinicalTrials.concat([response.data])
+        }
         return response
     });
 }
 
-export const deleteSeiClinicalTrial  = async (idActivity) => {
+export const deleteSeiClinicalTrial = async (idActivity) => {
     return await axios.delete("http://localhost:9000/SeiClinicalTrial/Delete/" + idActivity).then(response => {
         // change to a new reference => cause change state immediately
         MyGlobalVar.listeSeiClinicalTrials = MyGlobalVar.deleteActivity(MyGlobalVar.listeSeiClinicalTrials, idActivity)
