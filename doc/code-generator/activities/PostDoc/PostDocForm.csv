@@ -1,4 +1,4 @@
-data Label, type, variableName, initialVariableNameValue, jsonPath
+data Label, html type, variableName, initialVariableNameValue, jsonPath
 Nom Post Doc, string, namePostDoc, \"\", postDoc.namePostDoc
 Nom Superviseur, string, nameSupervisor, \"\", postDoc.nameSupervisor
 Date d'arrivée, date, arrivalDate, null, postDoc.arrivalDate

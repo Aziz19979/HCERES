@@ -5,7 +5,7 @@
 # This script will generate form based on csv comma separated data having following
 # fields:
 #
-# data Label, type, variableName, initialVariableNameValue, jsonPath
+# data Label, html type, variableName, initialVariableNameValue, jsonPath
 #
 # Predefined input form template are present in "formTemplate" folder next to
 # the script
@@ -35,6 +35,7 @@ GENERATED_CODE_FOLDER="$PROJECT_LOCATION/GeneratedCode"
 if [ $# == 0 ]; then
   echo >&2 "No csv argument was provided"
   echo >&2 "Usage $0 form_data.csv"
+  exit 1
 fi
 
 check_if_file_exist() {
