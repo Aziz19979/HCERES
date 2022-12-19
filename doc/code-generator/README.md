@@ -3,13 +3,24 @@
 
 <!-- TOC -->
 * [Code Generator](#code-generator)
-* [Generate Activity from scratch](#generate-activity-from-scratch)
-* [Generate Bootstrap-React form using CSV](#generate-bootstrap-react-form-using-csv)
+* [Generate New Activity backend & CSV](#generate-new-activity-backend--csv)
+* [Generate New Activity frontend](#generate-new-activity-frontend)
+* [Generate Form Bootstrap & React using CSV](#generate-form-bootstrap--react-using-csv)
 <!-- TOC -->
+
+# Generate New Activity backend & CSV
+
+Lunch [CreateActivityBackEnd.sh](./CreateActivityBackEnd.sh) to create new activity back end files following conventions.
+
+Example: open terminal from root of the project and try following script:
+
+```bash
+./doc/code-generator/CreateActivityBackEnd.sh ./hceres/src/main/java/org/centrale/hceres/items/Patent.java
+```
 
 # Generate New Activity frontend
 
-Lunch [CreateFrontActivity.sh](./CreateActivityFrontEnd.sh) to create new activity front end files following conventions.
+Lunch [CreateActivityFrontEnd.sh](./CreateActivityFrontEnd.sh) to create new activity front end files following conventions.
 
 Example: open terminal from root of the project and try following script:
 
