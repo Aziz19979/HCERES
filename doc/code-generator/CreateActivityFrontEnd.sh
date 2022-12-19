@@ -15,6 +15,7 @@
 #################################################################################
 
 # project dependent initialization
+FRONT_END_REACT_LOCATION="hceres-frontend"
 COMPONENTS="hceres-frontend/src/components/Activity"
 SERVICES="hceres-frontend/src/services"
 TemplateEntity="Education" ## Use CamelCase writing for template model
@@ -26,12 +27,15 @@ GENERATED_CODE_FOLDER="$PROJECT_LOCATION/GeneratedCode"
 COMPONENTS_LOCATION="$PROJECT_LOCATION/$COMPONENTS"
 SERVICES_LOCATION="$PROJECT_LOCATION/$SERVICES"
 
+echo "$1"
+
 if [ $# == 0 ]; then
   echo >&2 "No ModelEntity name was provided"
   echo >&2 "Usage example:"
   echo >&2 "$0 ModelEntity"
   echo >&2 "Or"
   echo >&2 "$0 ModelEntity ModelForm.csv"
+  exit 1
 fi
 
 ModelEntity=$1
@@ -52,8 +56,8 @@ check_if_folder_exist() {
 CamelCase_to_separate_by_dash() {
   # https://stackoverflow.com/questions/8502977/linux-bash-camel-case-string-to-separate-by-dash
   sed --expression 's/\([A-Z]\)/-\L\1/g' \
-  --expression 's/^-//' \
-  <<<"$1"
+    --expression 's/^-//' \
+    <<<"$1"
 }
 
 template_package=$(CamelCase_to_separate_by_dash "$TemplateEntity")
@@ -74,7 +78,8 @@ targetComponent="$GENERATED_CODE_FOLDER/$COMPONENTS/"
 targetService="$GENERATED_CODE_FOLDER/$SERVICES/"
 
 # clear Generated code folder
-rm -r "$GENERATED_CODE_FOLDER"
+targetLocation="$GENERATED_CODE_FOLDER/$FRONT_END_REACT_LOCATION"
+rm -r "$targetLocation"
 echo "Code will be generated in: $GENERATED_CODE_FOLDER"
 
 # Create target locations
@@ -103,7 +108,7 @@ echo "Package $template_package renamed to $target_package"
 if [ -z ${allCreatedFixedFiles+x} ]; then declare -A allCreatedFixedFiles; fi
 
 while IFS= read -r -d '' templateFile; do
-  let count++
+  ((count++))
   echo "Found file no. $count"
   echo "$templateFile"
   if grep -q "$TemplateEntity" "$templateFile"; then
@@ -127,6 +132,13 @@ while IFS= read -r -d '' templateFile; do
     sed -i "s/$templateEntity/$modelEntity/g" "$modelFile"
     echo "Replaced $templateEntity with $modelEntity "
     allCreatedFixedFiles+=(["$count"]="$modelFile")
+
+    # 5. replace all plurals name having y at the end with ies
+    lastCharacterIndex=${#ModelEntity}-1
+    if [ "${ModelEntity:$lastCharacterIndex}" = "y" ]; then
+      sed -i "s/${ModelEntity:1}s/${ModelEntity:1:$lastCharacterIndex-1}ies/g" "$modelFile"
+      echo "Replaced ${ModelEntity:1}s with ${ModelEntity:1:$lastCharacterIndex-1}ies "
+    fi
   fi
 done < <(find "$GENERATED_CODE_FOLDER" -mtime -7 -name '*.js' -print0)
 
