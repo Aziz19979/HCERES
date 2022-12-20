@@ -8,6 +8,8 @@
 * [Generate Form Bootstrap & React using CSV](#generate-form-bootstrap--react-using-csv)
 <!-- TOC -->
 
+For general workflow check [Youtube Private Video - HCERES Auto-Generate Activity Backend & Frontend](https://youtu.be/kKRJQriysII)
+
 # Generate New Activity backend & CSV
 
 Lunch [CreateActivityBackEnd.sh](./CreateActivityBackEnd.sh) to create new activity back end files following conventions.
