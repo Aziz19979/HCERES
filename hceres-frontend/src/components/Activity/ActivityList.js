@@ -25,6 +25,7 @@ import IncomingMobilityList from "./incoming-mobility/IncomingMobilityList";
 import EditorialActivityList from "./editorial-activity/EditorialActivityList";
 import ReviewArticleList from "./review-article/ReviewArticleList";
 import PostDocList from "./post-doc/PostDocList";
+import OutgoingMobilityList from "./outgoing-mobility/OutgoingMobilityList";
 
 
 // if target researcher is set in props will show only related information of target researcher
@@ -268,7 +269,7 @@ export default function ActivityList(props) {
 
                         <Collapse in={showOutgoingMobilityList}>
                             <div>{showOutgoingMobilityList &&
-                                <div>import the file to showOutgoingMobilityList here</div>}</div>
+                                <OutgoingMobilityList targetResearcher={targetResearcher}/>}</div>
                         </Collapse>
 
                         <Collapse in={showEditorialList}>

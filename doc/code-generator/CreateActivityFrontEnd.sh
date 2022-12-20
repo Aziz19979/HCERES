@@ -143,7 +143,7 @@ while IFS= read -r -d '' templateFile; do
 done < <(find "$GENERATED_CODE_FOLDER" -mtime -7 -name '*.js' -print0)
 
 if [ $# == 2 ]; then
-  source "$SCRIPT_FOLDER_LOCATION/CreateFormBootstrap.sh" "$2"
+  source "$SCRIPT_FOLDER_LOCATION/CreateFormBootstrap.sh" "$2" "$ModelEntity"
 fi
 
 echo "${#allCreatedFixedFiles[@]} files are created in $GENERATED_CODE_FOLDER"
