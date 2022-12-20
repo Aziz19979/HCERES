@@ -43,7 +43,6 @@ public class SrAwardController {
      * @param id - The id of the element
      */
     @DeleteMapping("/SrAward/Delete/{id}")
-
     public void deleteSrAward(@RequestBody @PathVariable("id") final Integer id) {
         srAwardService.deleteSrAward(id);
     }

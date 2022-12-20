@@ -756,9 +756,9 @@ CREATE TABLE public.outgoing_mobility (
     associated_funding character varying(256),
     nb_publications integer,
     publication_reference character varying(256),
-    strategic_recurring_collab bit(1),
-    active_project bit(1),
-    umr_coordinated bit(1),
+    strategic_recurring_collab bool,
+    active_project bool,
+    umr_coordinated bool,
     agreement_signed bool
 );
 

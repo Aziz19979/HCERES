@@ -131,7 +131,6 @@ public class Activity implements Serializable {
     @JsonIgnore
     private InstitutionalComitee institutionalComitee;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
-    @JsonIgnore
     private OutgoingMobility outgoingMobility;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private EditorialActivity editorialActivity;

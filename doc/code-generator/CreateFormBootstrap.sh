@@ -31,11 +31,14 @@
 SCRIPT_FOLDER_LOCATION=$(dirname "$0")
 PROJECT_LOCATION=$(pwd)
 GENERATED_CODE_FOLDER="$PROJECT_LOCATION/GeneratedCode"
+ModelEntity="ModelEntity"
 
 if [ $# == 0 ]; then
   echo >&2 "No csv argument was provided"
   echo >&2 "Usage $0 form_data.csv"
   exit 1
+elif [ $# == 2 ]; then
+  ModelEntity=$2
 fi
 
 check_if_file_exist() {
@@ -92,7 +95,7 @@ echo -n "const columns = [undefined" >>"$generatedColumnsListFile"
 # 1.6 delete copied dataTypeInput.js
 # 2. append "const [reactVariableState, setReactVariableState] = React.useState("");" to $tempStateFile
 # 3. append "    reactVariableState: reactVariableState," to $tempDataSubmitFile
-# 4. append "        <ListGroup.Item>Nom : {props.targetElement.$jsonPath}</ListGroup.Item>" to $generatedElementFile
+# 4. append "        <ListGroup.Item>Nom : {props.target$ModelEntity.$jsonPath}</ListGroup.Item>" to $generatedElementFile
 # 5. append ", {
 #            dataField: '$jsonPath',
 #            text: "$dataLabel",
@@ -156,11 +159,11 @@ while IFS=, read -r dataLabel dataType reactVariableState reactInitialState json
   # 3. append "    reactVariableState: reactVariableState," to $tempDataSubmitFile
   echo "    $reactVariableState: $reactVariableState," >>"$tempDataSubmitFile"
 
-  # 4. append "        <ListGroup.Item>Nom : {props.targetElement.$jsonPath}</ListGroup.Item>" to $generatedElementFile
+  # 4. append "        <ListGroup.Item>Nom : {props.target$ModelEntity.$jsonPath}</ListGroup.Item>" to $generatedElementFile
   if [ "$dataType" == "bool" ]; then
-    echo "        <ListGroup.Item>$dataLabel : {props.targetElement.$jsonPath?'True':'False'}</ListGroup.Item>" >>"$generatedElementFile"
+    echo "        <ListGroup.Item>$dataLabel : {props.target$ModelEntity.$jsonPath?'True':'False'}</ListGroup.Item>" >>"$generatedElementFile"
   else
-    echo "        <ListGroup.Item>$dataLabel : {props.targetElement.$jsonPath}</ListGroup.Item>" >>"$generatedElementFile"
+    echo "        <ListGroup.Item>$dataLabel : {props.target$ModelEntity.$jsonPath}</ListGroup.Item>" >>"$generatedElementFile"
   fi
 
   # 5. append ", {
@@ -170,10 +173,12 @@ while IFS=, read -r dataLabel dataType reactVariableState reactInitialState json
   #            filter: showFilter ? $dataTypeFilter() : null,
   #            hidden: true, // for csv only
   #        }" to $generatedColumnsListFile
-  if [ "$dataType" == "string" ]; then
-    filterName="textFilter()"
+  if [ "$dataType" == "number" ]; then
+    filterName="numberFilter()"
+  elif [ "$dataType" == "date" ]; then
+    filterName="dateFilter()"
   else
-    filterName="$dataType""Filter()"
+    filterName="textFilter()"
   fi
 
   {
