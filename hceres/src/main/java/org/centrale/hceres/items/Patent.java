@@ -115,6 +115,6 @@ public class Patent implements Serializable {
     private String nameCompanyInvolved;
 
     @JoinColumn(name = "type_patent_id", referencedColumnName = "type_patent_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private TypePatent typePatentId;
 }

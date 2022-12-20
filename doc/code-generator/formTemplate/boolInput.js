@@ -5,4 +5,4 @@
     type="checkbox"
     className="input-container"
     onChange={e => setReactVariableState(e.target.checked)}
-    required/>
+    />

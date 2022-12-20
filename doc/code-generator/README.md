@@ -18,6 +18,15 @@ Example: open terminal from root of the project and try following script:
 ./doc/code-generator/CreateActivityBackEnd.sh ./hceres/src/main/java/org/centrale/hceres/items/Patent.java
 ```
 
+You can also redirect standard error to separate file by using: 2> Backend_generation_error.txt
+
+```bash
+mkdir "GeneratedCode"
+./doc/code-generator/CreateActivityBackEnd.sh ./hceres/src/main/java/org/centrale/hceres/items/Patent.java 2> GeneratedCode/Backend_generation_error.txt
+```
+
+
+
 # Generate New Activity frontend
 
 Lunch [CreateActivityFrontEnd.sh](./CreateActivityFrontEnd.sh) to create new activity front end files following conventions.
@@ -32,6 +41,12 @@ And try
 ```bash
 ./doc/code-generator/CreateActivityFrontEnd.sh PostDoc ./doc/code-generator/activities/PostDoc/PostDocForm.csv
 ```
+
+Or just with csv file (Model name will be concluded from csv name)
+```bash
+./doc/code-generator/CreateActivityFrontEnd.sh ./doc/code-generator/activities/Patent/PatentForm.csv
+```
+
 
 After lunching script check [GeneratedCode folder](../../GeneratedCode)
 

@@ -111,13 +111,13 @@ declare -A react_default_value=(
 declare -A parentToChildModels
 
 append_csv_data(){
-  modelFileParam=$1
-  prefixJsonParam=$2
+  local modelFileParam=$1
+  local prefixJsonParam=$2
   ((files_count++))
   echo "Reading file $files_count : $modelFileParam"
 
-  ModelEntityParam=$(basename -s ".java" "$modelFileParam")
-  modelEntityParam="$(tr '[:upper:]' '[:lower:]' <<<"${ModelEntityParam:0:1}")${ModelEntityParam:1}"
+  local ModelEntityParam=$(basename -s ".java" "$modelFileParam")
+  local modelEntityParam="$(tr '[:upper:]' '[:lower:]' <<<"${ModelEntityParam:0:1}")${ModelEntityParam:1}"
   echo "        $ModelEntityParam $modelEntityParam = new $ModelEntityParam();" >> "$ModelJavaService"
 
   local count=0
@@ -174,8 +174,9 @@ append_csv_data(){
       htmlDataType=${java_to_html_type["$javaDataType"]}
       if [[ -n "$htmlDataType" ]]; then
         echo "Variable mapping to html exist: $htmlDataType"
+        ParserType="$(tr '[:lower:]' '[:upper:]' <<<"${javaDataType:0:1}")${javaDataType:1}"
         echo "$variableName, $htmlDataType, $variableName, ${react_default_value["$htmlDataType"]}, $prefixJsonParam.$variableName" >> "$csvDataFile"
-        echo "        $modelEntityParam.set$VariableName(RequestParser.getAs$javaDataType(request.get(\"$variableName\")));" >> "$ModelJavaService"
+        echo "        $modelEntityParam.set$VariableName(RequestParser.getAs$ParserType(request.get(\"$variableName\")));" >> "$ModelJavaService"
 
       else
         echo "Searching project for User Defined Type..."
@@ -200,8 +201,8 @@ append_csv_data(){
           currentChildrenModels="${parentToChildModels[$modelFileParam]} --- $innerModelFile : line $count"
           parentToChildModels+=(["$modelFileParam"]="$currentChildrenModels")
           echo "${parentToChildModels[@]}"
-          echo >&2 "Current children of $modelFileParam are $currentChildrenModels"
-          echo >&2 "Current children of inner model $innerModelFile are $innerChildrenModels"
+          echo "Current children of $modelFileParam are $currentChildrenModels"
+          echo "Current children of inner model $innerModelFile are $innerChildrenModels"
           echo "Inner Model file found at: $innerModelFile"
           append_csv_data "$innerModelFile" "$prefixJsonParam.$variableName"
           local lowerJavaDataType="$(tr '[:upper:]' '[:lower:]' <<<"${javaDataType:0:1}")${javaDataType:1}"

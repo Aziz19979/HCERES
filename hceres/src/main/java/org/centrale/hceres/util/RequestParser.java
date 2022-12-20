@@ -15,6 +15,12 @@ public class RequestParser {
         else return Integer.parseInt(String.valueOf(number));
     }
 
+    public static Float getAsFloat(Object number) throws NumberFormatException {
+        if (number instanceof Float)
+            return (Float) number;
+        else return Float.parseFloat(String.valueOf(number));
+    }
+
     public static String getAsString(Object string) throws NullPointerException {
         if (string == null)
             throw new NullPointerException();

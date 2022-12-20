@@ -106,7 +106,6 @@ public class Activity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private PostDoc postDoc;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
-    @JsonIgnore
     private Patent patent;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
