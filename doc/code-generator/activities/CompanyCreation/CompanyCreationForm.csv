@@ -1,0 +1,4 @@
+data Label, html type, variableName, initialVariableNameValue, jsonPath
+Nom de l'entreprise, string, companyCreationName, "", companyCreation.companyCreationName
+Date de création, date, companyCreationDate, null, companyCreation.companyCreationDate
+Entreprise Active?, bool, companyCreationActive, false, companyCreation.companyCreationActive

@@ -5,7 +5,7 @@ import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, {dateFilter, numberFilter, textFilter} from 'react-bootstrap-table2-filter';
+import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
 import {Alert} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,19 +17,19 @@ import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListOutgoingMobilities} from "../../../services/outgoing-mobility/OutgoingMobilityActions";
+import {fetchListCompanyCreations} from "../../../services/company-creation/CompanyCreationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
-import OutgoingMobilityDelete from "./OutgoingMobilityDelete";
-import OutgoingMobilityAdd from "./OutgoingMobilityAdd";
+import CompanyCreationDelete from "./CompanyCreationDelete";
+import CompanyCreationAdd from "./CompanyCreationAdd";
 
 // If targetResearcher is set in props display related information only (
-// else load list des tous les outgoingMobilities du database
-function OutgoingMobilityList(props) {
+// else load list des tous les companyCreations du database
+function CompanyCreationList(props) {
     // parameter constant (List Template)
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [outgoingMobilityList, setOutgoingMobilityList] = React.useState(null);
+    const [companyCreationList, setCompanyCreationList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');
@@ -39,15 +39,15 @@ function OutgoingMobilityList(props) {
 
 
     // Form state (List Template)
-    const [targetOutgoingMobility, setTargetOutgoingMobility] = React.useState();
-    const [showOutgoingMobilityAdd, setShowOutgoingMobilityAdd] = React.useState(false);
-    const [showOutgoingMobilityDelete, setShowOutgoingMobilityDelete] = React.useState(false);
+    const [targetCompanyCreation, setTargetCompanyCreation] = React.useState(false);
+    const [showCompanyCreationAdd, setShowCompanyCreationAdd] = React.useState(false);
+    const [showCompanyCreationDelete, setShowCompanyCreationDelete] = React.useState(false);
     const [listChangeCount, setListChangeCount] = React.useState(0);
 
 
     const handleHideModal = (msg = null) => {
-        setShowOutgoingMobilityAdd(false);
-        setShowOutgoingMobilityDelete(false);
+        setShowCompanyCreationAdd(false);
+        setShowCompanyCreationDelete(false);
         if (msg) {
             // an add or delete did occur
             // re render the table to load new data
@@ -74,30 +74,30 @@ function OutgoingMobilityList(props) {
     React.useEffect(() => {
         if (!targetResearcher) {
             // attention that method always change reference to variable not only its content
-            fetchListOutgoingMobilities().then(list => setOutgoingMobilityList(list))
+            fetchListCompanyCreations().then(list => setCompanyCreationList(list))
         } else
             fetchResearcherActivities(targetResearcher.researcherId)
                 .then(list => {
-                    setOutgoingMobilityList(list.filter(a => a.idTypeActivity === ActivityTypes.OUTGOING_MOBILITY));
+                    setCompanyCreationList(list.filter(a => a.idTypeActivity === ActivityTypes.SEI_COMPANY_CREATION));
                 })
     }, [listChangeCount, targetResearcher]);
 
 
-    if (!outgoingMobilityList) {
+    if (!companyCreationList) {
         return <div><Button><Audio/></Button></div>
     } else {
-        if (outgoingMobilityList.length === 0) {
+        if (companyCreationList.length === 0) {
             return <div className={"row"}>
                 <br/>
                 <div className={"col-8"}>
-                    <h3>Aucune OutgoingMobility n'est enregistrée</h3>
+                    <h3>Aucune Création d'entreprise n'est enregistrée</h3>
                 </div>
                 <div className={"col-4"}>
-                    {showOutgoingMobilityAdd &&
-                        <OutgoingMobilityAdd targetResearcher={targetResearcher} onHideAction={handleHideModal}/>}
+                    {showCompanyCreationAdd &&
+                        <CompanyCreationAdd targetResearcher={targetResearcher} onHideAction={handleHideModal}/>}
                     <button className="btn btn-success" data-bs-toggle="button"
-                            onClick={() => setShowOutgoingMobilityAdd(true)}>
-                        <AiOutlinePlusCircle/> &nbsp; Ajouter une outgoingMobility
+                            onClick={() => setShowCompanyCreationAdd(true)}>
+                        <AiOutlinePlusCircle/> &nbsp; Ajouter une companyCreation
                     </button>
                 </div>
             </div>;
@@ -110,109 +110,37 @@ function OutgoingMobilityList(props) {
             formatter: (cell, row) => {
                 return (<div>
                     <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetOutgoingMobility(row)
-                        setShowOutgoingMobilityDelete(true)
+                        setTargetCompanyCreation(row)
+                        setShowCompanyCreationDelete(true)
                     }}><AiFillDelete/></button>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
             }
         }, {
-            dataField: 'outgoingMobility.namePersonConcerned',
-            text: "Nom de la personne concernée",
+            dataField: 'companyCreation.companyCreationName',
+            text: "Nom de l'entreprise",
             sort: true,
             // filter: showFilter ? textFilter() : null,
             // hidden: true, // for csv only
         }, {
-            dataField: 'outgoingMobility.arrivalDate',
-            text: "Date d'arrivée",
+            dataField: 'companyCreation.companyCreationDate',
+            text: "Date de création",
             sort: true,
             filter: showFilter ? dateFilter() : null,
             // hidden: true, // for csv only
         }, {
-            dataField: 'outgoingMobility.departureDate',
-            text: "Date de départ",
-            sort: true,
-            filter: showFilter ? dateFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.duration',
-            text: "Durée",
-            sort: true,
-            // filter: showFilter ? numberFilter() : null,
-            // hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.hostLabName',
-            text: "Nom du laboratoire hôte",
+            dataField: 'companyCreation.companyCreationActive',
+            text: "Entreprise Active?",
             sort: true,
             // filter: showFilter ? textFilter() : null,
             // hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.hostLabLocation',
-            text: "Emplacement du laboratoire hôte",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.piPartner',
-            text: "Pi Partenaire",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.projectTitle',
-            text: "Titre du projet",
-            sort: true,
-            // filter: showFilter ? textFilter() : null,
-            // hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.associatedFunding',
-            text: "Financement associé",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.nbPublications',
-            text: "Nb Publications",
-            sort: true,
-            filter: showFilter ? numberFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.publicationReference',
-            text: "Publication Référence",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.strategicRecurringCollab',
-            text: "Collaboration stratégique récurrente?",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.activeProject',
-            text: "Projet actif?",
-            sort: true,
-            // filter: showFilter ? textFilter() : null,
-            // hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.umrCoordinated',
-            text: "Umr Coordonné?",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
-        }, {
-            dataField: 'outgoingMobility.agreementSigned',
-            text: "Accord Signé?",
-            sort: true,
-            filter: showFilter ? textFilter() : null,
-            hidden: true, // for csv only
         }];
 
-        let title = "OutgoingMobility"
+        let title = "CompanyCreation"
         if (!targetResearcher) {
             columns.push(chercheursColumnOfActivity)
-            title = "Liste des outgoingMobilities pour les Chercheurs"
+            title = "Liste des companyCreations pour les Chercheurs"
         }
         const CaptionElement = <div>
             <h3> {title} - &nbsp;
@@ -239,13 +167,12 @@ function OutgoingMobilityList(props) {
                 <ToolkitProvider
                     bootstrap4
                     keyField="idActivity"
-                    data={outgoingMobilityList}
+                    data={companyCreationList}
                     columns={columns}
-                    exportCSV={{
-                        fileName: 'outgoingMobilityList.csv',
+                    exportCSV={ {
+                        fileName: 'companyCreationList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false
-                    }}
+                        exportAll: false } }
                     search
                 >
                     {
@@ -257,15 +184,15 @@ function OutgoingMobilityList(props) {
                                         <h3>{CaptionElement}</h3>
                                     </div>
                                     <div className={"col-4"}>
-                                        {showOutgoingMobilityAdd &&
-                                            <OutgoingMobilityAdd targetResearcher={targetResearcher}
-                                                                 onHideAction={handleHideModal}/>}
-                                        {showOutgoingMobilityDelete &&
-                                            <OutgoingMobilityDelete targetOutgoingMobility={targetOutgoingMobility}
-                                                                    onHideAction={handleHideModal}/>}
+                                        {showCompanyCreationAdd &&
+                                            <CompanyCreationAdd targetResearcher={targetResearcher}
+                                                          onHideAction={handleHideModal}/>}
+                                        {showCompanyCreationDelete &&
+                                            <CompanyCreationDelete targetCompanyCreation={targetCompanyCreation}
+                                                             onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
-                                                onClick={() => setShowOutgoingMobilityAdd(true)}>
-                                            <AiOutlinePlusCircle/> &nbsp; Ajouter une outgoingMobility
+                                                onClick={() => setShowCompanyCreationAdd(true)}>
+                                            <AiOutlinePlusCircle/> &nbsp; Ajouter une companyCreation
                                         </button>
                                     </div>
                                 </div>
@@ -274,7 +201,7 @@ function OutgoingMobilityList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}
@@ -289,7 +216,7 @@ function OutgoingMobilityList(props) {
                                 <BootstrapTable
                                     bootstrap4
                                     filter={filterFactory()}
-                                    pagination={paginationFactory(paginationOptions(outgoingMobilityList.length))}
+                                    pagination={paginationFactory(paginationOptions(companyCreationList.length))}
                                     striped
                                     hover
                                     condensed
@@ -303,4 +230,4 @@ function OutgoingMobilityList(props) {
     }
 }
 
-export default OutgoingMobilityList;
+export default CompanyCreationList;

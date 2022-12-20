@@ -36,9 +36,19 @@ if [ $# == 0 ]; then
   echo >&2 "Or"
   echo >&2 "$0 ModelEntity ModelForm.csv"
   exit 1
+elif [ $# == 1 ]; then
+  if [[ $1 == *".csv" ]]; then
+    # if only csv data is sent, remove From.csv suffix and use it as ModelEntity
+    ModelEntity=$(basename -s ".csv" "$1")
+    ModelEntity=${ModelEntity%"Form"} # remove suffix Form if present
+    csvDataFile=$1
+  else
+    ModelEntity=$1
+  fi
+elif [ $# == 2 ]; then
+    ModelEntity=$1
+    csvDataFile=$2
 fi
-
-ModelEntity=$1
 
 check_if_folder_exist() {
   folderArg=$1
@@ -142,8 +152,8 @@ while IFS= read -r -d '' templateFile; do
   fi
 done < <(find "$GENERATED_CODE_FOLDER" -mtime -7 -name '*.js' -print0)
 
-if [ $# == 2 ]; then
-  source "$SCRIPT_FOLDER_LOCATION/CreateFormBootstrap.sh" "$2" "$ModelEntity"
+if [ -n "$csvDataFile" ]; then
+  source "$SCRIPT_FOLDER_LOCATION/CreateFormBootstrap.sh" "$csvDataFile" "$ModelEntity"
 fi
 
 echo "${#allCreatedFixedFiles[@]} files are created in $GENERATED_CODE_FOLDER"
