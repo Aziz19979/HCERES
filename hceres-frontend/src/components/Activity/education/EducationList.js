@@ -15,12 +15,12 @@ import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStra
 import {ImFilter} from "react-icons/im";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
-import EducationAdd from "./EducationAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
 import {fetchListEducations} from "../../../services/education/EducationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import EducationDelete from "./EducationDelete";
+import EducationAdd from "./EducationAdd";
 
 // If targetResearcher is set in props display related information only (
 // else load list des tous les educations du database

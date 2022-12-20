@@ -26,6 +26,7 @@ import EditorialActivityList from "./editorial-activity/EditorialActivityList";
 import ReviewArticleList from "./review-article/ReviewArticleList";
 import PostDocList from "./post-doc/PostDocList";
 import OutgoingMobilityList from "./outgoing-mobility/OutgoingMobilityList";
+import CompanyCreationList from "./company-creation/CompanyCreationList";
 
 
 // if target researcher is set in props will show only related information of target researcher
@@ -278,7 +279,7 @@ export default function ActivityList(props) {
 
                         <Collapse in={showComparnyCreationList}>
                             <div>{showComparnyCreationList &&
-                                <div>import the file to showComparnyCreationList here</div>}</div>
+                                <CompanyCreationList targetResearcher={targetResearcher}/>}</div>
                         </Collapse>
 
                         <Collapse in={showPostDoctoratList}>
