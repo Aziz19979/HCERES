@@ -118,7 +118,7 @@ function CompanyCreationAdd(props) {
                             type="checkbox"
                             className="input-container"
                             onChange={e => setCompanyCreationActive(e.target.checked)}
-                            required/>
+                            />
 
                     </Modal.Body>
                     <Modal.Footer>

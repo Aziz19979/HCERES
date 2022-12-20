@@ -244,7 +244,7 @@ function InternationalCollaborationAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setUmrCoordinated(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Agreement Signed
@@ -253,7 +253,7 @@ function InternationalCollaborationAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setAgreementSigned(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Name Choice

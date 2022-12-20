@@ -233,7 +233,7 @@ function IncomingMobilityAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setStrategicRecurringCollab(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Projet actif ?
@@ -242,7 +242,7 @@ function IncomingMobilityAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setActiveProject(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Cordonné UMR ?
@@ -251,7 +251,7 @@ function IncomingMobilityAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setUmrCoordinated(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Accord signé ?
@@ -260,7 +260,7 @@ function IncomingMobilityAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setAgreementSigned(e.target.checked)}
-                            required/>
+                            />
 
                     </Modal.Body>
                     <Modal.Footer>

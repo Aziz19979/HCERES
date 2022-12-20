@@ -161,7 +161,7 @@ function PlatformAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setIsOpenPrivateResearchers(e.target.checked)}
-                            required/>
+                            />
 
                     </Modal.Body>
                     <Modal.Footer>
