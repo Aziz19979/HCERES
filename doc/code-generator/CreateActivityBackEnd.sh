@@ -68,7 +68,7 @@ check_if_file_exist "$ModelEntityJavaFile"
 targetLocation="$GENERATED_CODE_FOLDER/$JAVA_PROJECT_RELATIVE_PATH/"
 
 # clear Generated code folder
-rm -r "$targetLocation"
+rm -r "$targetLocation" 2> /dev/null
 echo "Code will be generated in: $targetLocation"
 
 # Create target locations
