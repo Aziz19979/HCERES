@@ -119,7 +119,7 @@ while IFS= read -r -d '' templateFile; do
 
   allCreatedFixedFiles+=(["$count"]="$modelFile")
 
-done < <(find "$JAVA_PROJECT_FOLDER" -mtime -7 -name "*$TemplateEntity*java" -print0)
+done < <(find "$JAVA_PROJECT_FOLDER" -name "*$TemplateEntity*java" -print0)
 
 rm "$GENERATED_CODE_FOLDER/$ModelEntityJavaFile"
 cp --parent "$ModelEntityJavaFile" "$GENERATED_CODE_FOLDER"
