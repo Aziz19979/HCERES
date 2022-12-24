@@ -65,6 +65,13 @@ CamelCase_to_separate_by_dash() {
     <<<"$1"
 }
 
+clear_empty_dirs() {
+  dirFile=$1
+  while rm -d "$dirFile" 2> /dev/null; do
+      dirFile=$(dirname "$dirFile")
+  done
+}
+
 
 # check component folder and template pacakge if exist
 check_if_folder_exist "$SRC_LOCATION"
@@ -77,7 +84,7 @@ target_package=$(CamelCase_to_separate_by_dash "$ModelEntity")
 
 # clear Generated code folder
 targetLocation="$GENERATED_CODE_FOLDER/$FRONT_END_REACT_LOCATION"
-rm -r "$targetLocation"
+rm -r "$targetLocation" 2> /dev/null
 echo "Code will be generated in: $GENERATED_CODE_FOLDER"
 
 # Traverse all files in $SRC_LOCATION recursively and perform following steps:
@@ -109,7 +116,7 @@ while IFS= read -r -d '' templateFile; do
 
   mkdir -p "$(dirname "$modelFile")"
   mv "$templateFile" "$modelFile"
-  rm -r "$(dirname "$templateFile")"
+  clear_empty_dirs "$(dirname "$templateFile")"
   echo "Renamed file to $modelFile"
 
   # 2. replace all occurrences of template_package name to target_package
