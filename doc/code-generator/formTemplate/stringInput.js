@@ -2,6 +2,7 @@
     templateLabel
 </label>
 <input
+    name="reactVariableState"
     type={"text"}
     placeholder="templateLabel"
     className="input-container"

@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -104,7 +105,10 @@ public class InternationalCollaborationService {
         activity.setIdTypeActivity(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
-        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
+        activity.setResearcherList(RequestParser.getAsList(
+                request.get("researcherIds")).stream()
+                .map(resId -> new Researcher((Integer) resId))
+                .collect(Collectors.toList()));
 
         activity = activityRepo.save(activity);
         return activity;

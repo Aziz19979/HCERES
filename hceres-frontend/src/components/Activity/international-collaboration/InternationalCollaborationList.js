@@ -173,10 +173,8 @@ function InternationalCollaborationList(props) {
         }, ];
 
         let title = "InternationalCollaboration"
-        if (!targetResearcher) {
-            columns.push(chercheursColumnOfActivity)
-            title = "Liste des internationalCollaborations pour les Chercheurs"
-        }
+        columns.push(chercheursColumnOfActivity)
+        title = "Liste des internationalCollaborations pour les Chercheurs"
         const CaptionElement = <div>
             <h3> {title} - &nbsp;
                 <button className={"border-0"}

@@ -103,7 +103,7 @@ declare -A java_to_html_type=(
 declare -A react_default_value=(
                                 ["string"]="\"\""
                                 ["number"]="0"
-                                ["date"]="null"
+                                ["date"]="\"\""
                                 ["bool"]="false"
                             )
 

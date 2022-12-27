@@ -84,7 +84,7 @@ public class EducationService {
 
         // EducationInvolvment
         EducationInvolvment educationInvolvment = new EducationInvolvment();
-        educationInvolvment.setEducationInvolvmentName(RequestParser.getAsString(request.get("educationInvolvmentText")));
+        educationInvolvment.setEducationInvolvementName(RequestParser.getAsString(request.get("educationInvolvementName")));
         education.setEducationInvolvmentId(educationInvolvment);
 
 

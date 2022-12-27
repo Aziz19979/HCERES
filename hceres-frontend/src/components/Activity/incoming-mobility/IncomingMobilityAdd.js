@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {ListGroup} from "react-bootstrap";
-import {fetchListResearchers} from "../../../services/Researcher/ResearcherActions";
+import ResearcherSelect from "../../util/ResearcherSelect";
 import {addIncomingMobility} from "../../../services/incoming-mobility/IncomingMobilityActions";
 
 // If targetResearcher is set in props use it as default without charging list from database
@@ -13,7 +12,6 @@ function IncomingMobilityAdd(props) {
     const onHideParentAction = props.onHideAction
 
     // Cached state (Add Template)
-    const [researchers, setResearchers] = React.useState([]);
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
@@ -43,15 +41,6 @@ function IncomingMobilityAdd(props) {
         onHideParentAction(msg);
     };
 
-    React.useEffect(() => {
-        if (!targetResearcher)
-            fetchListResearchers().then(list => {
-                setResearchers(list);
-                if (list.length > 0) {
-                    setResearcherId(list.entries().next().value[1].researcherId)
-                }
-            });
-    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -89,8 +78,6 @@ function IncomingMobilityAdd(props) {
         })
     }
 
-    const onReseacherSelection = id => setResearcherId(id.target.value);
-
     return (
         <div>
             <Modal show={showModal} onHide={handleClose}>
@@ -104,17 +91,10 @@ function IncomingMobilityAdd(props) {
                         <label className='label'>
                             Chercheur
                         </label>
-                        {targetResearcher ?
-                            <ListGroup.Item
-                                variant={"primary"}>{targetResearcher.researcherName} {targetResearcher.researcherSurname}</ListGroup.Item> :
-
-                            <select onChange={onReseacherSelection}>
-                                {researchers.map(item => {
-                                    return (<option key={item.researcherId}
-                                                    value={item.researcherId}>{item.researcherName} {item.researcherSurname}</option>);
-                                })}
-                            </select>
-                        }
+                        <ResearcherSelect
+                            targetResearcher={targetResearcher}
+                            onchange={React.useCallback(resId => setResearcherId(resId),[])}
+                        />
 
                         <label className='label'>
                             Nom du Senior Scientist

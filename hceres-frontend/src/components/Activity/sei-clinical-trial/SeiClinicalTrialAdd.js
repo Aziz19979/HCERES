@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {ListGroup} from "react-bootstrap";
-import {fetchListResearchers} from "../../../services/Researcher/ResearcherActions";
+import ResearcherSelect from "../../util/ResearcherSelect";
 import {addSeiClinicalTrial} from "../../../services/sei-clinical-trial/SeiClinicalTrialActions";
 
 // If targetResearcher is set in props use it as default without charging list from database
@@ -14,7 +13,6 @@ function SeiClinicalTrialAdd(props) {
     const onHideParentAction = props.onHideAction
 
     // Cached state (Add Template)
-    const [researchers, setResearchers] = React.useState([]);
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
@@ -37,15 +35,6 @@ function SeiClinicalTrialAdd(props) {
         onHideParentAction(msg);
     };
 
-    React.useEffect(() => {
-        if (!targetResearcher)
-            fetchListResearchers().then(list => {
-                setResearchers(list);
-                if (list.length > 0) {
-                    setResearcherId(list.entries().next().value[1].researcherId)
-                }
-            });
-    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -77,8 +66,6 @@ function SeiClinicalTrialAdd(props) {
         })
     }
 
-    const onReseacherSelection = id => setResearcherId(id.target.value);
-
     return (
         <div>
             <Modal show={showModal} onHide={handleClose}>
@@ -92,17 +79,10 @@ function SeiClinicalTrialAdd(props) {
                         <label className='label'>
                             Chercheur
                         </label>
-                        {targetResearcher ?
-                            <ListGroup.Item
-                                variant={"primary"}>{targetResearcher.researcherName} {targetResearcher.researcherSurname}</ListGroup.Item> :
-
-                            <select onChange={onReseacherSelection}>
-                                {researchers.map(item => {
-                                    return (<option key={item.researcherId}
-                                                    value={item.researcherId}>{item.researcherName} {item.researcherSurname}</option>);
-                                })}
-                            </select>
-                        }
+                        <ResearcherSelect
+                            targetResearcher={targetResearcher}
+                            onchange={React.useCallback(resId => setResearcherId(resId),[])}
+                        />
                         <label className='label'>
                             Date de début
                         </label>
