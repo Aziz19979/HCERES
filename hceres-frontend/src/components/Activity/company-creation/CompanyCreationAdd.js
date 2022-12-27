@@ -18,11 +18,12 @@ function CompanyCreationAdd(props) {
 
 
     // Form state (Add Template)
-    const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [companyCreationName, setCompanyCreationName] = React.useState("");
-    const [companyCreationDate, setCompanyCreationDate] = React.useState("");
-    const [companyCreationActive, setCompanyCreationActive] = React.useState(false);
-
+    const [formData, setFormData] = React.useState({
+        researcherId: targetResearcher ? targetResearcher.researcherId : "",
+        companyCreationName: "",
+        companyCreationDate: "",
+        companyCreationActive: false,
+    });
 
     const handleClose = (msg = null) => {
         setShowModal(false);
@@ -32,14 +33,8 @@ function CompanyCreationAdd(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        let data = {
-            researcherId: researcherId,
-            companyCreationName: companyCreationName,
-            companyCreationDate: companyCreationDate,
-            companyCreationActive: companyCreationActive,
-        };
 
-        addCompanyCreation(data).then(response => {
+        addCompanyCreation(formData).then(response => {
             // const activityId = response.data.researcherId;
             const msg = {
                 "successMsg": "CompanyCreation ajouté avec un id " + response.data.idActivity,
@@ -52,6 +47,14 @@ function CompanyCreationAdd(props) {
             }
             handleClose(msg);
         })
+    }
+
+    const handleFormChange = (event) => {
+        const {name, value, type, checked} = event.target
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: type === "checkbox" ? checked: value
+        }))
     }
 
     return (
@@ -69,17 +72,21 @@ function CompanyCreationAdd(props) {
                         </label>
                         <ResearcherSelect
                             targetResearcher={targetResearcher}
-                            onchange={React.useCallback(resId => setResearcherId(resId),[])}
+                            onchange={React.useCallback(resId => setFormData(prevFormData => ({
+                                ...prevFormData,
+                                researcherId: resId
+                            })), [])}
                         />
                         <label className='label'>
                             Nom de l'entreprise
                         </label>
                         <input
+                            name="companyCreationName"
                             type={"text"}
                             placeholder="Nom de l'entreprise"
                             className="input-container"
-                            value={companyCreationName}
-                            onChange={e => setCompanyCreationName(e.target.value)}
+                            value={formData.companyCreationName}
+                            onChange={handleFormChange}
                             required/>
 
                         <label className='label'>
@@ -89,18 +96,20 @@ function CompanyCreationAdd(props) {
                             name="companyCreationDate"
                             type="date"
                             className='input-container'
-                            value={companyCreationDate}
-                            onChange={e => setCompanyCreationDate(e.target.value)}
+                            value={formData.companyCreationDate}
+                            onChange={handleFormChange}
                             required/>
 
                         <label className='label'>
                             Entreprise Active?
                         </label>
                         <input
+                            name="companyCreationActive"
                             type="checkbox"
                             className="input-container"
-                            onChange={e => setCompanyCreationActive(e.target.checked)}
-                            />
+                            checked={formData.companyCreationActive}
+                            onChange={handleFormChange}
+                        />
 
                     </Modal.Body>
                     <Modal.Footer>
