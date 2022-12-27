@@ -154,7 +154,7 @@ while IFS=, read -r dataLabel dataType reactVariableState reactInitialState json
   rm "$copiedInputJS"
 
   # 2. append "const [reactVariableState, setReactVariableState] = React.useState("");" to $tempStateFile
-  echo "const [$reactVariableState, set$ReactVariableState] = React.useState($reactInitialState);" >>"$tempStateFile"
+  echo "const [$reactVariableState, set$ReactVariableState] = React.useState($reactInitialState); // $dataType" >>"$tempStateFile"
 
   # 3. append "    reactVariableState: reactVariableState," to $tempDataSubmitFile
   echo "    $reactVariableState: $reactVariableState," >>"$tempDataSubmitFile"
