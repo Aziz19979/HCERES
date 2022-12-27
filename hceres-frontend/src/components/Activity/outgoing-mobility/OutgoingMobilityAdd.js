@@ -19,17 +19,17 @@ function OutgoingMobilityAdd(props) {
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [namePersonConcerned, setNamePersonConcerned] = React.useState();
-    const [arrivalDate, setArrivalDate] = React.useState(null);
-    const [departureDate, setDepartureDate] = React.useState(null);
+    const [namePersonConcerned, setNamePersonConcerned] = React.useState("");
+    const [arrivalDate, setArrivalDate] = React.useState("");
+    const [departureDate, setDepartureDate] = React.useState("");
     const [duration, setDuration] = React.useState(0);
-    const [hostLabName, setHostLabName] = React.useState();
-    const [hostLabLocation, setHostLabLocation] = React.useState();
-    const [piPartner, setPiPartner] = React.useState();
-    const [projectTitle, setProjectTitle] = React.useState();
-    const [associatedFunding, setAssociatedFunding] = React.useState();
+    const [hostLabName, setHostLabName] = React.useState("");
+    const [hostLabLocation, setHostLabLocation] = React.useState("");
+    const [piPartner, setPiPartner] = React.useState("");
+    const [projectTitle, setProjectTitle] = React.useState("");
+    const [associatedFunding, setAssociatedFunding] = React.useState("");
     const [nbPublications, setNbPublications] = React.useState(0);
-    const [publicationReference, setPublicationReference] = React.useState();
+    const [publicationReference, setPublicationReference] = React.useState("");
     const [strategicRecurringCollab, setStrategicRecurringCollab] = React.useState(false);
     const [activeProject, setActiveProject] = React.useState(false);
     const [umrCoordinated, setUmrCoordinated] = React.useState(false);

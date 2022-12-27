@@ -21,7 +21,7 @@ function EducationAdd(props) {
     const [educationDescription, setEducationDescription] = React.useState("");
     const [educationInvolvementName, setEducationInvolvementName] = React.useState("");
     const [educationLevelText, setEducationLevelText] = React.useState("");
-    const [educationCompletionDate, setEducationCompletionDate] = React.useState(null);
+    const [educationCompletionDate, setEducationCompletionDate] = React.useState("");
 
 
     const handleClose = (msg = null) => {

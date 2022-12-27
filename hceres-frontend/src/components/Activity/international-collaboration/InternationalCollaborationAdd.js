@@ -22,7 +22,7 @@ function InternationalCollaborationAdd(props) {
 
     // Form state (Add Template)
     const [researcherIds, setResearcherIds] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [DateProjectStart, setDateProjectStart] = React.useState(null);
+    const [DateProjectStart, setDateProjectStart] = React.useState("");
     const [PartnerEntity, setPartnerEntity] = React.useState("");
     const [CountryStateCity, setCountryStateCity] = React.useState("");
     const [PiPartners, setPiPartners] = React.useState("");

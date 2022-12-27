@@ -19,11 +19,11 @@ function OralCommunicationAdd(props) {
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [OralCommunicationTitle, setOralCommunicationTitle] = React.useState(null);
+    const [OralCommunicationTitle, setOralCommunicationTitle] = React.useState("");
     const [OralCommunicationDate, setOralCommunicationDate] = React.useState("");
     const [Authors, setAuthors] = React.useState("");
     const [MeetingName, setMeetingName] = React.useState("");
-    const [MeetingYear, setMeetingYear] = React.useState(null);
+    const [MeetingYear, setMeetingYear] = React.useState("");
     const [MeetingLocation, setMeetingLocation] = React.useState("");
     const [MeetingStart, setMeetingStart] = React.useState("");
     const [MeetingEnd, setMeetingEnd] = React.useState("");

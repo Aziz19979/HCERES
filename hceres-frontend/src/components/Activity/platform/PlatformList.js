@@ -30,7 +30,7 @@ function PlatformList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [platformList, setPlatformList] = React.useState(null);
+    const [platformList, setPlatformList] = React.useState([]);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

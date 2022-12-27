@@ -6,7 +6,7 @@ function Production() {
     const [type_outil, setType_outil] = React.useState("");
     const [nom_outil, setNom_outil] = React.useState("");
     const [auteurs, setAuteurs] = React.useState("");
-    const [date, setDate] = React.useState(null);
+    const [date, setDate] = React.useState("");
     const [description, setDescritption] = React.useState("");
 
     const handleSubmit = (event) => {

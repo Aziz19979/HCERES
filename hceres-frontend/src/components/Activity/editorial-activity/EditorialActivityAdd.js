@@ -20,8 +20,8 @@ function EditorialActivityAdd(props) {
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
     const [impactFactor, setImpactFactor] = React.useState(""); // number
-    const [startDate, setStartDate] = React.useState(null);
-    const [endDate, setEndDate] = React.useState(null);
+    const [startDate, setStartDate] = React.useState("");
+    const [endDate, setEndDate] = React.useState("");
     const [journalName, setJournalName] = React.useState("");
     const [functionName, setFunctionName] = React.useState("");
 

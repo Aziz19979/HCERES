@@ -19,8 +19,8 @@ function CompanyCreationAdd(props) {
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [companyCreationName, setCompanyCreationName] = React.useState();
-    const [companyCreationDate, setCompanyCreationDate] = React.useState(null);
+    const [companyCreationName, setCompanyCreationName] = React.useState("");
+    const [companyCreationDate, setCompanyCreationDate] = React.useState("");
     const [companyCreationActive, setCompanyCreationActive] = React.useState(false);
 
 
@@ -86,8 +86,10 @@ function CompanyCreationAdd(props) {
                             Date de création
                         </label>
                         <input
+                            name="companyCreationDate"
                             type="date"
                             className='input-container'
+                            value={companyCreationDate}
                             onChange={e => setCompanyCreationDate(e.target.value)}
                             required/>
 

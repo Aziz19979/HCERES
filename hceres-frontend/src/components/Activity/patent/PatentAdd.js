@@ -19,28 +19,28 @@ function PatentAdd(props) {
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [title, setTitle] = React.useState();
-    const [registrationDate, setRegistrationDate] = React.useState(null);
-    const [filingDate, setFilingDate] = React.useState(null);
-    const [acceptationDate, setAcceptationDate] = React.useState(null);
-    const [licensingDate, setLicensingDate] = React.useState(null);
-    const [inventors, setInventors] = React.useState();
-    const [coOwners, setCoOwners] = React.useState();
+    const [title, setTitle] = React.useState("");
+    const [registrationDate, setRegistrationDate] = React.useState("");
+    const [filingDate, setFilingDate] = React.useState("");
+    const [acceptationDate, setAcceptationDate] = React.useState("");
+    const [licensingDate, setLicensingDate] = React.useState("");
+    const [inventors, setInventors] = React.useState("");
+    const [coOwners, setCoOwners] = React.useState("");
     const [priorityNumber, setPriorityNumber] = React.useState(0);
-    const [priorityDate, setPriorityDate] = React.useState(null);
-    const [publicationNumber, setPublicationNumber] = React.useState();
-    const [publicationDate, setPublicationDate] = React.useState(null);
-    const [inpiLink, setInpiLink] = React.useState();
+    const [priorityDate, setPriorityDate] = React.useState("");
+    const [publicationNumber, setPublicationNumber] = React.useState("");
+    const [publicationDate, setPublicationDate] = React.useState("");
+    const [inpiLink, setInpiLink] = React.useState("");
     const [status, setStatus] = React.useState(false);
     const [pctExtensionObtained, setPctExtensionObtained] = React.useState(false);
-    const [publicationNumberPctExtension, setPublicationNumberPctExtension] = React.useState();
-    const [publicationDatePctExtension, setPublicationDatePctExtension] = React.useState(null);
+    const [publicationNumberPctExtension, setPublicationNumberPctExtension] = React.useState("");
+    const [publicationDatePctExtension, setPublicationDatePctExtension] = React.useState("");
     const [internationalExtension, setInternationalExtension] = React.useState(false);
-    const [publicationNumberInternationalExtension, setPublicationNumberInternationalExtension] = React.useState();
-    const [publicationDateInternationalExtension, setPublicationDateInternationalExtension] = React.useState(null);
-    const [refTransferContract, setRefTransferContract] = React.useState();
-    const [nameCompanyInvolved, setNameCompanyInvolved] = React.useState();
-    const [nameChoice, setNameChoice] = React.useState();
+    const [publicationNumberInternationalExtension, setPublicationNumberInternationalExtension] = React.useState("");
+    const [publicationDateInternationalExtension, setPublicationDateInternationalExtension] = React.useState("");
+    const [refTransferContract, setRefTransferContract] = React.useState("");
+    const [nameCompanyInvolved, setNameCompanyInvolved] = React.useState("");
+    const [nameChoice, setNameChoice] = React.useState("");
 
 
     const handleClose = (msg = null) => {

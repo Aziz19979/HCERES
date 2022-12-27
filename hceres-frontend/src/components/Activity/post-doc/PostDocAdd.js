@@ -26,8 +26,8 @@ function PostDocAdd(props) {
     const [labo, setLabo] = React.useState("");
     const [associatedFunding, setAssociatedFunding] = React.useState("");
     const [associatedPubliRef, setAssociatedPubliRef] = React.useState("");
-    const [arrivalDate, setArrivalDate] = React.useState(null);
-    const [departureDate, setDepartureDate] = React.useState(null);
+    const [arrivalDate, setArrivalDate] = React.useState("");
+    const [departureDate, setDepartureDate] = React.useState("");
 
 
     const handleClose = (msg = null) => {
