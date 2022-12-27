@@ -2,11 +2,10 @@ import React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {ListGroup} from "react-bootstrap";
-import {fetchListResearchers} from "../../../services/Researcher/ResearcherActions";
 import {
     addInternationalCollaboration
 } from "../../../services/international-collaboration/InternationalCollaborationActions";
+import ResearcherSelect from "../../util/ResearcherSelect";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
@@ -16,19 +15,18 @@ function InternationalCollaborationAdd(props) {
     const onHideParentAction = props.onHideAction
 
     // Cached state (Add Template)
-    const [researchers, setResearchers] = React.useState([]);
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
 
 
     // Form state (Add Template)
-    const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
+    const [researcherIds, setResearcherIds] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
     const [DateProjectStart, setDateProjectStart] = React.useState(null);
     const [PartnerEntity, setPartnerEntity] = React.useState("");
     const [CountryStateCity, setCountryStateCity] = React.useState("");
     const [PiPartners, setPiPartners] = React.useState("");
-    const [MailPartners, setMailPartners] = React.useState(null);
+    const [MailPartners, setMailPartners] = React.useState("");
     const [ProjectTitle, setProjectTitle] = React.useState("");
     const [StrategicRecurringCollab, setStrategicRecurringCollab] = React.useState(false);
     const [ActiveProject, setActiveProject] = React.useState(false);
@@ -45,20 +43,10 @@ function InternationalCollaborationAdd(props) {
         onHideParentAction(msg);
     };
 
-    React.useEffect(() => {
-        if (!targetResearcher)
-            fetchListResearchers().then(list => {
-                setResearchers(list);
-                if (list.length > 0) {
-                    setResearcherId(list.entries().next().value[1].researcherId)
-                }
-            });
-    }, []);
-
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
-            researcherId: researcherId,
+            researcherIds: researcherIds,
             NameChoice: NameChoice,
             AgreementSigned: AgreementSigned,
             UmrCoordinated: UmrCoordinated,
@@ -76,7 +64,6 @@ function InternationalCollaborationAdd(props) {
         };
 
         addInternationalCollaboration(data).then(response => {
-            // const activityId = response.data.researcherId;
             const msg = {
                 "successMsg": "InternationalCollaboration ajouté avec un id " + response.data.idActivity,
             }
@@ -90,8 +77,6 @@ function InternationalCollaborationAdd(props) {
         })
     }
 
-    const onReseacherSelection = id => setResearcherId(id.target.value);
-
     return (
         <div>
             <Modal show={showModal} onHide={handleClose}>
@@ -103,19 +88,13 @@ function InternationalCollaborationAdd(props) {
 
 
                         <label className='label'>
-                            Chercheur
+                            Chercheurs
                         </label>
-                        {targetResearcher ?
-                            <ListGroup.Item
-                                variant={"primary"}>{targetResearcher.researcherName} {targetResearcher.researcherSurname}</ListGroup.Item> :
-
-                            <select onChange={onReseacherSelection}>
-                                {researchers.map(item => {
-                                    return (<option key={item.researcherId}
-                                                    value={item.researcherId}>{item.researcherName} {item.researcherSurname}</option>);
-                                })}
-                            </select>
-                        }
+                        <ResearcherSelect
+                            targetResearcher={targetResearcher}
+                            isMulti
+                            onchange={React.useCallback(resIds => setResearcherIds(resIds),[])}
+                        />
 
                         <label className='label'>
                             Date Project Start
@@ -191,7 +170,7 @@ function InternationalCollaborationAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setStrategicRecurringCollab(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Active Project
@@ -200,7 +179,7 @@ function InternationalCollaborationAdd(props) {
                             type="checkbox"
                             className='input-container'
                             onChange={e => setActiveProject(e.target.checked)}
-                            required/>
+                            />
 
                         <label className='label'>
                             Associated Funding

@@ -1,6 +1,7 @@
 import {ListGroup} from "react-bootstrap";
 import {textFilter} from "react-bootstrap-table2-filter";
 import React from "react";
+import {researcherToString} from "./ResearcherToString";
 
 export const paginationOptions = (lengthOfList) => {
     const defaultSizeValues = [5, 10, 25, 50]
@@ -40,13 +41,13 @@ export const chercheursColumnOfActivity = {
             return <ListGroup>
                 {row.researcherList.map(res =>
                     <ListGroup.Item
-                        key={res.researcherId}>{res.researcherId}. {res.researcherName} {res.researcherSurname}</ListGroup.Item>)}
+                        key={res.researcherId}>{researcherToString(res)}</ListGroup.Item>)}
             </ListGroup>;
         else return ""
     },
     csvFormatter: (cell, row, rowIndex) => {
         if (row.researcherList)
-            return row.researcherList.map(res => res.researcherId +"."+ res.researcherName + " " + res.researcherSurname).join(" --- ");
+            return row.researcherList.map(res => researcherToString(res)).join(" --- ");
         else return ""
     },
     filter: textFilter({

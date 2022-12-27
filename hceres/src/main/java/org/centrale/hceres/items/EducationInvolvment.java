@@ -43,7 +43,7 @@ public class EducationInvolvment implements Serializable {
     @NotNull
     @Size(min = 1, max = 256)
     @Column(name = "education_involvment_name")
-    private String educationInvolvmentName;
+    private String educationInvolvementName;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "educationInvolvmentId")
     private List<Education> educationList;

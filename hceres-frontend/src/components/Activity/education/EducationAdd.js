@@ -1,9 +1,8 @@
 import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {ListGroup} from "react-bootstrap";
-import {fetchListResearchers} from "../../../services/Researcher/ResearcherActions";
 import {addEducation} from "../../../services/education/EducationActions";
+import ResearcherSelect from "../../util/ResearcherSelect";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
@@ -12,19 +11,15 @@ function EducationAdd(props) {
     const targetResearcher = props.targetResearcher;
     const onHideParentAction = props.onHideAction
 
-    // Cached state (Add Template)
-    const [researchers, setResearchers] = React.useState([]);
-
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
-
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
     const [educationCourseName, setEducationCourseName] = React.useState("");
     const [educationFormation, setEducationFormation] = React.useState("");
     const [educationDescription, setEducationDescription] = React.useState("");
-    const [educationInvolvementText, setEducationInvolvementText] = React.useState("");
+    const [educationInvolvementName, setEducationInvolvementName] = React.useState("");
     const [educationLevelText, setEducationLevelText] = React.useState("");
     const [educationCompletionDate, setEducationCompletionDate] = React.useState(null);
 
@@ -34,16 +29,6 @@ function EducationAdd(props) {
         onHideParentAction(msg);
     };
 
-    React.useEffect(() => {
-        if (!targetResearcher)
-            fetchListResearchers().then(list => {
-                setResearchers(list);
-                if (list.length > 0) {
-                    setResearcherId(list.entries().next().value[1].researcherId)
-                }
-            });
-    }, []);
-
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
@@ -51,7 +36,7 @@ function EducationAdd(props) {
             educationCourseName: educationCourseName,
             educationFormation: educationFormation,
             educationDescription: educationDescription,
-            educationInvolvmentText: educationInvolvementText,
+            educationInvolvementName: educationInvolvementName,
             educationLevelText: educationLevelText,
             educationCompletion: educationCompletionDate
         };
@@ -71,8 +56,6 @@ function EducationAdd(props) {
         })
     }
 
-    const onReseacherSelection = id => setResearcherId(id.target.value);
-
     return (
         <div>
             <Modal show={showModal} onHide={handleClose}>
@@ -81,22 +64,13 @@ function EducationAdd(props) {
                         <Modal.Title>Education</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-
-
                         <label className='label'>
                             Chercheur
                         </label>
-                        {targetResearcher ?
-                            <ListGroup.Item
-                                variant={"primary"}>{targetResearcher.researcherName} {targetResearcher.researcherSurname}</ListGroup.Item> :
-
-                            <select onChange={onReseacherSelection}>
-                                {researchers.map(item => {
-                                    return (<option key={item.researcherId}
-                                                    value={item.researcherId}>{item.researcherName} {item.researcherSurname}</option>);
-                                })}
-                            </select>
-                        }
+                        <ResearcherSelect
+                            targetResearcher={targetResearcher}
+                            onchange={React.useCallback(resId => setResearcherId(resId),[])}
+                        />
                         <label className='label'>
                             Nom du cours d'éducation
                         </label>
@@ -137,12 +111,12 @@ function EducationAdd(props) {
                             Texte sur la participation à l'éducation
                         </label>
                         <input
-                            placeholder='educationInvolvmentText'
+                            placeholder='educationInvolvementName'
                             className='input-container'
-                            name="educationInvolvmentText"
-                            type="educationInvolvmentText"
-                            value={educationInvolvementText}
-                            onChange={e => setEducationInvolvementText(e.target.value)}
+                            name="educationInvolvementName"
+                            type="educationInvolvementName"
+                            value={educationInvolvementName}
+                            onChange={e => setEducationInvolvementName(e.target.value)}
                             required/>
 
                         <label className='label'>

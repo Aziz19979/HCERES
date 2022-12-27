@@ -2,8 +2,7 @@ package org.centrale.hceres.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class RequestParser {
 
@@ -13,6 +12,16 @@ public class RequestParser {
         if (number instanceof Integer)
             return (Integer) number;
         else return Integer.parseInt(String.valueOf(number));
+    }
+
+    public static List<?> getAsList(Object objectList) {
+        List<?> list = null;
+        if (objectList.getClass().isArray()) {
+            list = Arrays.asList((Object[])objectList);
+        } else if (objectList instanceof Collection) {
+            list = new ArrayList<>((Collection<?>)objectList);
+        }
+        return list;
     }
 
     public static Float getAsFloat(Object number) throws NumberFormatException {
@@ -32,7 +41,7 @@ public class RequestParser {
         // try to convert
         SimpleDateFormat aFormater = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
         returnedValue = aFormater.parse(getAsString(date));
-        return returnedValue;
+        return new java.sql.Date(returnedValue.getTime());
     }
 
     public static Boolean getAsBoolean(Object bool) {
