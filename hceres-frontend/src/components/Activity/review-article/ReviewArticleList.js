@@ -29,7 +29,7 @@ function ReviewArticleList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [reviewArticleList, setReviewArticleList] = React.useState(null);
+    const [reviewArticleList, setReviewArticleList] = React.useState([]);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

@@ -29,7 +29,7 @@ function SeiClinicalTrialList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [seiClinicalTrialList, setSeiClinicalTrialList] = React.useState(null);
+    const [seiClinicalTrialList, setSeiClinicalTrialList] = React.useState([]);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

@@ -29,7 +29,7 @@ function SrAwardList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [srAwardList, setSrAwardList] = React.useState(null);
+    const [srAwardList, setSrAwardList] = React.useState([]);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

@@ -23,7 +23,7 @@ function PlatformAdd(props) {
     const [description, setDescription] = React.useState("");
     const [managers, setManagers] = React.useState("");
     const [affiliation, setAffiliation] = React.useState("");
-    const [creationDate, setCreationDate] = React.useState(null);
+    const [creationDate, setCreationDate] = React.useState("");
     const [isOpenPrivateResearchers, setIsOpenPrivateResearchers] = React.useState(false);
 
 

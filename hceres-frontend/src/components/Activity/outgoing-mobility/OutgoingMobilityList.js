@@ -29,7 +29,7 @@ function OutgoingMobilityList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [outgoingMobilityList, setOutgoingMobilityList] = React.useState(null);
+    const [outgoingMobilityList, setOutgoingMobilityList] = React.useState([]);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');
@@ -39,7 +39,7 @@ function OutgoingMobilityList(props) {
 
 
     // Form state (List Template)
-    const [targetOutgoingMobility, setTargetOutgoingMobility] = React.useState();
+    const [targetOutgoingMobility, setTargetOutgoingMobility] = React.useState("");
     const [showOutgoingMobilityAdd, setShowOutgoingMobilityAdd] = React.useState(false);
     const [showOutgoingMobilityDelete, setShowOutgoingMobilityDelete] = React.useState(false);
     const [listChangeCount, setListChangeCount] = React.useState(0);

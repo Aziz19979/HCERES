@@ -29,7 +29,7 @@ function IndustrialContractList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [industrialContractList, setIndustrialContractList] = React.useState(null);
+    const [industrialContractList, setIndustrialContractList] = React.useState([]);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

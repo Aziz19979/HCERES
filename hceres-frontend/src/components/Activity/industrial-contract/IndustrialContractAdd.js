@@ -19,11 +19,11 @@ function IndustrialContractAdd(props) {
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [StartDate, setStartDate] = React.useState(null);
+    const [StartDate, setStartDate] = React.useState("");
     const [NameCompanyInvolved, setNameCompanyInvolved] = React.useState("");
     const [ProjectTitle, setProjectTitle] = React.useState("");
     const [AgreementAmount, setAgreementAmount] = React.useState("");
-    const [EndDate, setEndDate] = React.useState(null);
+    const [EndDate, setEndDate] = React.useState("");
     const [AssociatedPubliRef, setAssociatedPubliRef] = React.useState("");
 
 
