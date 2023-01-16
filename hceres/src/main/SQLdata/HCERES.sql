@@ -931,6 +931,8 @@ CREATE TABLE public.researcher (
     researcher_password character varying(1024)
 );
 
+ALTER TABLE public.researcher ADD CONSTRAINT unique_researcher_login UNIQUE (researcher_login);
+
 
 --
 -- TOC entry 264 (class 1259 OID 24931)
@@ -2717,7 +2719,7 @@ ALTER TABLE ONLY public.type_thesis ALTER COLUMN type_thesis_id SET DEFAULT next
 INSERT INTO public.institution (institution_id, institution_name) VALUES (1, 'CNRS');
 INSERT INTO public.institution (institution_id, institution_name) VALUES (2, 'INSERM');
 INSERT INTO public.institution (institution_id, institution_name) VALUES (3, 'INRIA');
-
+SELECT pg_catalog.setval('public.seq_institution', 4, true);
 
 --
 -- TOC entry 3779 (class 0 OID 24765)
@@ -2756,7 +2758,7 @@ INSERT INTO public.institution (institution_id, institution_name) VALUES (3, 'IN
 --
 
 INSERT INTO public.laboratory (laboratory_id, laboratory_name, laboratory_acronym, institution_id) VALUES (1, 'Centre de Recherche en Transplantation et Immunologie', 'CRTI', 2);
-
+SELECT pg_catalog.setval('public.seq_laboratory', 2, true);
 
 --
 -- TOC entry 3784 (class 0 OID 24786)
@@ -2782,7 +2784,7 @@ INSERT INTO public.laboratory (laboratory_id, laboratory_name, laboratory_acrony
 
 INSERT INTO public.language (language_id, language_name) VALUES (1, 'Français');
 INSERT INTO public.language (language_id, language_name) VALUES (2, 'English');
-
+SELECT pg_catalog.setval('public.seq_language', 3, false);
 
 --
 -- TOC entry 3787 (class 0 OID 24795)
@@ -3040,7 +3042,7 @@ INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (193, '
 INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (194, 'Yougoslave');
 INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (195, 'Zambien');
 INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (196, 'Zimbabwen');
-
+SELECT pg_catalog.setval('public.seq_nationality', 197, true);
 
 --
 -- TOC entry 3795 (class 0 OID 24828)
@@ -3070,7 +3072,7 @@ INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (196, '
 --
 
 INSERT INTO public.parameter (parameter_id, parameter_name, parameter_value) VALUES (1, 'loadCsv', 'true');
-
+SELECT pg_catalog.setval('public.seq_parameter', 2, true);
 
 --
 -- TOC entry 3799 (class 0 OID 24852)
@@ -3104,7 +3106,7 @@ INSERT INTO public.parameter (parameter_id, parameter_name, parameter_value) VAL
 
 INSERT INTO public.phd_type (phd_type_id, phd_type_name) VALUES (1, 'Academic');
 INSERT INTO public.phd_type (phd_type_id, phd_type_name) VALUES (2, 'CIFRE');
-
+SELECT pg_catalog.setval('public.seq_phd_type', 3, true);
 
 --
 -- TOC entry 3803 (class 0 OID 24874)
@@ -3182,7 +3184,7 @@ INSERT INTO public.phd_type (phd_type_id, phd_type_name) VALUES (2, 'CIFRE');
 --
 
 INSERT INTO public.publication_type (publication_type_id, publication_type_name) VALUES (1, 'Publication');
-
+SELECT pg_catalog.setval('public.seq_choice_publication', 2, true);
 
 --
 -- TOC entry 3813 (class 0 OID 24919)
@@ -3290,6 +3292,7 @@ INSERT INTO public.status (id_status, name_status) VALUES (9, 'Chercheurs non ti
 INSERT INTO public.status (id_status, name_status) VALUES (10, 'Doctorants');
 INSERT INTO public.status (id_status, name_status) VALUES (11, 'Autres personnels non titulaires');
 INSERT INTO public.status (id_status, name_status) VALUES (12, 'Enseignants-chercheurs non titulaires, émérites et autres');
+SELECT pg_catalog.setval('public.seq_status', 13, true);
 
 
 --
@@ -3393,6 +3396,7 @@ INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (38, 'Sei 
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (39, 'Sei Lead Consortium Industry');
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (40, 'Sei Industrial R D Contract');
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (41, 'Sei Clinical Trial');
+SELECT pg_catalog.setval('public.seq_type_activity', 42, false);
 
 
 --
@@ -3415,6 +3419,7 @@ INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (41, 'Sei 
 --
 
 INSERT INTO public.type_oral_communication (type_oral_communication_id, type_oral_communication_name) VALUES (1, 'vD');
+SELECT pg_catalog.setval('public.seq_type_oral_communication', 2, true);
 
 
 --
@@ -3439,438 +3444,6 @@ INSERT INTO public.type_oral_communication (type_oral_communication_id, type_ora
 -- Data for Name: type_thesis; Type: TABLE DATA; Schema: public; 
 --
 
-
-
---
--- TOC entry 3931 (class 0 OID 0)
--- Dependencies: 205
--- Name: belongs_team_id_belongs_team_seq; Type: SEQUENCE SET; Schema: public; Owner: prweb
---
-
-SELECT pg_catalog.setval('public.belongs_team_id_belongs_team_seq', 1, false);
-
-
---
--- TOC entry 3932 (class 0 OID 0)
--- Dependencies: 208
--- Name: choice_public_outreach_id_type_seq; Type: SEQUENCE SET; Schema: public; Owner: prweb
---
-
-SELECT pg_catalog.setval('public.choice_public_outreach_id_type_seq', 1, false);
-
-
---
--- TOC entry 3933 (class 0 OID 0)
--- Dependencies: 209
--- Name: choice_type_collab_id_type_seq; Type: SEQUENCE SET; Schema: public; Owner: prweb
---
-
-SELECT pg_catalog.setval('public.choice_type_collab_id_type_seq', 1, false);
-
-
---
--- TOC entry 3934 (class 0 OID 0)
--- Dependencies: 220
--- Name: employer_id_employer_seq; Type: SEQUENCE SET; Schema: public; Owner: prweb
---
-
-SELECT pg_catalog.setval('public.employer_id_employer_seq', 1, false);
-
-
---
--- TOC entry 3935 (class 0 OID 0)
--- Dependencies: 223
--- Name: evaluation_thesis_role_evaluation_thesis_role_id_seq; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.evaluation_thesis_role_evaluation_thesis_role_id_seq', 1, false);
-
-
---
--- TOC entry 3936 (class 0 OID 0)
--- Dependencies: 268
--- Name: scientific_expertise_type_scientific_expertise_type_id_seq; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.scientific_expertise_type_scientific_expertise_type_id_seq', 31, true);
-
-
---
--- TOC entry 3937 (class 0 OID 0)
--- Dependencies: 274
--- Name: seq_activity; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_activity', 610, true);
-
-
---
--- TOC entry 3938 (class 0 OID 0)
--- Dependencies: 275
--- Name: seq_belongs_team; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_belongs_team', 5844, true);
-
-
---
--- TOC entry 3939 (class 0 OID 0)
--- Dependencies: 276
--- Name: seq_choice_publication; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_choice_publication', 1, true);
-
-
---
--- TOC entry 3940 (class 0 OID 0)
--- Dependencies: 277
--- Name: seq_company; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_company', 1, false);
-
-
---
--- TOC entry 3941 (class 0 OID 0)
--- Dependencies: 278
--- Name: seq_contract; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_contract', 1, false);
-
-
---
--- TOC entry 3942 (class 0 OID 0)
--- Dependencies: 279
--- Name: seq_contract_type; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_contract_type', 1, false);
-
-
---
--- TOC entry 3943 (class 0 OID 0)
--- Dependencies: 280
--- Name: seq_education_involvment; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_education_involvment', 14, true);
-
-
---
--- TOC entry 3944 (class 0 OID 0)
--- Dependencies: 281
--- Name: seq_education_level; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_education_level', 14, true);
-
-
---
--- TOC entry 3945 (class 0 OID 0)
--- Dependencies: 282
--- Name: seq_employer; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_employer', 1, false);
-
-
---
--- TOC entry 3946 (class 0 OID 0)
--- Dependencies: 283
--- Name: seq_function_editorial_activity; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_function_editorial_activity', 4, true);
-
-
---
--- TOC entry 3947 (class 0 OID 0)
--- Dependencies: 284
--- Name: seq_funder; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_funder', 1, false);
-
-
---
--- TOC entry 3948 (class 0 OID 0)
--- Dependencies: 285
--- Name: seq_institution; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_institution', 3, true);
-
-
---
--- TOC entry 3949 (class 0 OID 0)
--- Dependencies: 286
--- Name: seq_journal; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_journal', 1, true);
-
-
---
--- TOC entry 3950 (class 0 OID 0)
--- Dependencies: 287
--- Name: seq_laboratory; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_laboratory', 1, true);
-
-
---
--- TOC entry 3951 (class 0 OID 0)
--- Dependencies: 288
--- Name: seq_laboratory_evaluation_role; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_laboratory_evaluation_role', 1, false);
-
-
---
--- TOC entry 3952 (class 0 OID 0)
--- Dependencies: 289
--- Name: seq_language; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_language', 1, false);
-
-
---
--- TOC entry 3953 (class 0 OID 0)
--- Dependencies: 290
--- Name: seq_learned_scientific_society_role; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_learned_scientific_society_role', 1, false);
-
-
---
--- TOC entry 3954 (class 0 OID 0)
--- Dependencies: 291
--- Name: seq_mail_activity; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_mail_activity', 1, false);
-
-
---
--- TOC entry 3955 (class 0 OID 0)
--- Dependencies: 292
--- Name: seq_mail_template; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_mail_template', 1, false);
-
-
---
--- TOC entry 3956 (class 0 OID 0)
--- Dependencies: 293
--- Name: seq_meeting; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_meeting', 4, true);
-
-
---
--- TOC entry 3957 (class 0 OID 0)
--- Dependencies: 294
--- Name: seq_nationality; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_nationality', 196, true);
-
-
---
--- TOC entry 3958 (class 0 OID 0)
--- Dependencies: 295
--- Name: seq_parameter; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_parameter', 1, true);
-
-
---
--- TOC entry 3959 (class 0 OID 0)
--- Dependencies: 296
--- Name: seq_phd_student; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_phd_student', 1, false);
-
-
---
--- TOC entry 3960 (class 0 OID 0)
--- Dependencies: 297
--- Name: seq_phd_type; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_phd_type', 2, true);
-
-
---
--- TOC entry 3961 (class 0 OID 0)
--- Dependencies: 298
--- Name: seq_project_evaluation_category; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_project_evaluation_category', 1, false);
-
-
---
--- TOC entry 3962 (class 0 OID 0)
--- Dependencies: 299
--- Name: seq_project_evaluation_role; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_project_evaluation_role', 1, false);
-
-
---
--- TOC entry 3963 (class 0 OID 0)
--- Dependencies: 300
--- Name: seq_public_outreach_type; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_public_outreach_type', 1, false);
-
-
---
--- TOC entry 3964 (class 0 OID 0)
--- Dependencies: 301
--- Name: seq_researcher; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_researcher', 226, true);
-
-
---
--- TOC entry 3965 (class 0 OID 0)
--- Dependencies: 303
--- Name: seq_status; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_status', 12, true);
-
-
---
--- TOC entry 3966 (class 0 OID 0)
--- Dependencies: 305
--- Name: seq_supervisor_id; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_supervisor_id', 1, false);
-
-
---
--- TOC entry 3967 (class 0 OID 0)
--- Dependencies: 307
--- Name: seq_team; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_team', 7, true);
-
-
---
--- TOC entry 3968 (class 0 OID 0)
--- Dependencies: 309
--- Name: seq_team_referent; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_team_referent', 1, false);
-
-
---
--- TOC entry 3969 (class 0 OID 0)
--- Dependencies: 311
--- Name: seq_tool_product; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_tool_product', 1, false);
-
-
---
--- TOC entry 3970 (class 0 OID 0)
--- Dependencies: 313
--- Name: seq_tool_product_role; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_tool_product_role', 1, false);
-
-
---
--- TOC entry 3971 (class 0 OID 0)
--- Dependencies: 315
--- Name: seq_type_activity; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_type_activity', 1, false);
-
-
---
--- TOC entry 3972 (class 0 OID 0)
--- Dependencies: 317
--- Name: seq_type_collab; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_type_collab', 2, true);
-
-
---
--- TOC entry 3973 (class 0 OID 0)
--- Dependencies: 319
--- Name: seq_type_oral_communication; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_type_oral_communication', 4, true);
-
-
---
--- TOC entry 3974 (class 0 OID 0)
--- Dependencies: 321
--- Name: seq_type_patent; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_type_patent', 1, false);
-
-
---
--- TOC entry 3975 (class 0 OID 0)
--- Dependencies: 323
--- Name: seq_type_research; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.seq_type_research', 1, false);
-
-
---
--- TOC entry 3976 (class 0 OID 0)
--- Dependencies: 325
--- Name: supervisor_id_supervisor_seq; Type: SEQUENCE SET; Schema: public; Owner: prweb
---
-
-SELECT pg_catalog.setval('public.supervisor_id_supervisor_seq', 1, false);
-
-
---
--- TOC entry 3977 (class 0 OID 0)
--- Dependencies: 329
--- Name: type_consortium_type_consortium_id_seq; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.type_consortium_type_consortium_id_seq', 1, false);
-
-
---
--- TOC entry 3978 (class 0 OID 0)
--- Dependencies: 331
--- Name: type_thesis_type_thesis_id_seq; Type: SEQUENCE SET; Schema: public; 
---
-
-SELECT pg_catalog.setval('public.type_thesis_type_thesis_id_seq', 1, false);
 
 
 --
