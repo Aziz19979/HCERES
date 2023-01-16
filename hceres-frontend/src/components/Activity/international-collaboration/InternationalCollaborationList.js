@@ -29,7 +29,7 @@ function InternationalCollaborationList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [internationalCollaborationList, setInternationalCollaborationList] = React.useState([]);
+    const [internationalCollaborationList, setInternationalCollaborationList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

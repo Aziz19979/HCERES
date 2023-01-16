@@ -1,8 +1,9 @@
 import * as AT from "./authTypes";
 import axios from "axios";
 import authToken from "../../../utils/authToken";
+import {API_URL} from "../../../constants";
 
-const AUTH_URL = "http://localhost:9000/user/authenticate";
+const AUTH_URL = API_URL + "/user/authenticate";
 
 export const authenticateUser = (login, password) => async (dispatch) => {
   dispatch(loginRequest());

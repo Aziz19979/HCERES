@@ -29,7 +29,7 @@ function PostDocList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [postDocList, setPostDocList] = React.useState([]);
+    const [postDocList, setPostDocList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

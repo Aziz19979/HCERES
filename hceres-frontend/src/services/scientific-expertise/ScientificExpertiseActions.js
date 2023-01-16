@@ -1,16 +1,17 @@
 import axios from "axios";
 import MyGlobalVar from "../MyGlobalVar";
+import {API_URL} from "../../constants";
 
 export const fetchListScientificExpertises = async () => {
     if (!MyGlobalVar.listeScientificExpertises) {
-        const response = await axios.get("http://localhost:9000/ScientificExpertises");
+        const response = await axios.get(API_URL + "/ScientificExpertises");
         MyGlobalVar.listeScientificExpertises = response.data;
     }
     return MyGlobalVar.listeScientificExpertises;
 }
 
 export const addScientificExpertise = async (data) => {
-    return await axios.post("http://localhost:9000/ScientificExpertise/Create", data).then(response => {
+    return await axios.get(API_URL + "/ScientificExpertise/Create", data).then(response => {
         if (MyGlobalVar.listeScientificExpertises) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,
@@ -23,7 +24,7 @@ export const addScientificExpertise = async (data) => {
 }
 
 export const deleteScientificExpertise = async (idActivity) => {
-    return await axios.delete("http://localhost:9000/ScientificExpertise/Delete/" + idActivity).then(response => {
+    return await axios.delete(API_URL + "/ScientificExpertise/Delete/" + idActivity).then(response => {
         // change to a new reference => cause change state immediately
         MyGlobalVar.listeScientificExpertises = MyGlobalVar.deleteActivity(MyGlobalVar.listeScientificExpertises, idActivity)
         return response
