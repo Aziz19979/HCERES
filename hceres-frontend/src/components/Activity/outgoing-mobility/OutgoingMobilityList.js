@@ -29,7 +29,7 @@ function OutgoingMobilityList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [outgoingMobilityList, setOutgoingMobilityList] = React.useState([]);
+    const [outgoingMobilityList, setOutgoingMobilityList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

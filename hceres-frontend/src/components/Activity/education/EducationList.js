@@ -29,7 +29,7 @@ function EducationList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [educationList, setEducationList] = React.useState([]);
+    const [educationList, setEducationList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

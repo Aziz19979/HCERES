@@ -29,7 +29,7 @@ function EditorialActivityList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [editorialActivityList, setEditorialActivityList] = React.useState([]);
+    const [editorialActivityList, setEditorialActivityList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

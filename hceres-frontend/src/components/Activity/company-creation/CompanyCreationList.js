@@ -29,7 +29,7 @@ function CompanyCreationList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [companyCreationList, setCompanyCreationList] = React.useState([]);
+    const [companyCreationList, setCompanyCreationList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

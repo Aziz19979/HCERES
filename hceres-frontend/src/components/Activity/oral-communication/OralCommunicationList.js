@@ -29,7 +29,7 @@ function OralCommunicationList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [oralCommunicationList, setOralCommunicationList] = React.useState([]);
+    const [oralCommunicationList, setOralCommunicationList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

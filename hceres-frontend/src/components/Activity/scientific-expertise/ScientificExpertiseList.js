@@ -29,7 +29,7 @@ function ScientificExpertiseList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [scientificExpertiseList, setScientificExpertiseList] = React.useState([]);
+    const [scientificExpertiseList, setScientificExpertiseList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');

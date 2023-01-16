@@ -29,7 +29,7 @@ function PatentList(props) {
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [patentList, setPatentList] = React.useState([]);
+    const [patentList, setPatentList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');
