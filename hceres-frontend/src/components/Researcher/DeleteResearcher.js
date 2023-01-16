@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Axios from "axios";
 import Button from "react-bootstrap/Button";
 import ResearcherElement from "./ResearcherElement";
+import {API_URL} from "../../constants";
 
 function DeleteResearcher(props) {
     const [show, setShow] = useState(true);
@@ -18,7 +19,7 @@ function DeleteResearcher(props) {
     };
 
     const handleDelete = () => {
-        Axios.delete(`http://localhost:9000/deleteResearcher/${targetResearcher.researcherId}`)
+        Axios.delete(`${API_URL}/deleteResearcher/${targetResearcher.researcherId}`)
             .then(response => {
                 const msg = {
                     "researcherDeleted": targetResearcher,

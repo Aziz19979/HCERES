@@ -1,10 +1,11 @@
 import React from 'react';
 import './Researcher.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import Axios from 'axios'
 import {Link, useNavigate, useParams} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import {API_URL} from "../../constants";
+import axios from "axios";
 
 /**
  * add or edit researcher if present in props.targetResearcher
@@ -44,7 +45,7 @@ function AddResearcher(props) {
     }
 
     const handleUpdateResearcher = (data) => {
-        Axios.put(`http://localhost:9000/updateResearcher/${targetResearcher.researcherId}`, data)
+        axios.put(`${API_URL}/updateResearcher/${targetResearcher.researcherId}`, data)
             .then(response => {
                 const researcherId = response.data.researcherId;
                 const msg = {
@@ -62,7 +63,7 @@ function AddResearcher(props) {
     }
 
     const handleAddResearcher = (data) => {
-        Axios.post("http://localhost:9000/AddResearcher", data)
+        axios.get(API_URL + "/AddResearcher", data)
             .then(response => {
                 const researcherId = response.data.researcherId;
                 const msg = {
