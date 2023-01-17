@@ -1,4 +1,4 @@
-import {Navigate, Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import axios from "axios";
 import authToken from "./authToken";
 
@@ -7,13 +7,14 @@ const AuthWrapper = () => {
     const navigate = useNavigate();
     function isAuthorised() {
         authToken(localStorage.jwtToken);
+        let isAuthorisedCheck = true;
         axios.get('checkToken').then(response => {
             // page is authorised to visit
         }).catch(error => {
             // page is not authorised
             console.log(error);
             let errorMsg = '';
-            isAuthorised = true;
+            isAuthorisedCheck = false;
             if (!error.response) {
                 errorMsg = "Le serveur ne repond pas. Est-ce que spring boot est lancé (^_^)  ?";
             } else if (error.response.status === 401) {
@@ -32,7 +33,7 @@ const AuthWrapper = () => {
                 },
             });
         })
-        return isAuthorised;
+        return isAuthorisedCheck;
     }
     isAuthorised();
     return <Outlet />;

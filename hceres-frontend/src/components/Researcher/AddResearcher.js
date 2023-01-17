@@ -1,7 +1,6 @@
 import React from 'react';
 import './Researcher.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import {Link, useNavigate, useParams} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {API_URL} from "../../constants";
@@ -27,8 +26,6 @@ function AddResearcher(props) {
     const [AddResearcherFirstName, setAddResearcherFirstName] = React.useState(targetResearcher ? targetResearcher.researcherName : "");
     const [AddResearcherLastName, setAddResearcherLastName] = React.useState(targetResearcher ? targetResearcher.researcherSurname : "");
     const [AddResearcherEmail, setAddResearcherEmail] = React.useState(targetResearcher ? targetResearcher.researcherEmail : "");
-
-    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
