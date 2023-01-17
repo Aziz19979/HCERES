@@ -22,13 +22,17 @@ jobs:
           java-version: '11'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: cd hceres && mvn -Pazure clean install
+        env:
+          AzureHceresDB_URL: ${{ secrets.AzureHceresDB_URL }}
+          AzureHceresDB_username: ${{ secrets.AzureHceresDB_username }}
+          AzureHceresDB_password: ${{ secrets.AzureHceresDB_password }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ github.workspace }}/hceres/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
