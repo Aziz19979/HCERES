@@ -29,7 +29,7 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-        with:
+        env:
           CI: false
 
 
