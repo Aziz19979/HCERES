@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import LoadingIcon from "../../util/LoadingIcon";
 import EducationElement from "./EducationElement";
 import {deleteEducation} from "../../../services/education/EducationActions";
-import LoadingIcon from "../../util/LoadingIcon";
 
 function EducationDelete(props) {
     const [show, setShow] = useState(true);
@@ -47,8 +47,7 @@ function EducationDelete(props) {
                 </Button>
                 <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
                     {isLoading ? <LoadingIcon color={"white"}/> : null}
-                    Oui, Supprimer
-                    {isLoading ? '...' : null}
+                    {isLoading ? 'Suppression en cours...' : 'Oui, Supprimer'}
                 </Button>
             </Modal.Footer>
         </Modal>

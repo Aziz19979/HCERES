@@ -1,11 +1,13 @@
 import {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import LoadingIcon from "../../util/LoadingIcon";
 import IncomingMobilityElement from "./IncomingMobilityElement";
 import {deleteIncomingMobility} from "../../../services/incoming-mobility/IncomingMobilityActions";
 
 function IncomingMobilityDelete(props) {
     const [show, setShow] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const targetIncomingMobility = props.targetIncomingMobility;
 
     const handleClose = (msg = null) => {
@@ -14,6 +16,7 @@ function IncomingMobilityDelete(props) {
     };
 
     const handleDelete = () => {
+        setIsLoading(true);
         deleteIncomingMobility(targetIncomingMobility.idActivity)
             .then(response => {
                 const msg = {
@@ -27,6 +30,7 @@ function IncomingMobilityDelete(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -41,8 +45,9 @@ function IncomingMobilityDelete(props) {
                 <Button variant="secondary" onClick={handleClose}>
                     Non
                 </Button>
-                <Button variant="danger" onClick={handleDelete}>
-                    Oui, Supprimer
+                <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+                    {isLoading ? <LoadingIcon color={"white"}/> : null}
+                    {isLoading ? 'Suppression en cours...' : 'Oui, Supprimer'}
                 </Button>
             </Modal.Footer>
         </Modal>

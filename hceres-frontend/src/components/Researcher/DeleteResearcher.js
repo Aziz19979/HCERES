@@ -1,12 +1,14 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Axios from "axios";
 import Button from "react-bootstrap/Button";
 import ResearcherElement from "./ResearcherElement";
 import {API_URL} from "../../constants";
+import LoadingIcon from "../util/LoadingIcon";
 
 function DeleteResearcher(props) {
     const [show, setShow] = useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
     const targetResearcher = props.targetResearcher;
     const silentClose = () => {
         setShow(false);
@@ -19,6 +21,7 @@ function DeleteResearcher(props) {
     };
 
     const handleDelete = () => {
+        setIsLoading(true);
         Axios.delete(`${API_URL}/deleteResearcher/${targetResearcher.researcherId}`)
             .then(response => {
                 const msg = {
@@ -33,6 +36,7 @@ function DeleteResearcher(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false));
     }
 
     return (
@@ -47,8 +51,9 @@ function DeleteResearcher(props) {
                 <Button variant="secondary" onClick={silentClose}>
                     Non
                 </Button>
-                <Button variant="danger" onClick={handleDelete}>
-                    Oui, Supprimer
+                <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+                    {isLoading ? <LoadingIcon color={"white"}/> : null}
+                    {isLoading ? 'Suppression en cours...' : 'Oui, Supprimer'}
                 </Button>
             </Modal.Footer>
         </Modal>

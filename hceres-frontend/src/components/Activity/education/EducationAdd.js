@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {addEducation} from "../../../services/education/EducationActions";
@@ -14,7 +14,7 @@ function EducationAdd(props) {
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
 
 
     // Form state (Add Template)
@@ -51,7 +51,8 @@ function EducationAdd(props) {
                 "successMsg": "Education ajouté avec un id " + response.data.idActivity,
             }
             handleClose(msg);
-        }).catch(error => {
+        })
+            .finally(() => setIsLoading(false)).catch(error => {
             console.log(error);
             const msg = {
                 "errorMsg": "Erreur Education non ajouté, response status: " + error.response.status,
@@ -152,8 +153,7 @@ function EducationAdd(props) {
                         </Button>
                         <Button variant="outline-primary" type={"submit"} disabled={isLoading}>
                             {isLoading ? <LoadingIcon/> : null}
-                            Ajouter
-                            {isLoading ? '...' : null}
+                            {isLoading ? 'Ajout en cours...' : 'Ajouter'}
                         </Button>
                     </Modal.Footer>
                 </form>

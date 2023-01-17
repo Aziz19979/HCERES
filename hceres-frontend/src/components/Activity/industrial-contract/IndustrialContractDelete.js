@@ -1,11 +1,13 @@
 import {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import LoadingIcon from "../../util/LoadingIcon";
 import IndustrialContractElement from "./IndustrialContractElement";
 import {deleteIndustrialContract} from "../../../services/industrial-contract/IndustrialContractActions";
 
 function IndustrialContractDelete(props) {
     const [show, setShow] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const targetIndustrialContract = props.targetIndustrialContract;
 
     const handleClose = (msg = null) => {
@@ -14,6 +16,7 @@ function IndustrialContractDelete(props) {
     };
 
     const handleDelete = () => {
+        setIsLoading(true);
         deleteIndustrialContract(targetIndustrialContract.idActivity)
             .then(response => {
                 const msg = {
@@ -27,6 +30,7 @@ function IndustrialContractDelete(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -41,8 +45,9 @@ function IndustrialContractDelete(props) {
                 <Button variant="secondary" onClick={handleClose}>
                     Non
                 </Button>
-                <Button variant="danger" onClick={handleDelete}>
-                    Oui, Supprimer
+                <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+                    {isLoading ? <LoadingIcon color={"white"}/> : null}
+                    {isLoading ? 'Suppression en cours...' : 'Oui, Supprimer'}
                 </Button>
             </Modal.Footer>
         </Modal>

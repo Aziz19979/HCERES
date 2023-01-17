@@ -9,7 +9,6 @@ import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
 import {Alert} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
-import Button from "react-bootstrap/Button";
 import {SpinningCircles} from "react-loading-icons";
 import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStrapTableOptions";
 import {ImFilter} from "react-icons/im";
@@ -84,7 +83,9 @@ function EditorialActivityList(props) {
 
 
     if (!editorialActivityList) {
-        return <div><Button><SpinningCircles/></Button></div>
+        return <div className="d-flex align-items-center justify-content-center">
+            <SpinningCircles stroke={"black"}/>
+        </div>
     } else {
         if (editorialActivityList.length === 0) {
             return <div className={"row"}>

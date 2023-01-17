@@ -6,6 +6,7 @@ import {
     addInternationalCollaboration
 } from "../../../services/international-collaboration/InternationalCollaborationActions";
 import ResearcherSelect from "../../util/ResearcherSelect";
+import LoadingIcon from "../../util/LoadingIcon";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
@@ -18,6 +19,7 @@ function InternationalCollaborationAdd(props) {
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
 
 
     // Form state (Add Template)
@@ -45,6 +47,7 @@ function InternationalCollaborationAdd(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setIsLoading(true);
         let data = {
             researcherIds: researcherIds,
             NameChoice: NameChoice,
@@ -68,13 +71,15 @@ function InternationalCollaborationAdd(props) {
                 "successMsg": "InternationalCollaboration ajouté avec un id " + response.data.idActivity,
             }
             handleClose(msg);
-        }).catch(error => {
+        })
+            .finally(() => setIsLoading(false)).catch(error => {
             console.log(error);
             const msg = {
                 "errorMsg": "Erreur InternationalCollaboration non ajouté, response status: " + error.response.status,
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -250,8 +255,9 @@ function InternationalCollaborationAdd(props) {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="outline-primary" type={"submit"}>
-                            Ajouter
+                        <Button variant="outline-primary" type={"submit"} disabled={isLoading}>
+                            {isLoading ? <LoadingIcon/> : null}
+                            {isLoading ? 'Ajout en cours...' : 'Ajouter'}
                         </Button>
 
                     </Modal.Footer>

@@ -80,8 +80,7 @@ const Login = (props) => {
                 <Button variant={"primary"} className={"btn-primary fadeIn fourth"} value={"connection"}
                         type={"submit"} disabled={isLoading}>
                     {isLoading ? <Oval className="mr-2" width={20} height={20}/> : null}
-                    Connexion
-                    {isLoading ? '...': null}
+                    {isLoading ? 'Connexion en cours...': 'Connexion'}
                 </Button>
             </form>
         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ResearcherSelect from "../../util/ResearcherSelect";
+import LoadingIcon from "../../util/LoadingIcon";
 import {addPatent} from "../../../services/patent/PatentActions";
 
 // If targetResearcher is set in props use it as default without charging list from database
@@ -15,6 +16,7 @@ function PatentAdd(props) {
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
 
 
     // Form state (Add Template)
@@ -51,6 +53,7 @@ function PatentAdd(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setIsLoading(true);
         let data = {
             researcherId: researcherId,
             title: title,
@@ -83,13 +86,15 @@ function PatentAdd(props) {
                 "successMsg": "Patent ajouté avec un id " + response.data.idActivity,
             }
             handleClose(msg);
-        }).catch(error => {
+        })
+            .finally(() => setIsLoading(false)).catch(error => {
             console.log(error);
             const msg = {
                 "errorMsg": "Erreur Patent non ajouté, response status: " + error.response.status,
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -341,8 +346,9 @@ function PatentAdd(props) {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="outline-primary" type={"submit"}>
-                            Ajouter
+                        <Button variant="outline-primary" type={"submit"} disabled={isLoading}>
+                            {isLoading ? <LoadingIcon/> : null}
+                            {isLoading ? 'Ajout en cours...' : 'Ajouter'}
                         </Button>
 
                     </Modal.Footer>
