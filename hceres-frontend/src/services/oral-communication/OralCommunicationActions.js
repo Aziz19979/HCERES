@@ -11,7 +11,7 @@ export const fetchListOralCommunications = async () => {
 }
 
 export const addOralCommunication = async (data) => {
-    return await axios.get(API_URL + "/OralCommunication/Create", data).then(response => {
+    return await axios.post(API_URL + "/OralCommunication/Create", data).then(response => {
         if (MyGlobalVar.listeOralCommunications) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

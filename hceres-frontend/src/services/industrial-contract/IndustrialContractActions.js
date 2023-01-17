@@ -4,14 +4,14 @@ import {API_URL} from "../../constants";
 
 export const fetchListIndustrialContracts = async () => {
     if (!MyGlobalVar.listeIndustrialContracts) {
-        const response = await axios.get(API_URL + "/IndustrialContracts");
+        const response = await axios.get(API_URL + '/IndustrialContracts');
         MyGlobalVar.listeIndustrialContracts = response.data;
     }
     return MyGlobalVar.listeIndustrialContracts;
 }
 
 export const addIndustrialContract = async (data) => {
-    return await axios.get(API_URL + "/IndustrialContract/Create", data).then(response => {
+    return await axios.post(API_URL + "/IndustrialContract/Create", data).then(response => {
         if (MyGlobalVar.listeIndustrialContracts) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

@@ -11,7 +11,7 @@ export const fetchListEducations = async () => {
 }
 
 export const addEducation = async (data) => {
-    return await axios.get(API_URL + "/Education/Create", data).then(response => {
+    return await axios.post(API_URL + "/Education/Create", data).then(response => {
         if (MyGlobalVar.listeEducations) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

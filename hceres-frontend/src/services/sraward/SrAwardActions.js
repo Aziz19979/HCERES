@@ -11,7 +11,7 @@ export const fetchListSrAwards = async () => {
 }
 
 export const addSrAward = async (data) => {
-    return await axios.get(API_URL + "/SrAward/Create", data).then(response => {
+    return await axios.post(API_URL + "/SrAward/Create", data).then(response => {
         if (MyGlobalVar.listeSrAwards) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

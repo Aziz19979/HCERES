@@ -11,7 +11,7 @@ export const fetchListPlatforms = async () => {
 }
 
 export const addPlatform = async (data) => {
-    return await axios.get(API_URL + "/Platform/Create", data).then(response => {
+    return await axios.post(API_URL + "/Platform/Create", data).then(response => {
         if (MyGlobalVar.listePlatforms) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

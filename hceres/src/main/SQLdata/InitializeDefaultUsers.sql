@@ -12,8 +12,8 @@ VALUES (DEFAULT, 'admin', 'admin', 'admin@admin.com', null, 'admin',
         '$2a$10$tR4NMaRiVG.QZdXoCsmEUuDltA7Siy0kisCbUwT3p3P3s9wQWdySi')
 ON CONFLICT (researcher_login) DO UPDATE SET researcher_password = '$2a$10$tR4NMaRiVG.QZdXoCsmEUuDltA7Siy0kisCbUwT3p3P3s9wQWdySi';
 
-insert into admin (researcher_id)
-values ((select researcher_id from researcher where researcher_login = 'admin'))
+insert into public.admin (researcher_id)
+values ((select researcher_id from public.researcher where researcher_login = 'admin'))
 ON CONFLICT DO NOTHING;
 
 -- user user
