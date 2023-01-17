@@ -1,5 +1,7 @@
 # HCERES-Spring-Boot
 
+Site currently deployed at: [https://hceres-front.azurewebsites.net](https://hceres-front.azurewebsites.net)
+
 [Liste de tous les doc](doc/README.md)
 
 ## Initialisation du projet
