@@ -11,7 +11,7 @@ export const fetchListPatents = async () => {
 }
 
 export const addPatent = async (data) => {
-    return await axios.get(API_URL + "/Patent/Create", data).then(response => {
+    return await axios.post(API_URL + "/Patent/Create", data).then(response => {
         if (MyGlobalVar.listePatents) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

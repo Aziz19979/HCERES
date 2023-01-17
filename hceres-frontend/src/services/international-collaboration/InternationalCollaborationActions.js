@@ -11,7 +11,7 @@ export const fetchListInternationalCollaborations = async () => {
 }
 
 export const addInternationalCollaboration = async (data) => {
-    return await axios.get(API_URL + "/InternationalCollaboration/Create", data).then(response => {
+    return await axios.post(API_URL + "/InternationalCollaboration/Create", data).then(response => {
         if (MyGlobalVar.listeInternationalCollaborations) {
             response = MyGlobalVar.addResearcherDataToActivity(response)
             // using method push will use same reference of table,

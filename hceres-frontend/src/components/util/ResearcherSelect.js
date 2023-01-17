@@ -40,7 +40,7 @@ function ResearcherSelect(props) {
     }, [targetResearcher, onChangeResearcherId]);
 
     // Cached state (for selection options)
-    const [researchers, setResearchers] = React.useState(null);
+    const [researchers, setResearchers] = React.useState([]);
     const doRequireUsingSelectList = isMulti || !targetResearcher
     const researcherSelectOptions = researchers.map(res => ({
         value: res.researcherId,
