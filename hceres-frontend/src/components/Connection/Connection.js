@@ -1,18 +1,19 @@
-import React, {Component, useState} from "react";
+import React, {useState} from "react";
 import "./Connection.css";
 import Logo from '../../assets/logo.png';
-import {FaSmile, FaUserAlt} from 'react-icons/fa';
-import {FaKey} from 'react-icons/fa';
+import {FaUserAlt, FaKey} from 'react-icons/fa';
 import Button from "react-bootstrap/Button";
 import {Alert} from "react-bootstrap";
 import {useDispatch} from "react-redux";
 import {authenticateUser} from "../../services";
 import {useLocation, useNavigate} from "react-router-dom";
 import authToken from "../../utils/authToken";
+import {Oval} from "react-loading-icons";
 
 const Login = (props) => {
     // state are parameter passed by navigate functions
     const navState = useLocation().state;
+    const [isLoading, setIsLoading] = useState(false);
     const [errorLogin, setErrorLogin] = useState(navState ? navState.errorLogin : "");
     const initialState = {
         login: "",
@@ -31,6 +32,7 @@ const Login = (props) => {
 
     const validateUser = (event) => {
         event.preventDefault();
+        setIsLoading(true);
         authToken('');
         dispatch(authenticateUser(user.login, user.password))
             .then((response) => {
@@ -46,6 +48,9 @@ const Login = (props) => {
                 } else {
                     setErrorLogin("Erreur non claire, Contacter le support pour voir les logs. " + error.response.status )
                 }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -73,7 +78,11 @@ const Login = (props) => {
                 </label>
                 {errorLogin && <Alert className={"alert-danger"} dismissible={true} onClose={()=>setErrorLogin('')}>{errorLogin}</Alert>}
                 <Button variant={"primary"} className={"btn-primary fadeIn fourth"} value={"connection"}
-                        type={"submit"}> Connexion</Button>
+                        type={"submit"} disabled={isLoading}>
+                    {isLoading ? <Oval className="mr-2" width={20} height={20}/> : null}
+                    Connexion
+                    {isLoading ? '...': null}
+                </Button>
             </form>
         </div>
     );
