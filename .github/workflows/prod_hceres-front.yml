@@ -23,15 +23,21 @@ jobs:
 
       - name: npm install, build, and test
         run: |
+          cd hceres-frontend
+          rm src/constants.js
+          cp src/constants.js.azure src/constants.js
           npm install
           npm run build --if-present
           npm run test --if-present
+        with:
+          CI: false
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: hceres-frontend/build
 
   deploy:
     runs-on: ubuntu-latest
