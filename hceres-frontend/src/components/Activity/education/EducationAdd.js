@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {addEducation} from "../../../services/education/EducationActions";
 import ResearcherSelect from "../../util/ResearcherSelect";
+import LoadingIcon from "../../util/LoadingIcon";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
@@ -13,6 +14,8 @@ function EducationAdd(props) {
 
     // UI states (Add Template)
     const [showModal, setShowModal] = React.useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
@@ -31,6 +34,7 @@ function EducationAdd(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setIsLoading(true);
         let data = {
             researcherId: researcherId,
             educationCourseName: educationCourseName,
@@ -54,6 +58,7 @@ function EducationAdd(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -69,7 +74,7 @@ function EducationAdd(props) {
                         </label>
                         <ResearcherSelect
                             targetResearcher={targetResearcher}
-                            onchange={React.useCallback(resId => setResearcherId(resId),[])}
+                            onchange={React.useCallback(resId => setResearcherId(resId), [])}
                         />
                         <label className='label'>
                             Nom du cours d'éducation
@@ -145,10 +150,11 @@ function EducationAdd(props) {
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="outline-primary" type={"submit"}>
+                        <Button variant="outline-primary" type={"submit"} disabled={isLoading}>
+                            {isLoading ? <LoadingIcon/> : null}
                             Ajouter
+                            {isLoading ? '...' : null}
                         </Button>
-
                     </Modal.Footer>
                 </form>
             </Modal>

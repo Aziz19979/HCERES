@@ -84,7 +84,9 @@ function EducationList(props) {
 
 
     if (!educationList) {
-        return <div><Button><Audio/></Button></div>
+        return <div className="d-flex align-items-center justify-content-center">
+            <Audio stroke={"black"}/>
+        </div>
     } else {
         if (educationList.length === 0) {
             return <div className={"row"}>

@@ -1,11 +1,13 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import EducationElement from "./EducationElement";
 import {deleteEducation} from "../../../services/education/EducationActions";
+import LoadingIcon from "../../util/LoadingIcon";
 
 function EducationDelete(props) {
     const [show, setShow] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const targetEducation = props.targetEducation;
 
     const handleClose = (msg = null) => {
@@ -14,6 +16,7 @@ function EducationDelete(props) {
     };
 
     const handleDelete = () => {
+        setIsLoading(true);
         deleteEducation(targetEducation.idActivity)
             .then(response => {
                 const msg = {
@@ -27,6 +30,7 @@ function EducationDelete(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -41,8 +45,10 @@ function EducationDelete(props) {
                 <Button variant="secondary" onClick={handleClose}>
                     Non
                 </Button>
-                <Button variant="danger" onClick={handleDelete}>
+                <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+                    {isLoading ? <LoadingIcon color={"white"}/> : null}
                     Oui, Supprimer
+                    {isLoading ? '...' : null}
                 </Button>
             </Modal.Footer>
         </Modal>
