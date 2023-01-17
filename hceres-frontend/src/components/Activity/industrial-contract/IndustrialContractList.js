@@ -9,7 +9,6 @@ import filterFactory, {dateFilter, numberFilter} from 'react-bootstrap-table2-fi
 import {Alert} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
-import Button from "react-bootstrap/Button";
 import {Grid} from "react-loading-icons";
 import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStrapTableOptions";
 import {ImFilter} from "react-icons/im";
@@ -84,7 +83,9 @@ function IndustrialContractList(props) {
 
 
     if (!industrialContractList) {
-        return <div><Button><Grid/></Button></div>
+        return <div className="d-flex align-items-center justify-content-center">
+            <Grid stroke={"black"}/>
+        </div>
     } else {
         if (industrialContractList.length === 0) {
             return <div className={"row"}>

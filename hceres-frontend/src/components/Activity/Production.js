@@ -11,6 +11,7 @@ function Production() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setIsLoading(true);
     }
 
     return (

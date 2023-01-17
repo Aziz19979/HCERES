@@ -1,17 +1,19 @@
 import React from 'react';
 import './Researcher.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import {Link, useNavigate, useParams} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {API_URL} from "../../constants";
 import axios from "axios";
+import LoadingIcon from "../util/LoadingIcon";
 
 /**
  * add or edit researcher if present in props.targetResearcher
  */
 function AddResearcher(props) {
     const [showModal, setShowModal] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(false);
+
     const targetResearcher = props.targetResearcher;
 
     const silentClose = () => {
@@ -28,8 +30,6 @@ function AddResearcher(props) {
     const [AddResearcherLastName, setAddResearcherLastName] = React.useState(targetResearcher ? targetResearcher.researcherSurname : "");
     const [AddResearcherEmail, setAddResearcherEmail] = React.useState(targetResearcher ? targetResearcher.researcherEmail : "");
 
-    const navigate = useNavigate();
-
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
@@ -45,6 +45,7 @@ function AddResearcher(props) {
     }
 
     const handleUpdateResearcher = (data) => {
+        setIsLoading(true)
         axios.put(`${API_URL}/updateResearcher/${targetResearcher.researcherId}`, data)
             .then(response => {
                 const researcherId = response.data.researcherId;
@@ -60,10 +61,12 @@ function AddResearcher(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     const handleAddResearcher = (data) => {
-        axios.get(API_URL + "/AddResearcher", data)
+        setIsLoading(true);
+        axios.post(API_URL + "/AddResearcher", data)
             .then(response => {
                 const researcherId = response.data.researcherId;
                 const msg = {
@@ -78,6 +81,7 @@ function AddResearcher(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -130,9 +134,14 @@ function AddResearcher(props) {
                         <Button variant="secondary" onClick={() => silentClose()}>
                             Close
                         </Button>
-                        <Button variant="outline-primary" type={"submit"}>
-                            {!targetResearcher && <div>Ajouter</div>}
-                            {targetResearcher && <div>Mettre à jour</div>}
+                        <Button variant="outline-primary" type={"submit"} disabled={isLoading}>
+                            {isLoading ? <LoadingIcon/> : null}
+                            {!targetResearcher &&
+                                (isLoading ? 'Ajout en cours...' : "Ajouter")
+                            }
+                            {targetResearcher &&
+                                (isLoading ? 'Mis à jour en cours...' : "Mettre à jour")
+                            }
                         </Button>
                     </Modal.Footer>
                 </form>

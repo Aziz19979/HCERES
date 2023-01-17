@@ -3,7 +3,6 @@
 import './Home.css';
 import React from 'react';
 import welcomImage from '../../assets/welcomImg.png';
-import authToken from "../../utils/authToken";
 import {useSelector} from "react-redux";
 //import { HomeContainer,leftside,rightside } from './HomeElements';
 //style={{ backgroundColor: "#" + `${randomColor}` }}

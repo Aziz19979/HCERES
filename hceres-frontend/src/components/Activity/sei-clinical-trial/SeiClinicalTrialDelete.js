@@ -1,11 +1,13 @@
 import {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import LoadingIcon from "../../util/LoadingIcon";
 import SeiClinicalTrialElement from "./SeiClinicalTrialElement";
 import {deleteSeiClinicalTrial} from "../../../services/sei-clinical-trial/SeiClinicalTrialActions";
 
 function SeiClinicalTrialDelete(props) {
     const [show, setShow] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const targetSeiClinicalTrial = props.targetSeiClinicalTrial;
 
     const handleClose = (msg = null) => {
@@ -14,6 +16,7 @@ function SeiClinicalTrialDelete(props) {
     };
 
     const handleDelete = () => {
+        setIsLoading(true);
         deleteSeiClinicalTrial(targetSeiClinicalTrial.idActivity)
             .then(response => {
                 const msg = {
@@ -27,6 +30,7 @@ function SeiClinicalTrialDelete(props) {
             }
             handleClose(msg);
         })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -41,8 +45,9 @@ function SeiClinicalTrialDelete(props) {
                 <Button variant="secondary" onClick={handleClose}>
                     Non
                 </Button>
-                <Button variant="danger" onClick={handleDelete}>
-                    Oui, Supprimer
+                <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
+                    {isLoading ? <LoadingIcon color={"white"}/> : null}
+                    {isLoading ? 'Suppression en cours...' : 'Oui, Supprimer'}
                 </Button>
             </Modal.Footer>
         </Modal>

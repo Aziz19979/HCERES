@@ -1,22 +1,15 @@
 import React from 'react';
 import './ActivityList.css'
-import Navbar from '../Navbar/Navbar';
 
-import EducationAdd from './education/EducationAdd';
-import BootstrapTable from 'react-bootstrap-table-next';
-import {Alert, ButtonGroup, Card, Col, Container, ListGroup, Table} from "react-bootstrap";
+import {Alert, ButtonGroup, ListGroup} from "react-bootstrap";
 import Collapse from 'react-bootstrap/Collapse';
 import {BiShow, BiHide} from "react-icons/bi";
 import EducationList from "./education/EducationList";
 import ResearcherElement from "../Researcher/ResearcherElement";
-import SrAwardElement from "./sraward/SrAwardElement";
 import SrAwardList from "./sraward/SrAwardList";
 import PlatformList from "./platform/PlatformList";
 import OralCommunicationList from "./oral-communication/OralCommunicationList";
 import Button from "react-bootstrap/Button";
-import {fetchListOralCommunications} from "../../services/oral-communication/OralCommunicationActions";
-import {fetchResearcherActivities} from "../../services/Researcher/ResearcherActions";
-import ActivityTypes from "../../const/ActivityTypes";
 import IndustrialContractList from "./industrial-contract/IndustrialContractList";
 import InternationalCollaborationList from "./international-collaboration/InternationalCollaborationList";
 import ScientificExpertiseList from "./scientific-expertise/ScientificExpertiseList";
@@ -74,20 +67,6 @@ export default function ActivityList(props) {
 
     const showAllList = () => setShowAllList(true)
     const hideAllList = () => setShowAllList(false)
-
-    const displayResultMessage = (messages = null) => {
-        // silent close
-        if (!messages) return;
-
-        if (messages.successMsg) {
-            setSuccessActivityAlert(messages.successMsg)
-        }
-
-        if (messages.errorMsg) {
-            setErrorActivityAlert(messages.errorMsg)
-        }
-    }
-
     const activeItemClass = "border-primary text-primary flex-fill"
     const inactiveItemClass = "flex-fill"
     return (

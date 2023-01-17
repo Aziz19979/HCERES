@@ -12,7 +12,7 @@ import {FaEdit} from "react-icons/fa";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 import {ImFilter} from "react-icons/im";
-import {Oval} from 'react-loading-icons'
+import {Audio, Oval} from 'react-loading-icons'
 import AddResearcher from "./AddResearcher";
 import {Alert} from "react-bootstrap";
 import DeleteResearcher from "./DeleteResearcher";
@@ -209,7 +209,7 @@ class Researcher extends Component {
                                         onClick={(e) => this.setState({showFilter: !this.state.showFilter})}>{
                                     <ImFilter/>}
                                 </button>
-                                {this.state.showFilter && <div><MyExportCSV  { ...props.tableProps.csvProps }/> </div>}
+                                {this.state.showFilter && <div><MyExportCSV  {...props.tableProps.csvProps}/></div>}
                             </h3>
                         </div>
                         <div className="col-4">
@@ -263,7 +263,7 @@ class Researcher extends Component {
                         keyField="researcherId"
                         data={this.state.researchers}
                         columns={columns}
-                        exportCSV={ {
+                        exportCSV={{
                             fileName: 'researcherList.csv',
                             onlyExportFiltered: true,
                             exportAll: false
@@ -298,9 +298,12 @@ class Researcher extends Component {
 
         return (
             <div className="container">
-                <h1>Téléchargement des données des chercheurs
-                    <button className={'btn btn-primary'}><Oval/></button>
-                </h1>
+                <div className="d-flex align-items-center justify-content-center">
+                    <h1>
+                        Téléchargement des données des chercheurs
+                        <Oval className="ml-2" stroke={"black"}/>
+                    </h1>
+                </div>
             </div>
         )
     }

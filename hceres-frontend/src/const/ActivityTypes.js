@@ -42,4 +42,4 @@ class ActivityTypes {
     SEI_CLINICAL_TRIAL = 41;
 }
 
-export default (new ActivityTypes)
+export default (new ActivityTypes())

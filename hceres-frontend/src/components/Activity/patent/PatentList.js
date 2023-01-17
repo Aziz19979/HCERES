@@ -9,7 +9,6 @@ import filterFactory, {dateFilter, numberFilter, textFilter} from 'react-bootstr
 import {Alert} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
-import Button from "react-bootstrap/Button";
 import {Audio} from "react-loading-icons";
 import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStrapTableOptions";
 import {ImFilter} from "react-icons/im";
@@ -84,7 +83,9 @@ function PatentList(props) {
 
 
     if (!patentList) {
-        return <div><Button><Audio/></Button></div>
+        return <div className="d-flex align-items-center justify-content-center">
+            <Audio stroke={"black"}/>
+        </div>
     } else {
         if (patentList.length === 0) {
             return <div className={"row"}>

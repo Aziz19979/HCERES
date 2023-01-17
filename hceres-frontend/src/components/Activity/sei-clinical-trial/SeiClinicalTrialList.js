@@ -9,7 +9,6 @@ import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
 import {Alert} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
-import Button from "react-bootstrap/Button";
 import {Puff} from "react-loading-icons";
 import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStrapTableOptions";
 import {ImFilter} from "react-icons/im";
@@ -84,7 +83,9 @@ function SeiClinicalTrialList(props) {
 
 
     if (!seiClinicalTrialList) {
-        return <div><Button><Puff/></Button></div>
+        return <div className="d-flex align-items-center justify-content-center">
+            <Puff stroke={"black"}/>
+        </div>
     } else {
         if (seiClinicalTrialList.length === 0) {
             return <div className={"row"}>
