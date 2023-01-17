@@ -88,7 +88,11 @@
       <plugin> 
         <groupId>org.springframework.boot</groupId>  
         <artifactId>spring-boot-maven-plugin</artifactId> 
-      </plugin>  
+      </plugin>
+
+      <!--      see https://learn.microsoft.com/en-us/azure/app-service/tutorial-java-spring-cosmosdb#configure-azure-deployment
+      and https://github.com/Microsoft/azure-maven-plugins/blob/develop/azure-webapp-maven-plugin/README.md
+      to deploy app to azure -->
       <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-webapp-maven-plugin</artifactId>
