@@ -164,6 +164,9 @@ function EditorialActivityList(props) {
         };
         return (
             <div>
+                <div className="d-flex align-items-center justify-content-center">
+                    <SpinningCircles fill={"grey"}/>
+                </div>
                 <ToolkitProvider
                     bootstrap4
                     keyField="idActivity"
