@@ -84,7 +84,7 @@ function IndustrialContractList(props) {
 
     if (!industrialContractList) {
         return <div className="d-flex align-items-center justify-content-center">
-            <Grid stroke={"black"}/>
+            <Grid fill={"grey"}/>
         </div>
     } else {
         if (industrialContractList.length === 0) {

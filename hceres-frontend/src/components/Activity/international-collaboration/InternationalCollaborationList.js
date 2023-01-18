@@ -9,7 +9,7 @@ import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
 import {Alert} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
-import {Hearts} from "react-loading-icons";
+import {Grid, Hearts} from "react-loading-icons";
 import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStrapTableOptions";
 import {ImFilter} from "react-icons/im";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
@@ -84,7 +84,7 @@ function InternationalCollaborationList(props) {
 
     if (!internationalCollaborationList) {
         return <div className="d-flex align-items-center justify-content-center">
-            <Hearts stroke={"black"}/>
+            <Hearts fill={"grey"}/>
         </div>
     } else {
         if (internationalCollaborationList.length === 0) {
