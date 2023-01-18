@@ -49,4 +49,41 @@
 .labo1 {
     width: 550px;
 }
-  
+
+/* add a media query for screens smaller than 600px */
+@media only screen and (max-width: 800px) {
+    /* make the container take up 100% of the screen width */
+    .container2 {
+        width: 100%;
+    }
+
+    /* adjust the font size for smaller screens */
+    .title1 {
+        font-size: 50px;
+        line-height: 80px;
+    }
+
+    .pg1 {
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    /* make the image smaller for smaller screens */
+    .labo1 {
+        width: 300px;
+    }
+}
+
+.container2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+/* Add a media query for screens smaller than 600px */
+@media only screen and (max-width: 600px) {
+    .container2 {
+        /* Change to a single column layout */
+        grid-template-columns: 1fr;
+    }
+}
