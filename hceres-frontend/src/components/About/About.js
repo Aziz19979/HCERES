@@ -5,6 +5,7 @@ import React from 'react';
 import welcomImage from '../../assets/welcomImg.png';
 import {Link} from "react-router-dom";
 import {ImBackward} from "react-icons/im";
+
 function About() {
     return (
         <div>
@@ -15,11 +16,11 @@ function About() {
                 <div className="right-side1">
                     <div className="pg1">
                         <div className="title1">
-                             About !
+                            About !
                         </div>
-                        Cette application web a été créée par une équipe d'éudiants de l'Ecole Centrale de
-                        Nantes dans le contexte d'un projet de groupe en option Informatique en 2021.Le suivi de
-                        l'application a été confiée à la DSI de l'université de Nantes.
+                        Cette application a été développée par une équipe d'étudiants de l'Ecole Centrale de Nantes dans
+                        le cadre d'un projet de groupe en option Informatique en 2021. La gestion de l'application a été
+                        confiée à la DSI de l'Université de Nantes.
                         <h1>
                             <br/>
                             <Link to={-1}>{<ImBackward color={"white"}/>}</Link>
