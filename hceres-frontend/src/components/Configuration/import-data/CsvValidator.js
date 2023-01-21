@@ -3,12 +3,11 @@ import Papa from 'papaparse';
 import "./CsvValidator.css"
 import Select from "react-select";
 import FixRequiredSelect from "../../util/FixRequiredSelect";
-import {Card, Form, ListGroupItem, Table, Button} from "react-bootstrap";
-import {FaSync} from 'react-icons/fa';
+import {Card, Form, ListGroupItem, Table, Button, Alert} from "react-bootstrap";
+import {FaSync, FaUpload} from 'react-icons/fa';
 import LoadingIcon from "../../util/LoadingIcon";
 
 const CsvValidator = (props) => {
-
     // ------------- Input states ---------------
     // options for csvDefaultDelimiterOption used in csv
     const options = [
@@ -19,9 +18,13 @@ const CsvValidator = (props) => {
         {value: '|', label: "Pipe '|' "}
     ];
     // use semicolon as default option
-    const [csvAutoDetectDelimiter, setCsvAutoDetectDelimiter] = React.useState(true);
+    const [csvIsDiscardFirstLine, setCsvIsDiscardFirstLine] = React.useState(false);
+
+    const csvIsAutoDetectDelimiter = React.useRef(true);
     const [csvDefaultDelimiterOption, setCsvDefaultDelimiterOption] = React.useState(options[0]);
     const [csvFile, setCsvFile] = React.useState(null);
+    const [csvFileContent, setCsvFileContent] = React.useState(null);
+    const csvOriginalFileContent = React.useRef(null);
 
     // --------------- Generated data state ---------------
     const [csvResults, setCsvResults] = useState([]);
@@ -40,7 +43,9 @@ const CsvValidator = (props) => {
      * }
      */
     const [errorLines, setErrorLines] = useState([]);
-    const [info, setInfo] = useState(null);
+    const [infoAlert, setInfoAlert] = useState('');
+    const [errorAlert, setErrorAlert] = React.useState('');
+    const divFileInputRef = useRef(null);
     const fileInputRef = useRef(null);
 
 
@@ -48,7 +53,14 @@ const CsvValidator = (props) => {
         const file = e.target.files[0];
         if (file) {
             setCsvFile(file);
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                csvOriginalFileContent.current = event.target.result;
+                handleChangeFileContent();
+            };
+            reader.readAsText(file);
         }
+        divFileInputRef.current.hidden = true;
     }, []);
 
     const resetForm = useCallback((e) => {
@@ -57,49 +69,38 @@ const CsvValidator = (props) => {
     }, []);
 
     const handleSeparatorChange = useCallback((value) => {
-        console.log("i turn off auto");
-        setCsvAutoDetectDelimiter(false);
+        csvIsAutoDetectDelimiter.current = false;
         setCsvDefaultDelimiterOption(value);
     }, [])
 
-    useEffect(() => {
-        if (csvFile) {
-            parseCsvFile(csvFile, csvAutoDetectDelimiter, csvDefaultDelimiterOption.value).then(r => {
-                // do something with the data
-                console.log(r)
-                const usedDelimiter = r.meta.delimiter;
-                if (csvAutoDetectDelimiter && usedDelimiter !== csvDefaultDelimiterOption.value)
-                    setCsvDefaultDelimiterOption({value: usedDelimiter, label: "Detected delimiter: " + usedDelimiter})
-            });
-        }
-    }, [csvFile, csvDefaultDelimiterOption]);
+    const handleChangeFileContent = useCallback(() => {
+        if (csvIsDiscardFirstLine)
+            setCsvFileContent(csvOriginalFileContent.current.split('\n').shift().join('\n'));
+        else setCsvFileContent(csvOriginalFileContent.current);
+    }, [])
 
     const parseCsvFile = useCallback(async (file, isAutoDetectDelimiter, defaultDelimiter) => {
         // Set loading state to true
-        console.log("parsing file...")
-        setIsLoading(true);
         return new Promise((resolve, reject) => {
             Papa.parse(file, {
                 delimiter: isAutoDetectDelimiter ? "" : defaultDelimiter,
                 skipEmptyLines: true,
                 header: true,
                 complete: (results) => {
-                    // Initialize error lines and clear any previous errors/info
+                    // Initialize error lines and clear any previous errors/infoAlert
                     setErrorLines([]);
-                    setInfo(null);
+                    setInfoAlert(null);
 
                     // Handle any errors from the parse method
                     handleErrors(results);
-
+                    setCsvResults(results);
                     // Get the valid data by skipping any invalid lines
-                    const validData = skipInvalidLines(results);
+                    const validData = results.data;
                     if (validData.length > 0) {
-                        // Set the valid data and update the info message
-                        setCsvResults(validData);
-                        setInfo(validData.length + " records reads");
+                        // Set the valid data and update the infoAlert message
+                        setInfoAlert(validData.length + " records reads");
                     }
                     // Set loading state to false
-                    setIsLoading(false);
                     resolve(results);
                 },
                 error(err, file) {
@@ -109,55 +110,42 @@ const CsvValidator = (props) => {
         });
     }, [])
 
+    useEffect(() => {
+        if (csvFileContent) {
+            console.log("i got executed to parse the sample")
+            setErrorAlert(null)
+            setIsLoading(true);
+            parseCsvFile(csvFileContent,
+                csvIsAutoDetectDelimiter,
+                csvDefaultDelimiterOption.value,
+            ).then(r => {
+                // do something with the data
+                const usedDelimiter = r.meta.delimiter;
+                if (csvIsAutoDetectDelimiter && usedDelimiter !== csvDefaultDelimiterOption.value)
+                    setCsvDefaultDelimiterOption({value: usedDelimiter, label: "Detected delimiter: " + usedDelimiter})
+            }).catch((exception) => {
+                setErrorAlert("" + exception + "\nTry to upload file again.");
+                setCsvResults([]);
+                console.log(exception);
+            }).finally(() => {
+                setIsLoading(false);
+            });
+        }
+    }, [csvFileContent, csvDefaultDelimiterOption, parseCsvFile]);
+
     //Check if there are any errors and set them in the state
     function handleErrors(results) {
         if (results.errors.length > 0) {
-            setErrorLines(results.errors);
+            const uniqueErrors = [...new Set(
+                results.errors.map(error => JSON.stringify({
+                    type: error.type,
+                    code: error.code,
+                    row: error.row,
+                    index: error.index, // not always defined
+                    message: error.message,
+                })))].map(error => JSON.parse(error));
+            setErrorLines([...new Set(uniqueErrors)]);
         }
-    }
-
-    //Iterate through each line of the data and skip any invalid lines
-    //Also set any error lines in the state
-    function skipInvalidLines(results) {
-        // Get the default number of columns
-        const defaultNumColumns = getDefaultNumColumns(results);
-        let errorLines = [];
-        let invalidLines = new Set();
-        invalidLines.add(1);
-
-        // Iterate through each line of the data
-        for (let i = 0; i < results.data.length; i++) {
-            const line = results.data[i];
-            if (line.length !== defaultNumColumns) {
-                // Add the line to the error lines map
-                errorLines.push(
-                    {
-                        type: "Missing Columns",     // A generalization of the error
-                        code: "missingColumns",     // Standardized error code
-                        message: `Line ${i + 1} has ${line.length} columns, expected ${defaultNumColumns}.Data: ${line}`,  // Human-readable details
-                        row: i + 1,       // Row index of parsed data where error is
-                    });
-                errorLines.set(i + 1,);
-                invalidLines.add(i + 1);
-            }
-        }
-        if (errorLines.size > 0) {
-            // Set the error lines in the state
-            setErrorLines(errorLines);
-        }
-        // Return the valid data by filtering out any invalid lines
-        return results.data.filter((line, i) => !invalidLines.has(i + 1));
-    }
-
-    //Get the default number of columns by checking the first line of the data
-    function getDefaultNumColumns(results) {
-        let firstLine = results.data[0];
-        if (firstLine.length === 1) {
-            // If the first line only has one column, skip it
-            results.data.shift();
-            firstLine = results.data[0];
-        }
-        return firstLine.length;
     }
 
     return (
@@ -168,16 +156,24 @@ const CsvValidator = (props) => {
                 </Card.Header>
                 <Card.Body>
                     <form>
-                        <div className="form-group">
-                            <Form.File
-                                id="csv-file"
-                                label="Upload CSV file"
-                                accept=".csv"
-                                onChange={handleFileSelect}
-                                disabled={isLoading}
-                                ref={fileInputRef}
-                            />
+                        <div className="form-group" ref={divFileInputRef}>
+                            <Button variant="success" className="mr-2">
+                                <label htmlFor="csv-file" className="file-upload-label border-0">
+                                    <FaUpload className={"mr-2"}/>
+                                    Upload CSV
+                                </label>
+                                <Form.File
+                                    id="csv-file"
+                                    label="Upload CSV file"
+                                    accept=".csv"
+                                    onChange={handleFileSelect}
+                                    disabled={isLoading}
+                                    ref={fileInputRef}
+                                    style={{display: "none"}}
+                                />
+                            </Button>
                         </div>
+
 
                         <div className="form-group">
                             <label htmlFor="separator-select">Select Separator</label>
@@ -189,13 +185,27 @@ const CsvValidator = (props) => {
                                 required={true}
                             />
                         </div>
+                        <div className="form-group">
+                            <label className='label'>
+                                Discard first line
+                            </label>
+                            <input
+                                type="checkbox"
+                                className="input-container"
+                                checked={csvIsDiscardFirstLine}
+                                onChange={e => {setCsvIsDiscardFirstLine(e.target.checked)}}
+                            />
+                        </div>
                     </form>
+                    {errorAlert && <Alert variant={"danger"}
+                                          onClose={() => setErrorAlert("")}
+                                          dismissible={true}>{errorAlert}</Alert>}
                 </Card.Body>
                 <Card.Footer>
 
                     {csvFile ?
                         <div>
-                            <ListGroupItem variant={errorLines.size > 0 ? "warning" : "success"}>
+                            <ListGroupItem variant={"primary"}>
                                 {isLoading ? <LoadingIcon text={"Parsing file: "}/> :
                                     <>
                                         <Button variant="info" onClick={resetForm} className={"mr-2"}>
@@ -206,30 +216,50 @@ const CsvValidator = (props) => {
                                 }
                                 {csvFile.name}
                             </ListGroupItem>
+                            {csvResults && csvResults.meta && csvResults.meta.fields &&
+                                <>
+                                    <ListGroupItem>
+                                        Number of columns {csvResults.meta.fields.length}
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        Columns headers:
+                                        {csvResults.meta.fields.map((columnName, index) => {
+                                            return <ListGroupItem key={index}>{columnName}</ListGroupItem>;
+                                        })}
+                                    </ListGroupItem>
+                                </>
+                            }
+                            {infoAlert ? <ListGroupItem variant={"success"}>
+                                {infoAlert}
+                            </ListGroupItem> : null}
+                            {errorLines.length > 0 && <ListGroupItem variant={"warning"}>
+                                {errorLines.length} Total errors
+                            </ListGroupItem>}
                         </div>
                         : null}
 
-                    {errorLines.size > 0 && <Table>
+                    {errorLines.length > 0 && <Table>
                         <thead>
                         <tr>
                             <th>Error type</th>
                             <th>Code</th>
-                            <th>Line Number</th>
+                            <th>Line</th>
+                            <th>#Character</th>
                             <th>Message</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {errorLines.map(error => (
-                            <tr key={error.row}>
+                        {errorLines.map((error, index) => (
+                            <tr key={index}>
                                 <td>{error.type}</td>
                                 <td>{error.code}</td>
-                                <td>{error.row}</td>
+                                <td>{error.row + 1}</td>
+                                <td>{error.index}</td>
                                 <td>{error.message}</td>
                             </tr>
                         ))}
                         </tbody>
                     </Table>}
-                    {info ? <div>{info}</div> : null}
                 </Card.Footer>
             </Card>
         </div>
