@@ -36,12 +36,18 @@ const CsvValidator = (props) => {
         // ------------- Input states ---------------
         csvFile: null,
         csvFileContent: null,
+
+        // auto remove unless selected via checkbox turn it off
+        // similar to auto-detect delimiter behavior
+        csvIsAutoRemoveFirstLine: true,
         csvIsDiscardFirstLine: false,
+
         csvIsAutoDetectDelimiter: true,
         csvDefaultDelimiterOption: options[0],
 
         // --------------- UI states ---------------
         isLoading: false,
+        hideConfiguration: false,
 
         // --------------- Generated data state ---------------
         csvResults: [],
@@ -97,7 +103,8 @@ const CsvValidator = (props) => {
                             payload: event.target.result
                         })
                         dispatch({
-                            type: 'parse-csv'
+                            type: 'parse-csv',
+                            csvIsDiscardFirstLine: false,
                         })
                     };
                     reader.readAsText(file);
@@ -109,16 +116,26 @@ const CsvValidator = (props) => {
                         errorLines: [],
                         errorAlert: null,
                         infoAlert: null,
+                        csvIsDiscardFirstLine: false,
                     };
                 }
                 return state;
             case 'done-reading-file':
                 return {
                     ...state,
-                    csvFileContent: action.payload
+                    csvFileContent: action.payload,
                 }
             case 'parse-csv':
-                parseCsvFile(state.csvFileContent,
+                let csvModifiedFileContent = state.csvFileContent;
+                //nullish coalescing operator (??) check  if a variable is set or not
+                // and if it's not set then return a default value.
+                let isRemoveFirstLine = action.isRemoveFirstLine ?? state.csvIsDiscardFirstLine;
+                if (isRemoveFirstLine) {
+                    let splittedNewLine = state.csvFileContent.split('\n')
+                    splittedNewLine.shift();
+                    csvModifiedFileContent = splittedNewLine.join('\n');
+                }
+                parseCsvFile(csvModifiedFileContent,
                     state.csvIsAutoDetectDelimiter,
                     state.csvDefaultDelimiterOption.value
                 ).then(results => {
@@ -144,16 +161,28 @@ const CsvValidator = (props) => {
                             })))].map(error => JSON.parse(error));
                         errorLines = [...new Set(uniqueErrors)];
                     }
-                    dispatch({
-                        type: 'done-parsing',
-                        payload: {
-                            ...state,
-                            csvDefaultDelimiterOption: nextDefaultDelimiterState,
-                            csvResults: results,
-                            errorLines: errorLines,
-                            isLoading: false,
-                        }
-                    })
+                    if (state.csvIsAutoRemoveFirstLine
+                        && !isRemoveFirstLine
+                        && results?.meta?.fields?.length === 1
+                    ) {
+                        isRemoveFirstLine = true;
+                        dispatch({
+                            type: 'parse-csv',
+                            isRemoveFirstLine: true,
+                        })
+                    } else {
+                        dispatch({
+                            type: 'done-parsing',
+                            payload: {
+                                ...state,
+                                csvDefaultDelimiterOption: nextDefaultDelimiterState,
+                                csvResults: results,
+                                errorLines: errorLines,
+                                isLoading: false,
+                                csvIsDiscardFirstLine: isRemoveFirstLine,
+                            }
+                        })
+                    }
                 }).catch((exception) => {
                     console.log(exception)
                     dispatch({
@@ -163,15 +192,20 @@ const CsvValidator = (props) => {
                             csvResults: [],
                             errorAlert: exception + "\nTry to upload file again.",
                             isLoading: false,
+                            csvIsDiscardFirstLine: isRemoveFirstLine,
                         }
                     })
                 })
-                return state;
+                return {
+                    ...state,
+                    csvIsDiscardFirstLine: isRemoveFirstLine
+                };
             case 'done-parsing':
+                const newState = action.payload
                 if (onParseResults) {
-                    onParseResults(action.payload.csvResults);
+                    onParseResults(newState.csvResults);
                 }
-                return action.payload;
+                return newState;
             case 'delimiter-change':
                 return {
                     ...state,
@@ -261,7 +295,7 @@ const CsvValidator = (props) => {
                                                 {state.isLoading ? <LoadingIcon text={"Parsing file: "}/> :
                                                     <div className="btn-group" role="group">
                                                         {onDiscardCsv &&
-                                                            <Button variant="danger"  onClick={() => onDiscardCsv()}>
+                                                            <Button variant="danger" onClick={() => onDiscardCsv()}>
                                                                 <AiFillDelete/>
                                                             </Button>
                                                         }
@@ -302,6 +336,8 @@ const CsvValidator = (props) => {
                                         Number of columns {state.csvResults.meta.fields.length}
                                     </ListGroupItem>
                                     <ListGroupItem>
+                                        {state.csvIsDiscardFirstLine && "Horray! First line is automatically discarded!"}
+                                        <br/>
                                         Columns headers:
                                         {state.csvResults.meta.fields.map((columnName, index) => {
                                             return <ListGroupItem key={columnName}>{columnName}</ListGroupItem>;
