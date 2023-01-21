@@ -1,13 +1,26 @@
 import React, {useCallback, useRef, useReducer} from 'react';
 import Papa from 'papaparse';
-import "./CsvValidator.css"
 import Select from "react-select";
 import FixRequiredSelect from "../../util/FixRequiredSelect";
 import {Card, Form, ListGroupItem, Table, Button, Alert} from "react-bootstrap";
 import {FaSync, FaUpload} from 'react-icons/fa';
 import LoadingIcon from "../../util/LoadingIcon";
+import {AiFillDelete} from "react-icons/ai";
 
-const CsvValidator = () => {
+const CsvValidator = (props) => {
+    const csvFileParameter = props.csvFile
+    const onDiscardCsv = props.onDiscard
+    const onParseResults = props.onParseResults
+
+    React.useEffect(() => {
+        if (csvFileParameter) {
+            dispatch({
+                type: 'select-and-read-file',
+                payload: csvFileParameter
+            })
+        }
+    }, [])
+
     // how to use reducer see https://blog.logrocket.com/react-usereducer-hook-ultimate-guide/
     // and https://youtu.be/o-nCM1857AQ
     // options for csvDefaultDelimiterOption used in csv
@@ -47,7 +60,6 @@ const CsvValidator = () => {
     };
     const [state, dispatch] = useReducer(csvReducer, initialState);
 
-    const divFileInputRef = useRef(null);
     const fileInputRef = useRef(null);
 
 
@@ -55,13 +67,6 @@ const CsvValidator = () => {
         fileInputRef.current.value = "";
         fileInputRef.current.click();
     }, []);
-
-
-    // const handleChangeFileContent = useCallback(() => {
-    //     if (csvIsDiscardFirstLine)
-    //         setCsvFileContent(csvOriginalFileContent.current.split('\n').shift().join('\n'));
-    //     else setCsvFileContent(csvOriginalFileContent.current);
-    // }, [])
 
 
     function csvReducer(state, action) {
@@ -96,7 +101,6 @@ const CsvValidator = () => {
                         })
                     };
                     reader.readAsText(file);
-                    // divFileInputRef.current.hidden = true;
                     return {
                         ...state,
                         csvFile: file,
@@ -164,6 +168,9 @@ const CsvValidator = () => {
                 })
                 return state;
             case 'done-parsing':
+                if (onParseResults) {
+                    onParseResults(action.payload.csvResults);
+                }
                 return action.payload;
             case 'delimiter-change':
                 return {
@@ -193,7 +200,7 @@ const CsvValidator = () => {
                 </Card.Header>
                 <Card.Body>
                     <form>
-                        <div className="form-group" ref={divFileInputRef}>
+                        <div className="form-group" hidden={state.csvFile}>
                             <Button variant="success" className="mr-2">
                                 <label htmlFor="csv-file" className="file-upload-label border-0">
                                     <FaUpload className={"mr-2"}/>
@@ -235,19 +242,6 @@ const CsvValidator = () => {
                                 required={true}
                             />
                         </div>
-                        <div className="form-group">
-                            <label className='label'>
-                                Discard first line
-                            </label>
-                            <input
-                                type="checkbox"
-                                className="input-container"
-                                // checked={csvIsDiscardFirstLine}
-                                // onChange={e => {
-                                //     // setCsvIsDiscardFirstLine(e.target.checked)
-                                // }}
-                            />
-                        </div>
                     </form>
                     {state.errorAlert && <Alert variant={"danger"}
                                                 onClose={() => dispatch({type: 'clear-error-alert'})}
@@ -260,19 +254,25 @@ const CsvValidator = () => {
                             <ListGroupItem variant={"primary"}>
                                 <div className="container">
                                     <div className="row">
-                                        <div className="col-12 col-md-1">
+                                        <div className="col-12 col-md-3">
                                             <div>
                                                 {/* First Column, spans both rows */}
+
                                                 {state.isLoading ? <LoadingIcon text={"Parsing file: "}/> :
-                                                    <>
-                                                        <Button variant="info" onClick={resetForm} className={"mr-2"}>
+                                                    <div className="btn-group" role="group">
+                                                        {onDiscardCsv &&
+                                                            <Button variant="danger"  onClick={() => onDiscardCsv()}>
+                                                                <AiFillDelete/>
+                                                            </Button>
+                                                        }
+                                                        <Button variant="info" onClick={resetForm}>
                                                             <FaSync/>
                                                         </Button>
-                                                    </>
+                                                    </div>
                                                 }
                                             </div>
                                         </div>
-                                        <div className="col-12 col-md-11">
+                                        <div className="col-12 col-md-9">
                                             <div className="row">
                                                 <div className="col-12">
                                                     <div>
@@ -304,7 +304,7 @@ const CsvValidator = () => {
                                     <ListGroupItem>
                                         Columns headers:
                                         {state.csvResults.meta.fields.map((columnName, index) => {
-                                            return <ListGroupItem key={index}>{columnName}</ListGroupItem>;
+                                            return <ListGroupItem key={columnName}>{columnName}</ListGroupItem>;
                                         })}
                                     </ListGroupItem>
                                 </>
@@ -330,7 +330,7 @@ const CsvValidator = () => {
                         </thead>
                         <tbody>
                         {state.errorLines.map((error, index) => (
-                            <tr key={index}>
+                            <tr key={error.row + "" + error.index}>
                                 <td>{error.type}</td>
                                 <td>{error.code}</td>
                                 <td>{error.row + 1}</td>
