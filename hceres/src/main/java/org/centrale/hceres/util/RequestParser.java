@@ -7,6 +7,7 @@ import java.util.*;
 public class RequestParser {
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String CSV_DEFAULT_DATE_FORMAT = "dd/MM/yy";
 
     public static Integer getAsInteger(Object number) throws NumberFormatException {
         if (number instanceof Integer)
@@ -37,9 +38,16 @@ public class RequestParser {
     }
 
     public static Date getAsDate(Object date) throws ParseException {
+        return getAsDate(date, DEFAULT_DATE_FORMAT);
+    }
+    public static Date getAsDateCsvFormat(Object date) throws ParseException {
+        return getAsDate(date, CSV_DEFAULT_DATE_FORMAT);
+    }
+
+    public static Date getAsDate(Object date, String dateFormat) throws ParseException {
         Date returnedValue = null;
         // try to convert
-        SimpleDateFormat aFormater = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+        SimpleDateFormat aFormater = new SimpleDateFormat(dateFormat);
         returnedValue = aFormater.parse(getAsString(date));
         return new java.sql.Date(returnedValue.getTime());
     }

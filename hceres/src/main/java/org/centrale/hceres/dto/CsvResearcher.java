@@ -5,9 +5,9 @@ import org.centrale.hceres.items.Researcher;
 
 @Data
 public class CsvResearcher {
-    // id is generated on insert to database, either found by defined merging rules
-    private int idDatabase;
+    // id Database is generated on insert to database, either found by defined merging rules
     private int idCsv;
+    private int idDatabase;
     private String researcherSurname;
     private String researcherName;
     private String researcherEmail;

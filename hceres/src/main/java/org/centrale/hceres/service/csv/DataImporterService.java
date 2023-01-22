@@ -1,7 +1,8 @@
 package org.centrale.hceres.service.csv;
 
-import lombok.SneakyThrows;
+import org.centrale.hceres.dto.CsvActivity;
 import org.centrale.hceres.dto.CsvResearcher;
+import org.centrale.hceres.dto.CsvTypeActivity;
 import org.centrale.hceres.dto.ImportCsvSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,17 @@ public class DataImporterService {
     @Autowired
     private ImportCsvResearcher importCsvResearcher;
 
+    @Autowired
+    private ImportCsvTypeActivity importCsvTypeActivity;
+
+    @Autowired
+    private ImportCsvActivity importCsvActivity;
+
+    @Autowired
+    private ImportCsvSrAward importCsvSrAward;
+
 
     /**
-     *
      * @param request Map from {@link SupportedCsvFormat} as String to array matching the specified format
      * @return
      * @throws ParseException
@@ -29,7 +38,7 @@ public class DataImporterService {
         // reorder the map based on dependencies of csv format
         Map<SupportedCsvFormat, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvFormat::compare);
 
-        for (Map.Entry<String,Object> entry : request.entrySet()) {
+        for (Map.Entry<String, Object> entry : request.entrySet()) {
             String csvFormat = entry.getKey();
             List<?> csvList = (List<?>) entry.getValue();
             try {
@@ -43,7 +52,9 @@ public class DataImporterService {
 
 
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
-        Map<Integer, CsvResearcher> csvIdToResearcherMap;
+        Map<Integer, CsvResearcher> csvIdToResearcherMap = null;
+        Map<Integer, CsvTypeActivity> csvIdToTypeActivityMap = null;
+        Map<Integer, Map<Integer, CsvActivity>> activityMap = null;
         for (Map.Entry<SupportedCsvFormat, List<?>> entry : csvDataRequest.entrySet()) {
             SupportedCsvFormat supportedCsvFormat = entry.getKey();
             List<?> csvList = entry.getValue();
@@ -52,15 +63,27 @@ public class DataImporterService {
                     csvIdToResearcherMap = importCsvResearcher.importCsvList(csvList, importCsvSummary);
                     break;
                 case INSTITUTION:
+                    break;
                 case LABORATORY:
+                    break;
                 case TEAM:
+                    break;
                 case BELONG_TEAM:
+                    break;
                 case NATIONALITY:
+                    break;
                 case TYPE_ACTIVITY:
-                    
+                    csvIdToTypeActivityMap = importCsvTypeActivity.importCsvList(csvList, importCsvSummary);
                     break;
                 case ACTIVITY:
+                    activityMap = importCsvActivity.importCsvList(csvList,
+                            importCsvSummary,
+                            csvIdToResearcherMap,
+                            csvIdToTypeActivityMap);
+                    break;
                 case SR_AWARD:
+                    importCsvSrAward.importCsvList(csvList, importCsvSummary, activityMap);
+                    break;
                 default:
                     break;
             }
