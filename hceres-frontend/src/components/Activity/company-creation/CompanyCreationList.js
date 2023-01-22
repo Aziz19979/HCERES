@@ -16,7 +16,7 @@ import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListCompanyCreations} from "../../../services/company-creation/CompanyCreationActions";
+import {fetchListCompanyCreations} from "../../../services/Activity/company-creation/CompanyCreationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import CompanyCreationDelete from "./CompanyCreationDelete";
 import CompanyCreationAdd from "./CompanyCreationAdd";

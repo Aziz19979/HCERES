@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import IndustrialContractElement from "./IndustrialContractElement";
-import {deleteIndustrialContract} from "../../../services/industrial-contract/IndustrialContractActions";
+import {deleteIndustrialContract} from "../../../services/Activity/industrial-contract/IndustrialContractActions";
 
 function IndustrialContractDelete(props) {
     const [show, setShow] = useState(true);

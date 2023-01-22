@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import IndustrialContractAdd from "./IndustrialContractAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListIndustrialContracts} from "../../../services/industrial-contract/IndustrialContractActions";
+import {fetchListIndustrialContracts} from "../../../services/Activity/industrial-contract/IndustrialContractActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import IndustrialContractDelete from "./IndustrialContractDelete";
 

@@ -10,6 +10,7 @@ import Connection from './components/Connection/Connection';
 import AuthWrapper from "./utils/AuthWrapper";
 import PageNotExist from "./components/pageNotExist";
 import ActivityList from "./components/Activity/ActivityList";
+import DataImporter from "./components/Configuration/import-data/DataImporter";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
 
                 {/*Add navigation bar only when user is logged in*/}
                 <Routes>
+                    <Route path='/Configuration' exact element={<Navbar/>}/>
                     <Route path='/Home' exact element={<Navbar/>}/>
                     <Route path='/Researcher' exact element={<Navbar/>}/>
                     <Route path='/Activity' exact element={<Navbar/>}/>
@@ -31,6 +33,7 @@ function App() {
                     <Route path='*' exact element={<PageNotExist/>}/>
 
                     <Route element={<AuthWrapper />}>
+                        <Route path='/Configuration' exact element={<DataImporter/>}/>
                         <Route path='/Home' exact element={<Home/>}/>
                         <Route path='/Researcher' exact element={<Researcher/>}/>
                         <Route path='/Activity' exact element={<ActivityList/>}/>

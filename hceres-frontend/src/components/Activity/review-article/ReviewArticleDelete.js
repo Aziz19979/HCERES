@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import ReviewArticleElement from "./ReviewArticleElement";
-import {deleteReviewArticle} from "../../../services/review-article/ReviewArticleActions";
+import {deleteReviewArticle} from "../../../services/Activity/review-article/ReviewArticleActions";
 
 function ReviewArticleDelete(props) {
     const [show, setShow] = useState(true);

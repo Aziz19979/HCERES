@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import ReviewArticleAdd from "./ReviewArticleAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListReviewArticles} from "../../../services/review-article/ReviewArticleActions";
+import {fetchListReviewArticles} from "../../../services/Activity/review-article/ReviewArticleActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import ReviewArticleDelete from "./ReviewArticleDelete";
 

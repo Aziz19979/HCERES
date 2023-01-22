@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {addEducation} from "../../../services/education/EducationActions";
+import {addEducation} from "../../../services/Activity/education/EducationActions";
 import ResearcherSelect from "../../util/ResearcherSelect";
 import LoadingIcon from "../../util/LoadingIcon";
 

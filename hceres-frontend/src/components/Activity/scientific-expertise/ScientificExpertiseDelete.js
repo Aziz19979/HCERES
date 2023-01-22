@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import ScientificExpertiseElement from "./ScientificExpertiseElement";
-import {deleteScientificExpertise} from "../../../services/scientific-expertise/ScientificExpertiseActions";
+import {deleteScientificExpertise} from "../../../services/Activity/scientific-expertise/ScientificExpertiseActions";
 
 function ScientificExpertiseDelete(props) {
     const [show, setShow] = useState(true);

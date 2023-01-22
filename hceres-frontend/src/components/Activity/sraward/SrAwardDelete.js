@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import SrAwardElement from "./SrAwardElement";
-import {deleteSrAward} from "../../../services/sraward/SrAwardActions";
+import {deleteSrAward} from "../../../services/Activity/sraward/SrAwardActions";
 
 function SrAwardDelete(props) {
     const [show, setShow] = useState(true);

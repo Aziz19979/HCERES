@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import PostDocAdd from "./PostDocAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListPostDocs} from "../../../services/post-doc/PostDocActions";
+import {fetchListPostDocs} from "../../../services/Activity/post-doc/PostDocActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import PostDocDelete from "./PostDocDelete";
 

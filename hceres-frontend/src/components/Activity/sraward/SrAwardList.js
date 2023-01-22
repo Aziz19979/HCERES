@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import SrAwardAdd from "./SrAwardAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListSrAwards} from "../../../services/sraward/SrAwardActions";
+import {fetchListSrAwards} from "../../../services/Activity/sraward/SrAwardActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import SrAwardDelete from "./SrAwardDelete";
 

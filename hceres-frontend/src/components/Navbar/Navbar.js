@@ -1,6 +1,6 @@
 // Cette component est pour definir la barre de navigation
 import React, {useState} from 'react';
-import {FaBars, FaHome, FaTimes, FaUserGraduate} from 'react-icons/fa';
+import {FaBars, FaCog, FaHome, FaTimes, FaUserGraduate} from 'react-icons/fa';
 import {
     Nav,
     NavbarContainer,
@@ -45,6 +45,11 @@ const Navbar = () => {
                 </MobileIcon>
                 {/* Le menu que va contenir le Navbar */}
                 <NavMenu onClick={handleClick} click={click}>
+                    <NavItem>
+                        <NavLinks to="/Configuration" className={(nav) => nav.isActive() ? "active" : ""}>
+                            <FaCog className={"mr-2"}/> Configuration
+                        </NavLinks>
+                    </NavItem>
                     <NavItem>
                         <NavLinks to="/Home" className={(nav) => nav.isActive() ? "active" : ""}>
                             <FaHome/> Accueil

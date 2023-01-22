@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import PlatformAdd from "./PlatformAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListPlatforms} from "../../../services/platform/PlatformActions";
+import {fetchListPlatforms} from "../../../services/Activity/platform/PlatformActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import PlatformDelete from "./PlatformDelete";
 

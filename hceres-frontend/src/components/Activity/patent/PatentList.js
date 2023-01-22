@@ -16,7 +16,7 @@ import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListPatents} from "../../../services/patent/PatentActions";
+import {fetchListPatents} from "../../../services/Activity/patent/PatentActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import PatentDelete from "./PatentDelete";
 import PatentAdd from "./PatentAdd";

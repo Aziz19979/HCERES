@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import PatentElement from "./PatentElement";
-import {deletePatent} from "../../../services/patent/PatentActions";
+import {deletePatent} from "../../../services/Activity/patent/PatentActions";
 
 function PatentDelete(props) {
     const [show, setShow] = useState(true);

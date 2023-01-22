@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import PostDocElement from "./PostDocElement";
-import {deletePostDoc} from "../../../services/post-doc/PostDocActions";
+import {deletePostDoc} from "../../../services/Activity/post-doc/PostDocActions";
 
 function PostDocDelete(props) {
     const [show, setShow] = useState(true);

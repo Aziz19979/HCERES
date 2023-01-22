@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import IncomingMobilityElement from "./IncomingMobilityElement";
-import {deleteIncomingMobility} from "../../../services/incoming-mobility/IncomingMobilityActions";
+import {deleteIncomingMobility} from "../../../services/Activity/incoming-mobility/IncomingMobilityActions";
 
 function IncomingMobilityDelete(props) {
     const [show, setShow] = useState(true);

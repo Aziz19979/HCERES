@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ResearcherSelect from "../../util/ResearcherSelect";
 import LoadingIcon from "../../util/LoadingIcon";
-import {addScientificExpertise} from "../../../services/scientific-expertise/ScientificExpertiseActions";
+import {addScientificExpertise} from "../../../services/Activity/scientific-expertise/ScientificExpertiseActions";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
