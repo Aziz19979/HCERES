@@ -7,20 +7,23 @@ export default function CsvTableResults({csvResults}) {
     const [searchTerm, setSearchTerm] = useState('');
 
     const headers = csvResults?.meta?.fields || [];
-    const data = csvResults?.data || [];
+    const data = useMemo(()=> {
+        return csvResults?.data || [];
+    }, [csvResults]);
 
     const columns = headers.map((header, index) => (
         {dataField: header, text: header}
     ));
-    columns.unshift({dataField: 'row', text: '', sort: true});
+    columns.unshift({dataField: 'row', text: '#Row', sort: true});
+
+    const originalData = useMemo(() => {
+        return data.map((row, index) => ({...row, row: index + 1}));
+    }, [data]);
 
     const filteredData = useMemo(() => {
-        if (!searchTerm) return data.map((row, index) => ({...row, row: index + 1}));
-        return data.map((row, index) => ({
-            ...row,
-            row: index + 1
-        })).filter((row, index) => (row.row).toString().includes(searchTerm));
-    }, [data, searchTerm]);
+        if (!searchTerm) return originalData;
+        return originalData.filter((row, index) => (row.row).toString().includes(searchTerm));
+    }, [originalData, searchTerm]);
 
     return (
         <div>

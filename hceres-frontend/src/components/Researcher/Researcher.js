@@ -12,7 +12,7 @@ import {FaEdit} from "react-icons/fa";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 import {ImFilter} from "react-icons/im";
-import {Audio, Oval} from 'react-loading-icons'
+import {Oval} from 'react-loading-icons'
 import AddResearcher from "./AddResearcher";
 import {Alert} from "react-bootstrap";
 import DeleteResearcher from "./DeleteResearcher";

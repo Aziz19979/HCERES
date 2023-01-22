@@ -2,21 +2,23 @@ import React, {useCallback, useRef, useReducer} from 'react';
 import Papa from 'papaparse';
 import Select from "react-select";
 import FixRequiredSelect from "../../util/FixRequiredSelect";
-import {Card, Form, ListGroupItem, Table, Button, Alert} from "react-bootstrap";
+import {Card, Form, ListGroupItem, Button, Alert} from "react-bootstrap";
 import {FaSync, FaUpload} from 'react-icons/fa';
 import LoadingIcon from "../../util/LoadingIcon";
 import {AiFillDelete, AiOutlineSetting} from "react-icons/ai";
-import {BiHide, BiShow} from "react-icons/bi";
+import {BiError, BiHide, BiShow} from "react-icons/bi";
 import CsvTableResults from "./CsvTableResults";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import {paginationOptions} from "../../util/BootStrapTableOptions";
-import {GiSettingsKnobs} from "react-icons/gi";
+import {GiCheckMark, GiSettingsKnobs} from "react-icons/gi";
+import SupportedCsvFormat from "./SupportedCsvFormat";
 
 const CsvValidator = (props) => {
     const csvFileParameter = props.csvFile
     const onDiscardCsv = props.onDiscard
     const onParseResults = props.onParseResults
+    const onChangeAssociatedTemplateCsv = props.onChangeAssociatedTemplateCsv
 
     React.useEffect(() => {
         if (csvFileParameter) {
@@ -30,13 +32,21 @@ const CsvValidator = (props) => {
     // how to use reducer see https://blog.logrocket.com/react-usereducer-hook-ultimate-guide/
     // and https://youtu.be/o-nCM1857AQ
     // options for csvDefaultDelimiterOption used in csv
-    const options = [
+    const delimiterOptions = [
+        {value: 'autoDetectDelimiter', label: "Detect automatically"},
         {value: ';', label: "Semicolon ';' "},
         {value: ',', label: "Comma ',' "},
         {value: ' ', label: "Space ' ' "},
         {value: '\t', label: "Tab '\\t' "},
-        {value: '|', label: "Pipe '|' "}
+        {value: '|', label: "Pipe '|' "},
     ];
+
+    const csvTemplateOptions = Object.keys(SupportedCsvFormat).map(template => {
+        return {
+            value: SupportedCsvFormat[template],
+            label: SupportedCsvFormat[template].label,
+        }
+    });
 
     const initialState = {
         // ------------- Input states ---------------
@@ -49,14 +59,16 @@ const CsvValidator = (props) => {
         csvIsDiscardFirstLine: false,
 
         csvIsAutoDetectDelimiter: false,
-        csvDefaultDelimiterOption: options[0],
+        csvDefaultDelimiterOption: {value: ';', label: "Semicolon ';' "},
 
         // --------------- UI states ---------------
         isLoading: false,
-        showCsvViewer: false,
+        showCsvTableResults: false,
         showConfiguration: false,
 
         // --------------- Generated data state ---------------
+        associatedCsvTemplateOption: {value: undefined, label: "Unknown template"},
+        isMeetingCsvTemplate: false,
         /**
          * Results structure:
          * {
@@ -111,6 +123,18 @@ const CsvValidator = (props) => {
         switch (action.type) {
             case 'select-and-read-file':
                 const file = action.payload;
+
+                // try to guess association based on file name pattern
+                let defaultNextCsvTemplate = state.associatedCsvTemplateOption;
+                const matchedElements = Object.entries(SupportedCsvFormat)
+                    .filter(([, element]) =>
+                        element.fileNamePattern.some((pattern) => pattern.test(file.name))
+                    );
+                if (matchedElements.length > 0) {
+                    defaultNextCsvTemplate = {label: matchedElements[0][1].label, value: matchedElements[0][1]};
+                }
+
+                // read file into memory and prepare for parse
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (event) => {
@@ -133,6 +157,7 @@ const CsvValidator = (props) => {
                         errorAlert: null,
                         infoAlert: null,
                         csvIsDiscardFirstLine: false,
+                        associatedCsvTemplateOption: defaultNextCsvTemplate,
                     };
                 }
                 return state;
@@ -163,7 +188,7 @@ const CsvValidator = (props) => {
                     if (state.csvIsAutoDetectDelimiter && usedDelimiter !== state.csvDefaultDelimiterOption.value)
                         nextDefaultDelimiterState = {
                             value: usedDelimiter,
-                            label: "Detected delimiter: " + usedDelimiter
+                            label: "Detected delimiter '" + usedDelimiter + "'"
                         };
                     // Handle any errors from the parse method
                     if (results.errors.length > 0) {
@@ -171,7 +196,7 @@ const CsvValidator = (props) => {
                             results.errors.map(error => JSON.stringify({
                                 type: error.type,
                                 code: error.code,
-                                row: error.row,
+                                row: error.row, // start row count from 1
                                 index: error.index, // not always defined
                                 message: error.message,
                             })))].map(error => JSON.parse(error));
@@ -221,14 +246,32 @@ const CsvValidator = (props) => {
                 if (onParseResults) {
                     onParseResults(newState.csvResults);
                 }
+                setTimeout(() => {
+                    dispatch({
+                        type: 'change-target-template'
+                    })
+                }, 500);
                 return newState;
             case 'delimiter-change':
                 return {
                     ...state,
-                    csvIsAutoDetectDelimiter: false,
+                    csvIsAutoDetectDelimiter: action.payload.value === 'autoDetectDelimiter',
                     csvDefaultDelimiterOption: action.payload,
                     isLoading: true,
                     csvIsDiscardFirstLine: false,
+                };
+            case 'change-target-template':
+                // check if new template meet condition such as number of columns
+                const associatedCsvTemplateOption = action.payload ?? state.associatedCsvTemplateOption;
+                const isMeetingCsvTemplate = associatedCsvTemplateOption?.value?.fields?.length
+                    === state?.csvResults?.meta?.fields?.length;
+                if (isMeetingCsvTemplate) {
+                    onChangeAssociatedTemplateCsv(associatedCsvTemplateOption.value);
+                }
+                return {
+                    ...state,
+                    associatedCsvTemplateOption: associatedCsvTemplateOption,
+                    isMeetingCsvTemplate: isMeetingCsvTemplate,
                 };
             case 'clear-error-alert':
                 return {
@@ -238,7 +281,7 @@ const CsvValidator = (props) => {
             case 'toggle-show-csv-table':
                 return {
                     ...state,
-                    showCsvViewer: !state.showCsvViewer
+                    showCsvTableResults: !state.showCsvTableResults
                 }
             case 'toggle-show-configuration':
                 return {
@@ -252,30 +295,40 @@ const CsvValidator = (props) => {
 
     const isCsvChargedWithResults = state.csvResults && state.csvResults.meta && state.csvResults.meta.fields;
     const totalRowsResults = isCsvChargedWithResults ? state.csvResults.data.length : 0;
+    const totalColumnsResults = isCsvChargedWithResults ? state.csvResults.meta.fields.length : 0;
     const errorTableColumns = [
-        { dataField: 'type', text: 'Error type' },
-        { dataField: 'code', text: 'Code' },
-        { dataField: 'row', text: 'Line' },
-        { dataField: 'index', text: '#Character' },
-        { dataField: 'message', text: 'Message' }
+        {dataField: 'type', text: 'Error type', width: '10%'},
+        {dataField: 'code', text: 'Code', width: '10%'},
+        {dataField: 'row', text: 'Line', width: '10%', formatter: (cell, row) => row.row + 1},
+        {dataField: 'index', text: '#Character', hidden: true},
+
+        {dataField: 'content', text: 'Content', width: '20%',
+            formatter: (cell, row) => {
+            return <>
+                {state.csvResults.meta.fields.map((field, index) => (
+                    <>{
+                        state.csvResults.data[row.row][field]?
+                        <Alert variant="success" style={{margin:0}}> {field}: {state.csvResults.data[row.row][field]}</Alert>
+                        :<Alert variant="danger"> {field}: </Alert>
+                    }</>
+                ))}
+            </>
+            }},
+
+        {dataField: 'message', text: 'Message', width: '50%'}
     ];
     return (
         <div>
             <Card className={"mx-auto"}>
-                {state.showConfiguration
-                    && <Card.Header>
-                        Import Data CSV
-                    </Card.Header>}
-                <Card.Body>
+                <Card.Header>
                     {state.csvFile ?
                         <div>
-                            <ListGroupItem variant={"primary"}>
+                            <ListGroupItem variant={state.isMeetingCsvTemplate ? "primary" : "danger"}>
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-12 col-md-3">
                                             <div>
                                                 {/* First Column, spans both rows */}
-
                                                 {state.isLoading ? <LoadingIcon text={"Parsing file: "}/> :
                                                     <div className="btn-group" role="group">
                                                         <Button variant="light" onClick={() => {
@@ -283,14 +336,15 @@ const CsvValidator = (props) => {
                                                                 type: 'toggle-show-configuration'
                                                             })
                                                         }}>
-                                                            {state.showConfiguration ? <GiSettingsKnobs/> : <AiOutlineSetting/>}
+                                                            {state.showConfiguration ? <GiSettingsKnobs/> :
+                                                                <AiOutlineSetting/>}
                                                         </Button>
                                                         <Button variant="secondary" onClick={() => {
                                                             dispatch({
                                                                 type: 'toggle-show-csv-table'
                                                             })
                                                         }}>
-                                                            {state.showCsvViewer ? <BiShow/> : <BiHide/>}
+                                                            {state.showCsvTableResults ? <BiShow/> : <BiHide/>}
                                                         </Button>
                                                         {onDiscardCsv &&
                                                             <Button variant="danger" onClick={() => onDiscardCsv()}>
@@ -319,79 +373,155 @@ const CsvValidator = (props) => {
                                                     <div>
                                                         {/* Second Column, row 2 */}
                                                         {totalRowsResults > 0 ?
-                                                            "Total records : " + totalRowsResults
+                                                            "Total records : " + totalRowsResults + " * "
+                                                            + totalColumnsResults + " columns"
                                                             : null}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </ListGroupItem>
-                            {state.showConfiguration
-                                &&
-                                <form>
-                                    <div className="form-group" hidden={state.csvFile}>
-                                        <Button variant="success" className="mr-2">
-                                            <label htmlFor="csv-file" className="file-upload-label border-0">
-                                                <FaUpload className={"mr-2"}/>
-                                                Upload CSV
-                                            </label>
-                                            <Form.File
-                                                id="csv-file"
-                                                label="Upload CSV file"
-                                                accept=".csv"
-                                                onChange={(e) => {
+                                    <div className={"row"}>
+                                        <div className={"col-12 col-md-3"}>
+                                        </div>
+                                        <div className={"col-12 col-md-5"}>
+                                            Associated Csv Template:
+                                            <FixRequiredSelect
+                                                SelectComponent={Select}
+                                                options={csvTemplateOptions}
+                                                onChange={(option) => {
                                                     dispatch({
-                                                        type: 'select-and-read-file',
-                                                        payload: e.target.files[0]
+                                                        type: 'change-target-template',
+                                                        payload: option
                                                     })
                                                 }}
-                                                disabled={state.isLoading}
-                                                ref={fileInputRef}
-                                                style={{display: "none"}}
+                                                value={state.associatedCsvTemplateOption}
+                                                required={true}
                                             />
-                                        </Button>
+                                        </div>
+                                        <div className={"col-12 col-md-4"}>
+                                            {state.isMeetingCsvTemplate ?
+                                                <><GiCheckMark/> Csv Match template format</> :
+                                                <><BiError/> Csv doesn't match template format</>
+                                            }
+                                            <ul>
+                                                {state?.associatedCsvTemplateOption?.value?.dependencies?.length > 0 ?
+                                                    <>
+                                                        Liste des dépendances
+                                                        {SupportedCsvFormat
+                                                            .getDependencies(state.associatedCsvTemplateOption.value.key)
+                                                            .map((dependency, index) => {
+                                                                return <li key={dependency.key}>{dependency.label}</li>
+                                                            })}
+                                                    </>
+                                                    : null
+                                                }
+                                            </ul>
+                                        </div>
                                     </div>
+                                </div>
+                            </ListGroupItem>
+                        </div> : null}
+                </Card.Header>
+                <Card.Body>
+                    {state.csvFile ?
+                        <div>
 
-
-                                    <div className="form-group">
-                                        <label htmlFor="separator-select">Select Separator</label>
-                                        <FixRequiredSelect
-                                            SelectComponent={Select}
-                                            options={options}
-                                            value={state.csvDefaultDelimiterOption}
-                                            onChange={(option) => {
+                            <form style={state.showConfiguration ? {} : {display: "none"}}>
+                                <div className="form-group" hidden={state.csvFile}>
+                                    <Button variant="success" className="mr-2">
+                                        <label htmlFor="csv-file" className="file-upload-label border-0">
+                                            <FaUpload className={"mr-2"}/>
+                                            Upload CSV
+                                        </label>
+                                        <Form.File
+                                            id="csv-file"
+                                            label="Upload CSV file"
+                                            accept=".csv"
+                                            onChange={(e) => {
                                                 dispatch({
-                                                    type: 'delimiter-change',
-                                                    payload: option
-                                                })
-                                                dispatch({
-                                                    type: 'parse-csv'
+                                                    type: 'select-and-read-file',
+                                                    payload: e.target.files[0]
                                                 })
                                             }}
-                                            required={true}
+                                            disabled={state.isLoading}
+                                            ref={fileInputRef}
+                                            style={{display: "none"}}
                                         />
-                                    </div>
-                                </form>
-                            }
+                                    </Button>
+                                </div>
+
+
+                                <div className="form-group">
+                                    <label htmlFor="separator-select">Select Separator</label>
+                                    <FixRequiredSelect
+                                        SelectComponent={Select}
+                                        options={delimiterOptions}
+                                        value={state.csvDefaultDelimiterOption}
+                                        onChange={(option) => {
+                                            dispatch({
+                                                type: 'delimiter-change',
+                                                payload: option
+                                            })
+                                            dispatch({
+                                                type: 'parse-csv'
+                                            })
+                                        }}
+                                        required={true}
+                                    />
+                                </div>
+                            </form>
+
                             {state.errorAlert && <Alert variant={"danger"}
-                                onClose={() => dispatch({type: 'clear-error-alert'})}
-                                dismissible={true}>{state.errorAlert}</Alert>}
+                                                        onClose={() => dispatch({type: 'clear-error-alert'})}
+                                                        dismissible={true}>{state.errorAlert}</Alert>}
 
                             {state.showConfiguration && isCsvChargedWithResults &&
                                 <>
-                                    <ListGroupItem>
-                                        Number of columns {state.csvResults.meta.fields.length}
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        {state.csvIsDiscardFirstLine && "Horray! First line is automatically discarded!"}
-                                        <br/>
-                                        Columns headers:
-                                        {state.csvResults.meta.fields.map((columnName, index) => {
-                                            return <ListGroupItem key={columnName}>{columnName}</ListGroupItem>;
-                                        })}
-                                    </ListGroupItem>
+                                    <div className={"row"}>
+                                        <div className={"col-12"}>
+                                            {state.csvIsDiscardFirstLine && "First line is automatically discarded!"}
+                                        </div>
+                                    </div>
+                                    <div className={"row"}>
+                                        <div className={"col-6"}>
+                                            <ListGroupItem>
+                                                Number of columns {state.csvResults.meta.fields.length}
+                                            </ListGroupItem>
+                                            <ListGroupItem>
+                                                Columns headers:
+                                                {state.csvResults.meta.fields.map((columnName, index) => {
+                                                    return <ListGroupItem key={columnName}>{columnName}</ListGroupItem>;
+                                                })}
+                                            </ListGroupItem>
+                                        </div>
+                                        <div className={"col-6"}>
+                                            <ListGroupItem
+                                                variant={totalColumnsResults === state.associatedCsvTemplateOption?.value?.fields?.length ?
+                                                    "success" :
+                                                    "danger"}>
+                                                Expected Number of
+                                                columns {state.associatedCsvTemplateOption?.value?.fields?.length}
+                                            </ListGroupItem>
+                                            <ListGroupItem>
+                                                Columns headers:
+                                                {state.associatedCsvTemplateOption?.value?.fields?.map((columnName, index) => {
+                                                    return <ListGroupItem key={columnName}
+                                                                          variant={columnName === state.csvResults.meta.fields[index] ?
+                                                                              "success" :
+                                                                              "warning"}>
+                                                        {columnName}
+                                                    </ListGroupItem>;
+                                                })}
+                                            </ListGroupItem>
+                                            Merging rules:
+                                            <ul>
+                                                {state.associatedCsvTemplateOption?.value.mergingRules.map((rule, index) => {
+                                                    return <li key={rule}>{rule}</li>
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </>
                             }
                             {state.infoAlert ? <ListGroupItem variant={"success"}>
@@ -412,7 +542,7 @@ const CsvValidator = (props) => {
                             wrapperClasses="table-responsive"
                         />}
 
-                    {state.showCsvViewer
+                    {state.showCsvTableResults
                         && <CsvTableResults
                             csvResults={state.csvResults}
                             onHide={() => dispatch({
