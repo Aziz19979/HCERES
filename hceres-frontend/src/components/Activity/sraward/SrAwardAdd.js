@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ResearcherSelect from "../../util/ResearcherSelect";
 import LoadingIcon from "../../util/LoadingIcon";
-import {addSrAward} from "../../../services/sraward/SrAwardActions";
+import {addSrAward} from "../../../services/Activity/sraward/SrAwardActions";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database

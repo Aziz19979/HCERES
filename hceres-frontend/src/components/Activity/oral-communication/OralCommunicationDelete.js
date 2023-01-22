@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import OralCommunicationElement from "./OralCommunicationElement";
-import {deleteOralCommunication} from "../../../services/oral-communication/OralCommunicationActions";
+import {deleteOralCommunication} from "../../../services/Activity/oral-communication/OralCommunicationActions";
 
 function OralCommunicationDelete(props) {
     const [show, setShow] = useState(true);

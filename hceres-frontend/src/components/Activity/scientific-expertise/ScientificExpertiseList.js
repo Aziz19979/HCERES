@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import ScientificExpertiseAdd from "./ScientificExpertiseAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListScientificExpertises} from "../../../services/scientific-expertise/ScientificExpertiseActions";
+import {fetchListScientificExpertises} from "../../../services/Activity/scientific-expertise/ScientificExpertiseActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import ScientificExpertiseDelete from "./ScientificExpertiseDelete";
 

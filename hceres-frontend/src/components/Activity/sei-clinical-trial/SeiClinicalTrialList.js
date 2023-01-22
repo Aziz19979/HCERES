@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import SeiClinicalTrialAdd from "./SeiClinicalTrialAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListSeiClinicalTrials} from "../../../services/sei-clinical-trial/SeiClinicalTrialActions";
+import {fetchListSeiClinicalTrials} from "../../../services/Activity/sei-clinical-trial/SeiClinicalTrialActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import SeiClinicalTrialDelete from "./SeiClinicalTrialDelete";
 

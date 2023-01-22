@@ -16,7 +16,7 @@ import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListOutgoingMobilities} from "../../../services/outgoing-mobility/OutgoingMobilityActions";
+import {fetchListOutgoingMobilities} from "../../../services/Activity/outgoing-mobility/OutgoingMobilityActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import OutgoingMobilityDelete from "./OutgoingMobilityDelete";
 import OutgoingMobilityAdd from "./OutgoingMobilityAdd";

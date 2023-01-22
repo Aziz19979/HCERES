@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import EducationElement from "./EducationElement";
-import {deleteEducation} from "../../../services/education/EducationActions";
+import {deleteEducation} from "../../../services/Activity/education/EducationActions";
 
 function EducationDelete(props) {
     const [show, setShow] = useState(true);

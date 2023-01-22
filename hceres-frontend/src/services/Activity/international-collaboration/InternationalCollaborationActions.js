@@ -1,6 +1,6 @@
 import axios from "axios";
-import MyGlobalVar from "../MyGlobalVar";
-import {API_URL} from "../../constants";
+import MyGlobalVar from "../../MyGlobalVar";
+import {API_URL} from "../../../constants";
 
 export const fetchListInternationalCollaborations = async () => {
     if (!MyGlobalVar.listeInternationalCollaborations) {

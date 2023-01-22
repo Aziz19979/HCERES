@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import CompanyCreationElement from "./CompanyCreationElement";
-import {deleteCompanyCreation} from "../../../services/company-creation/CompanyCreationActions";
+import {deleteCompanyCreation} from "../../../services/Activity/company-creation/CompanyCreationActions";
 
 function CompanyCreationDelete(props) {
     const [show, setShow] = useState(true);

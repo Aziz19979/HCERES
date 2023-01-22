@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {
     addInternationalCollaboration
-} from "../../../services/international-collaboration/InternationalCollaborationActions";
+} from "../../../services/Activity/international-collaboration/InternationalCollaborationActions";
 import ResearcherSelect from "../../util/ResearcherSelect";
 import LoadingIcon from "../../util/LoadingIcon";
 

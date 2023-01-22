@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import InternationalCollaborationAdd from "./InternationalCollaborationAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListInternationalCollaborations} from "../../../services/international-collaboration/InternationalCollaborationActions";
+import {fetchListInternationalCollaborations} from "../../../services/Activity/international-collaboration/InternationalCollaborationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import InternationalCollaborationDelete from "./InternationalCollaborationDelete";
 

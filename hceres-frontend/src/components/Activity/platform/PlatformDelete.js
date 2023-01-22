@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import PlatformElement from "./PlatformElement";
-import {deletePlatform} from "../../../services/platform/PlatformActions";
+import {deletePlatform} from "../../../services/Activity/platform/PlatformActions";
 
 function PlatformDelete(props) {
     const [show, setShow] = useState(true);

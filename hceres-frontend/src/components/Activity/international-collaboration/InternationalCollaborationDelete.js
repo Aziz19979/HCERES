@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import InternationalCollaborationElement from "./InternationalCollaborationElement";
-import {deleteInternationalCollaboration} from "../../../services/international-collaboration/InternationalCollaborationActions";
+import {deleteInternationalCollaboration} from "../../../services/Activity/international-collaboration/InternationalCollaborationActions";
 
 function InternationalCollaborationDelete(props) {
     const [show, setShow] = useState(true);

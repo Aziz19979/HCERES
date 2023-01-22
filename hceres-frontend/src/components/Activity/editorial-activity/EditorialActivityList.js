@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import EditorialActivityAdd from "./EditorialActivityAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListEditorialActivities} from "../../../services/editorial-activity/EditorialActivityActions";
+import {fetchListEditorialActivities} from "../../../services/Activity/editorial-activity/EditorialActivityActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import EditorialActivityDelete from "./EditorialActivityDelete";
 

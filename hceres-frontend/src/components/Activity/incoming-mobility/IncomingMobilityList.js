@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import IncomingMobilityAdd from "./IncomingMobilityAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListIncomingMobilities} from "../../../services/incoming-mobility/IncomingMobilityActions";
+import {fetchListIncomingMobilities} from "../../../services/Activity/incoming-mobility/IncomingMobilityActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import IncomingMobilityDelete from "./IncomingMobilityDelete";
 

@@ -17,7 +17,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import OralCommunicationAdd from "./OralCommunicationAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListOralCommunications} from "../../../services/oral-communication/OralCommunicationActions";
+import {fetchListOralCommunications} from "../../../services/Activity/oral-communication/OralCommunicationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import OralCommunicationDelete from "./OralCommunicationDelete";
 

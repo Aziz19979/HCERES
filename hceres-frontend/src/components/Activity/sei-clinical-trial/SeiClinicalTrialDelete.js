@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import SeiClinicalTrialElement from "./SeiClinicalTrialElement";
-import {deleteSeiClinicalTrial} from "../../../services/sei-clinical-trial/SeiClinicalTrialActions";
+import {deleteSeiClinicalTrial} from "../../../services/Activity/sei-clinical-trial/SeiClinicalTrialActions";
 
 function SeiClinicalTrialDelete(props) {
     const [show, setShow] = useState(true);

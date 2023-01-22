@@ -16,7 +16,7 @@ import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListEducations} from "../../../services/education/EducationActions";
+import {fetchListEducations} from "../../../services/Activity/education/EducationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import EducationDelete from "./EducationDelete";
 import EducationAdd from "./EducationAdd";
