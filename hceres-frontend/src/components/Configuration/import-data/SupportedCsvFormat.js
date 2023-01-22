@@ -124,8 +124,9 @@ class SupportedCsvFormat {
             "specific_activity_count",
             "activity_name_type"
         ],
-        mergingRules: ["Merge based on id_researcher, id_type present in dependencies.",
-            "Dependency details of activites must be present in activityTemplate.csv matching id_type. Otherwise Entry is ignored",
+        mergingRules: ["Merge based on id_researcher present in dependency researcher.",
+            "Merge based on id_type present in dependency type_activity.",
+            "Child dependency details of activites must be present in separate file activityTemplate.csv matching id_type and specific_activity_count. Otherwise Entry is ignored",
         ],
         dependencies: [this.RESEARCHER, this.TYPE_ACTIVITY],
     };
