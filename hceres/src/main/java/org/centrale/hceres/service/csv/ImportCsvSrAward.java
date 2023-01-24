@@ -87,7 +87,9 @@ public class ImportCsvSrAward {
         List<Activity> savedTypeActivities = activityRepo.saveAll(activityToSave);
         savedTypeActivities.forEach(r -> activityMapDb.put(CsvSrAward.getMergingKey(r.getSrAward()), r));
 
-        importCsvSummary.getEntityToInsertedCount().put(SupportedCsvFormat.TYPE_ACTIVITY.toString(), activityToSave.size());
-        importCsvSummary.getEntityToErrorMsg().put(SupportedCsvFormat.TYPE_ACTIVITY.toString(), errors);
+        // add number to total activities
+        importCsvSummary.addToTotalActivityCountInserted(activityToSave.size());
+        importCsvSummary.getEntityToInsertedCount().put(SupportedCsvFormat.SR_AWARD.toString(), activityToSave.size());
+        importCsvSummary.getEntityToErrorMsg().put(SupportedCsvFormat.SR_AWARD.toString(), errors);
     }
 }

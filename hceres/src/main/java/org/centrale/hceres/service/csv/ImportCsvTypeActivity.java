@@ -65,8 +65,6 @@ public class ImportCsvTypeActivity {
             csvTypeActivityMap.get(key).setIdDatabase(savedTypeActivity.getIdTypeActivity());
         }
 
-        importCsvSummary.getEntityToInsertedCount().put(SupportedCsvFormat.TYPE_ACTIVITY.toString(), typeActivitysToSave.size());
-
         // prepare map from csvId to TypeActivity map and return it
         Map<Integer, CsvTypeActivity> csvIdToTypeActivityMap = new HashMap<>();
         csvTypeActivityMap.forEach((key, r) -> csvIdToTypeActivityMap.put(r.getIdCsv(), r));
