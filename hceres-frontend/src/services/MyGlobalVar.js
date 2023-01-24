@@ -1,5 +1,9 @@
 class MyClass {
     constructor() {
+        this.initializeLists();
+    }
+
+    initializeLists() {
         this.listeChercheurs = null;
         this.listeEducations = null;
         this.listeSrAwards = null;

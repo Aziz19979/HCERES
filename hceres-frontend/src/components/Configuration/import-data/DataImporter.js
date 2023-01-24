@@ -1,10 +1,14 @@
 import React, {useReducer, useRef} from 'react';
 import CsvValidator from "./CsvValidator";
 import {Alert, Button, Form} from "react-bootstrap";
-import {FaUpload} from "react-icons/fa";
+import {FaDownload, FaUpload} from "react-icons/fa";
+import {AiFillDelete} from "react-icons/ai";
 import SupportedCsvFormat from "./SupportedCsvFormat";
 import {insertCsvDataIntoDatabase} from "../../../services/Configuration/import-data/DataImporterActions";
 import LoadingIcon from "../../util/LoadingIcon";
+import CsvSampleDownloader from "./CsvSampleDownloader";
+import MyGlobalVar from "../../../services/MyGlobalVar";
+import {purgeDatabase} from "../../../services/Configuration/DataPurgerActions";
 
 const DataImporter = () => {
     const initialState = {
@@ -16,6 +20,8 @@ const DataImporter = () => {
 
         // UI state
         isInsertingIntoDataBase: false,
+        isPurgingDatabase: false,
+        downloadCsvHolder: false,
 
         // Generated state
         missingCsvDependencies: new Set(),
@@ -47,6 +53,20 @@ const DataImporter = () => {
         }
 
         switch (action.type) {
+            case 'download-csv-samples':
+                console.log(CsvSampleDownloader())
+                setTimeout(() => dispatch({
+                    type: 'download-csv-samples-done',
+                }), 1000);
+                return {
+                    ...state,
+                    downloadCsvHolder: true
+                };
+            case 'download-csv-samples-done':
+                return {
+                    ...state,
+                    downloadCsvHolder: false
+                };
             case 'add-list-of-files':
                 const selectedFiles = action.payload;
                 const filesMap = state.csvFiles;
@@ -75,7 +95,7 @@ const DataImporter = () => {
                         />
                     );
                 }
-                setTimeout(()=>{
+                setTimeout(() => {
                     fileInputRef.current.value = "";
                 }, 2000);
                 return {
@@ -135,9 +155,50 @@ const DataImporter = () => {
                     ...state,
                     isInsertingIntoDataBase: true,
                 };
+            case 'purge-the-database':
+                purgeDatabase().then((response) => {
+                    dispatch({
+                        type: 'purge-database-success',
+                        payload: response,
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                    dispatch({
+                        type: 'purge-database-failed',
+                        payload: error,
+                    })
+                });
+                return {
+                    ...state,
+                    isPurgingDatabase: true,
+                };
+            case 'purge-database-success':
+                // Changer par un alert dans la page plus tard
+                setTimeout(()=>{
+                    alert("Database cleared successfully!");
+                }, 500);
+                MyGlobalVar.initializeLists();
+                return {
+                    ...state,
+                    isPurgingDatabase: false,
+                };
+            case 'purge-database-failed':
+                // Changer par un alert dans la page plus tard
+                setTimeout(()=>{
+                    alert("There was an error during clear, check logs!")
+                }, 500);
+                return {
+                    ...state,
+                    isPurgingDatabase: false,
+                };
             case 'insert-database-success':
+                // Changer par un alert dans la page plus tard
+                setTimeout(()=>{
+                    alert("insert success!" + JSON.stringify(action?.payload?.data?.entityToInsertedCount));
+                }, 500);
                 console.log("insert success");
                 console.log(action.payload);
+                MyGlobalVar.initializeLists();
                 return {
                     ...state,
                     isInsertingIntoDataBase: false,
@@ -231,7 +292,9 @@ const DataImporter = () => {
                                 return <li key={dependency.key}>{dependency.label}</li>
                             })}
                     </Alert>
-                    : <Alert variant={"success"}>
+                    : <Alert variant={"success"}
+                             hidden={state.csvParseResults.size === 0}
+                    >
                         All dependencies are satisfied !
                     </Alert>
                 }
@@ -240,7 +303,37 @@ const DataImporter = () => {
                 <form>
                     <div className="form-group">
                         <div className="btn-group" role="group">
-                            <Button variant="success" className="ml-2 btn-group">
+                            <Button variant="danger"
+                                    className={"btn-group"}
+                                    disabled={state.isPurgingDatabase || state.isInsertingIntoDataBase}
+                                    onClick={() => {
+                                        dispatch({
+                                            type: 'purge-the-database'
+                                        })
+                                    }}
+                            >
+                                <AiFillDelete className={"mr-2"}/>
+                                {state.isPurgingDatabase ? <LoadingIcon color={"white"}/> : null}
+                                {state.isPurgingDatabase ? 'Suppression en cours...' : 'Supprimer toute la base de données'}
+                            </Button>
+                            <Button variant="primary"
+                                    className={"btn-group"}
+                                    onClick={() => {
+                                        dispatch({
+                                            type: 'download-csv-samples'
+                                        })
+                                    }}
+                            >
+                                {state.downloadCsvHolder && <CsvSampleDownloader/>}
+
+                                <FaDownload className={"mr-2"}/>
+                                Download Sample
+                            </Button>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="btn-group" role="group">
+                            <Button variant="success" className="btn-group">
                                 <label htmlFor="csv-file" className="file-upload-label border-0">
                                     <FaUpload className={"mr-2"}/>
                                     Upload CSV
@@ -262,7 +355,7 @@ const DataImporter = () => {
                                 />
                             </Button>
                             <Button variant={"primary"}
-                                    disabled={state.isInsertingIntoDataBase}
+                                    disabled={state.isInsertingIntoDataBase || state.isPurgingDatabase}
                                     onClick={() => dispatch({
                                         type: 'insert-into-database'
                                     })}
@@ -284,6 +377,7 @@ const DataImporter = () => {
                                 onClick={() => dispatch({
                                     type: 'clear-all-files'
                                 })}
+                                hidden={state.csvParseResults.size === 0}
                             >
                                 Tout effacer
                             </Button>
