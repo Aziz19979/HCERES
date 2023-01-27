@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,10 +42,11 @@ public class BelongsTeam implements Serializable {
     @Column(name = "leaving_date")
     @Temporal(TemporalType.DATE)
     private Date leavingDate;
+    @JsonIgnore
     @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
     @ManyToOne(optional = false)
     private Researcher researcherId;
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     @ManyToOne(optional = false)
-    private Team teamId;
+    private Team team;
 }
