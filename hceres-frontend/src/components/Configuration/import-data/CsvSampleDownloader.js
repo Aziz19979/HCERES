@@ -2,6 +2,7 @@ import ResearcherCsv from "../../../assets/csvSamples/researcher.csv";
 import InstitutionCsv from "../../../assets/csvSamples/institution.csv";
 import LaboratoryCsv from "../../../assets/csvSamples/laboratory.csv";
 import TeamCsv from "../../../assets/csvSamples/team.csv";
+import BelongsTeamCsv from "../../../assets/csvSamples/belongs_team.csv";
 import TypeActivityCsv from "../../../assets/csvSamples/type_activity.csv";
 import ActivityCsv from "../../../assets/csvSamples/activity.csv";
 import SrAwardCsv from "../../../assets/csvSamples/sr_award.csv";
@@ -15,6 +16,7 @@ export default function CsvSampleDownloader() {
         InstitutionCsv,
         LaboratoryCsv,
         TeamCsv,
+        BelongsTeamCsv,
         TypeActivityCsv,
         ActivityCsv,
         SrAwardCsv,

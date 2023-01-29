@@ -28,6 +28,9 @@ public class DataImporterService {
     private ImportCsvTeam importCsvTeam;
 
     @Autowired
+    private ImportCsvBelongsTeam importCsvBelongsTeam;
+
+    @Autowired
     private ImportCsvTypeActivity importCsvTypeActivity;
 
     @Autowired
@@ -65,6 +68,7 @@ public class DataImporterService {
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
         Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
+        Map<String, GenericCsv<BelongsTeam, String>> csvIdToBelongsTeamMap = null;
         Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
         Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
         for (Map.Entry<SupportedCsvTemplate, List<?>> entry : csvDataRequest.entrySet()) {
@@ -90,6 +94,11 @@ public class DataImporterService {
                             csvIdToLaboratoryMap);
                     break;
                 case BELONG_TEAM:
+                    assert csvIdToTeamMap != null;
+                    csvIdToBelongsTeamMap = importCsvBelongsTeam.importCsvList(csvList,
+                            importCsvSummary,
+                            csvIdToResearcherMap,
+                            csvIdToTeamMap);
                     break;
                 case NATIONALITY:
                     break;

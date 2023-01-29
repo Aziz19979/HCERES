@@ -30,21 +30,33 @@ import javax.persistence.*;
 public class BelongsTeam implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_belongs_team")
     private Integer idBelongsTeam;
+
     @Column(name = "onboarding_date")
     @Temporal(TemporalType.DATE)
     private Date onboardingDate;
+
     @Column(name = "leaving_date")
     @Temporal(TemporalType.DATE)
     private Date leavingDate;
-    @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
-    @ManyToOne(optional = false)
-    private Researcher researcherId;
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
-    @ManyToOne(optional = false)
-    private Team teamId;
+
+
+    @Column(name = "researcher_id")
+    private Integer researcherId;
+
+    @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id", insertable = false, updatable = false)
+    @ManyToOne
+    private Researcher researcher;
+
+    @Column(name = "team_id")
+    private Integer teamId;
+
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id", insertable = false, updatable = false)
+    @ManyToOne
+    private Team team;
 }

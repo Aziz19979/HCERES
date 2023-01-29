@@ -21,7 +21,7 @@ public class GenericCsvImporter<E, I> {
      */
     public Map<I, GenericCsv<E, I>> importCsvList(List<?> csvRows,
                                                          CsvDtoFactory<E, I> genericCsvFactory,
-                                                         JpaRepository<E, I> entityRepository,
+                                                         JpaRepository<E, ?> entityRepository,
                                                          SupportedCsvTemplate supportedCsvTemplate,
                                                          ImportCsvSummary importCsvSummary) {
         // map to store imported entities from csv,

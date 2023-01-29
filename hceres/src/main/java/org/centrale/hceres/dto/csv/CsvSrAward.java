@@ -1,6 +1,7 @@
 package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
 import org.centrale.hceres.dto.csv.utils.CsvParseException;
 import org.centrale.hceres.dto.csv.utils.DependentCsv;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvSrAward extends DependentCsv<Activity, Integer> {
 

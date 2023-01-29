@@ -1,6 +1,7 @@
 package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Institution;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * This class is used only for mapping between activityTemplate.csv and Researcher.csv
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvActivity extends DependentCsv<Activity, Integer> {
     // id_type;id_activity;id_researcher;specific_activity_count;activity_name_type
