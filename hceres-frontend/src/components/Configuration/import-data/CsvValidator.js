@@ -12,7 +12,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import {paginationOptions} from "../../util/BootStrapTableOptions";
 import {GiCheckMark, GiSettingsKnobs} from "react-icons/gi";
-import SupportedCsvFormat from "./SupportedCsvFormat";
+import SupportedCsvTemplate from "./SupportedCsvTemplate";
 
 const CsvValidator = (props) => {
     const csvFileParameter = props.csvFile
@@ -41,10 +41,10 @@ const CsvValidator = (props) => {
         {value: '|', label: "Pipe '|' "},
     ];
 
-    const csvTemplateOptions = Object.keys(SupportedCsvFormat).map(template => {
+    const csvTemplateOptions = Object.keys(SupportedCsvTemplate).map(template => {
         return {
-            value: SupportedCsvFormat[template],
-            label: SupportedCsvFormat[template].label,
+            value: SupportedCsvTemplate[template],
+            label: SupportedCsvTemplate[template].label,
         }
     });
 
@@ -126,7 +126,7 @@ const CsvValidator = (props) => {
 
                 // try to guess association based on file name pattern
                 let defaultNextCsvTemplate = state.associatedCsvTemplateOption;
-                const matchedElements = Object.entries(SupportedCsvFormat)
+                const matchedElements = Object.entries(SupportedCsvTemplate)
                     .filter(([, element]) =>
                         element.fileNamePattern.some((pattern) => pattern.test(file.name))
                     );
@@ -408,7 +408,7 @@ const CsvValidator = (props) => {
                                                 {state?.associatedCsvTemplateOption?.value?.dependencies?.length > 0 ?
                                                     <>
                                                         Liste des dépendances
-                                                        {SupportedCsvFormat
+                                                        {SupportedCsvTemplate
                                                             .getDependencies(state.associatedCsvTemplateOption.value.key)
                                                             .map((dependency, index) => {
                                                                 return <li key={dependency.key}>{dependency.label}</li>

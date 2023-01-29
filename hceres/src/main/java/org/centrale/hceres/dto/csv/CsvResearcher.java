@@ -12,7 +12,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvResearcher extends InDependentCsv<Researcher> {
+public class CsvResearcher extends InDependentCsv<Researcher, Integer> {
     // id Database is generated on insert to database, either found by defined merging rules
     private String researcherSurname;
     private String researcherName;

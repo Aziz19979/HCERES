@@ -1,5 +1,6 @@
 import ResearcherCsv from "../../../assets/csvSamples/researcher.csv";
 import InstitutionCsv from "../../../assets/csvSamples/institution.csv";
+import LaboratoryCsv from "../../../assets/csvSamples/laboratory.csv";
 import TypeActivityCsv from "../../../assets/csvSamples/type_activity.csv";
 import ActivityCsv from "../../../assets/csvSamples/activity.csv";
 import SrAwardCsv from "../../../assets/csvSamples/sr_award.csv";
@@ -11,6 +12,7 @@ export default function CsvSampleDownloader() {
     const suppportedCsvSample = [
         ResearcherCsv,
         InstitutionCsv,
+        LaboratoryCsv,
         TypeActivityCsv,
         ActivityCsv,
         SrAwardCsv,

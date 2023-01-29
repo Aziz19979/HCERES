@@ -1,4 +1,4 @@
-class SupportedCsvFormat {
+class SupportedCsvTemplate {
     // affected table: researcher
     RESEARCHER = {
         key: "RESEARCHER",
@@ -162,4 +162,4 @@ class SupportedCsvFormat {
     }
 }
 
-export default (new SupportedCsvFormat())
+export default (new SupportedCsvTemplate())

@@ -12,14 +12,9 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvInstitution extends InDependentCsv<Institution> {
+public class CsvInstitution extends InDependentCsv<Institution, Integer> {
     private String institutionName;
 
-
-    /**
-     * Take the data from the csv and fill the csvInstitution object
-     * @param csvData
-     */
     @Override
     public void fillCsvData(List<?> csvData) throws CsvParseException {
         int fieldNumber = 0;

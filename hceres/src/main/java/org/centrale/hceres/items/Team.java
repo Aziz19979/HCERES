@@ -57,7 +57,11 @@ public class Team implements Serializable {
     private List<PublicationStatistics> publicationStatisticsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
     private List<BelongsTeam> belongsTeamList;
-    @JoinColumn(name = "laboratory_id", referencedColumnName = "laboratory_id")
-    @ManyToOne(optional = false)
-    private Laboratory laboratoryId;
+
+    @Column(name = "laboratory_id")
+    private Integer laboratoryId;
+
+    @JoinColumn(name = "laboratory_id", referencedColumnName = "laboratory_id", insertable = false, updatable = false)
+    @ManyToOne
+    private Laboratory laboratory;
 }

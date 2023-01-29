@@ -53,6 +53,6 @@ public class Laboratory implements Serializable {
     @ManyToOne
     private Institution institution;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratoryId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratory")
     private List<Team> teamList;
 }

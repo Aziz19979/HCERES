@@ -1,10 +1,13 @@
 package org.centrale.hceres.service.csv.util;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum SupportedCsvFormat {
+@Getter
+public enum SupportedCsvTemplate {
     RESEARCHER,
     INSTITUTION,
     LABORATORY(INSTITUTION),
@@ -15,14 +18,14 @@ public enum SupportedCsvFormat {
     ACTIVITY(RESEARCHER, TYPE_ACTIVITY),
     SR_AWARD(ACTIVITY);
 
-    final Set<SupportedCsvFormat> dependencies;
+    private final Set<SupportedCsvTemplate> dependencies;
 
-    SupportedCsvFormat(SupportedCsvFormat... dependencies) {
+    SupportedCsvTemplate(SupportedCsvTemplate... dependencies) {
         this.dependencies = new HashSet<>(Arrays.asList(dependencies));
     }
 
     /**
-     * Compare two values of the enum SupportedCsvFormat and return:
+     * Compare two values of the enum SupportedCsvTemplate and return:
      * 0 if the two values are independent (neither one depends on the other)
      * > 0 if the second value is dependent on the first one (directly or indirectly)
      * < 0 if the first value is dependent on the second one (directly or indirectly)
@@ -31,7 +34,7 @@ public enum SupportedCsvFormat {
      * @param second the second value of the enum to be compared
      * @return int representing the comparison result
      */
-    public static int compare(SupportedCsvFormat first, SupportedCsvFormat second) {
+    public static int compare(SupportedCsvTemplate first, SupportedCsvTemplate second) {
         // Since java doesn't allow Illegal forward reference the order definition
         // form a tree between the formats, so it is garanteed to use oridinal value as sorting value.
         return first.ordinal() - second.ordinal();
@@ -43,9 +46,9 @@ public enum SupportedCsvFormat {
      * @param format the format to get the dependencies for
      * @return set of all dependencies of the format
      */
-    public static Set<SupportedCsvFormat> getAllDependencies(SupportedCsvFormat format) {
-        Set<SupportedCsvFormat> allDependencies = new HashSet<>(format.dependencies);
-        for (SupportedCsvFormat dependency : format.dependencies) {
+    public static Set<SupportedCsvTemplate> getAllDependencies(SupportedCsvTemplate format) {
+        Set<SupportedCsvTemplate> allDependencies = new HashSet<>(format.dependencies);
+        for (SupportedCsvTemplate dependency : format.dependencies) {
             allDependencies.addAll(getAllDependencies(dependency));
         }
         return allDependencies;

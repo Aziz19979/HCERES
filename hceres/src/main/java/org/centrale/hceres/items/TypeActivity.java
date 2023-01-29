@@ -16,7 +16,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -93,6 +95,17 @@ public class TypeActivity implements Serializable {
 
         IdTypeActivity(int id) {
             this.id = id;
+        }
+
+        private static final Map<Integer, IdTypeActivity> idToEnum = new HashMap<>();
+        static {
+            for (IdTypeActivity e : values()) {
+                idToEnum.put(e.id, e);
+            }
+        }
+
+        public static IdTypeActivity fromId(int activityTypeId) {
+            return idToEnum.get(activityTypeId);
         }
     }
 }

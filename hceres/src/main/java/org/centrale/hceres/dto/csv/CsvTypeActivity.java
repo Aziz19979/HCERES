@@ -12,7 +12,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvTypeActivity extends InDependentCsv<TypeActivity> {
+public class CsvTypeActivity extends InDependentCsv<TypeActivity, Integer> {
     private String nameType;
 
     @Override

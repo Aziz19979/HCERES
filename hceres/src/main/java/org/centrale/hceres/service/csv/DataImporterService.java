@@ -2,14 +2,13 @@ package org.centrale.hceres.service.csv;
 
 import org.centrale.hceres.dto.csv.CsvActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.InDependentCsv;
+import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Institution;
 import org.centrale.hceres.items.Laboratory;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
-import org.centrale.hceres.service.csv.util.CsvFormatNotSupportedException;
-import org.centrale.hceres.service.csv.util.SupportedCsvFormat;
+import org.centrale.hceres.service.csv.util.CsvTemplateException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,36 +40,36 @@ public class DataImporterService {
     /**
      * @param request map from csv format to list of csv rows
      * @return summary of import
-     * @throws CsvFormatNotSupportedException if csv format is not supported
+     * @throws CsvTemplateException if csv format is not supported
      */
     public ImportCsvSummary importCsvData(@RequestBody Map<String, Object> request)
-            throws CsvFormatNotSupportedException {
+            throws CsvTemplateException {
         // reorder the map based on dependencies of csv format
-        Map<SupportedCsvFormat, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvFormat::compare);
+        Map<SupportedCsvTemplate, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvTemplate::compare);
 
         for (Map.Entry<String, Object> entry : request.entrySet()) {
             String csvFormat = entry.getKey();
             List<?> csvList = (List<?>) entry.getValue();
             try {
-                SupportedCsvFormat supportedCsvFormat = SupportedCsvFormat.valueOf(csvFormat);
-                csvDataRequest.put(supportedCsvFormat, csvList);
+                SupportedCsvTemplate supportedCsvTemplate = SupportedCsvTemplate.valueOf(csvFormat);
+                csvDataRequest.put(supportedCsvTemplate, csvList);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                throw new CsvFormatNotSupportedException(csvFormat + " format is not yet implemented in backend!");
+                throw new CsvTemplateException(csvFormat + " format is not yet implemented in backend!");
             }
         }
 
 
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
-        Map<Integer, InDependentCsv<Researcher>> csvIdToResearcherMap = null;
-        Map<Integer, InDependentCsv<Institution>> csvIdToInstitutionMap = null;
-        Map<String, DependentCsv<Laboratory>> csvIdToLaboratoryMap = null;
-        Map<Integer, InDependentCsv<TypeActivity>> csvIdToTypeActivityMap = null;
-        Map<Integer, Map<Integer, CsvActivity>> activityMap = null;
-        for (Map.Entry<SupportedCsvFormat, List<?>> entry : csvDataRequest.entrySet()) {
-            SupportedCsvFormat supportedCsvFormat = entry.getKey();
+        Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
+        Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
+        Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
+        Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
+        Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
+        for (Map.Entry<SupportedCsvTemplate, List<?>> entry : csvDataRequest.entrySet()) {
+            SupportedCsvTemplate supportedCsvTemplate = entry.getKey();
             List<?> csvList = entry.getValue();
-            switch (supportedCsvFormat) {
+            switch (supportedCsvTemplate) {
                 case RESEARCHER:
                     csvIdToResearcherMap = importCsvResearcher.importCsvList(csvList, importCsvSummary);
                     break;
@@ -100,12 +99,13 @@ public class DataImporterService {
                     break;
                 case SR_AWARD:
                     assert activityMap != null;
-                    importCsvSrAward.importCsvList(csvList, importCsvSummary, activityMap);
+                    importCsvSrAward.importCsvList(csvList, importCsvSummary, activityMap.get(TypeActivity.IdTypeActivity.SR_AWARD));
                     break;
                 default:
                     break;
             }
         }
+        importCsvSummary.updateTotalActivityCount();
         return importCsvSummary;
     }
 }

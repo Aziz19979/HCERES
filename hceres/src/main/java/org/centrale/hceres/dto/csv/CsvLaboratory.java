@@ -1,7 +1,7 @@
 package org.centrale.hceres.dto.csv;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Institution;
 import org.centrale.hceres.items.Laboratory;
@@ -11,9 +11,9 @@ import org.centrale.hceres.util.RequestParser;
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
-public class CsvLaboratory extends DependentCsv<Laboratory> {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class CsvLaboratory extends DependentCsv<Laboratory, Integer> {
     private Integer idCsv;
     private String laboratoryName;
     private String laboratoryAcronym;
@@ -23,20 +23,20 @@ public class CsvLaboratory extends DependentCsv<Laboratory> {
      */
     private Integer institutionIdCsv;
 
-    private InDependentCsv<Institution> csvInstitution;
-    private final Map<Integer, InDependentCsv<Institution>> institutionIdCsvMap;
+    private GenericCsv<Institution, Integer> csvInstitution;
+    private final Map<Integer, GenericCsv<Institution, Integer>> institutionIdCsvMap;
 
     /**
      * Constructor
      *
      * @param institutionIdCsvMap Map from institution id to csvInstitution
      */
-    public CsvLaboratory(Map<Integer, InDependentCsv<Institution>> institutionIdCsvMap) {
+    public CsvLaboratory(Map<Integer, GenericCsv<Institution, Integer>> institutionIdCsvMap) {
         this.institutionIdCsvMap = institutionIdCsvMap;
     }
 
     @Override
-    public void fillCsvData(List<?> csvData) throws CsvParseException {
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
         int fieldNumber = 0;
         try {
             this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
@@ -60,12 +60,12 @@ public class CsvLaboratory extends DependentCsv<Laboratory> {
 
     @Override
     public void setIdDatabaseFromEntity(Laboratory entity) {
-        setIdDatabase(entity.getLaboratoryId().toString());
+        setIdDatabase(entity.getLaboratoryId());
     }
 
     @Override
-    public String getIdCsv() {
-        return this.idCsv.toString();
+    public Integer getIdCsv() {
+        return this.idCsv;
     }
 
     @Override
