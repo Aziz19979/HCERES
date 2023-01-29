@@ -3,6 +3,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.PostDoc;
 import org.centrale.hceres.service.PostDocService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class PostDocController {
      * @return Activity
      */
     @PostMapping(value = "/PostDoc/Create")
-    public Activity createPostDoc(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createPostDoc(@RequestBody Map<String, Object> request) throws RequestParseException {
         return postDocService.savePostDoc(request);
     }
 

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.OralCommunication;
 import org.centrale.hceres.service.OralCommunicationService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class OralCommunicationController {
 	 * @return l'elmt ajoute
 	 */
 	@PostMapping(value ="/OralCommunication/Create")
-	public Activity createOralCommunication(@RequestBody Map<String, Object> request) throws ParseException {
+	public Activity createOralCommunication(@RequestBody Map<String, Object> request)  throws RequestParseException {
 		return communicationService.saveOralCommunication(request);
 	}
 

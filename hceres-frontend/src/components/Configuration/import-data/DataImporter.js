@@ -3,7 +3,7 @@ import CsvValidator from "./CsvValidator";
 import {Alert, Button, Form} from "react-bootstrap";
 import {FaDownload, FaUpload} from "react-icons/fa";
 import {AiFillDelete} from "react-icons/ai";
-import SupportedCsvFormat from "./SupportedCsvFormat";
+import SupportedCsvTemplate from "./SupportedCsvTemplate";
 import {insertCsvDataIntoDatabase} from "../../../services/Configuration/import-data/DataImporterActions";
 import LoadingIcon from "../../util/LoadingIcon";
 import CsvSampleDownloader from "./CsvSampleDownloader";
@@ -42,7 +42,7 @@ const DataImporter = () => {
             // create map from format template to filename
             const csvFormatToFileName = createInverseMap(csvTemplateAssociations);
             csvFormatToFileName.forEach((fileName, format) => {
-                let formatDependencies = SupportedCsvFormat.getDependencies(format.key);
+                let formatDependencies = SupportedCsvTemplate.getDependencies(format.key);
                 formatDependencies.forEach(dependency => {
                     if (!csvFormatToFileName.has(dependency)) {
                         missingDependencies.add(dependency);

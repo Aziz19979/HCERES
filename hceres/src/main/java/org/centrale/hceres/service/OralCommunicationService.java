@@ -16,6 +16,7 @@ import org.centrale.hceres.repository.OralCommunicationRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
 import org.centrale.hceres.repository.TypeOralCommunicationRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class OralCommunicationService {
      * @return : l'elemt ajouter a la base de donnees
      */
     @Transactional
-    public Activity saveOralCommunication(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity saveOralCommunication(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         OralCommunication oralCommunication = new OralCommunication();
 

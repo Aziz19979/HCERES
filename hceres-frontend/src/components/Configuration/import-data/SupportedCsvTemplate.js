@@ -1,4 +1,4 @@
-class SupportedCsvFormat {
+class SupportedCsvTemplate {
     // affected table: researcher
     RESEARCHER = {
         key: "RESEARCHER",
@@ -28,7 +28,7 @@ class SupportedCsvFormat {
             "institution_id",
             "institution_name",
         ],
-        mergingRules: ["Merge based on equal ignoring case team name",
+        mergingRules: ["Merge based on equal ignoring case institution name",
         ],
         dependencies: [],
     };
@@ -45,7 +45,7 @@ class SupportedCsvFormat {
             "laboratory_acronym",
             "institution_id"
         ],
-        mergingRules: ["Merge based on equal ignoring case laboratory_name and laboratory_acronym",
+        mergingRules: ["Merge based on equal ignoring case laboratory_name, laboratory_acronym and institution_id",
         ],
         dependencies: [this.INSTITUTION],
     };
@@ -107,7 +107,7 @@ class SupportedCsvFormat {
             "id_type",
             "name_type"
         ],
-        mergingRules: ["Merge based on name_type ignoring case",
+        mergingRules: ["Merge based on id of activity type fixed by Application",
         ],
         dependencies: [],
     };
@@ -162,4 +162,4 @@ class SupportedCsvFormat {
     }
 }
 
-export default (new SupportedCsvFormat())
+export default (new SupportedCsvTemplate())

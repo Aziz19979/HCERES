@@ -4,6 +4,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.CompanyCreation;
 import org.centrale.hceres.service.CompanyCreationService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class CompanyCreationController {
      * @return Activity
      */
     @PostMapping(value = "/CompanyCreation/Create")
-    public Activity createCompanyCreation(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createCompanyCreation(@RequestBody Map<String, Object> request) throws RequestParseException {
         return companyCreationService.saveCompanyCreation(request);
     }
 

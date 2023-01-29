@@ -7,6 +7,7 @@ import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
 import org.centrale.hceres.repository.PublicationRepository;
 import org.centrale.hceres.repository.PublicationTypeRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class PublicationService {
      * @return : l'elemt ajouter a la base de donnees
      */
     @Transactional
-    public Publication savePublication(@RequestBody Map<String, Object> request) throws ParseException {
+    public Publication savePublication(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         Publication publicationTosave = new Publication();
 

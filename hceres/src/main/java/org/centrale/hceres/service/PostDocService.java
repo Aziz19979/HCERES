@@ -4,6 +4,7 @@ import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.*;
 import org.centrale.hceres.repository.PostDocRepository;
 
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class PostDocService {
         postDocRepository.deleteById(id);
     }
 
-    public Activity savePostDoc(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity savePostDoc(@RequestBody Map<String, Object> request) throws RequestParseException {
         PostDoc postDocToSave = new PostDoc();
 
         // PostDocName :

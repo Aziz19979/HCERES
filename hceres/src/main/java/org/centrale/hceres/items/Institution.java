@@ -42,6 +42,6 @@ public class Institution implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "institution_name")
     private String institutionName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "institutionId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "institution")
     private List<Laboratory> laboratoryList;
 }

@@ -2,6 +2,7 @@ package org.centrale.hceres.service;
 
 import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.*;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public Activity saveReviewArticle(@RequestBody Map<String, Object> request) {
+    public Activity saveReviewArticle(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         ReviewArticle reviewArticle = new ReviewArticle();
 

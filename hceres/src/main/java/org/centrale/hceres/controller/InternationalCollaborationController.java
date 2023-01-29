@@ -4,6 +4,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.InternationalCollaboration;
 import org.centrale.hceres.service.InternationalCollaborationService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class InternationalCollaborationController {
 	 * @return Activity
 	 */
 	@PostMapping(value = "/InternationalCollaboration/Create")
-	public Activity createInternationalCollaboration(@RequestBody Map<String, Object> request) throws ParseException {
+	public Activity createInternationalCollaboration(@RequestBody Map<String, Object> request)  throws RequestParseException {
 		return internationalCollaborationService.saveInternationalCollaboration(request);
 	}
 

@@ -12,6 +12,7 @@ import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.SeiClinicalTrialRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class SeiClinicalTrialService {
      *
      * @return : l'elemt ajouter a la base de donnees
      */
-    public Activity saveSeiClinicalTrial(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity saveSeiClinicalTrial(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         SeiClinicalTrial seiClinicalTrial = new SeiClinicalTrial();
 
