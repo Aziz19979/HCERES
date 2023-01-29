@@ -45,9 +45,14 @@ public class Laboratory implements Serializable {
     @Size(max = 32)
     @Column(name = "laboratory_acronym")
     private String laboratoryAcronym;
-    @JoinColumn(name = "institution_id", referencedColumnName = "institution_id")
-    @ManyToOne(optional = false)
-    private Institution institutionId;
+
+    @Column(name = "institution_id")
+    private Integer institutionId;
+
+    @JoinColumn(name = "institution_id", referencedColumnName = "institution_id",  insertable = false, updatable = false)
+    @ManyToOne
+    private Institution institution;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratoryId")
     private List<Team> teamList;
 }

@@ -45,7 +45,7 @@ class SupportedCsvFormat {
             "laboratory_acronym",
             "institution_id"
         ],
-        mergingRules: ["Merge based on equal ignoring case laboratory_name and laboratory_acronym",
+        mergingRules: ["Merge based on equal ignoring case laboratory_name, laboratory_acronym and institution_id",
         ],
         dependencies: [this.INSTITUTION],
     };

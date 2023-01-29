@@ -3,7 +3,7 @@ package org.centrale.hceres.dto.csv;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvResearcher extends IndependentCsv<Researcher> {
+public class CsvResearcher extends InDependentCsv<Researcher> {
     // id Database is generated on insert to database, either found by defined merging rules
     private String researcherSurname;
     private String researcherName;
@@ -20,7 +20,7 @@ public class CsvResearcher extends IndependentCsv<Researcher> {
 
 
     @Override
-    public void fillCsvInstitution(List<?> csvData) throws CsvParseException {
+    public void fillCsvData(List<?> csvData) throws CsvParseException {
         int fieldNumber = 0;
         try {
             this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
@@ -28,7 +28,7 @@ public class CsvResearcher extends IndependentCsv<Researcher> {
             this.setResearcherName(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setResearcherEmail(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at row " + this.getIdCsv() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at id " + this.getIdCsv() + " at column " + fieldNumber);
         }
     }
     @Override

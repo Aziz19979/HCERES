@@ -1,7 +1,6 @@
 package org.centrale.hceres.service.csv;
 
 import lombok.Data;
-import org.centrale.hceres.items.Admin;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.ResearchRepository;

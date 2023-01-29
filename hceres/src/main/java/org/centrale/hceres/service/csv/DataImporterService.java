@@ -1,10 +1,11 @@
 package org.centrale.hceres.service.csv;
 
 import org.centrale.hceres.dto.csv.CsvActivity;
-import org.centrale.hceres.dto.csv.CsvTypeActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
-import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.Institution;
+import org.centrale.hceres.items.Laboratory;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.service.csv.util.CsvFormatNotSupportedException;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.text.ParseException;
 import java.util.*;
 
 @Service
@@ -24,6 +24,9 @@ public class DataImporterService {
 
     @Autowired
     private ImportCsvInstitution importCsvInstitution;
+
+    @Autowired
+    private ImportCsvLaboratory importCsvLaboratory;
 
     @Autowired
     private ImportCsvTypeActivity importCsvTypeActivity;
@@ -59,9 +62,10 @@ public class DataImporterService {
 
 
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
-        Map<Integer, IndependentCsv<Researcher>> csvIdToResearcherMap = null;
-        Map<Integer, IndependentCsv<Institution>> csvIdToInstitutionMap = null;
-        Map<Integer, IndependentCsv<TypeActivity>> csvIdToTypeActivityMap = null;
+        Map<Integer, InDependentCsv<Researcher>> csvIdToResearcherMap = null;
+        Map<Integer, InDependentCsv<Institution>> csvIdToInstitutionMap = null;
+        Map<String, DependentCsv<Laboratory>> csvIdToLaboratoryMap = null;
+        Map<Integer, InDependentCsv<TypeActivity>> csvIdToTypeActivityMap = null;
         Map<Integer, Map<Integer, CsvActivity>> activityMap = null;
         for (Map.Entry<SupportedCsvFormat, List<?>> entry : csvDataRequest.entrySet()) {
             SupportedCsvFormat supportedCsvFormat = entry.getKey();
@@ -74,6 +78,10 @@ public class DataImporterService {
                     csvIdToInstitutionMap = importCsvInstitution.importCsvList(csvList, importCsvSummary);
                     break;
                 case LABORATORY:
+                    assert csvIdToInstitutionMap != null;
+                    csvIdToLaboratoryMap = importCsvLaboratory.importCsvList(csvList,
+                            importCsvSummary,
+                            csvIdToInstitutionMap);
                     break;
                 case TEAM:
                     break;

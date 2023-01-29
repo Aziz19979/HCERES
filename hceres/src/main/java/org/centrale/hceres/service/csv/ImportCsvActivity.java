@@ -3,7 +3,7 @@ package org.centrale.hceres.service.csv;
 import lombok.Data;
 import org.centrale.hceres.dto.csv.CsvActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
-import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.service.csv.util.SupportedCsvFormat;
@@ -22,8 +22,8 @@ public class ImportCsvActivity {
      * to all activities of that type using specific activity count as key from csv file
      */
     public Map<Integer, Map<Integer, CsvActivity>> importCsvList(List<?> activityRows, ImportCsvSummary importCsvSummary,
-                                                                 Map<Integer, IndependentCsv<Researcher>> csvIdToResearcherMap,
-                                                                 Map<Integer, IndependentCsv<TypeActivity>> csvIdToTypeActivityMap) {
+                                                                 Map<Integer, InDependentCsv<Researcher>> csvIdToResearcherMap,
+                                                                 Map<Integer, InDependentCsv<TypeActivity>> csvIdToTypeActivityMap) {
         // map to store imported Activity from csv,
         Map<Integer, Map<Integer, CsvActivity>> activityMap = new HashMap<>();
         List<String> errors = new ArrayList<>();

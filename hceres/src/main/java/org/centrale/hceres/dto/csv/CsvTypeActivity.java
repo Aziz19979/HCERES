@@ -3,7 +3,7 @@ package org.centrale.hceres.dto.csv;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -12,17 +12,17 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvTypeActivity extends IndependentCsv<TypeActivity> {
+public class CsvTypeActivity extends InDependentCsv<TypeActivity> {
     private String nameType;
 
     @Override
-    public void fillCsvInstitution(List<?> csvData) throws CsvParseException {
+    public void fillCsvData(List<?> csvData) throws CsvParseException {
         int fieldNumber = 0;
         try {
             this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
             this.setNameType(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at row " + this.getIdCsv() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at id " + this.getIdCsv() + " at column " + fieldNumber);
         }
     }
 

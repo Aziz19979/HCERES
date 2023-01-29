@@ -1,7 +1,7 @@
 package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
-import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
 
@@ -26,6 +26,6 @@ public class CsvActivity {
     private String activityNameType;
 
     // dependency
-    private IndependentCsv<Researcher> csvResearcher;
-    private IndependentCsv<TypeActivity> csvTypeActivity;
+    private InDependentCsv<Researcher> csvResearcher;
+    private InDependentCsv<TypeActivity> csvTypeActivity;
 }
