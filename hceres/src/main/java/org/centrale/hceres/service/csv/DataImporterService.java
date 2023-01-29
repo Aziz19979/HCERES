@@ -3,10 +3,7 @@ package org.centrale.hceres.service.csv;
 import org.centrale.hceres.dto.csv.CsvActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
-import org.centrale.hceres.items.Institution;
-import org.centrale.hceres.items.Laboratory;
-import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.*;
 import org.centrale.hceres.service.csv.util.CsvTemplateException;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,9 @@ public class DataImporterService {
 
     @Autowired
     private ImportCsvLaboratory importCsvLaboratory;
+
+    @Autowired
+    private ImportCsvTeam importCsvTeam;
 
     @Autowired
     private ImportCsvTypeActivity importCsvTypeActivity;
@@ -64,6 +64,7 @@ public class DataImporterService {
         Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
+        Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
         Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
         Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
         for (Map.Entry<SupportedCsvTemplate, List<?>> entry : csvDataRequest.entrySet()) {
@@ -83,6 +84,10 @@ public class DataImporterService {
                             csvIdToInstitutionMap);
                     break;
                 case TEAM:
+                    assert csvIdToLaboratoryMap != null;
+                    csvIdToTeamMap = importCsvTeam.importCsvList(csvList,
+                            importCsvSummary,
+                            csvIdToLaboratoryMap);
                     break;
                 case BELONG_TEAM:
                     break;

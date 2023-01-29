@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
 import org.centrale.hceres.dto.csv.utils.CsvParseException;
 import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Laboratory;
 import org.centrale.hceres.items.Team;
 import org.centrale.hceres.util.RequestParseException;
@@ -15,28 +16,28 @@ import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvTeam extends DependentCsv<Team, String> {
+public class CsvTeam extends DependentCsv<Team, Integer> {
     private Integer idTeamCsv;
     private String teamName;
     private Integer laboratoryIdCsv;
 
 
-    private DependentCsv<Laboratory, Integer> csvLaboratory;
-    private final Map<String, DependentCsv<Laboratory, Integer>> laboratoryIdCsvMap;
+    private GenericCsv<Laboratory, Integer> csvLaboratory;
+    private final Map<Integer, GenericCsv<Laboratory, Integer>> laboratoryIdCsvMap;
 
-    public CsvTeam(Map<String, DependentCsv<Laboratory, Integer>> laboratoryIdCsvMap) {
+    public CsvTeam(Map<Integer, GenericCsv<Laboratory, Integer>> laboratoryIdCsvMap) {
         this.laboratoryIdCsvMap = laboratoryIdCsvMap;
     }
 
 
     @Override
     public void setIdDatabaseFromEntity(Team entity) {
-        setIdDatabase(entity.getTeamId().toString());
+        setIdDatabase(entity.getTeamId());
     }
 
     @Override
-    public String getIdCsv() {
-        return this.idTeamCsv.toString();
+    public Integer getIdCsv() {
+        return this.idTeamCsv;
     }
 
     @Override
@@ -54,18 +55,18 @@ public class CsvTeam extends DependentCsv<Team, String> {
     @Override
     public void initializeDependencies() throws CsvDependencyException {
         // Set dependency on laboratory
-        if (!this.laboratoryIdCsvMap.containsKey(this.getLaboratoryIdCsv().toString())) {
+        if (!this.laboratoryIdCsvMap.containsKey(this.getLaboratoryIdCsv())) {
             throw new CsvDependencyException("Laboratory with id " + this.getLaboratoryIdCsv()
                     + " not found for team with id " + this.getIdTeamCsv());
         }
-        this.setCsvLaboratory(this.laboratoryIdCsvMap.get(this.getLaboratoryIdCsv().toString()));
+        this.setCsvLaboratory(this.laboratoryIdCsvMap.get(this.getLaboratoryIdCsv()));
     }
 
     @Override
     public Team convertToEntity() {
         Team team = new Team();
         team.setTeamName(this.getTeamName());
-        team.setLaboratoryId(Integer.valueOf(this.getCsvLaboratory().getIdDatabase()));
+        team.setLaboratoryId(this.getCsvLaboratory().getIdDatabase());
         return team;
     }
 
