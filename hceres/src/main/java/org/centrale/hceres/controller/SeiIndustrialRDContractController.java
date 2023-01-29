@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SeiIndustrialRDContract;
 import org.centrale.hceres.service.SeiIndustrialRDContractService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class SeiIndustrialRDContractController {
 	 * @return Activity
 	 */
 	@PostMapping(value = "/IndustrialContract/Create")
-	public Activity createIndustrialContract(@RequestBody Map<String, Object> request) throws ParseException {
+	public Activity createIndustrialContract(@RequestBody Map<String, Object> request) throws RequestParseException {
 		return seiIndustrialRDContractService.saveIndustrialContract(request);
 	}
 

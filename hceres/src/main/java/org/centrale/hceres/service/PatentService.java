@@ -8,6 +8,7 @@ import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.EducationRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.PatentRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class PatentService {
      *
      * @return : l'elemt ajouter a la base de donnees
      */
-    public Activity savePatent(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity savePatent(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         Patent patent = new Patent();
         patent.setTitle(RequestParser.getAsString(request.get("title")));

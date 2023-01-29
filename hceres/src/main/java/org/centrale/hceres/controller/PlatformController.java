@@ -4,6 +4,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Platform;
 import org.centrale.hceres.service.PlatformService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class PlatformController {
     }
 
     @PostMapping(value = "/Platform/Create")
-    public Activity createPlatform(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createPlatform(@RequestBody Map<String, Object> request) throws RequestParseException {
         return platformService.savePlatform(request);
     }
 

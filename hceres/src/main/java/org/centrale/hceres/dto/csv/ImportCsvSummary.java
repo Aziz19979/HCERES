@@ -1,7 +1,7 @@
-package org.centrale.hceres.dto;
+package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
-import org.centrale.hceres.service.csv.SupportedCsvFormat;
+import org.centrale.hceres.service.csv.util.SupportedCsvFormat;
 
 import java.io.Serializable;
 import java.util.HashMap;

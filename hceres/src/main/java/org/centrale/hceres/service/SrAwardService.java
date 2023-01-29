@@ -11,6 +11,7 @@ import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.EducationRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.SrAwardRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class SrAwardService {
      *
      * @return : l'elemt ajouter a la base de donnees
      */
-    public Activity saveSrAward(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity saveSrAward(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         SrAward srAward = new SrAward();
 

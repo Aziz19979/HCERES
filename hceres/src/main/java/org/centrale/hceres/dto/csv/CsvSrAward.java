@@ -1,4 +1,4 @@
-package org.centrale.hceres.dto;
+package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import org.centrale.hceres.items.Activity;

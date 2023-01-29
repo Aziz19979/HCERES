@@ -1,0 +1,57 @@
+package org.centrale.hceres.dto.csv;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.centrale.hceres.dto.csv.utils.CsvParseException;
+import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.items.Institution;
+import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.util.RequestParser;
+
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class CsvInstitution extends IndependentCsv<Institution> {
+    private String institutionName;
+
+
+    /**
+     * Take the data from the csv and fill the csvInstitution object
+     * @param csvData
+     */
+    @Override
+    public void fillCsvInstitution(List<?> csvData) throws CsvParseException {
+        int fieldNumber = 0;
+        try {
+            this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
+            this.setInstitutionName(RequestParser.getAsString(csvData.get(fieldNumber)));
+        } catch (RequestParseException e) {
+            throw new CsvParseException(e.getMessage() + " at row " + this.getIdCsv() + " at column " + fieldNumber);
+        }
+    }
+
+    @Override
+    public Institution convertToEntity() {
+        Institution institution = new Institution();
+        institution.setInstitutionName(this.getInstitutionName());
+        return institution;
+    }
+
+    @Override
+    public String getMergingKey() {
+        return (this.getInstitutionName())
+                .toLowerCase();
+    }
+
+    @Override
+    public String getMergingKey(Institution institution) {
+        return (institution.getInstitutionName())
+                .toLowerCase();
+    }
+
+    @Override
+    public void setIdDatabaseFromEntity(Institution institution) {
+        setIdDatabase(institution.getInstitutionId());
+    }
+}

@@ -3,6 +3,7 @@ package org.centrale.hceres.controller;
 //import org.centrale.hceres.items.RequestDDO;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.service.ScientificExpertiseService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ScientificExpertiseController {
      * @return Activity
      */
     @PostMapping(value = "/ScientificExpertise/Create")
-    public Activity createScientificExpertise(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createScientificExpertise(@RequestBody Map<String, Object> request) throws RequestParseException {
         return scientificExpertiseService.saveScientificExpertise(request);
     }
 

@@ -1,17 +1,18 @@
 package org.centrale.hceres.service.csv;
 
 import lombok.Data;
-import org.centrale.hceres.dto.CsvActivity;
-import org.centrale.hceres.dto.CsvSrAward;
-import org.centrale.hceres.dto.ImportCsvSummary;
+import org.centrale.hceres.dto.csv.CsvActivity;
+import org.centrale.hceres.dto.csv.CsvSrAward;
+import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.repository.ActivityRepository;
+import org.centrale.hceres.service.csv.util.SupportedCsvFormat;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.*;
 
 @Data
@@ -48,7 +49,7 @@ public class ImportCsvSrAward {
                 csvSrAward.setAwardDate(RequestParser.getAsDateCsvFormat(csvData.get(field++)));
                 csvSrAward.setAwardeeName(RequestParser.getAsString(csvData.get(field++)));
                 csvSrAward.setDescription(RequestParser.getAsString(csvData.get(field)));
-            } catch (ParseException e) {
+            } catch (RequestParseException e) {
                 errors.add(e.getMessage() + " at row " + i + " at column " + field);
                 continue;
             }

@@ -1,8 +1,13 @@
 package org.centrale.hceres.service.csv;
 
 import lombok.Data;
-import org.centrale.hceres.dto.*;
-import org.centrale.hceres.dto.CsvActivity;
+import org.centrale.hceres.dto.csv.CsvActivity;
+import org.centrale.hceres.dto.csv.ImportCsvSummary;
+import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.items.Researcher;
+import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.service.csv.util.SupportedCsvFormat;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +22,8 @@ public class ImportCsvActivity {
      * to all activities of that type using specific activity count as key from csv file
      */
     public Map<Integer, Map<Integer, CsvActivity>> importCsvList(List<?> activityRows, ImportCsvSummary importCsvSummary,
-                                                   Map<Integer, CsvResearcher> csvIdToResearcherMap,
-                                                   Map<Integer, CsvTypeActivity> csvIdToTypeActivityMap) {
+                                                                 Map<Integer, IndependentCsv<Researcher>> csvIdToResearcherMap,
+                                                                 Map<Integer, IndependentCsv<TypeActivity>> csvIdToTypeActivityMap) {
         // map to store imported Activity from csv,
         Map<Integer, Map<Integer, CsvActivity>> activityMap = new HashMap<>();
         List<String> errors = new ArrayList<>();
@@ -36,7 +41,7 @@ public class ImportCsvActivity {
                 csvActivity.setIdCsvResearcher(RequestParser.getAsInteger(csvData.get(fieldNo++)));
                 csvActivity.setSpecificActivityCount(RequestParser.getAsInteger(csvData.get(fieldNo++)));
                 csvActivity.setActivityNameType(RequestParser.getAsString(csvData.get(fieldNo++)));
-            } catch (NumberFormatException exception) {
+            } catch (RequestParseException exception) {
                 errors.add(exception.getMessage() + " on row " + i + " column " + fieldNo);
                 continue;
             }

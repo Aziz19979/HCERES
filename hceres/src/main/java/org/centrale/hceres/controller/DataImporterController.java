@@ -1,13 +1,11 @@
 package org.centrale.hceres.controller;
 
-import org.centrale.hceres.dto.ImportCsvSummary;
+import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.service.csv.DataImporterService;
-import org.centrale.hceres.service.csv.DatabasePurger;
-import org.centrale.hceres.service.csv.FormatNotSupportedException;
+import org.centrale.hceres.service.csv.util.CsvFormatNotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.Map;
 
 @RestController
@@ -24,7 +22,7 @@ public class DataImporterController {
      */
     @PostMapping(value = "/DataImporter/Import/CsvResults")
     public ImportCsvSummary importCsvData(@RequestBody Map<String, Object> request)
-            throws FormatNotSupportedException {
+            throws CsvFormatNotSupportedException {
         return dataImporterService.importCsvData(request);
     }
 }

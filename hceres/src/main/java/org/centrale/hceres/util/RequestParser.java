@@ -9,10 +9,16 @@ public class RequestParser {
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String CSV_DEFAULT_DATE_FORMAT = "dd/MM/yy";
 
-    public static Integer getAsInteger(Object number) throws NumberFormatException {
+    public static Integer getAsInteger(Object number) throws RequestParseException {
         if (number instanceof Integer)
             return (Integer) number;
-        else return Integer.parseInt(String.valueOf(number));
+        else if (number instanceof String) {
+            try {
+                return Integer.parseInt((String) number);
+            } catch (NumberFormatException e) {
+                throw new RequestParseException(e);
+            }
+        } else throw new RequestParseException("Error while parsing number");
     }
 
     public static List<?> getAsList(Object objectList) {
@@ -25,36 +31,48 @@ public class RequestParser {
         return list;
     }
 
-    public static Float getAsFloat(Object number) throws NumberFormatException {
+    public static Float getAsFloat(Object number) throws RequestParseException {
         if (number instanceof Float)
             return (Float) number;
-        else return Float.parseFloat(String.valueOf(number));
+        else if (number instanceof String) {
+            try {
+                return Float.parseFloat((String) number);
+            } catch (NumberFormatException e) {
+                throw new RequestParseException(e);
+            }
+        } else throw new RequestParseException("Error while parsing number");
     }
 
-    public static String getAsString(Object string) throws NullPointerException {
+    public static String getAsString(Object string) throws RequestParseException {
         if (string == null)
-            throw new NullPointerException();
+            throw new RequestParseException(new NullPointerException());
         return String.valueOf(string);
     }
 
-    public static Date getAsDate(Object date) throws ParseException {
+    public static Date getAsDate(Object date) throws RequestParseException {
         return getAsDate(date, DEFAULT_DATE_FORMAT);
     }
-    public static Date getAsDateCsvFormat(Object date) throws ParseException {
+    public static Date getAsDateCsvFormat(Object date) throws RequestParseException {
         return getAsDate(date, CSV_DEFAULT_DATE_FORMAT);
     }
 
-    public static Date getAsDate(Object date, String dateFormat) throws ParseException {
+    public static Date getAsDate(Object date, String dateFormat) throws RequestParseException {
         Date returnedValue = null;
         // try to convert
         SimpleDateFormat aFormater = new SimpleDateFormat(dateFormat);
-        returnedValue = aFormater.parse(getAsString(date));
+        try {
+            returnedValue = aFormater.parse(getAsString(date));
+        } catch (ParseException e) {
+            throw new RequestParseException(e);
+        }
         return new java.sql.Date(returnedValue.getTime());
     }
 
-    public static Boolean getAsBoolean(Object bool) {
+    public static Boolean getAsBoolean(Object bool) throws RequestParseException {
         if (bool instanceof Boolean)
             return (Boolean) bool;
-        else return Boolean.parseBoolean(bool.toString());
+        else if (bool instanceof String) {
+            return Boolean.parseBoolean((String) bool);
+        } else throw new RequestParseException("Error while parsing boolean");
     }
 }

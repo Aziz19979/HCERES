@@ -1,7 +1,9 @@
-package org.centrale.hceres.dto;
+package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
-import org.centrale.hceres.items.Activity;
+import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.items.Researcher;
+import org.centrale.hceres.items.TypeActivity;
 
 /**
  * This class is used only for mapping between activityTemplate.csv and Researcher.csv
@@ -24,6 +26,6 @@ public class CsvActivity {
     private String activityNameType;
 
     // dependency
-    private CsvResearcher csvResearcher;
-    private CsvTypeActivity csvTypeActivity;
+    private IndependentCsv<Researcher> csvResearcher;
+    private IndependentCsv<TypeActivity> csvTypeActivity;
 }

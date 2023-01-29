@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class ResearchService {
      * @return : l'elemt ajouter a la base de donnees
      */
     @Transactional
-    public Researcher saveResearcher(@RequestBody Map<String, Object> request) {
+    public Researcher saveResearcher(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         Researcher researcherTosave = new Researcher();
 

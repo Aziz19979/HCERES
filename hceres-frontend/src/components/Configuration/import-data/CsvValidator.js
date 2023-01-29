@@ -516,7 +516,7 @@ const CsvValidator = (props) => {
                                             </ListGroupItem>
                                             Merging rules:
                                             <ul>
-                                                {state.associatedCsvTemplateOption?.value.mergingRules.map((rule, index) => {
+                                                {state.associatedCsvTemplateOption?.value?.mergingRules.map((rule, index) => {
                                                     return <li key={rule}>{rule}</li>
                                                 })}
                                             </ul>

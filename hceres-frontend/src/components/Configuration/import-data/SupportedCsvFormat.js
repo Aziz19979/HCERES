@@ -28,7 +28,7 @@ class SupportedCsvFormat {
             "institution_id",
             "institution_name",
         ],
-        mergingRules: ["Merge based on equal ignoring case team name",
+        mergingRules: ["Merge based on equal ignoring case institution name",
         ],
         dependencies: [],
     };
@@ -107,7 +107,7 @@ class SupportedCsvFormat {
             "id_type",
             "name_type"
         ],
-        mergingRules: ["Merge based on name_type ignoring case",
+        mergingRules: ["Merge based on id of activity type fixed by Application",
         ],
         dependencies: [],
     };

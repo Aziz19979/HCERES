@@ -9,6 +9,7 @@ import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.service.ResearchService;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,7 +78,7 @@ public class ResearchController {
 	 * @return l'elmt ajoute
 	 */
 	@PostMapping(value ="/AddResearcher")
-	public Researcher createResearcher(@RequestBody Map<String, Object> request) {
+	public Researcher createResearcher(@RequestBody Map<String, Object> request) throws RequestParseException {
 		return rs.saveResearcher(request);
 	}
 	
@@ -85,11 +86,11 @@ public class ResearchController {
 	/**
 	 * Update - Update an existing element
 	 * @param id - The id of the element
-	 * @param researcher - The element
+	 * @param request - The element
 	 * @return
 	 */
 	@PutMapping("/updateResearcher/{id}")
-	public Researcher updateResearcher(@PathVariable("id") final Integer id, @RequestBody Map<String, Object> request) {
+	public Researcher updateResearcher(@PathVariable("id") final Integer id, @RequestBody Map<String, Object> request) throws RequestParseException {
 		Optional<Researcher> e = researchRepo.findById(id);
 		if(e.isPresent()) {
 			Researcher currentResearcher = e.get();

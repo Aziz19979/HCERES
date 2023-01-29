@@ -4,6 +4,7 @@ import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.EditorialActivity;
 
 import org.centrale.hceres.service.EditorialService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class EditorialController {
      * @return Activity
      */
     @PostMapping(value = "/EditorialActivity/Create")
-    public Activity createEditorialActivity(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createEditorialActivity(@RequestBody Map<String, Object> request) throws RequestParseException {
         return editorialService.saveEditorial(request);
     }
 

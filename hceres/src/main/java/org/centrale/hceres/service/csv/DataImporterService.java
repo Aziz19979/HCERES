@@ -1,9 +1,14 @@
 package org.centrale.hceres.service.csv;
 
-import org.centrale.hceres.dto.CsvActivity;
-import org.centrale.hceres.dto.CsvResearcher;
-import org.centrale.hceres.dto.CsvTypeActivity;
-import org.centrale.hceres.dto.ImportCsvSummary;
+import org.centrale.hceres.dto.csv.CsvActivity;
+import org.centrale.hceres.dto.csv.CsvTypeActivity;
+import org.centrale.hceres.dto.csv.ImportCsvSummary;
+import org.centrale.hceres.dto.csv.utils.IndependentCsv;
+import org.centrale.hceres.items.Institution;
+import org.centrale.hceres.items.Researcher;
+import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.service.csv.util.CsvFormatNotSupportedException;
+import org.centrale.hceres.service.csv.util.SupportedCsvFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +23,9 @@ public class DataImporterService {
     private ImportCsvResearcher importCsvResearcher;
 
     @Autowired
+    private ImportCsvInstitution importCsvInstitution;
+
+    @Autowired
     private ImportCsvTypeActivity importCsvTypeActivity;
 
     @Autowired
@@ -28,13 +36,12 @@ public class DataImporterService {
 
 
     /**
-     * @param request Map from {@link SupportedCsvFormat} as String to array matching the specified format
-     * @return
-     * @throws ParseException
-     * @throws FormatNotSupportedException
+     * @param request map from csv format to list of csv rows
+     * @return summary of import
+     * @throws CsvFormatNotSupportedException if csv format is not supported
      */
     public ImportCsvSummary importCsvData(@RequestBody Map<String, Object> request)
-            throws FormatNotSupportedException {
+            throws CsvFormatNotSupportedException {
         // reorder the map based on dependencies of csv format
         Map<SupportedCsvFormat, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvFormat::compare);
 
@@ -46,14 +53,15 @@ public class DataImporterService {
                 csvDataRequest.put(supportedCsvFormat, csvList);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
-                throw new FormatNotSupportedException(csvFormat + " format is not yet implemented in backend!");
+                throw new CsvFormatNotSupportedException(csvFormat + " format is not yet implemented in backend!");
             }
         }
 
 
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
-        Map<Integer, CsvResearcher> csvIdToResearcherMap = null;
-        Map<Integer, CsvTypeActivity> csvIdToTypeActivityMap = null;
+        Map<Integer, IndependentCsv<Researcher>> csvIdToResearcherMap = null;
+        Map<Integer, IndependentCsv<Institution>> csvIdToInstitutionMap = null;
+        Map<Integer, IndependentCsv<TypeActivity>> csvIdToTypeActivityMap = null;
         Map<Integer, Map<Integer, CsvActivity>> activityMap = null;
         for (Map.Entry<SupportedCsvFormat, List<?>> entry : csvDataRequest.entrySet()) {
             SupportedCsvFormat supportedCsvFormat = entry.getKey();
@@ -63,6 +71,7 @@ public class DataImporterService {
                     csvIdToResearcherMap = importCsvResearcher.importCsvList(csvList, importCsvSummary);
                     break;
                 case INSTITUTION:
+                    csvIdToInstitutionMap = importCsvInstitution.importCsvList(csvList, importCsvSummary);
                     break;
                 case LABORATORY:
                     break;
@@ -82,6 +91,7 @@ public class DataImporterService {
                             csvIdToTypeActivityMap);
                     break;
                 case SR_AWARD:
+                    assert activityMap != null;
                     importCsvSrAward.importCsvList(csvList, importCsvSummary, activityMap);
                     break;
                 default:

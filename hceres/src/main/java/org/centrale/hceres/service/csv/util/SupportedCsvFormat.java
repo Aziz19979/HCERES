@@ -1,4 +1,4 @@
-package org.centrale.hceres.service.csv;
+package org.centrale.hceres.service.csv.util;
 
 import java.util.Arrays;
 import java.util.HashSet;
