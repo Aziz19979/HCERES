@@ -14,7 +14,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import {ImFilter} from "react-icons/im";
 import {Oval} from 'react-loading-icons'
 import AddResearcher from "./AddResearcher";
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger, Tooltip} from "react-bootstrap";
 import DeleteResearcher from "./DeleteResearcher";
 import {MdPendingActions} from "react-icons/md";
 import {paginationOptions} from "../util/BootStrapTableOptions";
@@ -41,6 +41,7 @@ class Researcher extends Component {
         }
 
         this.onHideModalResearcher = this.onHideModalResearcher.bind(this);
+        this.showTooltip = this.showTooltip.bind(this);
         this.onHideModalActivity = this.onHideModalActivity.bind(this);
     }
 
@@ -116,7 +117,11 @@ class Researcher extends Component {
             })
         })
     }
-
+    showTooltip  (props) {
+        return <Tooltip id="button-tooltip">
+            {props}
+        </Tooltip>
+    }
 
     render() {
         if (this.state.researchers && this.state.researchers.length) {
@@ -149,40 +154,53 @@ class Researcher extends Component {
                 formatter: (cell, row) => {
                     return (
                         <div className="btn-group" role="group">
-
-                            <button onClick={() => {
-                                this.setState({
-                                    showActivities: this.state.targetResearcher === row ? !this.state.showActivities : false,
-                                    targetResearcher: row,
-                                })
-                                // refresh contents by alternating sate
-                                if (this.state.targetResearcher !== row) {
-                                    setTimeout(() => {
-                                        this.setState({
-                                            showActivities: true
-                                        })
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{show: 250, hide: 400}}
+                                overlay={this.showTooltip("Afficher les activités du chercheur")}
+                            >
+                                <button onClick={() => {
+                                    this.setState({
+                                        showActivities: this.state.targetResearcher === row ? !this.state.showActivities : false,
+                                        targetResearcher: row,
                                     })
-                                }
-                            }} className={"btn btn-outline-secondary"}>
-                                <MdPendingActions/>
-                            </button>
+                                    // refresh contents by alternating sate
+                                    if (this.state.targetResearcher !== row) {
+                                        setTimeout(() => {
+                                            this.setState({
+                                                showActivities: true
+                                            })
+                                        })
+                                    }
+                                }} className={"btn btn-outline-secondary"}>
+                                    <MdPendingActions/>
+                                </button>
+                            </OverlayTrigger>
 
-
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{show: 250, hide: 400}}
+                                overlay={this.showTooltip("Modifier les informations du chercheur")}
+                            >
                             <button onClick={() => {
                                 this.setState({
                                     targetResearcher: row,
                                     showAddResearcher: true
                                 })
                             }} className="btn btn-outline-info">
-                                <FaEdit/></button>
+                                <FaEdit/></button></OverlayTrigger>
 
-
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{show: 250, hide: 400}}
+                                overlay={this.showTooltip("Supprimer le chercheur")}
+                            >
                             <button className="btn btn-outline-danger" onClick={() => {
                                 this.setState({
                                     targetResearcher: row,
                                     showDeleteResearcher: true
                                 })
-                            }}><AiFillDelete/></button>
+                            }}><AiFillDelete/></button></OverlayTrigger>
                         </div>
                     )
                 }
