@@ -2,7 +2,7 @@ package org.centrale.hceres.service.csv;
 
 import lombok.Data;
 import org.centrale.hceres.dto.csv.CsvActivity;
-import org.centrale.hceres.dto.csv.CsvSrAward;
+import org.centrale.hceres.dto.csv.CsvBook;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
@@ -13,27 +13,29 @@ import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @Service
-public class ImportCsvSrAward {
+public class ImportCsvBook {
 
     @Autowired
     private ActivityRepository activityRepo;
 
     /**
-     * @param srAwardRows      list of array having fields as defined in csv
+     * @param bookRows      list of array having fields as defined in csv
      * @param importCsvSummary Summary of the import
      */
-    public Map<Integer, GenericCsv<Activity, Integer>> importCsvList(List<?> srAwardRows, ImportCsvSummary importCsvSummary,
-                                                                    Map<Integer, CsvActivity> activityMap) {
+    public Map<Integer, GenericCsv<Activity, Integer>> importCsvList(List<?> bookRows, ImportCsvSummary importCsvSummary,
+                                                                    Map<Integer, CsvActivity> activityMap,
+                                                                     LanguageCreatorCache languageCreatorCache) {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
-                srAwardRows,
-                () -> new CsvSrAward(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SR_AWARD.getId()),
+                bookRows,
+                () -> new CsvBook(activityMap, languageCreatorCache),
+                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.BOOK.getId()),
                 activityRepo::saveAll,
-                SupportedCsvTemplate.SR_AWARD,
+                SupportedCsvTemplate.BOOK,
                 importCsvSummary);
     }
 }

@@ -2,7 +2,7 @@ package org.centrale.hceres.service.csv;
 
 import lombok.Data;
 import org.centrale.hceres.dto.csv.CsvActivity;
-import org.centrale.hceres.dto.csv.CsvSrAward;
+import org.centrale.hceres.dto.csv.CsvOralCommunication;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
@@ -17,23 +17,23 @@ import java.util.*;
 
 @Data
 @Service
-public class ImportCsvSrAward {
+public class ImportCsvOralCommunication {
 
     @Autowired
     private ActivityRepository activityRepo;
 
     /**
-     * @param srAwardRows      list of array having fields as defined in csv
+     * @param oralCommunicationRows      list of array having fields as defined in csv
      * @param importCsvSummary Summary of the import
      */
-    public Map<Integer, GenericCsv<Activity, Integer>> importCsvList(List<?> srAwardRows, ImportCsvSummary importCsvSummary,
+    public Map<Integer, GenericCsv<Activity, Integer>> importCsvList(List<?> oralCommunicationRows, ImportCsvSummary importCsvSummary,
                                                                     Map<Integer, CsvActivity> activityMap) {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
-                srAwardRows,
-                () -> new CsvSrAward(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SR_AWARD.getId()),
+                oralCommunicationRows,
+                () -> new CsvOralCommunication(activityMap),
+                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId()),
                 activityRepo::saveAll,
-                SupportedCsvTemplate.SR_AWARD,
+                SupportedCsvTemplate.INVITED_ORAL_COMMUNICATION,
                 importCsvSummary);
     }
 }

@@ -507,6 +507,9 @@ CREATE TABLE public.language (
     language_name character varying(256) NOT NULL
 );
 
+create unique index language_language_name_uindex
+    on public.language (language_name);
+
 
 --
 -- TOC entry 236 (class 1259 OID 24795)
@@ -1972,6 +1975,8 @@ CREATE TABLE public.type_oral_communication (
     type_oral_communication_name character varying(256) NOT NULL
 );
 
+create unique index type_oral_communication_type_oral_communication_name_uindex
+    on public.type_oral_communication (type_oral_communication_name);
 
 --
 -- TOC entry 319 (class 1259 OID 25084)

@@ -48,7 +48,7 @@ public class CsvTeam extends DependentCsv<Team, Integer> {
             this.setTeamName(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setLaboratoryIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + this.getIdTeamCsv() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
         }
     }
 
