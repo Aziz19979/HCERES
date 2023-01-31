@@ -49,7 +49,7 @@ public class CsvBook extends DependentCsv<Activity, Integer> {
             this.setAuthors(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setLanguage(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
         }
     }
 

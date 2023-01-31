@@ -200,7 +200,7 @@ class SupportedCsvTemplate {
         dependencies: [this.ACTIVITY, this.FUNCTION_EDITORIAL_ACTIVITY],
     }
     INVITED_ORAL_COMMUNICATION = {
-        key: "INVIITED_ORAL_COMMUNICATION",
+        key: "INVITED_ORAL_COMMUNICATION",
         label: "Liste des communications invitées orales",
         fileNamePattern: [
             /^invited_oral_communication.*csv/,

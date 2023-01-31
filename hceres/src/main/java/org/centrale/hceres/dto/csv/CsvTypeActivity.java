@@ -22,7 +22,7 @@ public class CsvTypeActivity extends InDependentCsv<TypeActivity, Integer> {
             this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
             this.setNameType(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
         }
     }
 

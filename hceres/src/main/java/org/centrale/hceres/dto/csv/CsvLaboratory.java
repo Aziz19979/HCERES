@@ -44,7 +44,7 @@ public class CsvLaboratory extends DependentCsv<Laboratory, Integer> {
             this.setLaboratoryAcronym(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setInstitutionIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
         }
     }
 

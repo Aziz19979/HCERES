@@ -44,6 +44,9 @@ public class DataImporterService {
     private ImportCsvBook importCsvBook;
 
     @Autowired
+    private ImportCsvOralCommunication importCsvOralCommunication;
+
+    @Autowired
     private LanguageRepository languageRepository;
 
 
@@ -130,6 +133,11 @@ public class DataImporterService {
                     importCsvBook.importCsvList(csvList, importCsvSummary,
                             specificActivityMap,
                             languageCreatorCache);
+                    break;
+                case INVITED_ORAL_COMMUNICATION:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION, k -> new HashMap<>());
+                    importCsvOralCommunication.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;
