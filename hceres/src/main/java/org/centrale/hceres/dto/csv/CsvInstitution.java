@@ -22,7 +22,7 @@ public class CsvInstitution extends InDependentCsv<Institution, Integer> {
             this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
             this.setInstitutionName(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + this.getIdCsv() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
         }
     }
 

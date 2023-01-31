@@ -42,6 +42,7 @@ public class Language implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "language_name")
     private String languageName;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageId")
     private List<Book> bookList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageId")

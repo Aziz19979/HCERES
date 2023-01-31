@@ -28,7 +28,7 @@ public class CsvResearcher extends InDependentCsv<Researcher, Integer> {
             this.setResearcherName(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setResearcherEmail(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + this.getIdCsv() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
         }
     }
     @Override

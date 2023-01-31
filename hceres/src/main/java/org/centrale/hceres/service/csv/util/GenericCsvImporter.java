@@ -24,6 +24,23 @@ public class GenericCsvImporter<E, I> {
                                                          JpaRepository<E, ?> entityRepository,
                                                          SupportedCsvTemplate supportedCsvTemplate,
                                                          ImportCsvSummary importCsvSummary) {
+        return importCsvList(csvRows, genericCsvFactory,
+                entityRepository::findAll,
+                entityRepository::saveAll,
+                supportedCsvTemplate, importCsvSummary);
+    }
+
+    /**
+     * @param csvRows          List of csv data
+     * @param importCsvSummary Summary of the import
+     * @return Map from csv id to {@link CsvInstitution}
+     */
+    public Map<I, GenericCsv<E, I>> importCsvList(List<?> csvRows,
+                                                  CsvDtoFactory<E, I> genericCsvFactory,
+                                                  RepoFindAllEntities<E> repoFindAllEntities,
+                                                  RepoSaveAllEntities<E> repoSaveAllEntities,
+                                                  SupportedCsvTemplate supportedCsvTemplate,
+                                                  ImportCsvSummary importCsvSummary) {
         // map to store imported entities from csv,
         // with merging key as key
         Map<String, GenericCsv<E, I>> csvEntityMap = new LinkedHashMap<>();
@@ -48,7 +65,7 @@ public class GenericCsvImporter<E, I> {
         // with merging key as key
         GenericCsv<E, I> csvEntityUtil = genericCsvFactory.newCsvDto();
         Map<String, E> entityMap = new LinkedHashMap<>();
-        entityRepository.findAll().forEach(r -> entityMap.put(csvEntityUtil.getMergingKey(r), r));
+        repoFindAllEntities.findAll().forEach(r -> entityMap.put(csvEntityUtil.getMergingKey(r), r));
 
         // If an entity with the same merging key already exists in the database, use its id,
         // otherwise prepare it to be saved into the database.
@@ -65,7 +82,7 @@ public class GenericCsvImporter<E, I> {
         }
 
         // Save the entities into the database
-        List<E> savedEntities = entityRepository.saveAll(entitiesToSave);
+        List<E> savedEntities = repoSaveAllEntities.saveAll(entitiesToSave);
 
         // update the id of the csv Entities using entities that were saved into the database
         for (E savedEntity : savedEntities) {

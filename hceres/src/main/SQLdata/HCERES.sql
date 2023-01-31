@@ -507,6 +507,9 @@ CREATE TABLE public.language (
     language_name character varying(256) NOT NULL
 );
 
+create unique index language_language_name_uindex
+    on public.language (language_name);
+
 
 --
 -- TOC entry 236 (class 1259 OID 24795)

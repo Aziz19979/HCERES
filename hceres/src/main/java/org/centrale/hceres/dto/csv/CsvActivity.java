@@ -55,7 +55,7 @@ public class CsvActivity extends DependentCsv<Activity, Integer> {
             this.setSpecificActivityCount(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
             this.setActivityNameType(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + this.getIdCsv() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
         }
     }
 

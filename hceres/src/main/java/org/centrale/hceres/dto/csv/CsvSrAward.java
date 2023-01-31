@@ -49,7 +49,7 @@ public class CsvSrAward extends DependentCsv<Activity, Integer> {
             this.setAwardeeName(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setDescription(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at id " + this.getIdCsvSrAward() + " at column " + fieldNumber);
+            throw new CsvParseException(e.getMessage() + " at id " + csvData + " at column " + fieldNumber);
         }
     }
 

@@ -4,6 +4,7 @@ import org.centrale.hceres.dto.csv.CsvActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.*;
+import org.centrale.hceres.repository.LanguageRepository;
 import org.centrale.hceres.service.csv.util.CsvTemplateException;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public class DataImporterService {
     @Autowired
     private ImportCsvSrAward importCsvSrAward;
 
+    @Autowired
+    private ImportCsvBook importCsvBook;
+
+    @Autowired
+    private LanguageRepository languageRepository;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -49,7 +56,7 @@ public class DataImporterService {
             throws CsvTemplateException {
         // reorder the map based on dependencies of csv format
         Map<SupportedCsvTemplate, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvTemplate::compare);
-
+        LanguageCreatorCache languageCreatorCache = new LanguageCreatorCache(languageRepository);
         for (Map.Entry<String, Object> entry : request.entrySet()) {
             String csvFormat = entry.getKey();
             List<?> csvList = (List<?>) entry.getValue();
@@ -71,6 +78,7 @@ public class DataImporterService {
         Map<String, GenericCsv<BelongsTeam, String>> csvIdToBelongsTeamMap = null;
         Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
         Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
+        Map<Integer, CsvActivity> specificActivityMap = null;
         for (Map.Entry<SupportedCsvTemplate, List<?>> entry : csvDataRequest.entrySet()) {
             SupportedCsvTemplate supportedCsvTemplate = entry.getKey();
             List<?> csvList = entry.getValue();
@@ -113,7 +121,15 @@ public class DataImporterService {
                     break;
                 case SR_AWARD:
                     assert activityMap != null;
-                    importCsvSrAward.importCsvList(csvList, importCsvSummary, activityMap.get(TypeActivity.IdTypeActivity.SR_AWARD));
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SR_AWARD, k -> new HashMap<>());
+                    importCsvSrAward.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case BOOK:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.BOOK, k -> new HashMap<>());
+                    importCsvBook.importCsvList(csvList, importCsvSummary,
+                            specificActivityMap,
+                            languageCreatorCache);
                     break;
                 default:
                     break;

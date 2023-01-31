@@ -16,7 +16,8 @@ public enum SupportedCsvTemplate {
     NATIONALITY,
     TYPE_ACTIVITY,
     ACTIVITY(RESEARCHER, TYPE_ACTIVITY),
-    SR_AWARD(ACTIVITY);
+    SR_AWARD(ACTIVITY),
+    BOOK(ACTIVITY);
 
     private final Set<SupportedCsvTemplate> dependencies;
 
