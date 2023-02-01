@@ -6,7 +6,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import {Audio} from "react-loading-icons";
@@ -20,6 +20,7 @@ import {fetchListCompanyCreations} from "../../../services/Activity/company-crea
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import CompanyCreationDelete from "./CompanyCreationDelete";
 import CompanyCreationAdd from "./CompanyCreationAdd";
+import Tooltip from "react-bootstrap/Tooltip";
 
 // If targetResearcher is set in props display related information only (
 // else load list des tous les companyCreations du database
@@ -103,17 +104,26 @@ function CompanyCreationList(props) {
                 </div>
             </div>;
         }
-
+        const deleteTooltip = (props) => (
+            <Tooltip id="button-tooltip" {...props}>
+                Supprimer l'activité
+            </Tooltip>
+        )
         const columns = [{
             dataField: 'idActivity',
             text: 'ID',
             sort: true,
             formatter: (cell, row) => {
                 return (<div>
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={deleteTooltip}
+                    >
                     <button className="btn btn-outline-danger btn-sm" onClick={() => {
                         setTargetCompanyCreation(row)
                         setShowCompanyCreationDelete(true)
-                    }}><AiFillDelete/></button>
+                    }}><AiFillDelete/></button></OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
