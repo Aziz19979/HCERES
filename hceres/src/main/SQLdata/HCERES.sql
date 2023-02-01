@@ -100,8 +100,8 @@ CREATE SEQUENCE public.belongs_team_id_belongs_team_seq
 CREATE TABLE public.book (
     id_activity integer NOT NULL,
     publication_date date,
-    title character varying(256),
-    editor character varying(256),
+    title character varying(2048),
+    editor character varying(2048),
     nb_page integer,
     authors text NOT NULL,
     language_id integer NOT NULL
@@ -116,9 +116,9 @@ CREATE TABLE public.book (
 CREATE TABLE public.book_chapter (
     id_activity integer NOT NULL,
     publication_date date,
-    book_title character varying(256),
-    chapter_title character varying(256),
-    editor character varying(256),
+    book_title character varying(2048),
+    chapter_title character varying(2048),
+    editor character varying(2048),
     nb_page integer,
     authors text NOT NULL,
     additional_info text,
@@ -163,7 +163,7 @@ CREATE SEQUENCE public.choice_type_collab_id_type_seq
 
 CREATE TABLE public.company (
     company_id integer NOT NULL,
-    company_name character varying(256) NOT NULL
+    company_name character varying(2048) NOT NULL
 );
 
 
@@ -174,7 +174,7 @@ CREATE TABLE public.company (
 
 CREATE TABLE public.company_creation (
     id_activity integer NOT NULL,
-    company_creation_name character varying(256),
+    company_creation_name character varying(2048),
     company_creation_date date,
     company_creation_active bool DEFAULT true NOT NULL
 );
@@ -207,7 +207,7 @@ CREATE TABLE public.contract (
     id_status integer NOT NULL,
     start_contract date,
     end_contract date,
-    function_contract character varying(256)
+    function_contract character varying(2048)
 );
 
 
@@ -218,7 +218,7 @@ CREATE TABLE public.contract (
 
 CREATE TABLE public.contract_type (
     id_contract_type integer NOT NULL,
-    name_contract_type character varying(256) NOT NULL
+    name_contract_type character varying(2048) NOT NULL
 );
 
 
@@ -244,11 +244,11 @@ CREATE TABLE public.editorial_activity (
 
 CREATE TABLE public.education (
     id_activity integer NOT NULL,
-    education_course_name character varying(256),
+    education_course_name character varying(2048),
     education_completion date,
     education_description text,
     education_level_id integer NOT NULL,
-    education_formation character varying(256),
+    education_formation character varying(2048),
     education_involvment_id integer NOT NULL
 );
 
@@ -260,7 +260,7 @@ CREATE TABLE public.education (
 
 CREATE TABLE public.education_involvment (
     education_involvment_id integer NOT NULL,
-    education_involvment_name character varying(256) NOT NULL
+    education_involvment_name character varying(2048) NOT NULL
 );
 
 
@@ -282,7 +282,7 @@ CREATE TABLE public.education_level (
 
 CREATE TABLE public.employer (
     id_employer integer NOT NULL,
-    name_employer character varying(256)
+    name_employer character varying(2048)
 );
 
 
@@ -311,7 +311,7 @@ CREATE TABLE public.evaluation_thesis (
     type_thesis_id integer NOT NULL,
     evaluation_thesis_role_id integer NOT NULL,
     year integer,
-    name_university character varying(256)
+    name_university character varying(2048)
 );
 
 
@@ -322,7 +322,7 @@ CREATE TABLE public.evaluation_thesis (
 
 CREATE TABLE public.evaluation_thesis_role (
     evaluation_thesis_role_id integer NOT NULL,
-    evaluation_thesis_role_name character varying(256)
+    evaluation_thesis_role_name character varying(2048)
 );
 
 
@@ -355,7 +355,7 @@ ALTER SEQUENCE public.evaluation_thesis_role_evaluation_thesis_role_id_seq OWNED
 
 CREATE TABLE public.function_editorial_activity (
     function_editorial_activity_id integer NOT NULL,
-    function_editorial_activity_name character varying(256)
+    function_editorial_activity_name character varying(2048)
 );
 
 
@@ -366,7 +366,7 @@ CREATE TABLE public.function_editorial_activity (
 
 CREATE TABLE public.funder (
     funder_id character varying NOT NULL,
-    funder_name character varying(256) NOT NULL
+    funder_name character varying(2048) NOT NULL
 );
 
 
@@ -377,17 +377,17 @@ CREATE TABLE public.funder (
 
 CREATE TABLE public.incoming_mobility (
     id_activity integer NOT NULL,
-    name_senior_scientist character varying(256),
+    name_senior_scientist character varying(2048),
     arrival_date date,
     departure_date date,
     duration integer,
-    nationality character varying(256),
-    original_lab_name character varying(256),
-    origina_lab_location character varying(256),
-    pi_partner character varying(256),
-    project_title character varying(256),
-    associated_funding character varying(256),
-    publication_reference character varying(256),
+    nationality character varying(2048),
+    original_lab_name character varying(2048),
+    origina_lab_location character varying(2048),
+    pi_partner character varying(2048),
+    project_title character varying(2048),
+    associated_funding character varying(2048),
+    publication_reference character varying(2048),
     strategic_recurring_collab bool,
     active_project bool,
     umr_coordinated bool,
@@ -402,7 +402,7 @@ CREATE TABLE public.incoming_mobility (
 
 CREATE TABLE public.institution (
     institution_id integer NOT NULL,
-    institution_name character varying(256) NOT NULL
+    institution_name character varying(2048) NOT NULL
 );
 
 
@@ -413,7 +413,7 @@ CREATE TABLE public.institution (
 
 CREATE TABLE public.institutional_comitee (
     id_activity integer NOT NULL,
-    institutional_comitee_name character varying(256),
+    institutional_comitee_name character varying(2048),
     year integer,
     laboratory_evaluation_role_id integer NOT NULL
 );
@@ -426,10 +426,10 @@ CREATE TABLE public.institutional_comitee (
 
 CREATE TABLE public.invited_seminar (
     id_activity integer NOT NULL,
-    title_seminar character varying(256),
+    title_seminar character varying(2048),
     date date,
-    location character varying(256),
-    invited_by character varying(256)
+    location character varying(2048),
+    invited_by character varying(2048)
 );
 
 
@@ -440,7 +440,7 @@ CREATE TABLE public.invited_seminar (
 
 CREATE TABLE public.journal (
     journal_id integer NOT NULL,
-    journal_name character varying(256) NOT NULL
+    journal_name character varying(2048) NOT NULL
 );
 
 
@@ -451,12 +451,12 @@ CREATE TABLE public.journal (
 
 CREATE TABLE public.labcom_creation (
     id_activity integer NOT NULL,
-    labcom_creation_name character varying(256),
+    labcom_creation_name character varying(2048),
     contract_start_date date,
-    name_company_involved character varying(256),
-    title_project character varying(256),
+    name_company_involved character varying(2048),
+    title_project character varying(2048),
     contract_end_date date,
-    associated_publi_ref character varying(256)
+    associated_publi_ref character varying(2048)
 );
 
 
@@ -467,7 +467,7 @@ CREATE TABLE public.labcom_creation (
 
 CREATE TABLE public.laboratory (
     laboratory_id integer NOT NULL,
-    laboratory_name character varying(256) NOT NULL,
+    laboratory_name character varying(2048) NOT NULL,
     laboratory_acronym character varying(32),
     institution_id integer NOT NULL
 );
@@ -480,7 +480,7 @@ CREATE TABLE public.laboratory (
 
 CREATE TABLE public.laboratory_evaluation (
     id_activity integer NOT NULL,
-    laboratory_evaluation_name character varying(256),
+    laboratory_evaluation_name character varying(2048),
     year integer,
     laboratory_evaluation_role_id integer NOT NULL
 );
@@ -493,7 +493,7 @@ CREATE TABLE public.laboratory_evaluation (
 
 CREATE TABLE public.laboratory_evaluation_role (
     laboratory_evaluation_role_id integer NOT NULL,
-    name_choice character varying(256)
+    name_choice character varying(2048)
 );
 
 
@@ -504,7 +504,7 @@ CREATE TABLE public.laboratory_evaluation_role (
 
 CREATE TABLE public.language (
     language_id integer NOT NULL,
-    language_name character varying(256) NOT NULL
+    language_name character varying(2048) NOT NULL
 );
 
 create unique index language_language_name_uindex
@@ -519,7 +519,7 @@ create unique index language_language_name_uindex
 CREATE TABLE public.learned_scientific_society (
     id_activity integer NOT NULL,
     learned_scientific_society_role_id integer NOT NULL,
-    learned_scientific_society_name character varying(256),
+    learned_scientific_society_name character varying(2048),
     start_date date,
     end_date date
 );
@@ -532,7 +532,7 @@ CREATE TABLE public.learned_scientific_society (
 
 CREATE TABLE public.learned_scientific_society_role (
     learned_scientific_society_role_id integer NOT NULL,
-    name_choice character varying(256)
+    name_choice character varying(2048)
 );
 
 
@@ -556,7 +556,7 @@ CREATE TABLE public.mail_activity (
 
 CREATE TABLE public.mail_template (
     mail_template_id integer NOT NULL,
-    mail_template_title character varying(256) NOT NULL,
+    mail_template_title character varying(2048) NOT NULL,
     mail_template_content text NOT NULL
 );
 
@@ -568,9 +568,9 @@ CREATE TABLE public.mail_template (
 
 CREATE TABLE public.meeting (
     meeting_id integer NOT NULL,
-    neeting_name character varying(256) NOT NULL,
+    neeting_name character varying(2048) NOT NULL,
     meeting_year integer NOT NULL,
-    meeting_location character varying(256) NOT NULL,
+    meeting_location character varying(2048) NOT NULL,
     meeting_start date,
     meeting_end date
 );
@@ -596,16 +596,16 @@ CREATE TABLE public.national_international_collaboration (
     id_activity integer NOT NULL,
     type_collab_id integer NOT NULL,
     date_project_start date,
-    partner_entity character varying(256),
-    country_state_city character varying(256),
-    pi_partners character varying(256),
-    mail_partners character varying(256),
-    projetc_title character varying(256),
+    partner_entity character varying(2048),
+    country_state_city character varying(2048),
+    pi_partners character varying(2048),
+    mail_partners character varying(2048),
+    projetc_title character varying(2048),
     strategic_recurring_collab bool,
     active_project bool,
-    associated_funding character varying(256),
+    associated_funding character varying(2048),
     number_resulting_publications integer,
-    ref_joint_publication character varying(256),
+    ref_joint_publication character varying(2048),
     umr_coordinated bool,
     agreement_signed bool
 );
@@ -630,11 +630,11 @@ CREATE TABLE public.nationality (
 CREATE TABLE public.network (
     id_activity integer NOT NULL,
     start_date date,
-    name_network character varying(256),
+    name_network character varying(2048),
     active_network bool,
-    associated_funding character varying(256),
+    associated_funding character varying(2048),
     nb_resulting_publications integer,
-    ref_resulting_publications character varying(256),
+    ref_resulting_publications character varying(2048),
     umr_coordinated bool,
     agreement_signed bool
 );
@@ -662,17 +662,17 @@ CREATE TABLE public.oral_communication (
 
 CREATE TABLE public.outgoing_mobility (
     id_activity integer NOT NULL,
-    name_person_concerned character varying(256),
+    name_person_concerned character varying(2048),
     arrival_date date,
     departure_date date,
     duration integer,
-    host_lab_name character varying(256),
-    host_lab_location character varying(256),
-    pi_partner character varying(256),
-    project_title character varying(256),
-    associated_funding character varying(256),
+    host_lab_name character varying(2048),
+    host_lab_location character varying(2048),
+    pi_partner character varying(2048),
+    project_title character varying(2048),
+    associated_funding character varying(2048),
     nb_publications integer,
-    publication_reference character varying(256),
+    publication_reference character varying(2048),
     strategic_recurring_collab bool,
     active_project bool,
     umr_coordinated bool,
@@ -687,7 +687,7 @@ CREATE TABLE public.outgoing_mobility (
 
 CREATE TABLE public.parameter (
     parameter_id integer NOT NULL,
-    parameter_name character varying(256) NOT NULL,
+    parameter_name character varying(2048) NOT NULL,
     parameter_value character varying(1024)
 );
 
@@ -700,7 +700,7 @@ CREATE TABLE public.parameter (
 CREATE TABLE public.patent (
     id_activity integer NOT NULL,
     type_patent_id integer NOT NULL,
-    title character varying(256),
+    title character varying(2048),
     registration_date date,
     filing_date date,
     acceptation_date date,
@@ -709,18 +709,18 @@ CREATE TABLE public.patent (
     co_owners text NOT NULL,
     priority_number real,
     priority_date date,
-    publication_number character varying(256),
+    publication_number character varying(2048),
     publication_date date,
-    inpi_link character varying(256),
+    inpi_link character varying(2048),
     status bool DEFAULT false NOT NULL,
     pct_extension_obtained bool DEFAULT false NOT NULL,
-    publication_number_pct_extension character varying(256),
+    publication_number_pct_extension character varying(2048),
     publication_date_pct_extension date,
     international_extension bool DEFAULT false NOT NULL,
-    publication_number_international_extension character varying(256),
+    publication_number_international_extension character varying(2048),
     publication_date_international_extension date,
-    ref_transfer_contract character varying(256),
-    name_company_involved character varying(256)
+    ref_transfer_contract character varying(2048),
+    name_company_involved character varying(2048)
 );
 
 
@@ -747,7 +747,7 @@ CREATE TABLE public.phd_student (
     researcher_id integer NOT NULL,
     phd_start date NOT NULL,
     phd_type_id integer NOT NULL,
-    phd_main_funding character varying(256),
+    phd_main_funding character varying(2048),
     phd_defense_date date,
     phd_duration integer DEFAULT 0 NOT NULL,
     phd_futur text
@@ -761,7 +761,7 @@ CREATE TABLE public.phd_student (
 
 CREATE TABLE public.phd_type (
     phd_type_id integer NOT NULL,
-    phd_type_name character varying(256) NOT NULL
+    phd_type_name character varying(2048) NOT NULL
 );
 
 
@@ -773,10 +773,10 @@ CREATE TABLE public.phd_type (
 CREATE TABLE public.platform (
     id_activity integer NOT NULL,
     creation_date date,
-    description character varying(256),
-    managers character varying(256),
-    affiliation character varying(256),
-    labellisation character varying(256),
+    description character varying(2048),
+    managers character varying(2048),
+    affiliation character varying(2048),
+    labellisation character varying(2048),
     open_private_researchers bool
 );
 
@@ -788,15 +788,15 @@ CREATE TABLE public.platform (
 
 CREATE TABLE public.post_doc (
     id_activity integer NOT NULL,
-    name_post_doc character varying(256),
-    name_supervisor character varying(256),
+    name_post_doc character varying(2048),
+    name_supervisor character varying(2048),
     arrival_date date,
     departure_date date,
     duration integer,
-    nationality character varying(256),
-    original_lab character varying(256),
-    associated_funding character varying(256),
-    associated_publi_ref character varying(256)
+    nationality character varying(2048),
+    original_lab character varying(2048),
+    associated_funding character varying(2048),
+    associated_publi_ref character varying(2048)
 );
 
 
@@ -821,7 +821,7 @@ CREATE TABLE public.project_evaluation (
 
 CREATE TABLE public.project_evaluation_category (
     project_evaluation_category_id integer NOT NULL,
-    project_evaluation_category_name character varying(256)
+    project_evaluation_category_name character varying(2048)
 );
 
 
@@ -832,7 +832,7 @@ CREATE TABLE public.project_evaluation_category (
 
 CREATE TABLE public.project_evaluation_role (
     project_evaluation_role_id integer NOT NULL,
-    project_evaluation_role_name character varying(256)
+    project_evaluation_role_name character varying(2048)
 );
 
 
@@ -845,7 +845,7 @@ CREATE TABLE public.public_outreach (
     id_activity integer NOT NULL,
     public_outreach_type_id integer NOT NULL,
     completion_date date,
-    description character varying(256)
+    description character varying(2048)
 );
 
 
@@ -856,7 +856,7 @@ CREATE TABLE public.public_outreach (
 
 CREATE TABLE public.public_outreach_type (
     public_outreach_type_id integer NOT NULL,
-    public_outreach_type_name character varying(256)
+    public_outreach_type_name character varying(2048)
 );
 
 
@@ -869,7 +869,7 @@ CREATE TABLE public.publication (
     id_activity integer NOT NULL,
     title character varying(512),
     authors text NOT NULL,
-    source character varying(256),
+    source character varying(2048),
     publication_date date,
     publication_type_id integer NOT NULL,
     pmid character varying(16),
@@ -898,7 +898,7 @@ CREATE TABLE public.publication_statistics (
 
 CREATE TABLE public.publication_type (
     publication_type_id integer NOT NULL,
-    publication_type_name character varying(256)
+    publication_type_name character varying(2048)
 );
 
 
@@ -911,8 +911,8 @@ CREATE TABLE public.research_contract_funded_public_charitable_inst (
     id_activity integer NOT NULL,
     id_type integer NOT NULL,
     date_contract_award date,
-    funding_intitution character varying(256),
-    project_title character varying(256),
+    funding_intitution character varying(2048),
+    project_title character varying(2048),
     start_year integer,
     end_year integer,
     grant_amount integer
@@ -926,11 +926,11 @@ CREATE TABLE public.research_contract_funded_public_charitable_inst (
 
 CREATE TABLE public.researcher (
     researcher_id integer NOT NULL,
-    researcher_surname character varying(256) NOT NULL,
-    researcher_name character varying(256),
-    researcher_email character varying(256),
-    researcher_orcid character varying(256),
-    researcher_login character varying(256),
+    researcher_surname character varying(2048) NOT NULL,
+    researcher_name character varying(2048),
+    researcher_email character varying(2048),
+    researcher_orcid character varying(2048),
+    researcher_login character varying(2048),
     researcher_password character varying(1024)
 );
 
@@ -983,7 +983,7 @@ CREATE TABLE public.scientific_expertise (
 
 CREATE TABLE public.scientific_expertise_type (
     scientific_expertise_type_id integer NOT NULL,
-    name_choice character varying(256)
+    name_choice character varying(2048)
 );
 
 
@@ -1017,12 +1017,12 @@ ALTER SEQUENCE public.scientific_expertise_type_scientific_expertise_type_id_seq
 CREATE TABLE public.sei_cifre_fellowship (
     id_activity integer NOT NULL,
     contract_start_date date,
-    name_fellow character varying(256),
-    name_company_involved character varying(256),
-    title_thesis character varying(256),
+    name_fellow character varying(2048),
+    name_company_involved character varying(2048),
+    title_thesis character varying(2048),
     contract_end_date date,
     contract_amount integer,
-    associated_publi_ref character varying(256)
+    associated_publi_ref character varying(2048)
 );
 
 
@@ -1035,12 +1035,12 @@ CREATE TABLE public.sei_clinical_trial (
     id_activity integer NOT NULL,
     start_date date,
     coordinator_partner bool,
-    title_clinical_trial character varying(256),
+    title_clinical_trial character varying(2048),
     end_date date,
-    registration_nb character varying(256),
-    sponsor_name character varying(256),
+    registration_nb character varying(2048),
+    sponsor_name character varying(2048),
     included_patients_nb integer,
-    funding character varying(256),
+    funding character varying(2048),
     funding_amount integer
 );
 
@@ -1053,11 +1053,11 @@ CREATE TABLE public.sei_clinical_trial (
 CREATE TABLE public.sei_industrial_r_d_contract (
     id_activity integer NOT NULL,
     start_date date,
-    name_company_involved character varying(256),
-    project_title character varying(256),
+    name_company_involved character varying(2048),
+    project_title character varying(2048),
     agreement_amount integer,
     end_date date,
-    associated_publi_ref character varying(256)
+    associated_publi_ref character varying(2048)
 );
 
 
@@ -1070,11 +1070,11 @@ CREATE TABLE public.sei_lead_consortium_industry (
     id_activity integer NOT NULL,
     type_consortium_id integer NOT NULL,
     consortium_start_date date,
-    name_consortium character varying(256),
-    title_project character varying(256),
-    private_party_involved character varying(256),
+    name_consortium character varying(2048),
+    title_project character varying(2048),
+    private_party_involved character varying(2048),
     consortium_end_date date,
-    associated_publi_ref character varying(256)
+    associated_publi_ref character varying(2048)
 );
 
 
@@ -1086,11 +1086,11 @@ CREATE TABLE public.sei_lead_consortium_industry (
 CREATE TABLE public.sei_network_unit_creation (
     id_activity integer NOT NULL,
     network_start_date date,
-    name_network character varying(256),
-    name_partner character varying(256),
-    title_project character varying(256),
+    name_network character varying(2048),
+    name_partner character varying(2048),
+    title_project character varying(2048),
     network_end_date date,
-    associated_publi_ref character varying(256)
+    associated_publi_ref character varying(2048)
 );
 
 
@@ -1720,7 +1720,7 @@ ALTER SEQUENCE public.seq_researcher OWNED BY public.researcher.researcher_id;
 
 CREATE TABLE public.status (
     id_status integer NOT NULL,
-    name_status character varying(256) NOT NULL
+    name_status character varying(2048) NOT NULL
 );
 
 
@@ -1788,7 +1788,7 @@ ALTER SEQUENCE public.seq_supervisor_id OWNED BY public.supervisor.supervisor_id
 
 CREATE TABLE public.team (
     team_id integer NOT NULL,
-    team_name character varying(256),
+    team_name character varying(2048),
     team_creation date,
     team_end date,
     team_last_report date,
@@ -1862,7 +1862,7 @@ ALTER SEQUENCE public.seq_team_referent OWNED BY public.team_referent.team_refer
 
 CREATE TABLE public.tool_product_type (
     tool_product_type_id integer NOT NULL,
-    tool_product_type_name character varying(256) NOT NULL
+    tool_product_type_name character varying(2048) NOT NULL
 );
 
 
@@ -1895,7 +1895,7 @@ ALTER SEQUENCE public.seq_tool_product OWNED BY public.tool_product_type.tool_pr
 
 CREATE TABLE public.tool_product_role (
     tool_product_role_id integer NOT NULL,
-    tool_product_role_name character varying(256) NOT NULL
+    tool_product_role_name character varying(2048) NOT NULL
 );
 
 
@@ -1928,7 +1928,7 @@ ALTER SEQUENCE public.seq_tool_product_role OWNED BY public.tool_product_role.to
 
 CREATE TABLE public.type_activity (
     id_type_activity integer NOT NULL,
-    name_type character varying(256)
+    name_type character varying(2048)
 );
 
 
@@ -1939,7 +1939,7 @@ CREATE TABLE public.type_activity (
 
 CREATE TABLE public.type_collab (
     type_collab_id integer NOT NULL,
-    name_choice character varying(256)
+    name_choice character varying(2048)
 );
 
 
@@ -1972,7 +1972,7 @@ ALTER SEQUENCE public.seq_type_collab OWNED BY public.type_collab.type_collab_id
 
 CREATE TABLE public.type_oral_communication (
     type_oral_communication_id integer NOT NULL,
-    type_oral_communication_name character varying(256) NOT NULL
+    type_oral_communication_name character varying(2048) NOT NULL
 );
 
 create unique index type_oral_communication_type_oral_communication_name_uindex
@@ -2007,7 +2007,7 @@ ALTER SEQUENCE public.seq_type_oral_communication OWNED BY public.type_oral_comm
 
 CREATE TABLE public.type_patent (
     type_patent_id integer NOT NULL,
-    name_choice character varying(256)
+    name_choice character varying(2048)
 );
 
 
@@ -2040,7 +2040,7 @@ ALTER SEQUENCE public.seq_type_patent OWNED BY public.type_patent.type_patent_id
 
 CREATE TABLE public.type_research_contract (
     id_type integer NOT NULL,
-    name_choice character varying(256)
+    name_choice character varying(2048)
 );
 
 
@@ -2073,7 +2073,7 @@ ALTER SEQUENCE public.seq_type_research OWNED BY public.type_research_contract.i
 
 CREATE TABLE public.sr_award (
     id_activity integer NOT NULL,
-    awardee_name character varying(256),
+    awardee_name character varying(2048),
     award_date date,
     description text
 );
@@ -2102,7 +2102,7 @@ CREATE SEQUENCE public.supervisor_id_supervisor_seq
 CREATE TABLE public.tool_product (
     id_activity integer NOT NULL,
     tool_product_type_id integer NOT NULL,
-    tool_product_nam character varying(256),
+    tool_product_nam character varying(2048),
     tool_product_creation date NOT NULL,
     tool_product_authors text NOT NULL,
     tool_product_description text NOT NULL
@@ -2128,7 +2128,7 @@ CREATE TABLE public.tool_product_involvment (
 
 CREATE TABLE public.type_consortium (
     type_consortium_id integer NOT NULL,
-    type_consortium_name character varying(256)
+    type_consortium_name character varying(2048)
 );
 
 
@@ -2161,7 +2161,7 @@ ALTER SEQUENCE public.type_consortium_type_consortium_id_seq OWNED BY public.typ
 
 CREATE TABLE public.type_thesis (
     type_thesis_id integer NOT NULL,
-    type_thesis_name character varying(256)
+    type_thesis_name character varying(2048)
 );
 
 

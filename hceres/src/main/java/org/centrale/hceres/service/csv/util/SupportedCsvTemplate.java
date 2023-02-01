@@ -19,6 +19,7 @@ public enum SupportedCsvTemplate {
     SR_AWARD(ACTIVITY),
     BOOK(ACTIVITY),
     INVITED_ORAL_COMMUNICATION(ACTIVITY),
+    INVITED_SEMINAR(ACTIVITY),
     UNDEFINED;
 
     private final Set<SupportedCsvTemplate> dependencies;
