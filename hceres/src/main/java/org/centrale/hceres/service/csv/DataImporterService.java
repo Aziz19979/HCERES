@@ -50,6 +50,9 @@ public class DataImporterService {
     private ImportCsvInvitedSeminar importCsvInvitedSeminar;
 
     @Autowired
+    private ImportCsvLanguage importCsvLanguage;
+
+    @Autowired
     private LanguageRepository languageRepository;
 
 
@@ -146,6 +149,9 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVITED_SEMINAR, k -> new HashMap<>());
                     importCsvInvitedSeminar.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case LANGUAGE:
+                    importCsvLanguage.importCsvList(csvList, importCsvSummary);
                     break;
                 default:
                     break;

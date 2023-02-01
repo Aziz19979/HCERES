@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,8 +44,11 @@ public class Language implements Serializable {
     @Column(name = "language_name")
     private String languageName;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageId")
     private List<Book> bookList;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageId")
     private List<BookChapter> bookChapterList;
 }
