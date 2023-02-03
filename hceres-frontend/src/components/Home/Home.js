@@ -15,7 +15,7 @@ function Home() {
                 <div className="left-side">
                     <div className="pg">
                         <h1>Bienvenue {auth.username} !</h1>
-                        Serveur d'administration des données pour les enquêtes HCERES
+                        Voici la base de données contenant les différents indicateurs de recherche pour les différentes enquêtes d’évaluation (HCERES etc)
                     </div>
                 </div>
                 <div className="right-side">
