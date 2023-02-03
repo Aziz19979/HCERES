@@ -49,6 +49,7 @@ public class BelongsTeam implements Serializable {
     @Column(name = "researcher_id")
     private Integer researcherId;
 
+    @JsonIgnore
     @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id", insertable = false, updatable = false)
     @ManyToOne
     private Researcher researcher;
