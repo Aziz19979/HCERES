@@ -65,6 +65,11 @@ const Navbar = () => {
                             <BiTask/> Activités
                         </NavLinks>
                     </NavItem>
+                    <NavItem>
+                        <NavLinks to="/Statistiques">
+                            <BiTask/> Statistiques
+                        </NavLinks>
+                    </NavItem>
                     {/* ajouter bouton de deconnexion */}
                     <NavItemBtn>
                             <NavBtnLink to='/' onClick={logout}>
