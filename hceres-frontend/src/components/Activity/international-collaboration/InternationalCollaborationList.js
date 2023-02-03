@@ -6,7 +6,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import {Hearts} from "react-loading-icons";
@@ -17,9 +17,12 @@ import {GrDocumentCsv} from "react-icons/gr";
 import InternationalCollaborationAdd from "./InternationalCollaborationAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListInternationalCollaborations} from "../../../services/Activity/international-collaboration/InternationalCollaborationActions";
+import {
+    fetchListInternationalCollaborations
+} from "../../../services/Activity/international-collaboration/InternationalCollaborationActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import InternationalCollaborationDelete from "./InternationalCollaborationDelete";
+import Tooltip from "react-bootstrap/Tooltip";
 
 // If targetResearcher is set in props display related information only (
 // else load list des tous les internationalCollaborations du database
@@ -91,11 +94,12 @@ function InternationalCollaborationList(props) {
             return <div className={"row"}>
                 <br/>
                 <div className={"col-8"}>
-                    <h3>Aucune  collaboration internationale est enregistrée</h3>
+                    <h3>Aucune collaboration internationale est enregistrée</h3>
                 </div>
                 <div className={"col-4"}>
                     {showInternationalCollaborationAdd &&
-                        <InternationalCollaborationAdd targetResearcher={targetResearcher} onHideAction={handleHideModal}/>}
+                        <InternationalCollaborationAdd targetResearcher={targetResearcher}
+                                                       onHideAction={handleHideModal}/>}
                     <button className="btn btn-success" data-bs-toggle="button"
                             onClick={() => setShowInternationalCollaborationAdd(true)}>
                         <AiOutlinePlusCircle/> &nbsp; Ajouter une internationalCollaboration
@@ -103,17 +107,27 @@ function InternationalCollaborationList(props) {
                 </div>
             </div>;
         }
-
+        const deleteTooltip = (props) => (
+            <Tooltip id="button-tooltip" {...props}>
+                Supprimer l'activité
+            </Tooltip>
+        )
         const columns = [{
             dataField: 'idActivity',
             text: 'ID',
             sort: true,
             formatter: (cell, row) => {
                 return (<div>
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetInternationalCollaboration(row)
-                        setShowInternationalCollaborationDelete(true)
-                    }}><AiFillDelete/></button>
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{show: 250, hide: 400}}
+                        overlay={deleteTooltip}
+                    >
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetInternationalCollaboration(row)
+                            setShowInternationalCollaborationDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -135,43 +149,43 @@ function InternationalCollaborationList(props) {
             text: 'date de début',
             sort: true,
             filter: showFilter ? dateFilter() : null,
-        },  {
+        }, {
             dataField: 'internationalCollaboration.piPartners',
             text: 'Les partenaires pi',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.mailPartners',
             text: 'Messagerie de Partenaires',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.strategicRecurringCollab',
             text: 'Collaboration stratégique récurrente',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.activeProject',
             text: 'Projet actif',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.associatedFunding',
             text: 'Financement associé',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.numberResultingPublications',
             text: 'nombre Publications résultantes',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.refJointPublication',
             text: 'réf Publication conjointe',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.umrCoordinated',
             text: 'umr Coordonné',
             hidden: true, // for csv only
-        },   {
+        }, {
             dataField: 'internationalCollaboration.agreementSigned',
             text: 'accord signé',
             hidden: true, // for csv only
-        }, ];
+        },];
 
         let title = "InternationalCollaboration"
         columns.push(chercheursColumnOfActivity)
@@ -203,10 +217,11 @@ function InternationalCollaborationList(props) {
                     keyField="idActivity"
                     data={internationalCollaborationList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'internationalCollaborationList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -220,10 +235,11 @@ function InternationalCollaborationList(props) {
                                     <div className={"col-4"}>
                                         {showInternationalCollaborationAdd &&
                                             <InternationalCollaborationAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                                           onHideAction={handleHideModal}/>}
                                         {showInternationalCollaborationDelete &&
-                                            <InternationalCollaborationDelete targetInternationalCollaboration={targetInternationalCollaboration}
-                                                             onHideAction={handleHideModal}/>}
+                                            <InternationalCollaborationDelete
+                                                targetInternationalCollaboration={targetInternationalCollaboration}
+                                                onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowInternationalCollaborationAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une internationalCollaboration
@@ -235,7 +251,7 @@ function InternationalCollaborationList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

@@ -6,7 +6,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, {dateFilter, numberFilter} from 'react-bootstrap-table2-filter';
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import {Grid} from "react-loading-icons";
@@ -20,6 +20,7 @@ import ActivityTypes from "../../../const/ActivityTypes";
 import {fetchListIndustrialContracts} from "../../../services/Activity/industrial-contract/IndustrialContractActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import IndustrialContractDelete from "./IndustrialContractDelete";
+import Tooltip from "react-bootstrap/Tooltip";
 
 // If targetResearcher is set in props display related information only (
 // else load list des tous les industrialContracts du database
@@ -103,17 +104,27 @@ function IndustrialContractList(props) {
                 </div>
             </div>;
         }
-
+        const deleteTooltip = (props) => (
+            <Tooltip id="button-tooltip" {...props}>
+                Supprimer l'activité
+            </Tooltip>
+        )
         const columns = [{
             dataField: 'idActivity',
             text: 'ID',
             sort: true,
             formatter: (cell, row) => {
                 return (<div>
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetIndustrialContract(row)
-                        setShowIndustrialContractDelete(true)
-                    }}><AiFillDelete/></button>
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{show: 250, hide: 400}}
+                        overlay={deleteTooltip}
+                    >
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetIndustrialContract(row)
+                            setShowIndustrialContractDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -179,10 +190,11 @@ function IndustrialContractList(props) {
                     keyField="idActivity"
                     data={industrialContractList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'industrialContractList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -212,7 +224,7 @@ function IndustrialContractList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}
