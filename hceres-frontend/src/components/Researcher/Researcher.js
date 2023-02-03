@@ -159,7 +159,23 @@ class Researcher extends Component {
                     }
                     return allTeams;
                 },
-            },{
+            } , {
+                dataField: 'contract',
+                text: 'Statut',
+                sort: true,
+                filter: this.state.showFilter ? textFilter() : null,
+                formatter: (cell, row) => {
+                    let statusName = ''
+                    if(row.contract.length > 0) {
+                        statusName = row.contract[0].status.nameStatus
+                        console.log(row.contract[0])
+                    } else {
+                        statusName = 'No contract'
+                    }
+                    return statusName;
+                },
+            },
+                {
                 dataField: 'actionColumn',
                 isDummyField: true,
                 text: 'Edit',
