@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +44,8 @@ public class TypeOralCommunication implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "type_oral_communication_name")
     private String typeOralCommunicationName;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeOralCommunicationId")
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeOralCommunication")
     private List<OralCommunication> oralCommunicationList;
 }

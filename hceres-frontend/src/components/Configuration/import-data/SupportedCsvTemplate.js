@@ -148,6 +148,522 @@ class SupportedCsvTemplate {
         dependencies: [this.ACTIVITY],
     };
 
+    BOOK = {
+        key: "BOOK",
+        label: "Liste des livres",
+        fileNamePattern: [
+            /^book.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "publication_date",
+            "title",
+            "editor",
+            "authors",
+            "language"
+        ],
+        mergingRules: ["Merge based on publication_date, title, editor, authors, language and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    FUNCTION_EDITORIAL_ACTIVITY = {
+        key: "FUNCTION_EDITORIAL_ACTIVITY",
+        label: "Liste des fonctions des activités éditoriales",
+        fileNamePattern: [
+            /^function_editorial_activity.*csv/,
+        ],
+        fields: [
+            "id_function",
+            "name_function"
+        ],
+        mergingRules: ["Merge based on name of the function",
+        ],
+        dependencies: [],
+    }
+    EDITORIAL_ACTIVITY = {
+        key: "EDITORIAL_ACTIVITY",
+        label: "Liste des activités éditoriales",
+        fileNamePattern: [
+            /^editorial_activity.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "start_date",
+            "end_date",
+            "name_journal",
+            "impact_factor_journal",
+            "id_function"
+        ],
+        mergingRules: ["Merge based on start_date, end_date, name_journal, impact_factor_journal, id_function and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY, this.FUNCTION_EDITORIAL_ACTIVITY],
+    }
+    INVITED_ORAL_COMMUNICATION = {
+        key: "INVITED_ORAL_COMMUNICATION",
+        label: "Liste des communications invitées orales",
+        fileNamePattern: [
+            /^invited_oral_communication.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "date_communication",
+            "title",
+            "name_meeting",
+            "date_meeting",
+            "location"
+        ],
+        mergingRules: ["Merge based on date_communication, title, name_meeting, date_meeting, location and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    INVITED_SEMINAR = {
+        key: "INVITED_SEMINAR",
+        label: "Liste des séminaires invités",
+        fileNamePattern: [
+            /^invited_seminar.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "date",
+            "title_seminar",
+            "location",
+            "invited_by"
+        ],
+        mergingRules: ["Merge based on date, title_seminar, location, invited_by and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    LANGUAGE = {
+        key: "LANGUAGE",
+        label: "Liste des langues",
+        fileNamePattern: [
+            /^language.*csv/,
+        ],
+        fields: [
+            "language_id",
+            "language_name"
+        ],
+        mergingRules: ["Merge based on language_name",
+        ],
+        dependencies: [],
+    }
+
+    MEETING_CONGRESS_ORG = {
+        key: "MEETING_CONGRESS_ORG",
+        label: "Liste des réunions et congrès organisés",
+        fileNamePattern: [
+            /^meeting_congress_org.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "year",
+            "id_type",
+            "name_congress",
+            "date",
+            "location"
+        ],
+        mergingRules: ["Merge based on year, id_type, name_congress, date, location and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    NATIONAL_INTERNATIONAL_COLLABORATION = {
+        key: "NATIONAL_INTERNATIONAL_COLLABORATION",
+        label: "Liste des collaborations nationales et internationales",
+        fileNamePattern: [
+            /^national_international_collaboration.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "date_project_start",
+            "id_type",
+            "partner_entity",
+            "country_state_city",
+            "pi_partners",
+            "mail_partners",
+            "active_project",
+            "ref_joint_publication",
+            "umr1064_coordinated",
+            "agreement_signed",
+            "number_resulting_publications",
+            "associated_funding"
+        ],
+        mergingRules: ["Merge based on date_project_start, id_type, partner_entity, country_state_city, pi_partners, mail_partners, active_project, ref_joint_publication, umr1064_coordinated, agreement_signed, number_resulting_publications, associated_funding and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    ORAL_COMMUNICATION_POSTER = {
+        key: "ORAL_COMMUNICATION_POSTER",
+        label: "Liste des communications orales et posters",
+        fileNamePattern: [
+            /^oral_communication_poster.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "year",
+            "id_type_com",
+            "id_choice_meeting",
+            "titleoral_com_poster",
+            "authors",
+            "meeting_name",
+            "date",
+            "location"
+        ],
+        mergingRules: ["Merge based on year, id_type_com, id_choice_meeting, titleoral_com_poster, authors, meeting_name, date, location and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    PHD_TYPE = {
+        key: "PHD_TYPE",
+        label: "Liste des types de thèses",
+        fileNamePattern: [
+            /^phd_type.*csv/,
+        ],
+        fields: [
+            "phd_type_id",
+            "phd_type_name"
+        ],
+        mergingRules: ["Merge based on phd_type_name",
+        ],
+        dependencies: [],
+    }
+
+    PLATFORM = {
+        key: "PLATFORM",
+        label: "Liste des plateformes",
+        fileNamePattern: [
+            /^platform.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "creation_date",
+            "description",
+            "managers",
+            "affiliation",
+            "labellisation",
+            "open_private_researchers"
+        ],
+        mergingRules: ["Merge based on creation_date, description, managers, affiliation, labellisation, open_private_researchers and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+
+    PUBLIC_OUTREACH_TYPE = {
+        key: "PUBLIC_OUTREACH_TYPE",
+        label: "Liste des types d'actions de sensibilisation",
+        fileNamePattern: [
+            /^public_outreach_type.*csv/,
+        ],
+        fields: [
+            "public_outreach_type_id",
+            "public_outreach_type_name"
+        ],
+        mergingRules: ["Merge based on public_outreach_type_name",
+        ],
+        dependencies: [],
+    }
+
+    PUBLIC_OUTREACH = {
+        key: "PUBLIC_OUTREACH",
+        label: "Liste des actions de sensibilisation",
+        fileNamePattern: [
+            /^public_outreach.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "description",
+            "id_type"
+        ],
+        mergingRules: ["Merge based on description, id_type and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY, this.PUBLIC_OUTREACH_TYPE],
+    }
+
+    // publication_type
+    // "publication_type_id";"publication_type_name"
+
+    PUBLICATION_TYPE = {
+        key: "PUBLICATION_TYPE",
+        label: "Liste des types de publications",
+        fileNamePattern: [
+            /^publication_type.*csv/,
+        ],
+        fields: [
+            "publication_type_id",
+            "publication_type_name"
+        ],
+        mergingRules: ["Merge based on publication_type_name",
+        ],
+        dependencies: [],
+    }
+
+    PUBLICATION = {
+        key: "PUBLICATION",
+        label: "Liste des publications",
+        fileNamePattern: [
+            /^publication.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "title",
+            "authors",
+            "source",
+            "publication_date",
+            "pmid",
+            "impact_factor",
+            "clinic",
+            "pdc",
+            "colab_inter",
+            "colab_intra_crti",
+            "id_choice"
+        ],
+        mergingRules: ["Merge based on title, authors, source, publication_date, pmid, impact_factor, clinic, pdc, colab_inter, colab_intra_crti, id_choice and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    TYPE_RESEARCH_CONTRACT = {
+        key: "TYPE_RESEARCH_CONTRACT",
+        label: "Liste des types de contrats de recherche",
+        fileNamePattern: [
+            /^type_research_contract.*csv/,
+        ],
+        fields: [
+            "id_type",
+            "name_type"
+        ],
+        mergingRules: ["Merge based on name_type",
+        ],
+        dependencies: [],
+    }
+    RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST = {
+        key: "RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST",
+        label: "Liste des contrats de recherche financés par des institutions publiques ou caritatives",
+        fileNamePattern: [
+            /^research_contract_funded_public_charitable_inst.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "date_contract_award",
+            "funding_intitution",
+            "project_title",
+            "start_year",
+            "end_year",
+            "grant_amount",
+            "id_type"
+        ],
+        mergingRules: ["Merge based on date_contract_award, funding_intitution, project_title, start_year, end_year, grant_amount, id_type and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY, this.TYPE_RESEARCH_CONTRACT],
+    }
+
+    // laboratory_evaluation_role
+    // "laboratory_evaluation_role_id";"name_choice"
+    LABORATORY_EVALUATION_ROLE = {
+        key: "LABORATORY_EVALUATION_ROLE",
+        label: "Liste des rôles dans les évaluations de laboratoire",
+        fileNamePattern: [
+            /^laboratory_evaluation_role.*csv/,
+        ],
+        fields: [
+            "laboratory_evaluation_role_id",
+            "name_choice"
+        ],
+        mergingRules: ["Merge based on name_choice",
+        ],
+        dependencies: [],
+    }
+
+    // referenced element in database: institutional_comitee
+    RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY = {
+        key: "RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY",
+        label: "Liste des responsabilités dans les comités d'institution",
+        fileNamePattern: [
+            /^responsibility_institutional_comitee_jury.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "year",
+            "name_institutional_comitee",
+            "id_role_pi_lab_eval"
+        ],
+        mergingRules: ["Merge based on year, name_institutional_comitee, id_role_pi_lab_eval and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY, this.LABORATORY_EVALUATION_ROLE],
+    }
+
+    // scientific_expertise_type
+    // "scientific_expertise_type_id";"name_choice"
+    SCIENTIFIC_EXPERTISE_TYPE = {
+        key: "SCIENTIFIC_EXPERTISE_TYPE",
+        label: "Liste des types d'expertises scientifiques",
+        fileNamePattern: [
+            /^scientific_expertise_type.*csv/,
+        ],
+        fields: [
+            "scientific_expertise_type_id",
+            "name_choice"
+        ],
+        mergingRules: ["Merge based on name_choice",
+        ],
+        dependencies: [],
+    }
+
+    SCIENTIFIC_EXPERTISE = {
+        key: "SCIENTIFIC_EXPERTISE",
+        label: "Liste des expertises scientifiques",
+        fileNamePattern: [
+            /^scientific_expertise.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "start_date",
+            "id_type",
+            "description",
+            "end_date"
+        ],
+        mergingRules: ["Merge based on start_date, id_type, description, end_date and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY, this.SCIENTIFIC_EXPERTISE_TYPE],
+    }
+
+    SEI_CLINICAL_TRIAL = {
+        key: "SEI_CLINICAL_TRIAL",
+        label: "Liste des essais cliniques",
+        fileNamePattern: [
+            /^sei_clinical_trial.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "start_date",
+            "coordinator_partner",
+            "title_clinical_trial",
+            "end_date",
+            "registration_nb",
+            "sponsor_name",
+            "included_patients_nb",
+            "funding",
+            "funding_amount"
+        ],
+        mergingRules: ["Merge based on start_date, coordinator_partner, title_clinical_trial, end_date, registration_nb, sponsor_name, included_patients_nb, funding, funding_amount and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    SEI_INDUSTRIAL_R_D_CONTRACT = {
+        key: "SEI_INDUSTRIAL_R_D_CONTRACT",
+        label: "Liste des contrats de recherche industrielle",
+        fileNamePattern: [
+            /^sei_industrial_r_d_contract.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "start_date",
+            "name_company_involved",
+            "project_title",
+            "agreement_amount",
+            "end_date"
+        ],
+        mergingRules: ["Merge based on start_date, name_company_involved, project_title, agreement_amount, end_date and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    STATUS = {
+        key: "STATUS",
+        label: "Liste des statuts",
+        fileNamePattern: [
+            /^status.*csv/,
+        ],
+        fields: [
+            "id_status",
+            "name_status"
+        ],
+        mergingRules: ["Merge based on name_status",
+        ],
+        dependencies: [],
+    }
+
+    // tool_product_cohort
+    // id_activity;name_cohort;creation_date;involved_researchers_crti;description
+    TOOL_PRODUCT_COHORT = {
+        key: "TOOL_PRODUCT_COHORT",
+        label: "Liste des cohortes",
+        fileNamePattern: [
+            /^tool_product_cohort.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "name_cohort",
+            "creation_date",
+            "involved_researchers_crti",
+            "description"
+        ],
+        mergingRules: ["Merge based on name_cohort, creation_date, involved_researchers_crti, description and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    TOOL_PRODUCT_DATABASE = {
+        key: "TOOL_PRODUCT_DATABASE",
+        label: "Liste des bases de données",
+        fileNamePattern: [
+            /^tool_product_database.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "title_database",
+            "creation_date",
+            "authors",
+            "description"
+        ],
+        mergingRules: ["Merge based on title_database, creation_date, authors, description and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    TOOL_PRODUCT_DECISION_SUPPORT_TOOL = {
+        key: "TOOL_PRODUCT_DECISION_SUPPORT_TOOL",
+        label: "Liste des outils de décision",
+        fileNamePattern: [
+            /^tool_product_decision_support_tool.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "name_decision_support_tool",
+            "creation_date",
+            "authors",
+            "description"
+        ],
+        mergingRules: ["Merge based on name_decision_support_tool, creation_date, authors, description and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    TOOL_PRODUCT_SOFTWARE = {
+        key: "TOOL_PRODUCT_SOFTWARE",
+        label: "Liste des logiciels",
+        fileNamePattern: [
+            /^tool_product_software.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "name_software",
+            "creation_date",
+            "authors",
+            "description"
+        ],
+        mergingRules: ["Merge based on name_software, creation_date, authors, description and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
     getDependencies(template_key) {
         let dependencies = [];
         let currentAttribute = this[template_key];

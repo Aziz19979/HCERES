@@ -3,9 +3,9 @@
 import './About.css';
 import React from 'react';
 import welcomImage from '../../assets/welcomImg.png';
+import Navbar from '../Navbar/Navbar';
 import {Link} from "react-router-dom";
 import {ImBackward} from "react-icons/im";
-
 function About() {
     return (
         <div>
@@ -16,11 +16,10 @@ function About() {
                 <div className="right-side1">
                     <div className="pg1">
                         <div className="title1">
-                            About !
+                             About !
                         </div>
-                        Cette application a été développée par une équipe d'étudiants de l'Ecole Centrale de Nantes dans
-                        le cadre d'un projet de groupe en option Informatique en 2021. La gestion de l'application a été
-                        confiée à la DSI de l'Université de Nantes.
+                        Cette application a été créée par des étudiants de Centrale Nantes dans le cadre de l’option Informatique pour les Systèmes d’Information sous la direction de Jean-Yves Martin et Sophie Limou.
+                        Le suivi de l’application a été confié à la DSI de la Nantes Université.
                         <h1>
                             <br/>
                             <Link to={-1}>{<ImBackward color={"white"}/>}</Link>

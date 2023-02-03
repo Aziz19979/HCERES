@@ -65,9 +65,14 @@ public class OralCommunication implements Serializable {
 
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private Meeting meetingId;
+    private Meeting meeting;
+
+
+    @Column(name = "type_oral_communication_id")
+    private Integer typeOralCommunicationId;
+
     @JsonIgnore
-    @JoinColumn(name = "type_oral_communication_id", referencedColumnName = "type_oral_communication_id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private TypeOralCommunication typeOralCommunicationId;
+    @JoinColumn(name = "type_oral_communication_id", referencedColumnName = "type_oral_communication_id", insertable = false, updatable = false)
+    @ManyToOne
+    private TypeOralCommunication typeOralCommunication;
 }

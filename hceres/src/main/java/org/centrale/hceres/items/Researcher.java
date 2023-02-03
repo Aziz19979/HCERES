@@ -89,7 +89,7 @@ public class Researcher implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "researcher")
     private Admin admin;
 
-    @JsonIgnore
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
     private List<BelongsTeam> belongsTeamList;
 }

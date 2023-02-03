@@ -35,7 +35,7 @@ const Navbar = () => {
             <NavbarContainer>
                 {/* Logo + icone */}
                 <NavLogo to="/Home" onClick={closeMobileMenu}>
-                    <img src={Logo} width="60" alt={"Hecers Logo"}/>
+                    <img src={Logo} width="60" alt={"HCERES Logo"}/>
                 </NavLogo>
                 {/* Les trois lignes qui apparaitre lorsqu'on reduit la page (pour les telephones par exemple) */}
                 <MobileIcon onClick={handleClick}>

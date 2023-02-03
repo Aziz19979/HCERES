@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,13 +50,21 @@ public class Team implements Serializable {
     @Column(name = "team_last_report")
     @Temporal(TemporalType.DATE)
     private Date teamLastReport;
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "teamList")
     private List<Activity> activityList;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
     private List<TeamReferent> teamReferentList;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List<PublicationStatistics> publicationStatisticsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List<BelongsTeam> belongsTeamList;
 
     @Column(name = "laboratory_id")

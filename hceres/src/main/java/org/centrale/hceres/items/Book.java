@@ -60,7 +60,10 @@ public class Book implements Serializable {
     @Column(name = "authors")
     private String authors;
 
-    @JoinColumn(name = "language_id", referencedColumnName = "language_id")
-    @ManyToOne(optional = false)
-    private Language languageId;
+    @Column(name = "language_id")
+    private Integer languageId;
+
+    @JoinColumn(name = "language_id", referencedColumnName = "language_id", insertable = false, updatable = false)
+    @ManyToOne
+    private Language language;
 }

@@ -78,7 +78,7 @@ function OralCommunicationList(props) {
         } else
             fetchResearcherActivities(targetResearcher.researcherId)
                 .then(list => {
-                    setOralCommunicationList(list.filter(a => a.idTypeActivity === ActivityTypes.ORAL_COMMUNICATION_POSTER));
+                    setOralCommunicationList(list.filter(a => a.idTypeActivity === ActivityTypes.INVITED_ORAL_COMMUNICATION));
                 })
     }, [listChangeCount, targetResearcher]);
 
@@ -140,27 +140,27 @@ function OralCommunicationList(props) {
             text: 'Date',
             sort: true,
         },  {
-            dataField: 'oralCommunication.meetingId.meetingId',
+            dataField: 'oralCommunication.meeting.meetingId',
             text: 'Identifiant de la réunion',
             hidden: true, // for csv only
         },  {
-            dataField: 'oralCommunication.meetingId.meetingName',
+            dataField: 'oralCommunication.meeting.meetingName',
             text: 'Nom de la réunion',
             hidden: true, // for csv only
         },  {
-            dataField: 'oralCommunication.meetingId.meetingYear',
+            dataField: 'oralCommunication.meeting.meetingYear',
             text: 'Année de réunion',
             hidden: true, // for csv only
         },  {
-            dataField: 'oralCommunication.meetingId.meetingLocation',
+            dataField: 'oralCommunication.meeting.meetingLocation',
             text: 'Lieu de réunion',
             hidden: true, // for csv only
         },  {
-            dataField: 'oralCommunication.meetingId.meetingStart',
+            dataField: 'oralCommunication.meeting.meetingStart',
             text: 'Date de début de la réunion',
             hidden: true, // for csv only
         },  {
-            dataField: 'oralCommunication.meetingId.meetingEnd',
+            dataField: 'oralCommunication.meeting.meetingEnd',
             text: 'Date de fin de réunion',
             hidden: true, // for csv only
         },];

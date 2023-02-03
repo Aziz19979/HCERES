@@ -7,8 +7,8 @@ export const FooterBody = styled.footer`
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgb(0, 0, 0);
-    color: white;
+    background-color: aliceblue;
+    color: black;
     text-align: center;
     font-size: 19px;
     font-weight: 500;
