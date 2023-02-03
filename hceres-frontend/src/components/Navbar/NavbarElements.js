@@ -7,7 +7,7 @@ import {Container} from '../../AppElements'
 
 // style pour le nav bar
 export const Nav = styled.nav`
-    background: black;
+    background: aliceblue;
     height: 80px;
     display: flex;
     justify-content: center;
@@ -53,7 +53,7 @@ display: none;
     transform: translate(-100%, 60%);
     font-size: 1.8rem;
     cursor: pointer;
-    color: white;
+    color: black;
 }
 `
 
@@ -84,7 +84,7 @@ text-align: center;
 export const NavItem = styled.li``
 // styles de NavLinks 
 export const NavLinks = styled(Link)`
-    color: white;
+    color: black;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -92,7 +92,7 @@ export const NavLinks = styled(Link)`
     height: 100%;
     
     &:hover {
-        color: #A7A7A7;
+        color: black;
         transition: all 0.5s ease;
     }
 
@@ -103,7 +103,7 @@ export const NavLinks = styled(Link)`
         display: table;
 
         &:hover {
-            color: #A7A7A7;
+            color: black;
             transition: all 0.5s ease;
         }
     }

@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +54,7 @@ public class Laboratory implements Serializable {
     @ManyToOne
     private Institution institution;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratory")
     private List<Team> teamList;
 }

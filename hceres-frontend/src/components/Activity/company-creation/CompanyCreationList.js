@@ -6,7 +6,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, {dateFilter} from 'react-bootstrap-table2-filter';
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger} from "react-bootstrap";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import {Audio} from "react-loading-icons";
@@ -20,6 +20,7 @@ import {fetchListCompanyCreations} from "../../../services/Activity/company-crea
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
 import CompanyCreationDelete from "./CompanyCreationDelete";
 import CompanyCreationAdd from "./CompanyCreationAdd";
+import Tooltip from "react-bootstrap/Tooltip";
 
 // If targetResearcher is set in props display related information only (
 // else load list des tous les companyCreations du database
@@ -103,17 +104,27 @@ function CompanyCreationList(props) {
                 </div>
             </div>;
         }
-
+        const deleteTooltip = (props) => (
+            <Tooltip id="button-tooltip" {...props}>
+                Supprimer l'activité
+            </Tooltip>
+        )
         const columns = [{
             dataField: 'idActivity',
             text: 'ID',
             sort: true,
             formatter: (cell, row) => {
                 return (<div>
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetCompanyCreation(row)
-                        setShowCompanyCreationDelete(true)
-                    }}><AiFillDelete/></button>
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{show: 250, hide: 400}}
+                        overlay={deleteTooltip}
+                    >
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetCompanyCreation(row)
+                            setShowCompanyCreationDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -170,10 +181,11 @@ function CompanyCreationList(props) {
                     keyField="idActivity"
                     data={companyCreationList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'companyCreationList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -187,10 +199,10 @@ function CompanyCreationList(props) {
                                     <div className={"col-4"}>
                                         {showCompanyCreationAdd &&
                                             <CompanyCreationAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                                onHideAction={handleHideModal}/>}
                                         {showCompanyCreationDelete &&
                                             <CompanyCreationDelete targetCompanyCreation={targetCompanyCreation}
-                                                             onHideAction={handleHideModal}/>}
+                                                                   onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowCompanyCreationAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une companyCreation
@@ -202,7 +214,7 @@ function CompanyCreationList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

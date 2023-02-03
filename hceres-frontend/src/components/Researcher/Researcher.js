@@ -14,7 +14,7 @@ import {GrDocumentCsv} from "react-icons/gr";
 import {ImFilter} from "react-icons/im";
 import {Oval} from 'react-loading-icons'
 import AddResearcher from "./AddResearcher";
-import {Alert} from "react-bootstrap";
+import {Alert, OverlayTrigger, Tooltip} from "react-bootstrap";
 import DeleteResearcher from "./DeleteResearcher";
 import {MdPendingActions} from "react-icons/md";
 import {paginationOptions} from "../util/BootStrapTableOptions";
@@ -22,6 +22,7 @@ import ActivityList from "../Activity/ActivityList";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
 import {VscEyeClosed} from "react-icons/vsc";
+import {MdSearch} from "react-icons/md";
 import {fetchListResearchers} from "../../services/Researcher/ResearcherActions";
 import MyGlobalVar from "../../services/MyGlobalVar";
 
@@ -41,6 +42,7 @@ class Researcher extends Component {
         }
 
         this.onHideModalResearcher = this.onHideModalResearcher.bind(this);
+        this.showTooltip = this.showTooltip.bind(this);
         this.onHideModalActivity = this.onHideModalActivity.bind(this);
     }
 
@@ -116,7 +118,11 @@ class Researcher extends Component {
             })
         })
     }
-
+    showTooltip  (props) {
+        return <Tooltip id="button-tooltip">
+            {props}
+        </Tooltip>
+    }
 
     render() {
         if (this.state.researchers && this.state.researchers.length) {
@@ -142,6 +148,18 @@ class Researcher extends Component {
                 sort: true,
                 filter: this.state.showFilter ? textFilter() : null,
             }, {
+                dataField: 'belongsTeamList',
+                text: 'Equipe',
+                sort: true,
+                filter: this.state.showFilter ? textFilter() : null,
+                formatter: (cell, row) => {
+                    let allTeams = ''
+                    for (let i = 0; i< row.belongsTeamList.length; i++){
+                        allTeams += row.belongsTeamList[i].team.teamName + '\n'
+                    }
+                    return allTeams;
+                },
+            },{
                 dataField: 'actionColumn',
                 isDummyField: true,
                 text: 'Edit',
@@ -149,40 +167,53 @@ class Researcher extends Component {
                 formatter: (cell, row) => {
                     return (
                         <div className="btn-group" role="group">
-
-                            <button onClick={() => {
-                                this.setState({
-                                    showActivities: this.state.targetResearcher === row ? !this.state.showActivities : false,
-                                    targetResearcher: row,
-                                })
-                                // refresh contents by alternating sate
-                                if (this.state.targetResearcher !== row) {
-                                    setTimeout(() => {
-                                        this.setState({
-                                            showActivities: true
-                                        })
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{show: 250, hide: 400}}
+                                overlay={this.showTooltip("Afficher les activités du chercheur")}
+                            >
+                                <button onClick={() => {
+                                    this.setState({
+                                        showActivities: this.state.targetResearcher === row ? !this.state.showActivities : false,
+                                        targetResearcher: row,
                                     })
-                                }
-                            }} className={"btn btn-outline-secondary"}>
-                                <MdPendingActions/>
-                            </button>
+                                    // refresh contents by alternating sate
+                                    if (this.state.targetResearcher !== row) {
+                                        setTimeout(() => {
+                                            this.setState({
+                                                showActivities: true
+                                            })
+                                        })
+                                    }
+                                }} className={"btn btn-outline-secondary"}>
+                                    <MdPendingActions/>
+                                </button>
+                            </OverlayTrigger>
 
-
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{show: 250, hide: 400}}
+                                overlay={this.showTooltip("Modifier les informations du chercheur")}
+                            >
                             <button onClick={() => {
                                 this.setState({
                                     targetResearcher: row,
                                     showAddResearcher: true
                                 })
                             }} className="btn btn-outline-info">
-                                <FaEdit/></button>
+                                <FaEdit/></button></OverlayTrigger>
 
-
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{show: 250, hide: 400}}
+                                overlay={this.showTooltip("Supprimer le chercheur")}
+                            >
                             <button className="btn btn-outline-danger" onClick={() => {
                                 this.setState({
                                     targetResearcher: row,
                                     showDeleteResearcher: true
                                 })
-                            }}><AiFillDelete/></button>
+                            }}><AiFillDelete/></button></OverlayTrigger>
                         </div>
                     )
                 }
@@ -197,23 +228,32 @@ class Researcher extends Component {
 
                 <div className={"container text-center"}>
                     <div className="row">
-                        <div className="col-8">
+                        <div className="col-12">
                             <h3 style={{
                                 borderRadius: '0.25em',
                                 textAlign: 'center',
                                 color: 'darkblue',
                                 border: '1px solid darkblue',
                                 padding: '0.5em'
-                            }}> Liste des chercheurs - &nbsp;
-                                <button className={"border-0"}
-                                        onClick={(e) => this.setState({showFilter: !this.state.showFilter})}>{
-                                    <ImFilter/>}
-                                </button>
-                                {this.state.showFilter && <div><MyExportCSV  {...props.tableProps.csvProps}/></div>}
+                            }}> Liste des chercheurs
                             </h3>
                         </div>
+                    </div>
+                    <div className="row">
                         <div className="col-4">
-                            <button className="btn btn-success" data-bs-toggle="button" onClick={() => {
+                            <button className={"border-0 btn-lg"}
+                                    onClick={(e) => this.setState({showFilter: !this.state.showFilter})}>{
+                                <MdSearch/>}
+                            </button>
+                        </div>
+                        <div className="col-4">
+                            <MyExportCSV  {...props.tableProps.csvProps} className="big-button"
+                                          onClick={this.handleClick}/>
+                        </div>
+
+
+                        <div className="col-4">
+                            <button className="btn btn-primary btn-lg" data-bs-toggle="button" onClick={() => {
                                 this.setState({
                                     targetResearcher: null,
                                     showAddResearcher: true
@@ -222,7 +262,7 @@ class Researcher extends Component {
                                 <AiOutlinePlusCircle/> &nbsp; Ajouter un chercheur
                             </button>
                             {this.state.researcherSuccessAlert && (
-                                <Alert className={"alert-success"} onClose={() => this.setState({
+                                <Alert className={"alert-success "} onClose={() => this.setState({
                                     researcherSuccessAlert: ""
                                 })}
                                        dismissible={true}>{this.state.researcherSuccessAlert}
@@ -236,6 +276,7 @@ class Researcher extends Component {
                         </div>
                     </div>
                 </div>
+
             );
 
             const MyExportCSV = (props) => {
@@ -243,7 +284,7 @@ class Researcher extends Component {
                     props.onExport();
                 };
                 return (
-                    <button className={"border-0"}
+                    <button className={"border-0  btn-lg"}
                             onClick={handleClick}>{
                         <GrDocumentCsv/>}
                     </button>

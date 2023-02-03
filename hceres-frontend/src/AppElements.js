@@ -28,7 +28,7 @@ padding-left: 3px;
 
 export const Button = styled.button`
     border-radius: 4px;
-    background: ${({primary}) => (primary ? '#434343' : '#434343')};
+    background: ${({primary}) => (primary ? 'darkblue' : 'darkblue')};
     white-space: nowrap;
     padding: ${({big}) => (big ? '12px 64px' : '10px 20px')};
     color: #fff;
