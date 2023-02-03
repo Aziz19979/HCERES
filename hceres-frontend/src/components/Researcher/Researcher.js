@@ -143,6 +143,18 @@ class Researcher extends Component {
                 sort: true,
                 filter: this.state.showFilter ? textFilter() : null,
             }, {
+                dataField: 'belongsTeamList',
+                text: 'Equipe',
+                sort: true,
+                filter: this.state.showFilter ? textFilter() : null,
+                formatter: (cell, row) => {
+                    let allTeams = ''
+                    for (let i = 0; i< row.belongsTeamList.length; i++){
+                        allTeams += row.belongsTeamList[i].team.teamName + '\n'
+                    }
+                    return allTeams;
+                },
+            },{
                 dataField: 'actionColumn',
                 isDummyField: true,
                 text: 'Edit',

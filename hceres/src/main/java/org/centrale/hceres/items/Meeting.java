@@ -70,6 +70,6 @@ public class Meeting implements Serializable {
     private List<MeetingCongressOrg> meetingCongressOrgList;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meetingId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meeting")
     private List<OralCommunication> oralCommunicationList;
 }
