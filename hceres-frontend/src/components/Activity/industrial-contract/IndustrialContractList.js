@@ -117,13 +117,14 @@ function IndustrialContractList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetIndustrialContract(row)
-                        setShowIndustrialContractDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetIndustrialContract(row)
+                            setShowIndustrialContractDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -189,10 +190,11 @@ function IndustrialContractList(props) {
                     keyField="idActivity"
                     data={industrialContractList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'industrialContractList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -222,7 +224,7 @@ function IndustrialContractList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

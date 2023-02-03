@@ -117,13 +117,14 @@ function SeiClinicalTrialList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetSeiClinicalTrial(row)
-                        setShowSeiClinicalTrialDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetSeiClinicalTrial(row)
+                            setShowSeiClinicalTrialDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -140,7 +141,7 @@ function SeiClinicalTrialList(props) {
             text: 'Date de début',
             sort: true,
             filter: showFilter ? dateFilter() : null,
-        },{
+        }, {
             dataField: 'seiClinicalTrial.endDate',
             text: 'Date de fin',
             sort: true,
@@ -199,10 +200,11 @@ function SeiClinicalTrialList(props) {
                     keyField="idActivity"
                     data={seiClinicalTrialList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'seiClinicalTrialList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -216,10 +218,10 @@ function SeiClinicalTrialList(props) {
                                     <div className={"col-4"}>
                                         {showSeiClinicalTrialAdd &&
                                             <SeiClinicalTrialAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                                 onHideAction={handleHideModal}/>}
                                         {showSeiClinicalTrialDelete &&
                                             <SeiClinicalTrialDelete targetSeiClinicalTrial={targetSeiClinicalTrial}
-                                                             onHideAction={handleHideModal}/>}
+                                                                    onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowSeiClinicalTrialAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une seiClinicalTrial
@@ -231,7 +233,7 @@ function SeiClinicalTrialList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

@@ -117,13 +117,14 @@ function EducationList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetEducation(row)
-                        setShowEducationDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetEducation(row)
+                            setShowEducationDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -178,10 +179,11 @@ function EducationList(props) {
                     keyField="idActivity"
                     data={educationList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'educationList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -210,7 +212,7 @@ function EducationList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

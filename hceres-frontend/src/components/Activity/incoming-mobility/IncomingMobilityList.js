@@ -117,13 +117,14 @@ function IncomingMobilityList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetIncomingMobility(row)
-                        setShowIncomingMobilityDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetIncomingMobility(row)
+                            setShowIncomingMobilityDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -224,10 +225,11 @@ function IncomingMobilityList(props) {
                     keyField="idActivity"
                     data={incomingMobilityList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'incomingMobilityList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -241,10 +243,10 @@ function IncomingMobilityList(props) {
                                     <div className={"col-4"}>
                                         {showIncomingMobilityAdd &&
                                             <IncomingMobilityAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                                 onHideAction={handleHideModal}/>}
                                         {showIncomingMobilityDelete &&
                                             <IncomingMobilityDelete targetIncomingMobility={targetIncomingMobility}
-                                                             onHideAction={handleHideModal}/>}
+                                                                    onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowIncomingMobilityAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une incomingMobility
@@ -256,7 +258,7 @@ function IncomingMobilityList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

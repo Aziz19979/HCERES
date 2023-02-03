@@ -117,13 +117,14 @@ function OutgoingMobilityList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetOutgoingMobility(row)
-                        setShowOutgoingMobilityDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetOutgoingMobility(row)
+                            setShowOutgoingMobilityDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)

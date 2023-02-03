@@ -115,15 +115,16 @@ function PlatformList(props) {
             text: 'ID',
             sort: true,
             formatter: (cell, row) => {
-                return (<div> <OverlayTrigger
+                return (<div><OverlayTrigger
                     placement="bottom"
-                    delay={{ show: 250, hide: 400 }}
+                    delay={{show: 250, hide: 400}}
                     overlay={deleteTooltip}
                 >
                     <button className="btn btn-outline-danger btn-sm" onClick={() => {
                         setTargetPlatform(row)
                         setShowPlatformDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                    }}><AiFillDelete/></button>
+                </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -182,10 +183,11 @@ function PlatformList(props) {
                     keyField="idActivity"
                     data={platformList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'platformList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -214,7 +216,7 @@ function PlatformList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

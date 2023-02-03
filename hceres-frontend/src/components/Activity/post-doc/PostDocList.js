@@ -117,13 +117,14 @@ function PostDocList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetPostDoc(row)
-                        setShowPostDocDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetPostDoc(row)
+                            setShowPostDocDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -199,10 +200,11 @@ function PostDocList(props) {
                     keyField="idActivity"
                     data={postDocList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'postDocList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -216,10 +218,10 @@ function PostDocList(props) {
                                     <div className={"col-4"}>
                                         {showPostDocAdd &&
                                             <PostDocAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                        onHideAction={handleHideModal}/>}
                                         {showPostDocDelete &&
                                             <PostDocDelete targetPostDoc={targetPostDoc}
-                                                             onHideAction={handleHideModal}/>}
+                                                           onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowPostDocAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une postDoc
@@ -231,7 +233,7 @@ function PostDocList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

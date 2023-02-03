@@ -117,13 +117,14 @@ function PatentList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetPatent(row)
-                        setShowPatentDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetPatent(row)
+                            setShowPatentDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -294,10 +295,11 @@ function PatentList(props) {
                     keyField="idActivity"
                     data={patentList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'patentList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -311,10 +313,10 @@ function PatentList(props) {
                                     <div className={"col-4"}>
                                         {showPatentAdd &&
                                             <PatentAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                       onHideAction={handleHideModal}/>}
                                         {showPatentDelete &&
                                             <PatentDelete targetPatent={targetPatent}
-                                                             onHideAction={handleHideModal}/>}
+                                                          onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowPatentAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une patent
@@ -326,7 +328,7 @@ function PatentList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

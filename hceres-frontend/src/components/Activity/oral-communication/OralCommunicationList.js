@@ -117,13 +117,14 @@ function OralCommunicationList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetOralCommunication(row)
-                        setShowOralCommunicationDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetOralCommunication(row)
+                            setShowOralCommunicationDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -139,27 +140,27 @@ function OralCommunicationList(props) {
             dataField: 'oralCommunication.oralCommunicationDat',
             text: 'Date',
             sort: true,
-        },  {
+        }, {
             dataField: 'oralCommunication.meeting.meetingId',
             text: 'Identifiant de la réunion',
             hidden: true, // for csv only
-        },  {
+        }, {
             dataField: 'oralCommunication.meeting.meetingName',
             text: 'Nom de la réunion',
             hidden: true, // for csv only
-        },  {
+        }, {
             dataField: 'oralCommunication.meeting.meetingYear',
             text: 'Année de réunion',
             hidden: true, // for csv only
-        },  {
+        }, {
             dataField: 'oralCommunication.meeting.meetingLocation',
             text: 'Lieu de réunion',
             hidden: true, // for csv only
-        },  {
+        }, {
             dataField: 'oralCommunication.meeting.meetingStart',
             text: 'Date de début de la réunion',
             hidden: true, // for csv only
-        },  {
+        }, {
             dataField: 'oralCommunication.meeting.meetingEnd',
             text: 'Date de fin de réunion',
             hidden: true, // for csv only
@@ -197,10 +198,11 @@ function OralCommunicationList(props) {
                     keyField="idActivity"
                     data={oralCommunicationList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'oralCommunicationList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -229,7 +231,7 @@ function OralCommunicationList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

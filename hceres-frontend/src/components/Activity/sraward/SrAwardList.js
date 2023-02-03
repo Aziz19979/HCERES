@@ -114,15 +114,17 @@ function SrAwardList(props) {
             text: 'ID',
             sort: true,
             formatter: (cell, row) => {
-                return (<div><OverlayTrigger
-                    placement="bottom"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={deleteTooltip}
-                >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetSrAward(row)
-                        setShowSrAwardDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                return (<div>
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{show: 250, hide: 400}}
+                        overlay={deleteTooltip}
+                    >
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetSrAward(row)
+                            setShowSrAwardDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -173,10 +175,11 @@ function SrAwardList(props) {
                     keyField="idActivity"
                     data={srAwardList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'srAwardList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -205,7 +208,7 @@ function SrAwardList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}

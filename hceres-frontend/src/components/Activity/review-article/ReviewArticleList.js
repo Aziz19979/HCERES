@@ -117,13 +117,14 @@ function ReviewArticleList(props) {
                 return (<div>
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 400 }}
+                        delay={{show: 250, hide: 400}}
                         overlay={deleteTooltip}
                     >
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                        setTargetReviewArticle(row)
-                        setShowReviewArticleDelete(true)
-                    }}><AiFillDelete/></button></OverlayTrigger>
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                            setTargetReviewArticle(row)
+                            setShowReviewArticleDelete(true)
+                        }}><AiFillDelete/></button>
+                    </OverlayTrigger>
                     &nbsp;  &nbsp;
                     {row.idActivity}
                 </div>)
@@ -178,10 +179,11 @@ function ReviewArticleList(props) {
                     keyField="idActivity"
                     data={reviewArticleList}
                     columns={columns}
-                    exportCSV={ {
+                    exportCSV={{
                         fileName: 'reviewArticleList.csv',
                         onlyExportFiltered: true,
-                        exportAll: false } }
+                        exportAll: false
+                    }}
                     search
                 >
                     {
@@ -195,10 +197,10 @@ function ReviewArticleList(props) {
                                     <div className={"col-4"}>
                                         {showReviewArticleAdd &&
                                             <ReviewArticleAdd targetResearcher={targetResearcher}
-                                                          onHideAction={handleHideModal}/>}
+                                                              onHideAction={handleHideModal}/>}
                                         {showReviewArticleDelete &&
                                             <ReviewArticleDelete targetReviewArticle={targetReviewArticle}
-                                                             onHideAction={handleHideModal}/>}
+                                                                 onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
                                                 onClick={() => setShowReviewArticleAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une reviewArticle
@@ -210,7 +212,7 @@ function ReviewArticleList(props) {
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
                                     <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  { ...props.csvProps }/>}</h3>
+                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
                                     </div>
                                     <div className={"col-4"}>
                                         {successActivityAlert && <Alert variant={"success"}
