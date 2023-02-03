@@ -11,6 +11,7 @@ import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Education;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.service.EducationService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,7 @@ public class EducationController {
      * @return Activity
      */
     @PostMapping(value = "/Education/Create")
-    public Activity createEducation(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createEducation(@RequestBody Map<String, Object> request) throws RequestParseException {
         return eduService.saveEducation(request);
     }
 

@@ -8,9 +8,7 @@ import org.centrale.hceres.items.SrAward;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.repository.ActivityRepository;
-import org.centrale.hceres.repository.EducationRepository;
-import org.centrale.hceres.repository.ResearchRepository;
-import org.centrale.hceres.repository.SrAwardRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +21,6 @@ import lombok.Data;
 @Service
 public class SrAwardService {
 
-    @Autowired
-    private SrAwardRepository srAwardRepo;
 
     @Autowired
     private ActivityRepository activityRepo;
@@ -42,7 +38,7 @@ public class SrAwardService {
      * @param id : id de l'elmt
      */
     public void deleteSrAward(final Integer id) {
-        srAwardRepo.deleteById(id);
+        activityRepo.deleteById(id);
     }
 
     /**
@@ -50,7 +46,7 @@ public class SrAwardService {
      *
      * @return : l'elemt ajouter a la base de donnees
      */
-    public Activity saveSrAward(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity saveSrAward(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         SrAward srAward = new SrAward();
 

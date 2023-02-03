@@ -13,6 +13,7 @@ import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,7 +78,7 @@ public class ProductionService {
      * @return : l'elemt ajouter a la base de donnees
      */
     @Transactional
-    public ToolProduct saveToolProduct(@RequestBody Map<String, Object> request) throws ParseException {
+    public ToolProduct saveToolProduct(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         ToolProduct productionTosave = new ToolProduct();
 

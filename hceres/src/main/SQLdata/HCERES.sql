@@ -507,6 +507,9 @@ CREATE TABLE public.language (
     language_name character varying(256) NOT NULL
 );
 
+create unique index language_language_name_uindex
+    on public.language (language_name);
+
 
 --
 -- TOC entry 236 (class 1259 OID 24795)
@@ -1930,28 +1933,6 @@ CREATE TABLE public.type_activity (
 
 
 --
--- TOC entry 315 (class 1259 OID 25074)
--- Name: seq_type_activity; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_type_activity
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3924 (class 0 OID 0)
--- Dependencies: 315
--- Name: seq_type_activity; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_type_activity OWNED BY public.type_activity.id_type_activity;
-
-
---
 -- TOC entry 316 (class 1259 OID 25076)
 -- Name: type_collab; Type: TABLE; Schema: public; 
 --
@@ -1994,6 +1975,8 @@ CREATE TABLE public.type_oral_communication (
     type_oral_communication_name character varying(256) NOT NULL
 );
 
+create unique index type_oral_communication_type_oral_communication_name_uindex
+    on public.type_oral_communication (type_oral_communication_name);
 
 --
 -- TOC entry 319 (class 1259 OID 25084)
@@ -2490,14 +2473,6 @@ ALTER TABLE ONLY public.tool_product_role ALTER COLUMN tool_product_role_id SET 
 --
 
 ALTER TABLE ONLY public.tool_product_type ALTER COLUMN tool_product_type_id SET DEFAULT nextval('public.seq_tool_product'::regclass);
-
-
---
--- TOC entry 3357 (class 2604 OID 25162)
--- Name: type_activity id_type_activity; Type: DEFAULT; Schema: public; 
---
-
-ALTER TABLE ONLY public.type_activity ALTER COLUMN id_type_activity SET DEFAULT nextval('public.seq_type_activity'::regclass);
 
 
 --
@@ -3396,7 +3371,6 @@ INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (38, 'Sei 
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (39, 'Sei Lead Consortium Industry');
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (40, 'Sei Industrial R D Contract');
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (41, 'Sei Clinical Trial');
-SELECT pg_catalog.setval('public.seq_type_activity', 42, false);
 
 
 --

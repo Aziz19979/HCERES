@@ -4,6 +4,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.OutgoingMobility;
 import org.centrale.hceres.service.OutgoingMobilityService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class OutgoingMobilityController {
      * @return Activity
      */
     @PostMapping(value = "/OutgoingMobility/Create")
-    public Activity createOutgoingMobility(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createOutgoingMobility(@RequestBody Map<String, Object> request) throws RequestParseException {
         return outgoingMobilityService.saveOutgoingMobility(request);
     }
 

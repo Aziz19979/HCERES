@@ -1,6 +1,5 @@
 package org.centrale.hceres.service;
 
-import java.text.ParseException;
 import java.util.*;
 
 import org.centrale.hceres.items.Activity;
@@ -13,9 +12,8 @@ import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.MeetingCongressOrgRepository;
 import org.centrale.hceres.repository.MeetingRepository;
 import org.centrale.hceres.repository.OralCommunicationRepository;
-import org.centrale.hceres.repository.ResearchRepository;
-import org.centrale.hceres.repository.TypeActivityRepository;
 import org.centrale.hceres.repository.TypeOralCommunicationRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +45,7 @@ public class OralCommunicationService {
     private MeetingCongressOrgRepository meetingCongressOrgRepo;
 
     public List<Activity> getOralCommunications() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
     }
 
     public void deleteOralCommunication(Integer id) {
@@ -60,7 +58,7 @@ public class OralCommunicationService {
      * @return : l'elemt ajouter a la base de donnees
      */
     @Transactional
-    public Activity saveOralCommunication(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity saveOralCommunication(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         OralCommunication oralCommunication = new OralCommunication();
 
@@ -80,20 +78,19 @@ public class OralCommunicationService {
         meeting.setMeetingLocation(RequestParser.getAsString(request.get("MeetingLocation")));
         meeting.setMeetingStart(RequestParser.getAsDate(request.get("MeetingStart")));
         meeting.setMeetingEnd(RequestParser.getAsDate(request.get("MeetingEnd")));
-        oralCommunication.setMeetingId(meeting);
+        oralCommunication.setMeeting(meeting);
 
 
-        // TypeOralCommunication :
-        TypeOralCommunication typeOralCommunication = new TypeOralCommunication();
-        typeOralCommunication.setTypeOralCommunicationName(RequestParser.getAsString(request.get("TypeOralCommunicationName")));
-        oralCommunication.setTypeOralCommunicationId(typeOralCommunication);
+        // currently using default TypeOralCommunication 1
+        // should use later id from select list in front using request.get("TypeOralCommunicationName")
+        oralCommunication.setTypeOralCommunicationId(1);
 
 
         // Activity :
         Activity activity = new Activity();
         oralCommunication.setActivity(activity);
         activity.setOralCommunication(oralCommunication);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId());
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

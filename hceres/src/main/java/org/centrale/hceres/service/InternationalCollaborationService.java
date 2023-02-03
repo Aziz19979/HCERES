@@ -4,6 +4,7 @@ import lombok.Data;
 import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.InternationalCollaborationRepository;
+import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class InternationalCollaborationService {
      * @return : l'elemt ajouter a la base de donnees
      */
     @Transactional
-    public Activity saveInternationalCollaboration(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity saveInternationalCollaboration(@RequestBody Map<String, Object> request)  throws RequestParseException {
 
         InternationalCollaboration internationalCollaboration = new InternationalCollaboration();
 

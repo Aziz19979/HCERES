@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import org.centrale.hceres.service.ProductionService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,7 @@ public class ProductionController {
 	 * @return l'elmt ajoute
 	 */
 	@PostMapping("/AddProduction")
-	public ToolProduct createToolProduct(@RequestBody Map<String, Object> request) throws ParseException {
+	public ToolProduct createToolProduct(@RequestBody Map<String, Object> request) throws RequestParseException {
 		return productService.saveToolProduct(request);
 	}
 	

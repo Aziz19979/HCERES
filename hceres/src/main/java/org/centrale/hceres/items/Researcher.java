@@ -9,10 +9,9 @@
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 import java.util.List;
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -90,6 +89,8 @@ public class Researcher implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "researcher")
     private Admin admin;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcherId")
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
     private List<BelongsTeam> belongsTeamList;
 }

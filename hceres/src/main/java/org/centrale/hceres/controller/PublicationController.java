@@ -2,6 +2,7 @@ package org.centrale.hceres.controller;
 
 import org.centrale.hceres.items.Publication;
 import org.centrale.hceres.service.PublicationService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class PublicationController {
     }
 
     @PostMapping(value ="/AddPublication")
-    public Publication addPublication(@RequestBody Map<String, Object> request) throws ParseException {
+    public Publication addPublication(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         return publicationService.savePublication(request);
     }

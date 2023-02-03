@@ -4,6 +4,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Patent;
 import org.centrale.hceres.service.PatentService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class PatentController {
      * @return Activity
      */
     @PostMapping(value = "/Patent/Create")
-    public Activity createPatent(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createPatent(@RequestBody Map<String, Object> request) throws RequestParseException {
         return patentService.savePatent(request);
     }
 

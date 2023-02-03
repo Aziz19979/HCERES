@@ -1,9 +1,10 @@
 package org.centrale.hceres.service.csv;
 
 import lombok.Data;
-import org.centrale.hceres.items.Admin;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.ActivityRepository;
+import org.centrale.hceres.repository.InstitutionRepository;
+import org.centrale.hceres.repository.LanguageRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,12 @@ public class DatabasePurger {
 
     @Autowired
     private ResearchRepository researchRepo;
+
+    @Autowired
+    private InstitutionRepository institutionRepo;
+
+    @Autowired
+    private LanguageRepository languageRepo;
 
     public Researcher getSimpleResearcher(String name) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -47,6 +54,8 @@ public class DatabasePurger {
     public void purgeData() {
         activityRepo.deleteAll();
         researchRepo.deleteAll();
+        institutionRepo.deleteAll();
+        languageRepo.deleteAll();
         researchRepo.saveAll(getDefaultResearchers());
     }
 }

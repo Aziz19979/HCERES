@@ -4,6 +4,7 @@ package org.centrale.hceres.controller;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SrAward;
 import org.centrale.hceres.service.SrAwardService;
+import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class SrAwardController {
      * @return Activity
      */
     @PostMapping(value = "/SrAward/Create")
-    public Activity createSrAward(@RequestBody Map<String, Object> request) throws ParseException {
+    public Activity createSrAward(@RequestBody Map<String, Object> request) throws RequestParseException {
         return srAwardService.saveSrAward(request);
     }
 
