@@ -29,13 +29,15 @@ function AddResearcher(props) {
     const [AddResearcherFirstName, setAddResearcherFirstName] = React.useState(targetResearcher ? targetResearcher.researcherName : "");
     const [AddResearcherLastName, setAddResearcherLastName] = React.useState(targetResearcher ? targetResearcher.researcherSurname : "");
     const [AddResearcherEmail, setAddResearcherEmail] = React.useState(targetResearcher ? targetResearcher.researcherEmail : "");
+    const [AddResearcherTeam, setAddResearcherTeam] = React.useState(targetResearcher ? targetResearcher.researcherTeam : "");
 
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
             "researcherSurname": AddResearcherLastName,
             "researcherName": AddResearcherFirstName,
-            "researcherEmail": AddResearcherEmail
+            "researcherEmail": AddResearcherEmail,
+            "researcherTeam": AddResearcherTeam
         };
         if (targetResearcher) {
             handleUpdateResearcher(data)
@@ -51,13 +53,13 @@ function AddResearcher(props) {
                 const researcherId = response.data.researcherId;
                 const msg = {
                     "researcherUpdated": response.data,
-                    "successMsg": "Researcher mise a jour ayant id " + researcherId,
+                    "successMsg": "Mise à jour du chercheur réussie. [id= " + researcherId + "]"
                 }
                 handleClose(msg);
             }).catch(error => {
             console.log(error);
             const msg = {
-                "errorMsg": "Researcher non mise a jour, response status: " + error.response.status,
+                "errorMsg": "Echec de la mise à jour du chercheur, response status: " + error.response.status,
             }
             handleClose(msg);
         })
@@ -71,13 +73,13 @@ function AddResearcher(props) {
                 const researcherId = response.data.researcherId;
                 const msg = {
                     "researcherAdded": response.data,
-                    "successMsg": "Researcher ajoute avec un id " + researcherId,
+                    "successMsg": "Chercheur ajouté avec l'id " + researcherId,
                 }
                 handleClose(msg);
             }).catch(error => {
             console.log(error);
             const msg = {
-                "errorMsg": "Researcher non ajoute, response status: " + error.response.status,
+                "errorMsg": "Echec de l'ajout du chercheur, response status: " + error.response.status,
             }
             handleClose(msg);
         })
@@ -91,7 +93,7 @@ function AddResearcher(props) {
                     <Modal.Header closeButton>
                         <Modal.Title>
                             {!targetResearcher && <div>Ajouter un chercheur</div>}
-                            {targetResearcher && <div>Editeur d'un chercheur</div>}
+                            {targetResearcher && <div>Modifier un chercheur</div>}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -129,6 +131,19 @@ function AddResearcher(props) {
                             value={AddResearcherEmail}
                             onChange={e => setAddResearcherEmail(e.target.value)}
                             required/>
+
+                        <label className='label'>
+                            Equipe du chercheur
+                        </label>
+                        <input
+                            placeholder='Equipe'
+                            className='input-container'
+                            name="AddResearcherTeam"
+                            type="AddResearcherTeam"
+                            value={AddResearcherTeam}
+                            onChange={e => setAddResearcherTeam(e.target.value)}
+                            required/>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => silentClose()}>
@@ -140,7 +155,7 @@ function AddResearcher(props) {
                                 (isLoading ? 'Ajout en cours...' : "Ajouter")
                             }
                             {targetResearcher &&
-                                (isLoading ? 'Mis à jour en cours...' : "Mettre à jour")
+                                (isLoading ? 'Mise à jour en cours...' : "Mettre à jour")
                             }
                         </Button>
                     </Modal.Footer>
