@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import {API_URL} from "../../constants";
 import axios from "axios";
 import LoadingIcon from "../util/LoadingIcon";
-import ResearcherSelect from "../util/ResearcherSelect";
 
 /**
  * add or edit researcher if present in props.targetResearcher
@@ -54,7 +53,7 @@ function AddResearcher(props) {
                 const researcherId = response.data.researcherId;
                 const msg = {
                     "researcherUpdated": response.data,
-                    "successMsg": "Mise à jour du chercheur réussie",
+                    "successMsg": "Mise à jour du chercheur réussie. [id= " + researcherId + "]"
                 }
                 handleClose(msg);
             }).catch(error => {
