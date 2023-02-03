@@ -22,6 +22,7 @@ import ActivityList from "../Activity/ActivityList";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
 import {VscEyeClosed} from "react-icons/vsc";
+import {MdSearch} from "react-icons/md";
 import {fetchListResearchers} from "../../services/Researcher/ResearcherActions";
 import MyGlobalVar from "../../services/MyGlobalVar";
 
@@ -197,23 +198,32 @@ class Researcher extends Component {
 
                 <div className={"container text-center"}>
                     <div className="row">
-                        <div className="col-8">
+                        <div className="col-12">
                             <h3 style={{
                                 borderRadius: '0.25em',
                                 textAlign: 'center',
                                 color: 'darkblue',
                                 border: '1px solid darkblue',
                                 padding: '0.5em'
-                            }}> Liste des chercheurs - &nbsp;
-                                <button className={"border-0"}
-                                        onClick={(e) => this.setState({showFilter: !this.state.showFilter})}>{
-                                    <ImFilter/>}
-                                </button>
-                                {this.state.showFilter && <div><MyExportCSV  {...props.tableProps.csvProps}/></div>}
+                            }}> Liste des chercheurs
                             </h3>
                         </div>
+                    </div>
+                    <div className="row">
                         <div className="col-4">
-                            <button className="btn btn-success" data-bs-toggle="button" onClick={() => {
+                            <button className={"border-0 btn-lg"}
+                                    onClick={(e) => this.setState({showFilter: !this.state.showFilter})}>{
+                                <MdSearch/>}
+                            </button>
+                        </div>
+                        <div className="col-4">
+                            <MyExportCSV  {...props.tableProps.csvProps} className="big-button"
+                                          onClick={this.handleClick}/>
+                        </div>
+
+
+                        <div className="col-4">
+                            <button className="btn btn-primary btn-lg" data-bs-toggle="button" onClick={() => {
                                 this.setState({
                                     targetResearcher: null,
                                     showAddResearcher: true
@@ -222,7 +232,7 @@ class Researcher extends Component {
                                 <AiOutlinePlusCircle/> &nbsp; Ajouter un chercheur
                             </button>
                             {this.state.researcherSuccessAlert && (
-                                <Alert className={"alert-success"} onClose={() => this.setState({
+                                <Alert className={"alert-success "} onClose={() => this.setState({
                                     researcherSuccessAlert: ""
                                 })}
                                        dismissible={true}>{this.state.researcherSuccessAlert}
@@ -236,6 +246,7 @@ class Researcher extends Component {
                         </div>
                     </div>
                 </div>
+
             );
 
             const MyExportCSV = (props) => {
@@ -243,7 +254,7 @@ class Researcher extends Component {
                     props.onExport();
                 };
                 return (
-                    <button className={"border-0"}
+                    <button className={"border-0  btn-lg"}
                             onClick={handleClick}>{
                         <GrDocumentCsv/>}
                     </button>

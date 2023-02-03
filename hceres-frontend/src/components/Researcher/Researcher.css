@@ -209,3 +209,8 @@ select {
     max-height: 50vh;
     overflow-y: scroll;
 }
+
+.big-button {
+    font-size: 2rem;
+    padding: 3rem 4rem;
+}
