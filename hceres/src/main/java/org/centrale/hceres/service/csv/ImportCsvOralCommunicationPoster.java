@@ -2,7 +2,8 @@ package org.centrale.hceres.service.csv;
 
 import lombok.Data;
 import org.centrale.hceres.dto.csv.CsvActivity;
-import org.centrale.hceres.dto.csv.CsvOralCommunication;
+import org.centrale.hceres.dto.csv.CsvInvitedOralCommunication;
+import org.centrale.hceres.dto.csv.CsvOralCommunicationPoster;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
@@ -13,11 +14,12 @@ import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Data
 @Service
-public class ImportCsvOralCommunication {
+public class ImportCsvOralCommunicationPoster {
 
     @Autowired
     private ActivityRepository activityRepo;
@@ -30,10 +32,10 @@ public class ImportCsvOralCommunication {
                                                                     Map<Integer, CsvActivity> activityMap) {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 oralCommunicationRows,
-                () -> new CsvOralCommunication(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId()),
+                () -> new CsvOralCommunicationPoster(activityMap),
+                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId()),
                 activityRepo::saveAll,
-                SupportedCsvTemplate.INVITED_ORAL_COMMUNICATION,
+                SupportedCsvTemplate.ORAL_COMMUNICATION_POSTER,
                 importCsvSummary);
     }
 }
