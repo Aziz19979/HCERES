@@ -20,7 +20,9 @@ public enum SupportedCsvTemplate {
     BOOK(ACTIVITY),
     INVITED_ORAL_COMMUNICATION(ACTIVITY),
     INVITED_SEMINAR(ACTIVITY),
+
     LANGUAGE,
+    MEETING_CONGRESS_ORG(ACTIVITY),
     UNDEFINED;
 
     private final Set<SupportedCsvTemplate> dependencies;

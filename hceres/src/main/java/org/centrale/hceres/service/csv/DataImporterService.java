@@ -47,6 +47,9 @@ public class DataImporterService {
     private ImportCsvOralCommunication importCsvOralCommunication;
 
     @Autowired
+    private ImportCsvMeetingCongressOrg importCsvMeetingCongressOrg;
+
+    @Autowired
     private ImportCsvInvitedSeminar importCsvInvitedSeminar;
 
     @Autowired
@@ -144,6 +147,11 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION, k -> new HashMap<>());
                     importCsvOralCommunication.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case MEETING_CONGRESS_ORG:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.MEETING_CONGRESS_ORG, k -> new HashMap<>());
+                    importCsvMeetingCongressOrg.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case INVITED_SEMINAR:
                     assert activityMap != null;

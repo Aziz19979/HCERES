@@ -8,6 +8,7 @@ import ActivityCsv from "../../../assets/csvSamples/activity.csv";
 import SrAwardCsv from "../../../assets/csvSamples/sr_award.csv";
 import BookCsv from "../../../assets/csvSamples/book.csv";
 import InvitedOralCommunicationCsv from "../../../assets/csvSamples/invited_oral_communication.csv";
+import MeetingCongressOrgCsv from "../../../assets/csvSamples/meeting_congress_org.csv";
 import InvitedSeminar from "../../../assets/csvSamples/invited_seminar.csv";
 import Language from "../../../assets/csvSamples/language.csv";
 import React from "react";
@@ -26,6 +27,7 @@ export default function CsvSampleDownloader() {
         SrAwardCsv,
         BookCsv,
         InvitedOralCommunicationCsv,
+        MeetingCongressOrgCsv,
         InvitedSeminar,
         Language,
     ]
