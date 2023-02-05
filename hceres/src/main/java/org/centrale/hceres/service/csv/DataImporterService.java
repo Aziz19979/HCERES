@@ -27,6 +27,9 @@ public class DataImporterService {
     private ImportCsvInstitution importCsvInstitution;
 
     @Autowired
+    private ImportCsvPhdType importCsvPhdType;
+
+    @Autowired
     private ImportCsvLaboratory importCsvLaboratory;
 
     @Autowired
@@ -92,6 +95,7 @@ public class DataImporterService {
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
         Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
+        Map<Integer, GenericCsv<PhdType, Integer>> csvIdToPhdTypeMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
         Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
         Map<String, GenericCsv<BelongsTeam, String>> csvIdToBelongsTeamMap = null;
@@ -175,6 +179,9 @@ public class DataImporterService {
                     break;
                 case LANGUAGE:
                     importCsvLanguage.importCsvList(csvList, importCsvSummary);
+                    break;
+                case PHD_TYPE:
+                    csvIdToPhdTypeMap = importCsvPhdType.importCsvList(csvList, importCsvSummary);
                     break;
                 default:
                     break;

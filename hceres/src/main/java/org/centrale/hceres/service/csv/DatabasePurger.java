@@ -28,6 +28,9 @@ public class DatabasePurger {
     @Autowired
     private NationalityRepository nationalityRepo;
 
+    @Autowired
+    private PhdTypeRepository phdTypeRepo;
+
     public Researcher getSimpleResearcher(String name) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Researcher researcher = new Researcher();
@@ -57,6 +60,7 @@ public class DatabasePurger {
         institutionRepo.deleteAll();
         languageRepo.deleteAll();
         nationalityRepo.deleteAll();
+        phdTypeRepo.deleteAll();
         researchRepo.saveAll(getDefaultResearchers());
     }
 }
