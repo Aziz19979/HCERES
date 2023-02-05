@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,8 @@ public class Nationality implements Serializable {
     @Size(min = 1, max = 128)
     @Column(name = "nationality_name")
     private String nationalityName;
+
+    @JsonIgnore
     @JoinTable(name = "researcher_nationality", joinColumns = {
         @JoinColumn(name = "nationality_id", referencedColumnName = "nationality_id")}, inverseJoinColumns = {
         @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")})

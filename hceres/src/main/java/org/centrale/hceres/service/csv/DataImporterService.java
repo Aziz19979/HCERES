@@ -20,6 +20,10 @@ public class DataImporterService {
     private ImportCsvResearcher importCsvResearcher;
 
     @Autowired
+    private ImportCsvNationality importCsvNationality;
+
+
+    @Autowired
     private ImportCsvInstitution importCsvInstitution;
 
     @Autowired
@@ -88,6 +92,7 @@ public class DataImporterService {
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
         Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
         Map<String, GenericCsv<BelongsTeam, String>> csvIdToBelongsTeamMap = null;
+        Map<Integer, GenericCsv<Nationality, Integer>> csvIdToNationalityMap = null;
         Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
         Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
         Map<Integer, CsvActivity> specificActivityMap = null;
@@ -121,6 +126,7 @@ public class DataImporterService {
                             csvIdToTeamMap);
                     break;
                 case NATIONALITY:
+                    csvIdToNationalityMap = importCsvNationality.importCsvList(csvList, importCsvSummary);
                     break;
                 case TYPE_ACTIVITY:
                     csvIdToTypeActivityMap = importCsvTypeActivity.importCsvList(csvList, importCsvSummary);
