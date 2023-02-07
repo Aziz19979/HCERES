@@ -20,6 +20,7 @@ class MyClass {
         this.listeOutgoingMobilities = null;
         this.listeCompanyCreations = null;
         this.listePatents = null;
+        this.listeTeams = null;
     }
 
     deleteActivity(activityList, idActivity) {

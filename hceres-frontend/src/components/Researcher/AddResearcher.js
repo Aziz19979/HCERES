@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import {API_URL} from "../../constants";
 import axios from "axios";
 import LoadingIcon from "../util/LoadingIcon";
+import TeamSelect from "../util/TeamSelect";
 
 /**
  * add or edit researcher if present in props.targetResearcher
@@ -15,6 +16,7 @@ function AddResearcher(props) {
     const [isLoading, setIsLoading] = React.useState(false);
 
     const targetResearcher = props.targetResearcher;
+    const targetTeam = props.targetTeam;
 
     const silentClose = () => {
         setShowModal(false);
@@ -30,14 +32,15 @@ function AddResearcher(props) {
     const [AddResearcherLastName, setAddResearcherLastName] = React.useState(targetResearcher ? targetResearcher.researcherSurname : "");
     const [AddResearcherEmail, setAddResearcherEmail] = React.useState(targetResearcher ? targetResearcher.researcherEmail : "");
     const [AddResearcherTeam, setAddResearcherTeam] = React.useState(targetResearcher ? targetResearcher.researcherTeam : "");
-
+    const [teamId, setTeamId] = React.useState(targetTeam ? targetTeam.teamId : "");
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
             "researcherSurname": AddResearcherLastName,
             "researcherName": AddResearcherFirstName,
             "researcherEmail": AddResearcherEmail,
-            "researcherTeam": AddResearcherTeam
+            "researcherTeam": AddResearcherTeam,
+            teamId: teamId,
         };
         if (targetResearcher) {
             handleUpdateResearcher(data)
@@ -135,13 +138,9 @@ function AddResearcher(props) {
                         <label className='label'>
                             Equipe du chercheur
                         </label>
-                        <input
-                            placeholder='Equipe'
-                            className='input-container'
-                            name="AddResearcherTeam"
-                            type="AddResearcherTeam"
-                            value={AddResearcherTeam}
-                            onChange={e => setAddResearcherTeam(e.target.value)}
+                        <TeamSelect
+                            targetTeam={targetTeam}
+                            onchange={React.useCallback(Id => setTeamId(Id), [])}
                             required/>
 
                     </Modal.Body>
