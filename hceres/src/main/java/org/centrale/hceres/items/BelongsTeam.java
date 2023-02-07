@@ -60,5 +60,4 @@ public class BelongsTeam implements Serializable {
     @JoinColumn(name = "team_id", referencedColumnName = "team_id", insertable = false, updatable = false)
     @ManyToOne
     private Team team;
-
 }

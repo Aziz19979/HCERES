@@ -174,8 +174,7 @@ class Researcher extends Component {
                     }
                     return statusName;
                 },
-            },
-                {
+            }, {
                 dataField: 'actionColumn',
                 isDummyField: true,
                 text: 'Edit',

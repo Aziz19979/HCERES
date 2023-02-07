@@ -1,17 +1,12 @@
 package org.centrale.hceres.controller;
 
-
-import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Team;
 import org.centrale.hceres.service.TeamService;
 import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(originPatterns = "*")

@@ -25,17 +25,6 @@ public class TeamService {
     @Autowired
     private TeamRepository teamRepo;
 
-    @Autowired
-    private ActivityRepository activityRepo;
-
-    /**
-     * permet de retourner la liste
-     */
-    /**
-    public List<Activity> getTeams() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.TEAM.getId());
-    }
-    */
     public List<Team> getTeams() {
         return teamRepo.findAll();
     }
@@ -60,20 +49,8 @@ public class TeamService {
         team.setTeamCreation(RequestParser.getAsDate(request.get("teamCreation")));
         team.setTeamEnd(RequestParser.getAsDate(request.get("teamEnd")));
         team.setTeamLastReport(RequestParser.getAsDate(request.get("teamLastReport")));
-
-        /**
-        // Activity :
-        Activity activity = new Activity();
-        team.setActivityList((List<Activity>) activity);
-        activity.setTeamList((List<Team>) team);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.TEAM.getId());
-
-        // get list of researcher doing this activity - currently only one is sent
-        activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
-
-        activity = activityRepo.save(activity);
-        return activity;
-        */
+        team.setLaboratoryId(RequestParser.getAsInteger(request.get("laboratoryId")));
+        teamRepo.save(team);
         return team;
     }
 
