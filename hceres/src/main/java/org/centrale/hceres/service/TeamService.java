@@ -1,13 +1,8 @@
 package org.centrale.hceres.service;
 
-import java.text.ParseException;
 import java.util.*;
 
-import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Team;
-import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
-import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.TeamRepository;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;

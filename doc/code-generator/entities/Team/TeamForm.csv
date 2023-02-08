@@ -1,5 +1,5 @@
 data Label, html type, variableName, initialVariableNameValue, jsonPath
-teamName, string, teamName, "", team.teamName
-teamCreation, date, teamCreation, "", team.teamCreation
-teamEnd, date, teamEnd, "", team.teamEnd
-teamLastReport, date, teamLastReport, "", team.teamLastReport
+Nom de l'équipe, string, teamName, "", team.teamName
+Création d'équipe, date, teamCreation, "", team.teamCreation
+fin d'équipe, date, teamEnd, "", team.teamEnd
+dernier rapport de l'équipe, date, teamLastReport, "", team.teamLastReport
