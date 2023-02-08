@@ -38,6 +38,11 @@ public class Status implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_status")
     private Integer idStatus;
+
+    public Status(Integer idStatus) {
+        this.idStatus = idStatus;
+    }
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)

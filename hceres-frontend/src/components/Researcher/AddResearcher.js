@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import {API_URL} from "../../constants";
 import axios from "axios";
 import LoadingIcon from "../util/LoadingIcon";
+import StatusSelect from "../util/StatusSelect";
 
 /**
  * add or edit researcher if present in props.targetResearcher
@@ -15,6 +16,7 @@ function AddResearcher(props) {
     const [isLoading, setIsLoading] = React.useState(false);
 
     const targetResearcher = props.targetResearcher;
+    const targetStatus = props.targetStatus;
 
     const silentClose = () => {
         setShowModal(false);
@@ -30,14 +32,15 @@ function AddResearcher(props) {
     const [AddResearcherLastName, setAddResearcherLastName] = React.useState(targetResearcher ? targetResearcher.researcherSurname : "");
     const [AddResearcherEmail, setAddResearcherEmail] = React.useState(targetResearcher ? targetResearcher.researcherEmail : "");
     const [AddResearcherTeam, setAddResearcherTeam] = React.useState(targetResearcher ? targetResearcher.researcherTeam : "");
-
+    const [idStatus, setIdStatus] = React.useState(targetStatus ? targetStatus.idStatus : "");
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
             "researcherSurname": AddResearcherLastName,
             "researcherName": AddResearcherFirstName,
             "researcherEmail": AddResearcherEmail,
-            "researcherTeam": AddResearcherTeam
+            "researcherTeam": AddResearcherTeam,
+            idStatus: idStatus
         };
         if (targetResearcher) {
             handleUpdateResearcher(data)
@@ -142,6 +145,14 @@ function AddResearcher(props) {
                             type="AddResearcherTeam"
                             value={AddResearcherTeam}
                             onChange={e => setAddResearcherTeam(e.target.value)}
+                            required/>
+
+                        <label className='label'>
+                            Statut du chercheur
+                        </label>
+                        <StatusSelect
+                            targetStatus={targetStatus}
+                            onchange={React.useCallback(Id => setIdStatus(Id), [])}
                             required/>
 
                     </Modal.Body>

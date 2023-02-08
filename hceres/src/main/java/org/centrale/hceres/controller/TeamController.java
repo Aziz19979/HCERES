@@ -13,6 +13,7 @@ import java.util.Map;
 public class TeamController {
 
     @Autowired
+
     private TeamService teamService;
 
     /**
@@ -20,7 +21,7 @@ public class TeamController {
      */
 
     /**
-    public List<Activity> getTeams() {
+    public List<Team> getTeams() {
         return teamService.getTeams();
     }
     */
