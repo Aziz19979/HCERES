@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,10 +52,12 @@ public class Contract implements Serializable {
     @JoinColumn(name = "id_employer", referencedColumnName = "id_employer")
     @ManyToOne(optional = false)
     private Employer idEmployer;
+
+    @JsonIgnore
     @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
     @ManyToOne(optional = false)
-    private Researcher researcherId;
+    private Researcher researcher;
     @JoinColumn(name = "id_status", referencedColumnName = "id_status")
     @ManyToOne(optional = false)
-    private Status idStatus;
+    private Status status;
 }

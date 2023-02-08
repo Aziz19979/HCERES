@@ -75,7 +75,7 @@ public class Researcher implements Serializable {
     @OneToMany(mappedBy = "researcherId")
     private List<Connection> connectionList;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcherId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
     private List<Contract> contractList;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcherId")
@@ -92,4 +92,7 @@ public class Researcher implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
     private List<BelongsTeam> belongsTeamList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
+    private List<Contract> contract;
 }
