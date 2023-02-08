@@ -71,18 +71,17 @@ public class ResearchController {
 	public void deleteEducation(@RequestBody @PathVariable("id") final Integer id) {
 		rs.deleteResearcher(id);
 	}
-	
+
 	/**
 	 * ajouter un elmt a la base de donnees
-	 * @param education : l'elmt a ajouter
+	 * @param request : l'elmt a ajouter
 	 * @return l'elmt ajoute
 	 */
 	@PostMapping(value ="/AddResearcher")
 	public Researcher createResearcher(@RequestBody Map<String, Object> request) throws RequestParseException {
 		return rs.saveResearcher(request);
 	}
-	
-	
+
 	/**
 	 * Update - Update an existing element
 	 * @param id - The id of the element

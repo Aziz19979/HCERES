@@ -8,6 +8,7 @@
  * L LETERTRE, S LIMOUX, JY MARTIN
  * -------------------------------------------------------------------------------- */
 package org.centrale.hceres.items;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,8 @@ public class ContractType implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "name_contract_type")
     private String nameContractType;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idContractType")
     private List<Contract> contractList;
 }

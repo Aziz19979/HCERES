@@ -11,7 +11,6 @@ import filterFactory, {textFilter} from 'react-bootstrap-table2-filter';
 import {FaEdit} from "react-icons/fa";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
-import {ImFilter} from "react-icons/im";
 import {Oval} from 'react-loading-icons'
 import AddResearcher from "./AddResearcher";
 import {Alert, OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -118,7 +117,8 @@ class Researcher extends Component {
             })
         })
     }
-    showTooltip  (props) {
+
+    showTooltip(props) {
         return <Tooltip id="button-tooltip">
             {props}
         </Tooltip>
@@ -154,12 +154,27 @@ class Researcher extends Component {
                 filter: this.state.showFilter ? textFilter() : null,
                 formatter: (cell, row) => {
                     let allTeams = ''
-                    for (let i = 0; i< row.belongsTeamList.length; i++){
+                    for (let i = 0; i < row.belongsTeamList.length; i++) {
                         allTeams += row.belongsTeamList[i].team.teamName + '\n'
                     }
                     return allTeams;
                 },
-            },{
+            }, {
+                dataField: 'contract',
+                text: 'Statut',
+                sort: true,
+                filter: this.state.showFilter ? textFilter() : null,
+                formatter: (cell, row) => {
+                    let statusName = ''
+                    if (row.contract.length > 0) {
+                        statusName = row.contract[0].status.nameStatus
+                        console.log(row.contract[0])
+                    } else {
+                        statusName = 'No contract'
+                    }
+                    return statusName;
+                },
+            }, {
                 dataField: 'actionColumn',
                 isDummyField: true,
                 text: 'Edit',
@@ -195,25 +210,27 @@ class Researcher extends Component {
                                 delay={{show: 250, hide: 400}}
                                 overlay={this.showTooltip("Modifier les informations du chercheur")}
                             >
-                            <button onClick={() => {
-                                this.setState({
-                                    targetResearcher: row,
-                                    showAddResearcher: true
-                                })
-                            }} className="btn btn-outline-info">
-                                <FaEdit/></button></OverlayTrigger>
+                                <button onClick={() => {
+                                    this.setState({
+                                        targetResearcher: row,
+                                        showAddResearcher: true
+                                    })
+                                }} className="btn btn-outline-info">
+                                    <FaEdit/></button>
+                            </OverlayTrigger>
 
                             <OverlayTrigger
                                 placement="bottom"
                                 delay={{show: 250, hide: 400}}
                                 overlay={this.showTooltip("Supprimer le chercheur")}
                             >
-                            <button className="btn btn-outline-danger" onClick={() => {
-                                this.setState({
-                                    targetResearcher: row,
-                                    showDeleteResearcher: true
-                                })
-                            }}><AiFillDelete/></button></OverlayTrigger>
+                                <button className="btn btn-outline-danger" onClick={() => {
+                                    this.setState({
+                                        targetResearcher: row,
+                                        showDeleteResearcher: true
+                                    })
+                                }}><AiFillDelete/></button>
+                            </OverlayTrigger>
                         </div>
                     )
                 }
