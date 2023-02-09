@@ -32,6 +32,11 @@ public class BelongsTeam implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public BelongsTeam(Integer researcherId, Integer teamId) {
+        this.researcherId = researcherId;
+        this.teamId = teamId;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -57,6 +62,7 @@ public class BelongsTeam implements Serializable {
     @Column(name = "team_id")
     private Integer teamId;
 
+    @JsonIgnore
     @JoinColumn(name = "team_id", referencedColumnName = "team_id", insertable = false, updatable = false)
     @ManyToOne
     private Team team;

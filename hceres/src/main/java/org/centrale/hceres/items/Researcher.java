@@ -69,7 +69,7 @@ public class Researcher implements Serializable {
     @ManyToMany(mappedBy = "researcherList")
     private List<Nationality> nationalityList;
     @JsonIgnore
-    @ManyToMany(mappedBy = "researcherList")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "researcherList")
     private List<Activity> activityList;
     @JsonIgnore
     @OneToMany(mappedBy = "researcherId")

@@ -23,7 +23,6 @@ import Button from "react-bootstrap/Button";
 import {VscEyeClosed} from "react-icons/vsc";
 import {MdSearch} from "react-icons/md";
 import {fetchListResearchers} from "../../services/Researcher/ResearcherActions";
-import MyGlobalVar from "../../services/MyGlobalVar";
 
 class Researcher extends Component {
     constructor() {
@@ -53,43 +52,20 @@ class Researcher extends Component {
         // silent close
         if (!messages) return;
 
-        // addition close
-        if (messages.researcherAdded) {
-            this.setState(prevState => ({
-                // push added researcher to previous list
-                researchers: [...prevState.researchers, messages.researcherAdded],
-                // display success message
-                researcherSuccessAlert: messages.successMsg,
-            }))
-        } else if (messages.researcherUpdated) {
-            // update close
-            // 1. Make a shallow copy of the items
-            let items = [...this.state.researchers];
-            // 2. Make a shallow copy of the item you want to mutate
-            let indexUpdated = this.state.researchers.findIndex(r => r.researcherId === messages.researcherUpdated.researcherId)
-            // 3. Put it the new item into our array. N.B. we *are* mutating the array here,
-            //    but that's why we made a copy first
-            items[indexUpdated] = messages.researcherUpdated;
-            // 4. Set the state to our new copy
-            this.setState({
-                researchers: items,
-                researcherSuccessAlert: messages.successMsg,
-            });
-        } else if (messages.researcherDeleted) {
-            let items = [...this.state.researchers];
-            let indexDeleted = this.state.researchers.findIndex(r => r.researcherId === messages.researcherDeleted.researcherId)
-            items.splice(indexDeleted, 1);
-            this.setState({
-                researchers: items,
-                researcherSuccessAlert: messages.successMsg,
-            });
+        if (messages.successMsg) {
+            // the global variable list is updated, so we need to update the state
+            fetchListResearchers().then(list => {
+                this.setState({
+                    researchers: list,
+                    researcherSuccessAlert: messages.successMsg,
+                })
+            })
         } else {
             this.setState(prevState => ({
                 // displate error message
                 researcherErrorAlert: messages.errorMsg,
             }))
         }
-        MyGlobalVar.listeChercheurs = this.state.researchers
     }
 
     onHideModalActivity(messages = null) {
@@ -166,9 +142,8 @@ class Researcher extends Component {
                 filter: this.state.showFilter ? textFilter() : null,
                 formatter: (cell, row) => {
                     let statusName = ''
-                    if (row.contract.length > 0) {
+                    if (row?.contract?.length > 0) {
                         statusName = row.contract[0].status.nameStatus
-                        console.log(row.contract[0])
                     } else {
                         statusName = 'No contract'
                     }
