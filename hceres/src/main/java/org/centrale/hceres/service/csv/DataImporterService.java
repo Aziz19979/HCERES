@@ -20,7 +20,14 @@ public class DataImporterService {
     private ImportCsvResearcher importCsvResearcher;
 
     @Autowired
+    private ImportCsvNationality importCsvNationality;
+
+
+    @Autowired
     private ImportCsvInstitution importCsvInstitution;
+
+    @Autowired
+    private ImportCsvPhdType importCsvPhdType;
 
     @Autowired
     private ImportCsvLaboratory importCsvLaboratory;
@@ -44,7 +51,13 @@ public class DataImporterService {
     private ImportCsvBook importCsvBook;
 
     @Autowired
-    private ImportCsvOralCommunication importCsvOralCommunication;
+    private ImportCsvInvitedOralCommunication importCsvInvitedOralCommunication;
+
+    @Autowired
+    private ImportCsvOralCommunicationPoster importCsvOralCommunicationPoster;
+
+    @Autowired
+    private ImportCsvMeetingCongressOrg importCsvMeetingCongressOrg;
 
     @Autowired
     private ImportCsvInvitedSeminar importCsvInvitedSeminar;
@@ -82,9 +95,11 @@ public class DataImporterService {
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
         Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
+        Map<Integer, GenericCsv<PhdType, Integer>> csvIdToPhdTypeMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
         Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
         Map<String, GenericCsv<BelongsTeam, String>> csvIdToBelongsTeamMap = null;
+        Map<Integer, GenericCsv<Nationality, Integer>> csvIdToNationalityMap = null;
         Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
         Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
         Map<Integer, CsvActivity> specificActivityMap = null;
@@ -118,6 +133,7 @@ public class DataImporterService {
                             csvIdToTeamMap);
                     break;
                 case NATIONALITY:
+                    csvIdToNationalityMap = importCsvNationality.importCsvList(csvList, importCsvSummary);
                     break;
                 case TYPE_ACTIVITY:
                     csvIdToTypeActivityMap = importCsvTypeActivity.importCsvList(csvList, importCsvSummary);
@@ -143,7 +159,18 @@ public class DataImporterService {
                 case INVITED_ORAL_COMMUNICATION:
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION, k -> new HashMap<>());
-                    importCsvOralCommunication.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    importCsvInvitedOralCommunication.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+
+                case ORAL_COMMUNICATION_POSTER:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER, k -> new HashMap<>());
+                    importCsvOralCommunicationPoster.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case MEETING_CONGRESS_ORG:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.MEETING_CONGRESS_ORG, k -> new HashMap<>());
+                    importCsvMeetingCongressOrg.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case INVITED_SEMINAR:
                     assert activityMap != null;
@@ -152,6 +179,9 @@ public class DataImporterService {
                     break;
                 case LANGUAGE:
                     importCsvLanguage.importCsvList(csvList, importCsvSummary);
+                    break;
+                case PHD_TYPE:
+                    csvIdToPhdTypeMap = importCsvPhdType.importCsvList(csvList, importCsvSummary);
                     break;
                 default:
                     break;

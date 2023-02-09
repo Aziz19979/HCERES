@@ -14,9 +14,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+// currently invited oral communication does not have associated activity
+// it seem that OralCommunication defined in the project correspond
+// OralCommunicationPoster
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvOralCommunication extends DependentCsv<Activity, Integer> {
+public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer> {
     private Integer idCsvOralCommunication;
     private Date dateCommunication;
     private String title;
@@ -29,7 +32,7 @@ public class CsvOralCommunication extends DependentCsv<Activity, Integer> {
     private CsvActivity csvActivity;
     private Map<Integer, CsvActivity> activityIdCsvMap;
 
-    public CsvOralCommunication(Map<Integer, CsvActivity> activityIdCsvMap) {
+    public CsvInvitedOralCommunication(Map<Integer, CsvActivity> activityIdCsvMap) {
         this.activityIdCsvMap = activityIdCsvMap;
     }
 

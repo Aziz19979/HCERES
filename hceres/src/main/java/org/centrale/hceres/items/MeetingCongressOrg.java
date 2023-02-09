@@ -16,7 +16,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -45,6 +44,6 @@ public class MeetingCongressOrg implements Serializable {
 
     
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
-    @ManyToOne(optional = false)
-    private Meeting meetingId;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private Meeting meeting;
 }
