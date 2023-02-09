@@ -34,10 +34,14 @@ function ResearcherSelect(props) {
         if (value) {
             // if default value is set, call on change value so form variable is affected
             // even when user do not change input
-            onChangeResearcherId(value.value)
+            if (isMulti) {
+                onChangeResearcherId([value.value]);
+            } else {
+                onChangeResearcherId(value.value);
+            }
         }
         return value;
-    }, [targetResearcher, onChangeResearcherId]);
+    }, [targetResearcher, onChangeResearcherId, isMulti]);
 
     // Cached state (for selection options)
     const [researchers, setResearchers] = React.useState([]);

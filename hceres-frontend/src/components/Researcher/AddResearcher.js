@@ -3,10 +3,9 @@ import './Researcher.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {API_URL} from "../../constants";
-import axios from "axios";
 import LoadingIcon from "../util/LoadingIcon";
 import TeamSelect from "../util/TeamSelect";
+import {addResearcher, updateResearcher} from "../../services/Researcher/ResearcherActions";
 
 /**
  * add or edit researcher if present in props.targetResearcher
@@ -16,7 +15,6 @@ function AddResearcher(props) {
     const [isLoading, setIsLoading] = React.useState(false);
 
     const targetResearcher = props.targetResearcher;
-    const targetTeam = props.targetTeam;
 
     const silentClose = () => {
         setShowModal(false);
@@ -31,16 +29,14 @@ function AddResearcher(props) {
     const [AddResearcherFirstName, setAddResearcherFirstName] = React.useState(targetResearcher ? targetResearcher.researcherName : "");
     const [AddResearcherLastName, setAddResearcherLastName] = React.useState(targetResearcher ? targetResearcher.researcherSurname : "");
     const [AddResearcherEmail, setAddResearcherEmail] = React.useState(targetResearcher ? targetResearcher.researcherEmail : "");
-    const [AddResearcherTeam, setAddResearcherTeam] = React.useState(targetResearcher ? targetResearcher.researcherTeam : "");
-    const [teamId, setTeamId] = React.useState(targetTeam ? targetTeam.teamId : "");
+    const [teamIds, setTeamIds] = React.useState([]);
     const handleSubmit = (event) => {
         event.preventDefault();
         let data = {
             "researcherSurname": AddResearcherLastName,
             "researcherName": AddResearcherFirstName,
             "researcherEmail": AddResearcherEmail,
-            "researcherTeam": AddResearcherTeam,
-            teamId: teamId,
+            "teamIds": teamIds,
         };
         if (targetResearcher) {
             handleUpdateResearcher(data)
@@ -51,7 +47,7 @@ function AddResearcher(props) {
 
     const handleUpdateResearcher = (data) => {
         setIsLoading(true)
-        axios.put(`${API_URL}/updateResearcher/${targetResearcher.researcherId}`, data)
+        updateResearcher(targetResearcher.researcherId, data)
             .then(response => {
                 const researcherId = response.data.researcherId;
                 const msg = {
@@ -71,7 +67,7 @@ function AddResearcher(props) {
 
     const handleAddResearcher = (data) => {
         setIsLoading(true);
-        axios.post(API_URL + "/AddResearcher", data)
+        addResearcher(data)
             .then(response => {
                 const researcherId = response.data.researcherId;
                 const msg = {
@@ -139,9 +135,7 @@ function AddResearcher(props) {
                             Equipe du chercheur
                         </label>
                         <TeamSelect
-                            targetTeam={targetTeam}
-                            onchange={React.useCallback(Id => setTeamId(Id), [])}
-                            required/>
+                            onchange={React.useCallback(ids => setTeamIds(ids), [])}/>
 
                     </Modal.Body>
                     <Modal.Footer>

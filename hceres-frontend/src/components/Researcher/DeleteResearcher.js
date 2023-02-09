@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import Modal from "react-bootstrap/Modal";
-import Axios from "axios";
 import Button from "react-bootstrap/Button";
 import ResearcherElement from "./ResearcherElement";
-import {API_URL} from "../../constants";
 import LoadingIcon from "../util/LoadingIcon";
+import {deleteResearcher} from "../../services/Researcher/ResearcherActions";
 
 function DeleteResearcher(props) {
     const [show, setShow] = useState(true);
@@ -22,7 +21,7 @@ function DeleteResearcher(props) {
 
     const handleDelete = () => {
         setIsLoading(true);
-        Axios.delete(`${API_URL}/deleteResearcher/${targetResearcher.researcherId}`)
+        deleteResearcher(targetResearcher.researcherId)
             .then(response => {
                 const msg = {
                     "researcherDeleted": targetResearcher,

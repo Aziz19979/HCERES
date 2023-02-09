@@ -76,7 +76,7 @@ public class Activity implements Serializable {
     @JsonIgnore
     private List<MailActivity> mailActivityList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
-    private InternationalCollaboration InternationalCollaboration;
+    private InternationalCollaboration internationalCollaboration;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
     private Publication publication;

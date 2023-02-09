@@ -19,11 +19,12 @@ import {fetchListTeams} from "../../services/Team/TeamActions";
  */
 function TeamSelect(props) {
     // parameter constant
+    const isFieldRequired = props.required ? props.required : false;
     const onChangeTeamId = props.onchange;
     const isMulti = props.isMulti ? props.isMulti : true;
     const placeHolder = isMulti ? "Choisie les équipes..." : "Choisie une équipe...";
 
-    const targetTeam = props.targetTeam;
+    const targetTeam = props.targetTeam ? props.targetTeam : undefined;
     // see https://www.freecodecamp.org/news/what-every-react-developer-should-know-about-state/
     const defaultValue = React.useMemo(() => {
         let value = targetTeam ? {
@@ -34,10 +35,14 @@ function TeamSelect(props) {
         if (value) {
             // if default value is set, call on change value so form variable is affected
             // even when user do not change input
-            onChangeTeamId(value.value)
+            if (isMulti) {
+                onChangeTeamId([value.value]);
+            } else {
+                onChangeTeamId(value.value);
+            }
         }
         return value;
-    }, [targetTeam, onChangeTeamId]);
+    }, [targetTeam, onChangeTeamId, isMulti]);
 
     // Cached state (for selection options)
     const [teams, setTeams] = React.useState([]);
@@ -103,7 +108,7 @@ function TeamSelect(props) {
             placeholder={placeHolder}
             onChange={onChangeSelection}
             isMulti={isMulti}
-            required={true}
+            required={isFieldRequired}
         />
     }
 
