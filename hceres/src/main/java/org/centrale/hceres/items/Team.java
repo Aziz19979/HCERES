@@ -38,6 +38,11 @@ public class Team implements Serializable {
     @Basic(optional = false)
     @Column(name = "team_id")
     private Integer teamId;
+
+    public Team(Integer teamId) {
+        this.teamId = teamId;
+    }
+
     @Size(max = 256)
     @Column(name = "team_name")
     private String teamName;

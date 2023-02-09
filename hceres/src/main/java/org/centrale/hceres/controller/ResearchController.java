@@ -66,55 +66,29 @@ public class ResearchController {
 	 * Delete - Delete an element
 	 * @param id - The id of the element
 	 */
-	@DeleteMapping("/deleteResearcher/{id}")
-	
+	@DeleteMapping("/Researcher/{id}/Delete")
 	public void deleteEducation(@RequestBody @PathVariable("id") final Integer id) {
 		rs.deleteResearcher(id);
 	}
-	
+
 	/**
 	 * ajouter un elmt a la base de donnees
-	 * @param education : l'elmt a ajouter
+	 * @param request : l'elmt a ajouter
 	 * @return l'elmt ajoute
 	 */
-	@PostMapping(value ="/AddResearcher")
+	@PostMapping(value ="/Researcher/Create")
 	public Researcher createResearcher(@RequestBody Map<String, Object> request) throws RequestParseException {
 		return rs.saveResearcher(request);
 	}
-	
-	
+
 	/**
 	 * Update - Update an existing element
 	 * @param id - The id of the element
-	 * @param request - The element
-	 * @return
+	 * @param request - The element to update
+	 * @return The updated element
 	 */
-	@PutMapping("/updateResearcher/{id}")
+	@PutMapping("/Researcher/{id}/Update")
 	public Researcher updateResearcher(@PathVariable("id") final Integer id, @RequestBody Map<String, Object> request) throws RequestParseException {
-		Optional<Researcher> e = researchRepo.findById(id);
-		if(e.isPresent()) {
-			Researcher currentResearcher = e.get();
-			
-			String researcherSurname = RequestParser.getAsString(request.get("researcherSurname"));
-			if(researcherSurname != null) {
-				currentResearcher.setResearcherSurname(researcherSurname);
-			}
-			
-			String researcherName = RequestParser.getAsString(request.get("researcherName"));
-			if(researcherName != null) {
-				currentResearcher.setResearcherName(researcherName);
-			}
-			
-			String researcherEmail = RequestParser.getAsString(request.get("researcherEmail"));
-			if(researcherEmail != null) {
-				currentResearcher.setResearcherEmail(researcherEmail);
-			}
-			
-			researchRepo.save(currentResearcher);
-			return currentResearcher;
-			
-		} else {
-			return null;
-		}
+		return rs.updateResearcher(id, request);
 	}
 }

@@ -1,15 +1,15 @@
 import React from "react";
 import Select from "react-select";
 import FixRequiredSelect from "./FixRequiredSelect";
-import {researcherToString} from "./ResearcherToString";
+import {teamToString} from "./TeamToString";
 import {ListGroup} from "react-bootstrap";
-import {fetchListResearchers} from "../../services/Researcher/ResearcherActions";
+import {fetchListTeams} from "../../services/Team/TeamActions";
 
 /**
- * Return a <select> html element for all researchers in application
+ * Return a <select> html element for all teams in application
  *
  * @param props: {
- *     onChange: callback function with id of selected researcher as parameter,
+ *     onChange: callback function with id of selected team as parameter,
  *               or an array of ids if isMulti is enabled
  *     isMulti: specify if select is multi select, otherwise it is single
  *     targetResearcher: used for default value if present
@@ -17,38 +17,39 @@ import {fetchListResearchers} from "../../services/Researcher/ResearcherActions"
  * @returns {JSX.Element} {Select} element, or {ListGroup.Item} if not selection is needed
  * @constructor
  */
-function ResearcherSelect(props) {
+function TeamSelect(props) {
     // parameter constant
-    const onChangeResearcherId = props.onchange;
-    const isMulti = props.isMulti ? props.isMulti : false;
-    const placeHolder = isMulti ? "Choisie les chercheurs..." : "Choisie un chercheur...";
+    const isFieldRequired = props.required ? props.required : false;
+    const onChangeTeamId = props.onchange;
+    const isMulti = props.isMulti ? props.isMulti : true;
+    const placeHolder = isMulti ? "Choisie les équipes..." : "Choisie une équipe...";
 
-    const targetResearcher = props.targetResearcher;
+    const targetTeam = props.targetTeam ? props.targetTeam : undefined;
     // see https://www.freecodecamp.org/news/what-every-react-developer-should-know-about-state/
     const defaultValue = React.useMemo(() => {
-        let value = targetResearcher ? {
-            value: targetResearcher.researcherId,
-            label: researcherToString(targetResearcher),
+        let value = targetTeam ? {
+            value: targetTeam.teamId,
+            label: teamToString(targetTeam),
             isFixed: true,
         } : undefined;
         if (value) {
             // if default value is set, call on change value so form variable is affected
             // even when user do not change input
             if (isMulti) {
-                onChangeResearcherId([value.value]);
+                onChangeTeamId([value.value]);
             } else {
-                onChangeResearcherId(value.value);
+                onChangeTeamId(value.value);
             }
         }
         return value;
-    }, [targetResearcher, onChangeResearcherId, isMulti]);
+    }, [targetTeam, onChangeTeamId, isMulti]);
 
     // Cached state (for selection options)
-    const [researchers, setResearchers] = React.useState([]);
-    const doRequireUsingSelectList = isMulti || !targetResearcher
-    const researcherSelectOptions = researchers.map(res => ({
-        value: res.researcherId,
-        label: researcherToString(res),
+    const [teams, setTeams] = React.useState([]);
+    const doRequireUsingSelectList = isMulti || !targetTeam
+    const teamSelectOptions = teams.map(res => ({
+        value: res.teamId,
+        label: teamToString(res),
     }))
 
     // select value state
@@ -56,16 +57,16 @@ function ResearcherSelect(props) {
 
     React.useEffect(() => {
         if (doRequireUsingSelectList) {
-            fetchListResearchers().then(list => setResearchers(list));
+            fetchListTeams().then(list => setTeams(list));
         }
     }, [doRequireUsingSelectList])
 
 
     if (!doRequireUsingSelectList) {
-        // there is no multi select option and target researcher is set
+        // there is no multi select option and target team is set
         // select is not required, returning list group instead
         return <ListGroup.Item
-            variant={"primary"}>{researcherToString(props.targetResearcher)}</ListGroup.Item>
+            variant={"primary"}>{teamToString(props.targetTeam)}</ListGroup.Item>
     } else {
 
         // selection is required
@@ -87,30 +88,30 @@ function ResearcherSelect(props) {
             setValue(newValue)
             if (newValue === null) {
                 if (isMulti) {
-                    onChangeResearcherId([]);
+                    onChangeTeamId([]);
                 } else {
-                    onChangeResearcherId("");
+                    onChangeTeamId("");
                 }
             } else {
                 if (isMulti) {
-                    onChangeResearcherId(newValue.map(opt => opt.value));
+                    onChangeTeamId(newValue.map(opt => opt.value));
                 } else {
-                    onChangeResearcherId(newValue.value)
+                    onChangeTeamId(newValue.value)
                 }
             }
         }
 
         return <FixRequiredSelect
             SelectComponent={Select}
-            options={researcherSelectOptions}
+            options={teamSelectOptions}
             value={value}
             placeholder={placeHolder}
             onChange={onChangeSelection}
             isMulti={isMulti}
-            required={true}
+            required={isFieldRequired}
         />
     }
 
 }
 
-export default ResearcherSelect;
+export default TeamSelect;

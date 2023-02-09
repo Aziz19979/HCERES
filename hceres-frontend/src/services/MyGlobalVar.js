@@ -1,3 +1,5 @@
+import {fetchListTeams} from "./Team/TeamActions";
+
 class MyClass {
     constructor() {
         this.initializeLists();
@@ -20,6 +22,7 @@ class MyClass {
         this.listeOutgoingMobilities = null;
         this.listeCompanyCreations = null;
         this.listePatents = null;
+        this.listeTeams = null;
     }
 
     deleteActivity(activityList, idActivity) {
@@ -37,6 +40,16 @@ class MyClass {
                 .map(r => this.listeChercheurs.find(f => f.researcherId === r.researcherId))
         }
         return response
+    }
+
+    async addTeamDataToResearchers(researcherList) {
+        await fetchListTeams().then(list => {
+            researcherList.forEach(r => {
+                r["belongsTeamList"].forEach(t => {
+                    t["team"] = list.find(f => f.teamId === t.teamId)
+                })
+            });
+        });
     }
 }
 
