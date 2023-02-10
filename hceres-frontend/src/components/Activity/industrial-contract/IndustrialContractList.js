@@ -183,6 +183,11 @@ function IndustrialContractList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -192,8 +197,8 @@ function IndustrialContractList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'industrialContractList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -243,6 +248,7 @@ function IndustrialContractList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

@@ -246,6 +246,11 @@ function OutgoingMobilityList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -255,8 +260,8 @@ function OutgoingMobilityList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'outgoingMobilityList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -305,6 +310,7 @@ function OutgoingMobilityList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )
