@@ -135,6 +135,13 @@ class Researcher extends Component {
                     }
                     return allTeams;
                 },
+                csvFormatter: (cell, row, rowIndex) => {
+                    let allTeams = ''
+                    for (let i = 0; i < row.belongsTeamList.length; i++) {
+                        allTeams += row.belongsTeamList[i].team.teamName + ' - '
+                    }
+                    return allTeams;
+                }
             }, {
                 dataField: 'contract',
                 text: 'Statut',
@@ -283,6 +290,11 @@ class Researcher extends Component {
                 );
             };
 
+            const selectRow = {
+                mode: 'checkbox',
+                clickToSelect: true
+            };
+
             return (
                 <div className="container">
                     {this.state.showAddResearcher && (<AddResearcher targetResearcher={this.state.targetResearcher}
@@ -298,8 +310,8 @@ class Researcher extends Component {
                         columns={columns}
                         exportCSV={{
                             fileName: 'researcherList.csv',
-                            onlyExportFiltered: true,
-                            exportAll: false
+                            onlyExportSelection: true,
+                            exportAll: true
                         }}
                         search
                     >
@@ -313,6 +325,7 @@ class Researcher extends Component {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             )
                         }
