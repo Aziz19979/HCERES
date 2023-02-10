@@ -173,6 +173,11 @@ function EditorialActivityList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -182,8 +187,8 @@ function EditorialActivityList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'editorialActivityList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -232,6 +237,7 @@ function EditorialActivityList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

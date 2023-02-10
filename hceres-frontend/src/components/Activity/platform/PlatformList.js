@@ -176,6 +176,11 @@ function PlatformList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -185,8 +190,8 @@ function PlatformList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'platformList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -235,6 +240,7 @@ function PlatformList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

@@ -193,6 +193,11 @@ function SeiClinicalTrialList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -202,8 +207,8 @@ function SeiClinicalTrialList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'seiClinicalTrialList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -252,6 +257,7 @@ function SeiClinicalTrialList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

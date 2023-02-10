@@ -210,6 +210,11 @@ function InternationalCollaborationList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -219,8 +224,8 @@ function InternationalCollaborationList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'internationalCollaborationList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -270,6 +275,7 @@ function InternationalCollaborationList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

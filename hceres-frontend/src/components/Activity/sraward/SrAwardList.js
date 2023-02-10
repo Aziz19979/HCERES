@@ -168,6 +168,11 @@ function SrAwardList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -177,8 +182,8 @@ function SrAwardList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'srAwardList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -227,6 +232,7 @@ function SrAwardList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )
