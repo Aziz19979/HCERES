@@ -13,6 +13,8 @@ import InvitedSeminarCsv from "../../../assets/csvSamples/invited_seminar.csv";
 import LanguageCsv from "../../../assets/csvSamples/language.csv";
 import NationalityCsv from "../../../assets/csvSamples/nationality.csv";
 import PhdTypeCsv from "../../../assets/csvSamples/phd_type.csv";
+import PublicationTypeCsv from "../../../assets/csvSamples/publication_type.csv";
+import PublicationCsv from "../../../assets/csvSamples/publication.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -34,6 +36,8 @@ export default function CsvSampleDownloader() {
         LanguageCsv,
         NationalityCsv,
         PhdTypeCsv,
+        PublicationTypeCsv,
+        PublicationCsv,
     ]
 
     return supportedCsvSample.map((file) => {

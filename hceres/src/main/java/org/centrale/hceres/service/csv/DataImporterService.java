@@ -68,6 +68,12 @@ public class DataImporterService {
     @Autowired
     private LanguageRepository languageRepository;
 
+    @Autowired
+    private ImportCsvPublicationType importCsvPublicationType;
+
+    @Autowired
+    private ImportCsvPublication importCsvPublication;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -95,6 +101,7 @@ public class DataImporterService {
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
         Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
+        Map<Integer, GenericCsv<PublicationType, Integer>> csvIdToPublicationTypeMap = null;
         Map<Integer, GenericCsv<PhdType, Integer>> csvIdToPhdTypeMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
         Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
@@ -182,6 +189,16 @@ public class DataImporterService {
                     break;
                 case PHD_TYPE:
                     csvIdToPhdTypeMap = importCsvPhdType.importCsvList(csvList, importCsvSummary);
+                    break;
+                case PUBLICATION_TYPE:
+                    csvIdToPublicationTypeMap = importCsvPublicationType.importCsvList(csvList, importCsvSummary);
+                    break;
+                case PUBLICATION:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PUBLICATION, k -> new HashMap<>());
+                    importCsvPublication.importCsvList(csvList, importCsvSummary,
+                            specificActivityMap,
+                            csvIdToPublicationTypeMap);
                     break;
                 default:
                     break;

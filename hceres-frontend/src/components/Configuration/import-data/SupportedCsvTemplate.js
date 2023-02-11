@@ -425,7 +425,7 @@ class SupportedCsvTemplate {
         ],
         mergingRules: ["Merge based on title, authors, source, publication_date, pmid, impact_factor, clinic, pdc, colab_inter, colab_intra_crti, id_choice and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY],
+        dependencies: [this.ACTIVITY, this.PUBLICATION_TYPE],
     }
 
     TYPE_RESEARCH_CONTRACT = {

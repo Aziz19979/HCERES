@@ -1,5 +1,6 @@
 package org.centrale.hceres.util;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -37,6 +38,18 @@ public class RequestParser {
         else if (number instanceof String) {
             try {
                 return Float.parseFloat((String) number);
+            } catch (NumberFormatException e) {
+                throw new RequestParseException(e);
+            }
+        } else throw new RequestParseException("Error while parsing number");
+    }
+
+    public static BigDecimal getAsBigDecimal(Object number) throws RequestParseException {
+        if (number instanceof BigDecimal)
+            return (BigDecimal) number;
+        else if (number instanceof String) {
+            try {
+                return new BigDecimal((String) number);
             } catch (NumberFormatException e) {
                 throw new RequestParseException(e);
             }

@@ -24,6 +24,8 @@ public enum SupportedCsvTemplate {
     LANGUAGE,
     MEETING_CONGRESS_ORG(ACTIVITY),
     PHD_TYPE,
+    PUBLICATION_TYPE,
+    PUBLICATION(ACTIVITY, PUBLICATION_TYPE),
     UNDEFINED;
 
     private final Set<SupportedCsvTemplate> dependencies;
