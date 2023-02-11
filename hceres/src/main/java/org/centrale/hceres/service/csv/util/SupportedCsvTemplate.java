@@ -26,6 +26,7 @@ public enum SupportedCsvTemplate {
     PHD_TYPE,
     PUBLICATION_TYPE,
     PUBLICATION(ACTIVITY, PUBLICATION_TYPE),
+    STATUS,
     UNDEFINED;
 
     private final Set<SupportedCsvTemplate> dependencies;

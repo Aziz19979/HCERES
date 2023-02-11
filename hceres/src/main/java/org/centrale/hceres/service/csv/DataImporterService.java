@@ -74,6 +74,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvPublication importCsvPublication;
 
+    @Autowired
+    private ImportCsvStatus importCsvStatus;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -101,6 +104,7 @@ public class DataImporterService {
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
         Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
+        Map<Integer, GenericCsv<Status, Integer>> csvIdToStatusMap = null;
         Map<Integer, GenericCsv<PublicationType, Integer>> csvIdToPublicationTypeMap = null;
         Map<Integer, GenericCsv<PhdType, Integer>> csvIdToPhdTypeMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
@@ -199,6 +203,9 @@ public class DataImporterService {
                     importCsvPublication.importCsvList(csvList, importCsvSummary,
                             specificActivityMap,
                             csvIdToPublicationTypeMap);
+                    break;
+                case STATUS:
+                    importCsvStatus.importCsvList(csvList, importCsvSummary);
                     break;
                 default:
                     break;
