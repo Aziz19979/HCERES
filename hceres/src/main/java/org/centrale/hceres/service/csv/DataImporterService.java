@@ -77,6 +77,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvStatus importCsvStatus;
 
+    @Autowired
+    private ImportCsvSeiClinicalTrial importCsvSeiClinicalTrial;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -206,6 +209,11 @@ public class DataImporterService {
                     break;
                 case STATUS:
                     importCsvStatus.importCsvList(csvList, importCsvSummary);
+                    break;
+                case SEI_CLINICAL_TRIAL:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL, k -> new HashMap<>());
+                    importCsvSeiClinicalTrial.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;

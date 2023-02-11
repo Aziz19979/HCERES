@@ -16,6 +16,7 @@ import PhdTypeCsv from "../../../assets/csvSamples/phd_type.csv";
 import PublicationTypeCsv from "../../../assets/csvSamples/publication_type.csv";
 import PublicationCsv from "../../../assets/csvSamples/publication.csv";
 import StatusCsv from "../../../assets/csvSamples/status.csv";
+import SeiClinicalTrialCsv from "../../../assets/csvSamples/sei_clinical_trial.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -40,6 +41,7 @@ export default function CsvSampleDownloader() {
         PublicationTypeCsv,
         PublicationCsv,
         StatusCsv,
+        SeiClinicalTrialCsv,
     ]
 
     return supportedCsvSample.map((file) => {
