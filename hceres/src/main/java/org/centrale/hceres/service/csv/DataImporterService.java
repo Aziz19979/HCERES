@@ -80,6 +80,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvSeiClinicalTrial importCsvSeiClinicalTrial;
 
+    @Autowired
+    private ImportCsvPlatform importCsvPlatform;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -214,6 +217,11 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL, k -> new HashMap<>());
                     importCsvSeiClinicalTrial.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case PLATFORM:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PLATFORM, k -> new HashMap<>());
+                    importCsvPlatform.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;

@@ -7,6 +7,10 @@ import java.util.*;
 
 public class RequestParser {
 
+    /**
+     * Maximum length of a string as defined in the database
+     */
+    public static final int MAX_STRING_LENGTH = 2048;
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String CSV_DEFAULT_DATE_FORMAT = "dd/MM/yy";
 
@@ -59,7 +63,10 @@ public class RequestParser {
     public static String getAsString(Object string) throws RequestParseException {
         if (string == null)
             throw new RequestParseException(new NullPointerException());
-        return String.valueOf(string);
+        String returnedValue = String.valueOf(string);
+        if (returnedValue.length() > MAX_STRING_LENGTH)
+            throw new RequestParseException("String exceeds maximum length " + MAX_STRING_LENGTH);
+        return returnedValue;
     }
 
     public static Date getAsDate(Object date) throws RequestParseException {
