@@ -1865,11 +1865,11 @@ CREATE TABLE public.tool_product_type (
     tool_product_type_name character varying(2048) NOT NULL
 );
 
-insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (1, 'DECISION_SUPPORT_TOOL');
-insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (2, 'BIOCOLLECTION');
-insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (3, 'SOFTWARE');
-insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (4, 'DATABASE');
-insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (5, 'COHORT');
+insert into public.tool_product_type (tool_product_type_id, tool_product_type_name) values (1, 'DECISION_SUPPORT_TOOL');
+insert into public.tool_product_type (tool_product_type_id, tool_product_type_name) values (2, 'BIOCOLLECTION');
+insert into public.tool_product_type (tool_product_type_id, tool_product_type_name) values (3, 'SOFTWARE');
+insert into public.tool_product_type (tool_product_type_id, tool_product_type_name) values (4, 'DATABASE');
+insert into public.tool_product_type (tool_product_type_id, tool_product_type_name) values (5, 'COHORT');
 
 
 --
