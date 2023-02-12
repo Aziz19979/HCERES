@@ -82,6 +82,8 @@ public class DataImporterService {
 
     @Autowired
     private ImportCsvPlatform importCsvPlatform;
+    @Autowired
+    private ImportCsvSeiIndustrialRDContract importCsvSeiIndustrialRDContract;
 
 
     /**
@@ -222,6 +224,11 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PLATFORM, k -> new HashMap<>());
                     importCsvPlatform.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case SEI_INDUSTRIAL_R_D_CONTRACT:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT, k -> new HashMap<>());
+                    importCsvSeiIndustrialRDContract.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;

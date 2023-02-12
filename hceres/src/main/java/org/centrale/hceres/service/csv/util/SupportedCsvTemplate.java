@@ -29,6 +29,7 @@ public enum SupportedCsvTemplate {
     STATUS,
     SEI_CLINICAL_TRIAL(ACTIVITY),
     PLATFORM(ACTIVITY),
+    SEI_INDUSTRIAL_R_D_CONTRACT(ACTIVITY),
     UNDEFINED;
 
     private final Set<SupportedCsvTemplate> dependencies;
