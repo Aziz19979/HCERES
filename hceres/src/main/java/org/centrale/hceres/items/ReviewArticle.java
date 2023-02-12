@@ -17,7 +17,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -51,5 +50,5 @@ public class ReviewArticle implements Serializable {
 
     @JoinColumn(name = "journal_id", referencedColumnName = "journal_id")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private Journal journalId;
+    private Journal journal;
 }

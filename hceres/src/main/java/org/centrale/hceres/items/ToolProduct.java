@@ -46,8 +46,8 @@ public class ToolProduct implements Serializable {
     private Activity activity;
 
     @Size(max = 256)
-    @Column(name = "tool_product_nam")
-    private String toolProductNam;
+    @Column(name = "tool_product_name")
+    private String toolProductName;
     @Basic(optional = false)
     @NotNull
     @Column(name = "tool_product_creation")
@@ -64,10 +64,13 @@ public class ToolProduct implements Serializable {
     @Column(name = "tool_product_description")
     private String toolProductDescription;
 
+    @Column(name = "tool_product_type_id")
+    private Integer toolProductTypeId;
+
     @JsonIgnore
-    @JoinColumn(name = "tool_product_type_id", referencedColumnName = "tool_product_type_id")
-    @ManyToOne(optional = false)
-    private ToolProductType toolProductTypeId;
+    @JoinColumn(name = "tool_product_type_id", referencedColumnName = "tool_product_type_id", insertable = false, updatable = false)
+    @ManyToOne
+    private ToolProductType toolProductType;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toolProduct")
     private List<ToolProductInvolvment> toolProductInvolvmentList;

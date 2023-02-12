@@ -45,9 +45,9 @@ public class Journal implements Serializable {
     private String journalName;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journalId")
-    private List<ReviewArticle> ReviewArticleList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journal")
+    private List<ReviewArticle> reviewArticlesList;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journalId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journal")
     private List<EditorialActivity> editorialActivityList;
 }

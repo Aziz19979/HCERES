@@ -19,6 +19,10 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvBook extends DependentCsv<Activity, Integer> {
+    // important the read field of name id_activity isn't the same
+    // id activity in activity.csv
+    // to get the id activity use both key:
+    // the type of activity and the specific count
     private Integer idCsvBook;
 
     private Date publicationDate;
@@ -71,8 +75,8 @@ public class CsvBook extends DependentCsv<Activity, Integer> {
         book.setTitle(this.getTitle());
         book.setEditor(this.getEditor());
         book.setAuthors(this.getAuthors());
-        book.setLanguage(this.languageCreatorCache.getLanguage(this.getLanguage()));
-        book.setLanguageId(this.languageCreatorCache.getLanguage(this.getLanguage()).getLanguageId());
+        book.setLanguage(this.languageCreatorCache.getOrCreateLanguage(this.getLanguage()));
+        book.setLanguageId(this.languageCreatorCache.getOrCreateLanguage(this.getLanguage()).getLanguageId());
         book.setActivity(activity);
 
         activity.setBook(book);

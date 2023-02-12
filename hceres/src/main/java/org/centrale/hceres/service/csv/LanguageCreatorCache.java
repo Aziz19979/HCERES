@@ -17,7 +17,7 @@ public class LanguageCreatorCache {
         languageIdMap = new HashMap<>();
     }
 
-    public Language getLanguage(String languageName) {
+    public Language getOrCreateLanguage(String languageName) {
         // if language exists in the database, return its ID. Otherwise, create it and save it for future use.
         return languageIdMap.computeIfAbsent(languageName, name -> {
             Language language = languageRepository.findByName(name);

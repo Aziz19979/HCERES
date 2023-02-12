@@ -4,6 +4,7 @@ import org.centrale.hceres.dto.csv.CsvActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.*;
+import org.centrale.hceres.repository.JournalRepository;
 import org.centrale.hceres.repository.LanguageRepository;
 import org.centrale.hceres.service.csv.util.CsvTemplateException;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -68,6 +69,32 @@ public class DataImporterService {
     @Autowired
     private LanguageRepository languageRepository;
 
+    @Autowired
+    private JournalRepository journalRepository;
+
+    @Autowired
+    private ImportCsvPublicationType importCsvPublicationType;
+
+    @Autowired
+    private ImportCsvPublication importCsvPublication;
+
+    @Autowired
+    private ImportCsvStatus importCsvStatus;
+
+    @Autowired
+    private ImportCsvSeiClinicalTrial importCsvSeiClinicalTrial;
+
+    @Autowired
+    private ImportCsvPlatform importCsvPlatform;
+    @Autowired
+    private ImportCsvSeiIndustrialRDContract importCsvSeiIndustrialRDContract;
+
+    @Autowired
+    private ImportCsvToolProduct importCsvToolProduct;
+
+    @Autowired
+    private ImportCsvReviewArticle importCsvReviewArticle;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -79,6 +106,7 @@ public class DataImporterService {
         // reorder the map based on dependencies of csv format
         Map<SupportedCsvTemplate, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvTemplate::compare);
         LanguageCreatorCache languageCreatorCache = new LanguageCreatorCache(languageRepository);
+        JournalCreatorCache journalCreatorCache = new JournalCreatorCache(journalRepository);
         for (Map.Entry<String, Object> entry : request.entrySet()) {
             String csvFormat = entry.getKey();
             List<?> csvList = (List<?>) entry.getValue();
@@ -95,6 +123,8 @@ public class DataImporterService {
         ImportCsvSummary importCsvSummary = new ImportCsvSummary();
         Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap = null;
         Map<Integer, GenericCsv<Institution, Integer>> csvIdToInstitutionMap = null;
+        Map<Integer, GenericCsv<Status, Integer>> csvIdToStatusMap = null;
+        Map<Integer, GenericCsv<PublicationType, Integer>> csvIdToPublicationTypeMap = null;
         Map<Integer, GenericCsv<PhdType, Integer>> csvIdToPhdTypeMap = null;
         Map<Integer, GenericCsv<Laboratory, Integer>> csvIdToLaboratoryMap = null;
         Map<Integer, GenericCsv<Team, Integer>> csvIdToTeamMap = null;
@@ -182,6 +212,69 @@ public class DataImporterService {
                     break;
                 case PHD_TYPE:
                     csvIdToPhdTypeMap = importCsvPhdType.importCsvList(csvList, importCsvSummary);
+                    break;
+                case PUBLICATION_TYPE:
+                    csvIdToPublicationTypeMap = importCsvPublicationType.importCsvList(csvList, importCsvSummary);
+                    break;
+                case PUBLICATION:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PUBLICATION, k -> new HashMap<>());
+                    importCsvPublication.importCsvList(csvList, importCsvSummary,
+                            specificActivityMap,
+                            csvIdToPublicationTypeMap);
+                    break;
+                case STATUS:
+                    importCsvStatus.importCsvList(csvList, importCsvSummary);
+                    break;
+                case SEI_CLINICAL_TRIAL:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL, k -> new HashMap<>());
+                    importCsvSeiClinicalTrial.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case PLATFORM:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PLATFORM, k -> new HashMap<>());
+                    importCsvPlatform.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case SEI_INDUSTRIAL_R_D_CONTRACT:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT, k -> new HashMap<>());
+                    importCsvSeiIndustrialRDContract.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case TOOL_PRODUCT_COHORT:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_COHORT, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.COHORT,
+                            supportedCsvTemplate);
+                    break;
+                case TOOL_PRODUCT_DATABASE:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_DATABASE, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.DATABASE,
+                            supportedCsvTemplate);
+                    break;
+                case TOOL_PRODUCT_SOFTWARE:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_SOFTWARE, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.SOFTWARE,
+                            supportedCsvTemplate);
+                    break;
+                case TOOL_PRODUCT_DECISION_SUPPORT_TOOL:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_DECISION_SUPPORT_TOOL, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.DECISION_SUPPORT_TOOL,
+                            supportedCsvTemplate);
+                    break;
+                case REVIEWING_JOURNAL_ARTICLES:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES, k -> new HashMap<>());
+                    importCsvReviewArticle.importCsvList(csvList, importCsvSummary,
+                            specificActivityMap,
+                            journalCreatorCache);
                     break;
                 default:
                     break;

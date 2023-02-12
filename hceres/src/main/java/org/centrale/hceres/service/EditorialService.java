@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -72,7 +70,7 @@ public class EditorialService {
             journal = new Journal();
             journal.setJournalName(journalName);
         }
-        editorial.setJournalId(journal);
+        editorial.setJournal(journal);
 
 
         // Creating an editing function

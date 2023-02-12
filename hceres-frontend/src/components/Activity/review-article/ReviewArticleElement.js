@@ -6,7 +6,7 @@ const ReviewArticleElement = (props) =>
         <ListGroup.Item>Année : {props.targetReviewArticle.reviewArticle.year}</ListGroup.Item>
         <ListGroup.Item>Nombre de revue d'article : {props.targetReviewArticle.reviewArticle.nbReviewedArticles}</ListGroup.Item>
         <ListGroup.Item>Facteur d'impact : {props.targetReviewArticle.reviewArticle.impactFactor}</ListGroup.Item>
-        <ListGroup.Item>Nom du journal : {props.targetReviewArticle.reviewArticle.journalId.journalName}</ListGroup.Item>
+        <ListGroup.Item>Nom du journal : {props.targetReviewArticle.reviewArticle.journal.journalName}</ListGroup.Item>
 
 
     </ListGroup> : "Target reviewArticle is not send as props!"

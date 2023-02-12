@@ -91,7 +91,7 @@ public class TypeActivity implements Serializable {
         SEI_LEAD_CONSORTIUM_INDUSTRY(39),
         SEI_INDUSTRIAL_R_D_CONTRACT(40),
         SEI_CLINICAL_TRIAL(41);
-        int id;
+        private final int id;
 
         IdTypeActivity(int id) {
             this.id = id;

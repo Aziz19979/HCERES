@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -66,8 +65,11 @@ public class Publication implements Serializable {
     @Column(name = "impact_factor")
     private BigDecimal impactFactor;
 
+    @Column(name = "publication_type_id")
+    private Integer publicationTypeId;
+
     @JsonIgnore
-    @JoinColumn(name = "publication_type_id", referencedColumnName = "publication_type_id")
-    @ManyToOne(optional = false)
-    private PublicationType publicationTypeId;
+    @JoinColumn(name = "publication_type_id", referencedColumnName = "publication_type_id", insertable = false, updatable = false)
+    @ManyToOne
+    private PublicationType publicationType;
 }

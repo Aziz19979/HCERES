@@ -102,3 +102,6 @@ GeneratedCode/
 # tracking of this file will be made using src/main/resources/application_template.properties instead
 # Every user copy template to be application.properties and change it properly to run the application
 hceres/src/main/resources/application.properties
+
+# Ignore tracker explorer files
+.tracker_explorer*.txt

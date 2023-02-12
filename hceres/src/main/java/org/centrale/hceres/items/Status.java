@@ -37,12 +37,12 @@ public class Status implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_status")
-    private Integer idStatus;
+    private Integer statusId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
     @Column(name = "name_status")
-    private String nameStatus;
+    private String statusName;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "status")

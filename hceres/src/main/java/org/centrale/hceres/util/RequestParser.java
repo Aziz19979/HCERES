@@ -1,11 +1,16 @@
 package org.centrale.hceres.util;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class RequestParser {
 
+    /**
+     * Maximum length of a string as defined in the database
+     */
+    public static final int MAX_STRING_LENGTH = 2048;
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String CSV_DEFAULT_DATE_FORMAT = "dd/MM/yy";
 
@@ -43,10 +48,25 @@ public class RequestParser {
         } else throw new RequestParseException("Error while parsing number");
     }
 
+    public static BigDecimal getAsBigDecimal(Object number) throws RequestParseException {
+        if (number instanceof BigDecimal)
+            return (BigDecimal) number;
+        else if (number instanceof String) {
+            try {
+                return new BigDecimal((String) number);
+            } catch (NumberFormatException e) {
+                throw new RequestParseException(e);
+            }
+        } else throw new RequestParseException("Error while parsing number");
+    }
+
     public static String getAsString(Object string) throws RequestParseException {
         if (string == null)
             throw new RequestParseException(new NullPointerException());
-        return String.valueOf(string);
+        String returnedValue = String.valueOf(string);
+        if (returnedValue.length() > MAX_STRING_LENGTH)
+            throw new RequestParseException("String exceeds maximum length " + MAX_STRING_LENGTH);
+        return returnedValue.trim();
     }
 
     public static Date getAsDate(Object date) throws RequestParseException {

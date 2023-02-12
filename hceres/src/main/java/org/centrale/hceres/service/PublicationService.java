@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Data
@@ -90,7 +88,7 @@ public class PublicationService {
         PublicationType publicationType = new PublicationType();
         publicationType.setPublicationTypeName(RequestParser.getAsString(request.get("publicationTypeName")));
         PublicationType savePublicationType = publicationTypeRepo.save(publicationType);
-        publicationTosave.setPublicationTypeId(savePublicationType);
+        publicationTosave.setPublicationType(savePublicationType);
 
         // Activity :
         Activity activity = new Activity();
