@@ -21,6 +21,10 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvSeiIndustrialRDContract extends DependentCsv<Activity, Integer> {
+    // important the read field of name id_activity isn't the same
+    // id activity in activity.csv
+    // to get the id activity use both key:
+    // the type of activity and the specific count
     private Integer idCsvSeiIndustrialRDContract;
     private Date startDate;
     private String nameCompanyInvolved;

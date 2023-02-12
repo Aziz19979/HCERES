@@ -19,7 +19,10 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvPublication extends DependentCsv<Activity, Integer> {
-    //    id_activity;title;authors;source;publication_date;pmid;impact_factor;clinic;pdc;colab_inter;colab_intra_crti;id_choice
+    // important the read field of name id_activity isn't the same
+    // id activity in activity.csv
+    // to get the id activity use both key:
+    // the type of activity and the specific count
     private Integer idCsvPublication;
 
     private String title;

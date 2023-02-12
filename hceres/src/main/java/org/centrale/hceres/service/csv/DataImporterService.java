@@ -85,6 +85,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvSeiIndustrialRDContract importCsvSeiIndustrialRDContract;
 
+    @Autowired
+    private ImportCsvToolProduct importCsvToolProduct;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -229,6 +232,34 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT, k -> new HashMap<>());
                     importCsvSeiIndustrialRDContract.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case TOOL_PRODUCT_COHORT:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_COHORT, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.COHORT,
+                            supportedCsvTemplate);
+                    break;
+                case TOOL_PRODUCT_DATABASE:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_DATABASE, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.DATABASE,
+                            supportedCsvTemplate);
+                    break;
+                case TOOL_PRODUCT_SOFTWARE:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_SOFTWARE, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.SOFTWARE,
+                            supportedCsvTemplate);
+                    break;
+                case TOOL_PRODUCT_DECISION_SUPPORT_TOOL:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_DECISION_SUPPORT_TOOL, k -> new HashMap<>());
+                    importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
+                            ToolProductType.IdToolProductType.DECISION_SUPPORT_TOOL,
+                            supportedCsvTemplate);
                     break;
                 default:
                     break;

@@ -1865,6 +1865,12 @@ CREATE TABLE public.tool_product_type (
     tool_product_type_name character varying(2048) NOT NULL
 );
 
+insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (1, 'DECISION_SUPPORT_TOOL');
+insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (2, 'BIOCOLLECTION');
+insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (3, 'SOFTWARE');
+insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (4, 'DATABASE');
+insert into tool_product_type (tool_product_type_id, tool_product_type_name) values (5, 'COHORT');
+
 
 --
 -- TOC entry 311 (class 1259 OID 25064)
@@ -2102,7 +2108,7 @@ CREATE SEQUENCE public.supervisor_id_supervisor_seq
 CREATE TABLE public.tool_product (
     id_activity integer NOT NULL,
     tool_product_type_id integer NOT NULL,
-    tool_product_nam character varying(2048),
+    tool_product_name character varying(2048),
     tool_product_creation date NOT NULL,
     tool_product_authors text NOT NULL,
     tool_product_description text NOT NULL

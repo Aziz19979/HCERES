@@ -19,6 +19,10 @@ import StatusCsv from "../../../assets/csvSamples/status.csv";
 import SeiClinicalTrialCsv from "../../../assets/csvSamples/sei_clinical_trial.csv";
 import PlatformCsv from "../../../assets/csvSamples/platform.csv";
 import SeiIndustrialRDContractCsv from "../../../assets/csvSamples/sei_industrial_r_d_contract.csv";
+import ToolProductCohortCsv from "../../../assets/csvSamples/tool_product_cohort.csv";
+import ToolProductDatabaseCsv from "../../../assets/csvSamples/tool_product_database.csv";
+import ToolProductDecisionSupportToolCsv from "../../../assets/csvSamples/tool_product_decision_support_tool.csv";
+import ToolProductSoftwareCsv from "../../../assets/csvSamples/tool_product_software.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -46,6 +50,10 @@ export default function CsvSampleDownloader() {
         SeiClinicalTrialCsv,
         PlatformCsv,
         SeiIndustrialRDContractCsv,
+        ToolProductCohortCsv,
+        ToolProductDatabaseCsv,
+        ToolProductDecisionSupportToolCsv,
+        ToolProductSoftwareCsv,
     ]
 
     return supportedCsvSample.map((file) => {

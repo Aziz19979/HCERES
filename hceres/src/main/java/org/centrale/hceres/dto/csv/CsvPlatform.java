@@ -21,7 +21,10 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvPlatform extends DependentCsv<Activity, Integer> {
-//    id_activity;creation_date;description;managers;affiliation;labellisation;open_private_researchers
+    // important the read field of name id_activity isn't the same
+    // id activity in activity.csv
+    // to get the id activity use both key:
+    // the type of activity and the specific count
     private Integer idCsvPlatform;
 
     private Date creationDate;

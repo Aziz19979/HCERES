@@ -45,6 +45,24 @@ public class ToolProductType implements Serializable {
     @Column(name = "tool_product_type_name")
     private String toolProductTypeName;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toolProductTypeId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toolProductType")
     private List<ToolProduct> toolProductList;
+
+    @Getter
+    public enum IdToolProductType {
+        UNDEFINED(0, TypeActivity.IdTypeActivity.UNDEFINED),
+        DECISION_SUPPORT_TOOL(1, TypeActivity.IdTypeActivity.TOOL_PRODUCT_DECISION_SUPPORT_TOOL),
+        BIOCOLLECTION(2, TypeActivity.IdTypeActivity.TOOL_PRODUCT_BIOCOLLECTION),
+        SOFTWARE(3, TypeActivity.IdTypeActivity.TOOL_PRODUCT_SOFTWARE),
+        DATABASE(4, TypeActivity.IdTypeActivity.TOOL_PRODUCT_DATABASE),
+        COHORT(5, TypeActivity.IdTypeActivity.TOOL_PRODUCT_COHORT);
+
+        private final int id;
+        private final TypeActivity.IdTypeActivity idTypeActivity;
+
+        IdToolProductType(int id, TypeActivity.IdTypeActivity idTypeActivity) {
+            this.id = id;
+            this.idTypeActivity = idTypeActivity;
+        }
+    }
 }
