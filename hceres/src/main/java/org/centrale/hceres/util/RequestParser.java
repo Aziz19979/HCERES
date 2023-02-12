@@ -66,7 +66,7 @@ public class RequestParser {
         String returnedValue = String.valueOf(string);
         if (returnedValue.length() > MAX_STRING_LENGTH)
             throw new RequestParseException("String exceeds maximum length " + MAX_STRING_LENGTH);
-        return returnedValue;
+        return returnedValue.trim();
     }
 
     public static Date getAsDate(Object date) throws RequestParseException {

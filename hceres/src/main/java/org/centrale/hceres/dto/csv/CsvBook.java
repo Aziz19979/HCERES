@@ -75,8 +75,8 @@ public class CsvBook extends DependentCsv<Activity, Integer> {
         book.setTitle(this.getTitle());
         book.setEditor(this.getEditor());
         book.setAuthors(this.getAuthors());
-        book.setLanguage(this.languageCreatorCache.getLanguage(this.getLanguage()));
-        book.setLanguageId(this.languageCreatorCache.getLanguage(this.getLanguage()).getLanguageId());
+        book.setLanguage(this.languageCreatorCache.getOrCreateLanguage(this.getLanguage()));
+        book.setLanguageId(this.languageCreatorCache.getOrCreateLanguage(this.getLanguage()).getLanguageId());
         book.setActivity(activity);
 
         activity.setBook(book);

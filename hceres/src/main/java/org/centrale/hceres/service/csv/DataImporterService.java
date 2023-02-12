@@ -4,6 +4,7 @@ import org.centrale.hceres.dto.csv.CsvActivity;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.*;
+import org.centrale.hceres.repository.JournalRepository;
 import org.centrale.hceres.repository.LanguageRepository;
 import org.centrale.hceres.service.csv.util.CsvTemplateException;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -69,6 +70,9 @@ public class DataImporterService {
     private LanguageRepository languageRepository;
 
     @Autowired
+    private JournalRepository journalRepository;
+
+    @Autowired
     private ImportCsvPublicationType importCsvPublicationType;
 
     @Autowired
@@ -88,6 +92,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvToolProduct importCsvToolProduct;
 
+    @Autowired
+    private ImportCsvReviewArticle importCsvReviewArticle;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -99,6 +106,7 @@ public class DataImporterService {
         // reorder the map based on dependencies of csv format
         Map<SupportedCsvTemplate, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvTemplate::compare);
         LanguageCreatorCache languageCreatorCache = new LanguageCreatorCache(languageRepository);
+        JournalCreatorCache journalCreatorCache = new JournalCreatorCache(journalRepository);
         for (Map.Entry<String, Object> entry : request.entrySet()) {
             String csvFormat = entry.getKey();
             List<?> csvList = (List<?>) entry.getValue();
@@ -260,6 +268,13 @@ public class DataImporterService {
                     importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
                             ToolProductType.IdToolProductType.DECISION_SUPPORT_TOOL,
                             supportedCsvTemplate);
+                    break;
+                case REVIEWING_JOURNAL_ARTICLES:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES, k -> new HashMap<>());
+                    importCsvReviewArticle.importCsvList(csvList, importCsvSummary,
+                            specificActivityMap,
+                            journalCreatorCache);
                     break;
                 default:
                     break;

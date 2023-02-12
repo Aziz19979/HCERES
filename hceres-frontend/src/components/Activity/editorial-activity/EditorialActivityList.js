@@ -130,11 +130,11 @@ function EditorialActivityList(props) {
                 </div>)
             }
         }, {
-            dataField: 'editorialActivity.journalId.journalId',
+            dataField: 'editorialActivity.journal.journalId',
             text: 'Identifiant de journal',
             sort: true,
         }, {
-            dataField: 'editorialActivity.journalId.journalName',
+            dataField: 'editorialActivity.journal.journalName',
             text: 'Nom du journal',
             sort: true,
         }, {

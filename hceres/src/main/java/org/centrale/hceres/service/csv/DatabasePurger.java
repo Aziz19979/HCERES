@@ -28,6 +28,9 @@ public class DatabasePurger {
     private LanguageRepository languageRepo;
 
     @Autowired
+    private JournalRepository journalRepo;
+
+    @Autowired
     private NationalityRepository nationalityRepo;
 
     @Autowired
@@ -47,6 +50,8 @@ public class DatabasePurger {
         institutionRepo.resetSequence();
         languageRepo.deleteAll();
         languageRepo.resetSequence();
+        journalRepo.deleteAll();
+        journalRepo.resetSequence();
         nationalityRepo.deleteAll();
         nationalityRepo.resetSequence();
         phdTypeRepo.deleteAll();

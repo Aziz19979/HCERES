@@ -515,6 +515,23 @@ class SupportedCsvTemplate {
         dependencies: [],
     }
 
+    REVIEWING_JOURNAL_ARTICLES = {
+        key: "REVIEWING_JOURNAL_ARTICLES",
+        label: "Liste des revues de journaux",
+        fileNamePattern: [
+            /^reviewing_journal_articles.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "year",
+            "name_journal",
+            "nb_reviewed_articles",
+            "impact_factor_journal"
+        ],
+        mergingRules: ["Merge based on year, name_journal, nb_reviewed_articles, impact_factor_journal and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
     SCIENTIFIC_EXPERTISE = {
         key: "SCIENTIFIC_EXPERTISE",
         label: "Liste des expertises scientifiques",

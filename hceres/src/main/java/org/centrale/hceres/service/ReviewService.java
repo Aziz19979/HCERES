@@ -61,7 +61,7 @@ public class ReviewService {
             journal = new Journal();
             journal.setJournalName(journalName);
         }
-        reviewArticle.setJournalId(journal);
+        reviewArticle.setJournal(journal);
 
         // Activity :
         Activity activity = new Activity();

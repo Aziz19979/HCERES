@@ -142,7 +142,7 @@ function ReviewArticleList(props) {
             text: 'Facteur d\'impact',
             sort: true,
         }, {
-            dataField: 'reviewArticle.journalId.journalName',
+            dataField: 'reviewArticle.journal.journalName',
             text: 'Nom du journal',
             sort: true,
         }];
