@@ -23,6 +23,7 @@ class MyClass {
         this.listeCompanyCreations = null;
         this.listePatents = null;
         this.listeTeams = null;
+        this.listePublications = null;
     }
 
     deleteActivity(activityList, idActivity) {
