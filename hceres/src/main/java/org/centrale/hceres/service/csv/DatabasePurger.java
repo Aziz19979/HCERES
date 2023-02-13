@@ -2,14 +2,13 @@ package org.centrale.hceres.service.csv;
 
 import lombok.Data;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.repository.ActivityRepository;
-import org.centrale.hceres.repository.InstitutionRepository;
-import org.centrale.hceres.repository.LanguageRepository;
-import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.repository.*;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +26,42 @@ public class DatabasePurger {
 
     @Autowired
     private LanguageRepository languageRepo;
+
+    @Autowired
+    private JournalRepository journalRepo;
+
+    @Autowired
+    private NationalityRepository nationalityRepo;
+
+    @Autowired
+    private PhdTypeRepository phdTypeRepo;
+
+    @Autowired
+    private PublicationTypeRepository publicationTypeRepo;
+
+    @Autowired
+    private StatusRepository statusRepo;
+    public void purgeData() {
+        activityRepo.deleteAll();
+        activityRepo.resetSequence();
+        researchRepo.deleteAll();
+        researchRepo.resetSequence();
+        institutionRepo.deleteAll();
+        institutionRepo.resetSequence();
+        languageRepo.deleteAll();
+        languageRepo.resetSequence();
+        journalRepo.deleteAll();
+        journalRepo.resetSequence();
+        nationalityRepo.deleteAll();
+        nationalityRepo.resetSequence();
+        phdTypeRepo.deleteAll();
+        phdTypeRepo.resetSequence();
+        publicationTypeRepo.deleteAll();
+        publicationTypeRepo.resetSequence();
+        statusRepo.deleteAll();
+        statusRepo.resetSequence();
+        researchRepo.saveAll(getDefaultResearchers());
+    }
 
     public Researcher getSimpleResearcher(String name) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -51,11 +86,4 @@ public class DatabasePurger {
         return Arrays.asList(getAdminResearcher(), getUserResearcher());
     }
 
-    public void purgeData() {
-        activityRepo.deleteAll();
-        researchRepo.deleteAll();
-        institutionRepo.deleteAll();
-        languageRepo.deleteAll();
-        researchRepo.saveAll(getDefaultResearchers());
-    }
 }

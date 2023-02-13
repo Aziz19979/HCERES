@@ -42,6 +42,6 @@ public class PublicationType implements Serializable {
     @Column(name = "publication_type_name")
     private String publicationTypeName;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicationTypeId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicationType")
     private List<Publication> publicationList;
 }

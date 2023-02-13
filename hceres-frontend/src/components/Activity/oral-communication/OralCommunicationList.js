@@ -191,6 +191,11 @@ function OralCommunicationList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -200,8 +205,8 @@ function OralCommunicationList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'oralCommunicationList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -250,6 +255,7 @@ function OralCommunicationList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

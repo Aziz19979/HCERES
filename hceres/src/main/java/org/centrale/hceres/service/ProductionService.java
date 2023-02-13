@@ -1,10 +1,7 @@
 package org.centrale.hceres.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.centrale.hceres.items.Activity;
@@ -30,7 +27,6 @@ import org.centrale.hceres.repository.ProductionRepository;
 import org.centrale.hceres.repository.ProductInvolvmentRepository;
 import org.centrale.hceres.repository.ProductRoleRepository;
 import org.centrale.hceres.repository.ProductTypeRepository;
-import org.springframework.util.AutoPopulatingList;
 import org.springframework.web.bind.annotation.RequestBody;
 
 // permet de traiter la requete HTTP puis l'associer a la fonction de repository qui va donner une reponse
@@ -84,8 +80,8 @@ public class ProductionService {
 
         ToolProductInvolvment productInvolvmentTosave = new ToolProductInvolvment();
 
-        // toolProductNam :
-        productionTosave.setToolProductNam(RequestParser.getAsString(request.get("toolProductNam")));
+        // toolProductName :
+        productionTosave.setToolProductName(RequestParser.getAsString(request.get("toolProductNam")));
 
         // toolProductCreation
         productionTosave.setToolProductCreation(RequestParser.getAsDate(request.get("toolProductCreation")));
@@ -100,7 +96,7 @@ public class ProductionService {
         ToolProductType productType = new ToolProductType();
         productType.setToolProductTypeName(RequestParser.getAsString(request.get("toolProductTypeName")));
         ToolProductType saveproductType = prodTypeRepo.save(productType);
-        productionTosave.setToolProductTypeId(saveproductType);
+        productionTosave.setToolProductType(saveproductType);
 
         // Activity :
         Activity activity = new Activity();

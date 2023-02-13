@@ -174,6 +174,11 @@ function CompanyCreationList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+
         return (
             <div>
                 <ToolkitProvider
@@ -183,8 +188,8 @@ function CompanyCreationList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'companyCreationList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -233,6 +238,7 @@ function CompanyCreationList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )

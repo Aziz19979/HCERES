@@ -14,35 +14,55 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+// currently invited oral communication does not have associated activity
+// it seem that OralCommunication defined in the project correspond
+// OralCommunicationPoster
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CsvOralCommunication extends DependentCsv<Activity, Integer> {
+public class CsvOralCommunicationPoster extends DependentCsv<Activity, Integer> {
+    // important the read field of name id_activity isn't the same
+    // id activity in activity.csv
+    // to get the id activity use both key:
+    // the type of activity and the specific count
     private Integer idCsvOralCommunication;
-    private Date dateCommunication;
+    private Integer year;
+    private Integer idTypeCom;
+    private Integer idChoiceMeeting;
     private String title;
+    private String authors;
     private String nameMeeting;
-    private Date dateMeeting;
+    private Date date;
     private String location;
+
 
 
     // dependency element
     private CsvActivity csvActivity;
     private Map<Integer, CsvActivity> activityIdCsvMap;
 
-    public CsvOralCommunication(Map<Integer, CsvActivity> activityIdCsvMap) {
+    public CsvOralCommunicationPoster(Map<Integer, CsvActivity> activityIdCsvMap) {
         this.activityIdCsvMap = activityIdCsvMap;
     }
-
 
     @Override
     public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
         int fieldNumber = 0;
         try {
             this.setIdCsvOralCommunication(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setDateCommunication(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
+            this.setYear(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
+            this.setIdTypeCom(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
+            this.setIdChoiceMeeting(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
             this.setTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
+            this.setAuthors(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setNameMeeting(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setDateMeeting(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
+
+            // there is a big problem parsing date in this field as it is not in the same format as the other date
+            // it may contain also interval of dates
+            // this.setDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, this.getYear());
+            this.setDate(calendar.getTime());
+            fieldNumber++;
             this.setLocation(RequestParser.getAsString(csvData.get(fieldNumber)));
         } catch (RequestParseException e) {
             throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
@@ -63,22 +83,24 @@ public class CsvOralCommunication extends DependentCsv<Activity, Integer> {
         activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
 
         OralCommunication oralCommunication = new OralCommunication();
-        oralCommunication.setOralCommunicationDat(this.getDateCommunication());
+        // missing file type oral communication for this.getIdTypeCom()
+        // currenlty taking 1 as default
+        oralCommunication.setTypeOralCommunicationId(1);
+
+        // field could not be interpreted this.getIdChoiceMeeting()
+
         oralCommunication.setOralCommunicationTitle(this.getTitle());
-        // using default value for authors as imported by csv
-        oralCommunication.setAuthors("Importé par csv");
+        oralCommunication.setOralCommunicationDat(this.getDate());
+        oralCommunication.setAuthors(this.getAuthors());
 
         Meeting meeting = new Meeting();
         meeting.setMeetingName(this.getNameMeeting());
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(this.getDateMeeting());
+        calendar.setTime(this.getDate());
         meeting.setMeetingYear(calendar.get(Calendar.YEAR));
-        meeting.setMeetingStart(this.getDateMeeting());
+        meeting.setMeetingStart(this.getDate());
         meeting.setMeetingLocation(this.getLocation());
         oralCommunication.setMeeting(meeting);
-
-        // currently taking default type
-        oralCommunication.setTypeOralCommunicationId(1);
 
         oralCommunication.setActivity(activity);
 
@@ -86,13 +108,14 @@ public class CsvOralCommunication extends DependentCsv<Activity, Integer> {
         return activity;
     }
 
+
     @Override
     public String getMergingKey() {
         return (this.getCsvActivity().getCsvResearcher().getIdDatabase()
-                + "_" + this.getDateCommunication()
+                + "_" + this.getDate()
                 + "_" + this.getTitle()
                 + "_" + this.getNameMeeting()
-                + "_" + this.getDateMeeting()
+                + "_" + this.getDate()
                 + "_" + this.getLocation()).toLowerCase();
     }
 

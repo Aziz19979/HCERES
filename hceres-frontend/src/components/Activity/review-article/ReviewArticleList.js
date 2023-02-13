@@ -142,7 +142,7 @@ function ReviewArticleList(props) {
             text: 'Facteur d\'impact',
             sort: true,
         }, {
-            dataField: 'reviewArticle.journalId.journalName',
+            dataField: 'reviewArticle.journal.journalName',
             text: 'Nom du journal',
             sort: true,
         }];
@@ -172,6 +172,11 @@ function ReviewArticleList(props) {
                 </button>
             );
         };
+        const selectRow = {
+            mode: 'checkbox',
+            clickToSelect: true
+        };
+        
         return (
             <div>
                 <ToolkitProvider
@@ -181,8 +186,8 @@ function ReviewArticleList(props) {
                     columns={columns}
                     exportCSV={{
                         fileName: 'reviewArticleList.csv',
-                        onlyExportFiltered: true,
-                        exportAll: false
+                        onlyExportSelection: true,
+                        exportAll: true
                     }}
                     search
                 >
@@ -231,6 +236,7 @@ function ReviewArticleList(props) {
                                     striped
                                     hover
                                     condensed
+                                    selectRow={ selectRow }
                                     {...props.baseProps} />
                             </div>
                         )
