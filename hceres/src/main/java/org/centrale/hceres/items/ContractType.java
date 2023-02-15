@@ -37,12 +37,12 @@ public class ContractType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_contract_type")
-    private Integer idContractType;
+    private Integer contractTypeId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
     @Column(name = "name_contract_type")
-    private String nameContractType;
+    private String contractTypeName;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idContractType")

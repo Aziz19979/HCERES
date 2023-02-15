@@ -90,7 +90,8 @@ public class TypeActivity implements Serializable {
         SEI_COMPANY_CREATION(38),
         SEI_LEAD_CONSORTIUM_INDUSTRY(39),
         SEI_INDUSTRIAL_R_D_CONTRACT(40),
-        SEI_CLINICAL_TRIAL(41);
+        SEI_CLINICAL_TRIAL(41),
+        CONTRACT(42);
         private final int id;
 
         IdTypeActivity(int id) {

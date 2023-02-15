@@ -21,6 +21,7 @@ import PostDocList from "./post-doc/PostDocList";
 import OutgoingMobilityList from "./outgoing-mobility/OutgoingMobilityList";
 import CompanyCreationList from "./company-creation/CompanyCreationList";
 import PatentList from "./patent/PatentList";
+import ContractList from "./contract/ContractList";
 
 
 // if target researcher is set in props will show only related information of target researcher
@@ -32,6 +33,7 @@ export default function ActivityList(props) {
     const [errorActivityAlert, setErrorActivityAlert] = React.useState('');
 
     const [showEducationList, setShowEducationList] = React.useState(showListByDefault);
+    const [showContractList, setShowContractList] = React.useState(showListByDefault);
     const [showPrixList, setShowPrixList] = React.useState(showListByDefault);
     const [showPlatformList, setShowPlatformList] = React.useState(showListByDefault);
     const [showOralCommunicationList, setShowOralCommunicationList] = React.useState(showListByDefault);
@@ -49,6 +51,7 @@ export default function ActivityList(props) {
 
     const setShowAllList = (isShow) => {
         setShowEducationList(isShow)
+        setShowContractList(isShow)
         setShowPrixList(isShow)
         setShowPlatformList(isShow)
         setShowOralCommunicationList(isShow)
@@ -92,6 +95,13 @@ export default function ActivityList(props) {
                                 {showEducationList ? <BiShow/> : <BiHide/>}
                                 &nbsp;
                                 Education
+                            </ListGroup.Item>
+
+                            <ListGroup.Item onClick={() => setShowContractList(!showContractList)}
+                                            className={showContractList ? activeItemClass : inactiveItemClass}>
+                                {showContractList ? <BiShow/> : <BiHide/>}
+                                &nbsp;
+                                Contrat
                             </ListGroup.Item>
 
                             <ListGroup.Item onClick={() => setShowPrixList(!showPrixList)}
@@ -208,6 +218,10 @@ export default function ActivityList(props) {
                             <div>
                                 {showEducationList && <EducationList targetResearcher={targetResearcher}/>}
                             </div>
+                        </Collapse>
+
+                        <Collapse in={showContractList}>
+                            <div>{showContractList && <ContractList targetResearcher={targetResearcher}/>}</div>
                         </Collapse>
 
                         <Collapse in={showPrixList}>

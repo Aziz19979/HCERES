@@ -111,6 +111,11 @@ public class Activity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
     private Book book;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
+    @JsonIgnore
+    private Contract contract;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
     private InvitedSeminar invitedSeminar;

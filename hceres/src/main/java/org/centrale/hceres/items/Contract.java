@@ -32,11 +32,23 @@ import javax.validation.constraints.Size;
 public class Contract implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id_activity")
+    private Integer idActivity;
+
+    @JsonIgnore
+    @JoinColumn(name = "id_activity")
+    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    private Activity activity;
+    /**
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_contract")
     private Integer idContract;
+     */
     @Column(name = "start_contract")
     @Temporal(TemporalType.DATE)
     private Date startContract;

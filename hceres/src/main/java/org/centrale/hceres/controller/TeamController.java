@@ -19,11 +19,6 @@ public class TeamController {
      * return a list of teams of specified type only
      */
 
-    /**
-    public List<Activity> getTeams() {
-        return teamService.getTeams();
-    }
-    */
     @GetMapping("/Teams")
     public List<Team> getTeams() {
         return teamService.getTeams();
