@@ -2,6 +2,7 @@ package org.centrale.hceres.controller;
 
 import org.centrale.hceres.items.Status;
 import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class StatusController {
      * @return Status
      */
     @PostMapping(value = "/Status/Create")
-    public Team createStatus(@RequestBody Map<String, Object> request) throws RequestParseException {
+    public Status createStatus(@RequestBody Map<String, Object> request) throws RequestParseException {
         return statusService.saveStatus(request);
     }
 
