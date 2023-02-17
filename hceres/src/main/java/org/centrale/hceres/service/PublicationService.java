@@ -3,7 +3,7 @@ package org.centrale.hceres.service;
 import lombok.Data;
 import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.ActivityRepository;
-import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.repository.ResearcherRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
 import org.centrale.hceres.repository.PublicationRepository;
 import org.centrale.hceres.repository.PublicationTypeRepository;
@@ -31,7 +31,7 @@ public class PublicationService {
     @Autowired
     private PublicationTypeRepository publicationTypeRepo;
     @Autowired
-    private ResearchRepository researchRepo;
+    private ResearcherRepository researchRepo;
     @Autowired
     private ActivityRepository activityRepo;
     @Autowired

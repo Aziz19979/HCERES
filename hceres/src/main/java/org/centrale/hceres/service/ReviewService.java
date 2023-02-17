@@ -17,7 +17,7 @@ public class ReviewService {
     @Autowired
     private ReviewArticleRepository ReviewArticleRepository;
     @Autowired
-    private ResearchRepository researchRepo;
+    private ResearcherRepository researchRepo;
     @Autowired
     private ActivityRepository activityRepo;
     @Autowired

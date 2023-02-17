@@ -4,7 +4,7 @@ import org.centrale.hceres.config.JwtTokenProvider;
 import org.centrale.hceres.items.Role;
 import org.centrale.hceres.items.Admin;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.repository.ResearcherRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class UserResourceImpl {
     private JwtTokenProvider tokenProvider;
 
     @Autowired
-    private ResearchRepository researchRepository;
+    private ResearcherRepository researcherRepository;
 
 //  our application don't have register for the moment
 //	@PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,7 +92,7 @@ public class UserResourceImpl {
                 jsonObject.put("authorities", authentication.getAuthorities());
 
                 Role role = new Role();
-                Admin isAdmin = researchRepository.findByLogin(login).getAdmin();
+                Admin isAdmin = researcherRepository.findByLogin(login).getAdmin();
                 if (isAdmin != null) {
                     role.setId(1L);
                     role.setName("ADMIN");

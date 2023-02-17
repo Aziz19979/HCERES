@@ -3,12 +3,10 @@ package org.centrale.hceres.service.csv;
 import lombok.Data;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.*;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class DatabasePurger {
     private ActivityRepository activityRepo;
 
     @Autowired
-    private ResearchRepository researchRepo;
+    private ResearcherRepository researchRepo;
 
     @Autowired
     private InstitutionRepository institutionRepo;

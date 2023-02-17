@@ -1,7 +1,7 @@
 package org.centrale.hceres.service.auth;
 
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.repository.ResearcherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,11 +17,11 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private ResearchRepository researchRepository;
+    private ResearcherRepository researcherRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Researcher user = researchRepository.findByLogin(login);
+        Researcher user = researcherRepository.findByLogin(login);
         if (user == null) {
             throw new UsernameNotFoundException("User Login:  " + login + " not found");
         }

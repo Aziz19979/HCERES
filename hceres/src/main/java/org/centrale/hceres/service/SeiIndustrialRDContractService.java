@@ -1,7 +1,5 @@
 package org.centrale.hceres.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.centrale.hceres.items.Activity;
@@ -9,9 +7,7 @@ import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.SeiIndustrialRDContract;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.repository.ActivityRepository;
-import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.SeiIndustrialRDContractRepository;
-import org.centrale.hceres.repository.TypeActivityRepository;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
