@@ -167,6 +167,23 @@ class SupportedCsvTemplate {
         dependencies: [this.ACTIVITY],
     }
 
+    SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY = {
+        key: "SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY",
+        label: "Liste des responsabilités dans les sociétés savantes",
+        fileNamePattern: [
+            /^sr_responsibility_learned_scientific_society.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "start_date",
+            "end_date",
+            "scientific_society_name"
+        ],
+        mergingRules: ["Merge based on start_date, end_date, scientific_society_name and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
     FUNCTION_EDITORIAL_ACTIVITY = {
         key: "FUNCTION_EDITORIAL_ACTIVITY",
         label: "Liste des fonctions des activités éditoriales",
