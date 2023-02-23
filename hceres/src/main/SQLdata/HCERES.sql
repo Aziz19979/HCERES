@@ -285,7 +285,7 @@ CREATE TABLE public.education (
     education_description text,
     education_level_id integer NOT NULL,
     education_formation character varying(2048),
-    education_involvment_id integer NOT NULL
+    education_involvement_id integer NOT NULL
 );
 
 
@@ -348,12 +348,12 @@ SELECT pg_catalog.setval('public.type_involvement_in_training_id_type_seq', 2, t
 
 --
 -- TOC entry 217 (class 1259 OID 24728)
--- Name: education_involvment; Type: TABLE; Schema: public; 
+-- Name: education_involvement; Type: TABLE; Schema: public;
 --
 
-CREATE TABLE public.education_involvment (
-    education_involvment_id integer NOT NULL,
-    education_involvment_name character varying(2048) NOT NULL
+CREATE TABLE public.education_involvement (
+    education_involvement_id integer NOT NULL,
+    education_involvement_name character varying(2048) NOT NULL
 );
 
 
@@ -1438,10 +1438,10 @@ ALTER SEQUENCE public.seq_contract_type OWNED BY public.contract_type.id_contrac
 
 --
 -- TOC entry 280 (class 1259 OID 24993)
--- Name: seq_education_involvment; Type: SEQUENCE; Schema: public; 
+-- Name: seq_education_involvement; Type: SEQUENCE; Schema: public;
 --
 
-CREATE SEQUENCE public.seq_education_involvment
+CREATE SEQUENCE public.seq_education_involvement
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1452,10 +1452,10 @@ CREATE SEQUENCE public.seq_education_involvment
 --
 -- TOC entry 3896 (class 0 OID 0)
 -- Dependencies: 280
--- Name: seq_education_involvment; Type: SEQUENCE OWNED BY; Schema: public; 
+-- Name: seq_education_involvement; Type: SEQUENCE OWNED BY; Schema: public;
 --
 
-ALTER SEQUENCE public.seq_education_involvment OWNED BY public.education_involvment.education_involvment_id;
+ALTER SEQUENCE public.seq_education_involvement OWNED BY public.education_involvement.education_involvement_id;
 
 
 --
@@ -2286,13 +2286,13 @@ CREATE TABLE public.tool_product (
 
 --
 -- TOC entry 327 (class 1259 OID 25110)
--- Name: tool_product_involvment; Type: TABLE; Schema: public; 
+-- Name: tool_product_involvement; Type: TABLE; Schema: public;
 --
 
-CREATE TABLE public.tool_product_involvment (
+CREATE TABLE public.tool_product_involvement (
     id_activity integer NOT NULL,
     tool_product_role_id integer NOT NULL,
-    tool_product_involvment_researchers text
+    tool_product_involvement_researchers text
 );
 
 
@@ -2396,10 +2396,10 @@ ALTER TABLE ONLY public.contract_type ALTER COLUMN id_contract_type SET DEFAULT 
 
 --
 -- TOC entry 3318 (class 2604 OID 25131)
--- Name: education_involvment education_involvment_id; Type: DEFAULT; Schema: public; 
+-- Name: education_involvement education_involvement_id; Type: DEFAULT; Schema: public;
 --
 
-ALTER TABLE ONLY public.education_involvment ALTER COLUMN education_involvment_id SET DEFAULT nextval('public.seq_education_involvment'::regclass);
+ALTER TABLE ONLY public.education_involvement ALTER COLUMN education_involvement_id SET DEFAULT nextval('public.seq_education_involvement'::regclass);
 
 
 --
@@ -2797,7 +2797,7 @@ ALTER TABLE ONLY public.type_thesis ALTER COLUMN type_thesis_id SET DEFAULT next
 --
 -- TOC entry 3768 (class 0 OID 24728)
 -- Dependencies: 217
--- Data for Name: education_involvment; Type: TABLE DATA; Schema: public; 
+-- Data for Name: education_involvement; Type: TABLE DATA; Schema: public;
 --
 
 
@@ -3470,7 +3470,7 @@ SELECT pg_catalog.setval('public.seq_status', 12, true);
 --
 -- TOC entry 3878 (class 0 OID 25110)
 -- Dependencies: 327
--- Data for Name: tool_product_involvment; Type: TABLE DATA; Schema: public; 
+-- Data for Name: tool_product_involvement; Type: TABLE DATA; Schema: public;
 --
 
 
@@ -3706,11 +3706,11 @@ ALTER TABLE ONLY public.education
 
 --
 -- TOC entry 3393 (class 2606 OID 25198)
--- Name: education_involvment pk_education_involvment; Type: CONSTRAINT; Schema: public; 
+-- Name: education_involvement pk_education_involvement; Type: CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.education_involvment
-    ADD CONSTRAINT pk_education_involvment PRIMARY KEY (education_involvment_id);
+ALTER TABLE ONLY public.education_involvement
+    ADD CONSTRAINT pk_education_involvement PRIMARY KEY (education_involvement_id);
 
 
 --
@@ -4246,11 +4246,11 @@ ALTER TABLE ONLY public.tool_product
 
 --
 -- TOC entry 3527 (class 2606 OID 25318)
--- Name: tool_product_involvment pk_tool_product_involvment; Type: CONSTRAINT; Schema: public; 
+-- Name: tool_product_involvement pk_tool_product_involvement; Type: CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.tool_product_involvment
-    ADD CONSTRAINT pk_tool_product_involvment PRIMARY KEY (id_activity, tool_product_role_id);
+ALTER TABLE ONLY public.tool_product_involvement
+    ADD CONSTRAINT pk_tool_product_involvement PRIMARY KEY (id_activity, tool_product_role_id);
 
 
 --
@@ -4741,11 +4741,11 @@ ALTER TABLE ONLY public.contract
 
 --
 -- TOC entry 3554 (class 2606 OID 25562)
--- Name: education education_involvment_education_fk; Type: FK CONSTRAINT; Schema: public; 
+-- Name: education education_involvement_education_fk; Type: FK CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.education
-    ADD CONSTRAINT education_involvment_education_fk FOREIGN KEY (education_involvment_id) REFERENCES public.education_involvment(education_involvment_id);
+    ADD CONSTRAINT education_involvement_education_fk FOREIGN KEY (education_involvement_id) REFERENCES public.education_involvement(education_involvement_id);
 
 
 --
@@ -5074,20 +5074,20 @@ ALTER TABLE ONLY public.team_referent
 
 --
 -- TOC entry 3619 (class 2606 OID 25747)
--- Name: tool_product_involvment tool_product_role_tool_product_involvment_fk; Type: FK CONSTRAINT; Schema: public; 
+-- Name: tool_product_involvement tool_product_role_tool_product_involvement_fk; Type: FK CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.tool_product_involvment
-    ADD CONSTRAINT tool_product_role_tool_product_involvment_fk FOREIGN KEY (tool_product_role_id) REFERENCES public.tool_product_role(tool_product_role_id);
+ALTER TABLE ONLY public.tool_product_involvement
+    ADD CONSTRAINT tool_product_role_tool_product_involvement_fk FOREIGN KEY (tool_product_role_id) REFERENCES public.tool_product_role(tool_product_role_id);
 
 
 --
 -- TOC entry 3620 (class 2606 OID 25752)
--- Name: tool_product_involvment tool_product_tool_product_involvment_fk; Type: FK CONSTRAINT; Schema: public; 
+-- Name: tool_product_involvement tool_product_tool_product_involvement_fk; Type: FK CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.tool_product_involvment
-    ADD CONSTRAINT tool_product_tool_product_involvment_fk FOREIGN KEY (id_activity) REFERENCES public.tool_product(id_activity);
+ALTER TABLE ONLY public.tool_product_involvement
+    ADD CONSTRAINT tool_product_tool_product_involvement_fk FOREIGN KEY (id_activity) REFERENCES public.tool_product(id_activity);
 
 
 --

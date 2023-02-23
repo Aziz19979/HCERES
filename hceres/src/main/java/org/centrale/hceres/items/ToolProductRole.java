@@ -46,5 +46,5 @@ public class ToolProductRole implements Serializable {
     private String toolProductRoleName;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toolProductRole")
-    private List<ToolProductInvolvment> toolProductInvolvmentList;
+    private List<ToolProductInvolvement> toolProductInvolvementList;
 }

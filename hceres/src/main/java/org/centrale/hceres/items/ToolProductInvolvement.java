@@ -24,12 +24,12 @@ import javax.validation.constraints.Size;
  * @author kwyhr
  */
 @Entity
-@Table(name = "tool_product_involvment")
+@Table(name = "tool_product_involvement")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ToolProductInvolvment implements Serializable {
+public class ToolProductInvolvement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,10 +37,10 @@ public class ToolProductInvolvment implements Serializable {
      *
      */
     @EmbeddedId
-    protected ToolProductInvolvmentPK toolProductInvolvmentPK;
+    protected ToolProductInvolvementPK toolProductInvolvementPK;
     @Size(max = 2147483647)
-    @Column(name = "tool_product_involvment_researchers")
-    private String toolProductInvolvmentResearchers;
+    @Column(name = "tool_product_involvement_researchers")
+    private String toolProductInvolvementResearchers;
     @JsonIgnore
     @JoinColumn(name = "id_activity", referencedColumnName = "id_activity", insertable = false, updatable = false)
     @ManyToOne(optional = false)

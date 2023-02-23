@@ -24,27 +24,27 @@ import javax.validation.constraints.Size;
  * @author kwyhr
  */
 @Entity
-@Table(name = "education_involvment")
+@Table(name = "education_involvement")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EducationInvolvment implements Serializable {
+public class EducationInvolvement implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "education_involvment_id")
-    private Integer educationInvolvmentId;
+    @Column(name = "education_involvement_id")
+    private Integer educationInvolvementId;
     
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
-    @Column(name = "education_involvment_name")
+    @Column(name = "education_involvement_name")
     private String educationInvolvementName;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "educationInvolvmentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "educationInvolvementId")
     private List<Education> educationList;
 }

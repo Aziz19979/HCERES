@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ToolProductInvolvmentPK implements Serializable {
+public class ToolProductInvolvementPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
