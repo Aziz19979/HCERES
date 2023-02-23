@@ -40,7 +40,13 @@ public class ResearchService {
      * permet d'avoir la liste des chercheurs
      */
     public List<Researcher> getResearchers() {
-        return researchRepo.findAll();
+        // temporally implementation remove "admin" researcher and "user" researcher
+        // and return the rest, to return all researchers, use: return researchRepo.findAll()
+        return researchRepo.findAll().stream().filter(r ->
+                        r.getResearcherLogin() == null ||
+                                (!r.getResearcherLogin().equalsIgnoreCase("admin")
+                                        && !r.getResearcherLogin().equalsIgnoreCase("user")))
+                .collect(Collectors.toList());
     }
 
     /**

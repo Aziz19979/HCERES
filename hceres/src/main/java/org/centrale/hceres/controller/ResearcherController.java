@@ -3,14 +3,11 @@ package org.centrale.hceres.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.service.ResearchService;
 import org.centrale.hceres.util.RequestParseException;
-import org.centrale.hceres.util.RequestParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,14 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import java.util.Optional;
 
 
 // Controller permet de receptionner la requete http depuis le client, envoyer cette requete a service pour la traiter, puis retouner la reponse
 // la reponse sera sous format JSON (il s'agit d'une REST API)
 @RestController
 @CrossOrigin(originPatterns = "*")
-public class ResearchController {
+public class ResearcherController {
 	
 	/**
 	 * instanciation de ResearchService
@@ -66,7 +62,7 @@ public class ResearchController {
 	 * Delete - Delete an element
 	 * @param id - The id of the element
 	 */
-	@DeleteMapping("/Researcher/{id}/Delete")
+	@DeleteMapping("/Researcher/Delete/{id}")
 	public void deleteEducation(@RequestBody @PathVariable("id") final Integer id) {
 		rs.deleteResearcher(id);
 	}
@@ -87,7 +83,7 @@ public class ResearchController {
 	 * @param request - The element to update
 	 * @return The updated element
 	 */
-	@PutMapping("/Researcher/{id}/Update")
+	@PutMapping("/Researcher/Update/{id}")
 	public Researcher updateResearcher(@PathVariable("id") final Integer id, @RequestBody Map<String, Object> request) throws RequestParseException {
 		return rs.updateResearcher(id, request);
 	}
