@@ -39,6 +39,6 @@ public class TypeResearchContract implements Serializable {
     @Size(max = 256)
     @Column(name = "name_choice")
     private String nameChoice;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idType")
-    private List<ResearchContractFundedPublicCharitableInst> researchContractFundedPublicCharitableInstList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeResearchContract")
+    private List<ResearchContractFundedCharit> researchContractFundedCharitList;
 }

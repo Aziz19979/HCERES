@@ -71,10 +71,10 @@
                 <ToolkitProvider
                     bootstrap4
                     keyField="idActivity"
-                     data={oralCommunicationList}
+                     data={oralComPosterList}
                     columns={columns}
                     exportCSV={ {
-                        fileName: 'oralCommunicationList.csv',
+                        fileName: 'oralComPosterList.csv',
                         onlyExportFiltered: true,
                         exportAll: false } }
                     search

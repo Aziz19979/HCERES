@@ -87,9 +87,11 @@ class Researcher extends Component {
 
 
     async componentDidMount() {
+        this.setState({loading: true})
         fetchListResearchers().then(list => {
             this.setState({
                 researchers: list,
+                loading: false,
             })
         })
     }
@@ -101,7 +103,7 @@ class Researcher extends Component {
     }
 
     render() {
-        if (this.state.researchers && this.state.researchers.length) {
+        if (!this.state.loading) {
             const columns = [{
                 dataField: 'researcherId',
                 text: 'ID',

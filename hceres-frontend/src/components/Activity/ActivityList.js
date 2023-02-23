@@ -8,7 +8,7 @@ import EducationList from "./education/EducationList";
 import ResearcherElement from "../Researcher/ResearcherElement";
 import SrAwardList from "./sraward/SrAwardList";
 import PlatformList from "./platform/PlatformList";
-import OralCommunicationList from "./oral-communication/OralCommunicationList";
+import OralComPosterList from "./oral-com-poster/OralComPosterList";
 import Button from "react-bootstrap/Button";
 import IndustrialContractList from "./industrial-contract/IndustrialContractList";
 import InternationalCollaborationList from "./international-collaboration/InternationalCollaborationList";
@@ -34,7 +34,7 @@ export default function ActivityList(props) {
     const [showEducationList, setShowEducationList] = React.useState(showListByDefault);
     const [showPrixList, setShowPrixList] = React.useState(showListByDefault);
     const [showPlatformList, setShowPlatformList] = React.useState(showListByDefault);
-    const [showOralCommunicationList, setShowOralCommunicationList] = React.useState(showListByDefault);
+    const [showOralComPosterList, setShowOralComPosterList] = React.useState(showListByDefault);
     const [showSeiIndustrialRDContractList, setShowSeiIndustrialRDContractList] = React.useState(showListByDefault);
     const [showInterCollaborationList, setShowInterCollaborationList] = React.useState(showListByDefault);
     const [showScientificExpertiseList, setShowScientificExpertiseList] = React.useState(showListByDefault);
@@ -51,7 +51,7 @@ export default function ActivityList(props) {
         setShowEducationList(isShow)
         setShowPrixList(isShow)
         setShowPlatformList(isShow)
-        setShowOralCommunicationList(isShow)
+        setShowOralComPosterList(isShow)
         setShowSeiIndustrialRDContractList(isShow)
         setShowInterCollaborationList(isShow)
         setShowScientificExpertiseList(isShow)
@@ -108,11 +108,11 @@ export default function ActivityList(props) {
                                 Platform
                             </ListGroup.Item>
 
-                            <ListGroup.Item onClick={() => setShowOralCommunicationList(!showOralCommunicationList)}
-                                            className={showOralCommunicationList ? activeItemClass : inactiveItemClass}>
-                                {showOralCommunicationList ? <BiShow/> : <BiHide/>}
+                            <ListGroup.Item onClick={() => setShowOralComPosterList(!showOralComPosterList)}
+                                            className={showOralComPosterList ? activeItemClass : inactiveItemClass}>
+                                {showOralComPosterList ? <BiShow/> : <BiHide/>}
                                 &nbsp;
-                                Communication orale
+                                Communication orale Poster
                             </ListGroup.Item>
 
                             <ListGroup.Item
@@ -218,9 +218,9 @@ export default function ActivityList(props) {
                             <div>{showPlatformList && <PlatformList targetResearcher={targetResearcher}/>}</div>
                         </Collapse>
 
-                        <Collapse in={showOralCommunicationList}>
-                            <div>{showOralCommunicationList &&
-                                <OralCommunicationList targetResearcher={targetResearcher}/>}</div>
+                        <Collapse in={showOralComPosterList}>
+                            <div>{showOralComPosterList &&
+                                <OralComPosterList targetResearcher={targetResearcher}/>}</div>
                         </Collapse>
 
                         <Collapse in={showSeiIndustrialRDContractList}>

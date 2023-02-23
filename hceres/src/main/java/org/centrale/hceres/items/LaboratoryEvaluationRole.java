@@ -39,7 +39,7 @@ public class LaboratoryEvaluationRole implements Serializable {
     @Size(max = 256)
     @Column(name = "name_choice")
     private String nameChoice;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratoryEvaluationRoleId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratoryEvaluationRole")
     private List<InstitutionalComitee> institutionalComiteeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "laboratoryEvaluationRoleId")
     private List<LaboratoryEvaluation> laboratoryEvaluationList;

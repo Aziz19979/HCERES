@@ -17,7 +17,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -53,7 +52,16 @@ public class LearnedScientificSociety implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
-    @JoinColumn(name = "learned_scientific_society_role_id", referencedColumnName = "learned_scientific_society_role_id")
+
+    @Column(name = "learned_scientific_society_role_id")
+    private Integer learnedScientificSocietyRoleId;
+
+    @JoinColumn(
+            name = "learned_scientific_society_role_id",
+            referencedColumnName = "learned_scientific_society_role_id",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne(optional = false)
-    private LearnedScientificSocietyRole learnedScientificSocietyRoleId;
+    private LearnedScientificSocietyRole learnedScientificSocietyRole;
 }

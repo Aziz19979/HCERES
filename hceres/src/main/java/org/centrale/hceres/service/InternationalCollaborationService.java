@@ -92,10 +92,8 @@ public class InternationalCollaborationService {
         internationalCollaboration.setAgreementSigned(Boolean.valueOf(RequestParser.getAsString(request.get("AgreementSigned"))));
 
 
-        // TypeCollab :
-        TypeCollab typeCollab = new TypeCollab();
-        typeCollab.setNameChoice(RequestParser.getAsString(request.get("NameChoice")));
-        internationalCollaboration.setTypeCollabId(typeCollab);
+        // TypeCollab, TODO make a selection list in the front end and send the id
+        internationalCollaboration.setTypeCollabId(1);
 
         // Activity :
         Activity activity = new Activity();

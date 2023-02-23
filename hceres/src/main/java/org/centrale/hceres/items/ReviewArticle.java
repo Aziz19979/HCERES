@@ -48,7 +48,15 @@ public class ReviewArticle implements Serializable {
     @Column(name = "impact_factor")
     private BigDecimal impactFactor;
 
-    @JoinColumn(name = "journal_id", referencedColumnName = "journal_id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @Column(name = "journal_id")
+    private Integer journalId;
+
+    @JoinColumn(
+            name = "journal_id",
+            referencedColumnName = "journal_id",
+            insertable = false,
+            updatable = false
+    )
+    @ManyToOne(optional = false)
     private Journal journal;
 }

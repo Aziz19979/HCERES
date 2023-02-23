@@ -26,6 +26,14 @@ public class RequestParser {
         } else throw new RequestParseException("Error while parsing number");
     }
 
+    public static Integer getAsIntegerOrDefault(Object number, Integer defaultValue) {
+        try {
+            return getAsInteger(number);
+        } catch (RequestParseException e) {
+            return defaultValue;
+        }
+    }
+
     public static List<?> getAsList(Object objectList) {
         List<?> list = null;
         if (objectList.getClass().isArray()) {
@@ -60,6 +68,14 @@ public class RequestParser {
         } else throw new RequestParseException("Error while parsing number");
     }
 
+    public static BigDecimal getAsBigDecimalOrDefault(Object number, BigDecimal defaultValue) {
+        try {
+            return getAsBigDecimal(number);
+        } catch (RequestParseException e) {
+            return defaultValue;
+        }
+    }
+
     public static String getAsString(Object string) throws RequestParseException {
         if (string == null)
             throw new RequestParseException(new NullPointerException());
@@ -74,6 +90,14 @@ public class RequestParser {
     }
     public static Date getAsDateCsvFormat(Object date) throws RequestParseException {
         return getAsDate(date, CSV_DEFAULT_DATE_FORMAT);
+    }
+
+    public static Date getAsDateCsvFormatOrDefault(Object date, Date defaultValue) {
+        try {
+            return getAsDateCsvFormat(date);
+        } catch (RequestParseException e) {
+            return defaultValue;
+        }
     }
 
     public static Date getAsDate(Object date, String dateFormat) throws RequestParseException {

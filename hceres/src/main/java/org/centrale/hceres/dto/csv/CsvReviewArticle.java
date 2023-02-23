@@ -6,6 +6,7 @@ import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
 import org.centrale.hceres.dto.csv.utils.CsvParseException;
 import org.centrale.hceres.dto.csv.utils.DependentCsv;
 import org.centrale.hceres.items.Activity;
+import org.centrale.hceres.items.Journal;
 import org.centrale.hceres.items.ReviewArticle;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.service.csv.JournalCreatorCache;
@@ -74,7 +75,9 @@ public class CsvReviewArticle extends DependentCsv<Activity, Integer> {
         reviewArticle.setYear(this.getYear());
         reviewArticle.setImpactFactor(this.getImpactFactorJournal());
         reviewArticle.setNbReviewedArticles(this.getNbReviewedArticles());
-        reviewArticle.setJournal(this.journalCreatorCache.getOrCreateJournal(this.getNameJournal()));
+        Journal journal = this.journalCreatorCache.getOrCreateJournal(this.getNameJournal());
+        reviewArticle.setJournalId(journal.getJournalId());
+        reviewArticle.setJournal(journal);
         activity.setReviewArticle(reviewArticle);
         reviewArticle.setActivity(activity);
         return activity;

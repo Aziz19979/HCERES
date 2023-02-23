@@ -23,13 +23,13 @@ public class ImportCsvInvitedOralCommunication {
     private ActivityRepository activityRepo;
 
     /**
-     * @param oralCommunicationRows      list of array having fields as defined in csv
+     * @param oralComPosterRows      list of array having fields as defined in csv
      * @param importCsvSummary Summary of the import
      */
-    public Map<Integer, GenericCsv<Activity, Integer>> importCsvList(List<?> oralCommunicationRows, ImportCsvSummary importCsvSummary,
+    public Map<Integer, GenericCsv<Activity, Integer>> importCsvList(List<?> oralComPosterRows, ImportCsvSummary importCsvSummary,
                                                                     Map<Integer, CsvActivity> activityMap) {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
-                oralCommunicationRows,
+                oralComPosterRows,
                 () -> new CsvInvitedOralCommunication(activityMap),
                 () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId()),
                 activityRepo::saveAll,
