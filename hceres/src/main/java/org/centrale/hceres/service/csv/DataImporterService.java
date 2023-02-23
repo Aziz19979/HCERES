@@ -118,6 +118,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvLearnedScientificSociety importCsvLearnedScientificSociety;
 
+    @Autowired
+    private ImportCsvInstitutionalComitee importCsvInstitutionalComitee;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -340,6 +343,11 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY, k -> new HashMap<>());
                     importCsvLearnedScientificSociety.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY, k -> new HashMap<>());
+                    importCsvInstitutionalComitee.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;

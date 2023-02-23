@@ -625,6 +625,38 @@ CREATE TABLE public.laboratory_evaluation_role (
 
 
 --
+-- TOC entry 288 (class 1259 OID 25009)
+-- Name: seq_laboratory_evaluation_role; Type: SEQUENCE; Schema: public;
+--
+
+CREATE SEQUENCE public.seq_laboratory_evaluation_role
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3904 (class 0 OID 0)
+-- Dependencies: 288
+-- Name: seq_laboratory_evaluation_role; Type: SEQUENCE OWNED BY; Schema: public;
+--
+
+ALTER SEQUENCE public.seq_laboratory_evaluation_role OWNED BY public.laboratory_evaluation_role.laboratory_evaluation_role_id;
+
+
+--  ask doctor for initial value
+insert into public.laboratory_evaluation_role (laboratory_evaluation_role_id, name_choice) values (1, 'Chair');
+insert into public.laboratory_evaluation_role (laboratory_evaluation_role_id, name_choice) values (2, 'Member');
+insert into public.laboratory_evaluation_role (laboratory_evaluation_role_id, name_choice) values (3, 'Other');
+insert into public.laboratory_evaluation_role (laboratory_evaluation_role_id, name_choice) values (4, 'Chair and Member');
+insert into public.laboratory_evaluation_role (laboratory_evaluation_role_id, name_choice) values (5, 'Chair and Other');
+insert into public.laboratory_evaluation_role (laboratory_evaluation_role_id, name_choice) values (6, 'Member and Other');
+select pg_catalog.setval('public.seq_laboratory_evaluation_role', 6, true);
+
+
+--
 -- TOC entry 235 (class 1259 OID 24792)
 -- Name: language; Type: TABLE; Schema: public; 
 --
@@ -1577,27 +1609,6 @@ CREATE SEQUENCE public.seq_laboratory
 
 ALTER SEQUENCE public.seq_laboratory OWNED BY public.laboratory.laboratory_id;
 
-
---
--- TOC entry 288 (class 1259 OID 25009)
--- Name: seq_laboratory_evaluation_role; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_laboratory_evaluation_role
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3904 (class 0 OID 0)
--- Dependencies: 288
--- Name: seq_laboratory_evaluation_role; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_laboratory_evaluation_role OWNED BY public.laboratory_evaluation_role.laboratory_evaluation_role_id;
 
 
 --

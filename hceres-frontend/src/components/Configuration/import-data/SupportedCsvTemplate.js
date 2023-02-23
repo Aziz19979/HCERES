@@ -549,7 +549,7 @@ class SupportedCsvTemplate {
         ],
         mergingRules: ["Merge based on year, name_institutional_comitee, id_role_pi_lab_eval and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY, this.LABORATORY_EVALUATION_ROLE],
+        dependencies: [this.ACTIVITY],
     }
 
     // scientific_expertise_type

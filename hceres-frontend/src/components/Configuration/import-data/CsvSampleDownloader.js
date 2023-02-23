@@ -32,6 +32,7 @@ import PublicOutreachCsv from "../../../assets/csvSamples/public_outreach.csv";
 import ResearchContractFundedPublicCharitableInstCsv from "../../../assets/csvSamples/research_contract_funded_public_charitable_inst.csv";
 import ScientificExpertiseCsv from "../../../assets/csvSamples/scientific_expertise.csv";
 import LearnedScientificSocietyCsv from "../../../assets/csvSamples/sr_responsibility_learned_scientific_society.csv";
+import InstitutionalComiteeCsv from "../../../assets/csvSamples/responsibility_institutional_comitee_jury.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -72,6 +73,7 @@ export default function CsvSampleDownloader() {
         ResearchContractFundedPublicCharitableInstCsv,
         ScientificExpertiseCsv,
         LearnedScientificSocietyCsv,
+        InstitutionalComiteeCsv,
     ]
 
     return supportedCsvSample.map((file) => {
