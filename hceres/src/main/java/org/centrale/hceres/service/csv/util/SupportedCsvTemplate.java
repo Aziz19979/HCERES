@@ -36,6 +36,7 @@ public enum SupportedCsvTemplate {
     TOOL_PRODUCT_SOFTWARE(ACTIVITY),
     REVIEWING_JOURNAL_ARTICLES(ACTIVITY),
     EDITORIAL_ACTIVITY(ACTIVITY),
+    EDUCATIONAL_OUTPUT(ACTIVITY),
     UNDEFINED;
 
     private final Set<SupportedCsvTemplate> dependencies;

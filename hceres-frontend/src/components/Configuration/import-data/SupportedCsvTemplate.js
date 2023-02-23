@@ -196,7 +196,27 @@ class SupportedCsvTemplate {
             "id_function"
         ],
         mergingRules: ["Merge based on start_date, end_date, name_journal, impact_factor_journal, id_function and the researcher getting it",
-            "Id function is already present in database inserted via SQL."
+            "Id function => function_editorial_activity is already present in database inserted via SQL."
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    // educational_output.csv
+    // id_activity;completion_date;id_type;description
+    EDUCATIONAL_OUTPUT = {
+        key: "EDUCATIONAL_OUTPUT",
+        label: "Liste des productions éducatives",
+        fileNamePattern: [
+            /^educational_output.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "completion_date",
+            "id_type",
+            "description"
+        ],
+        mergingRules: ["Merge based on completion_date, id_type, description and the researcher getting it",
+            "Id type => type_educational_output is already present in database inserted via SQL."
         ],
         dependencies: [this.ACTIVITY],
     }

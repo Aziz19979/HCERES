@@ -97,6 +97,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvEditorialActivity importCsvEditorialActivity;
 
+    @Autowired
+    private ImportCsvEducationalOutput importCsvEducationalOutput;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -282,6 +285,11 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY, k -> new HashMap<>());
                     importCsvEditorialActivity.importCsvList(csvList, importCsvSummary, specificActivityMap, journalCreatorCache);
+                    break;
+                case EDUCATIONAL_OUTPUT:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT, k -> new HashMap<>());
+                    importCsvEducationalOutput.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;
