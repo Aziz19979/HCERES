@@ -32,6 +32,42 @@ CREATE TABLE public.activity (
 
 
 --
+-- TOC entry 274 (class 1259 OID 24981)
+-- Name: seq_activity; Type: SEQUENCE; Schema: public;
+--
+
+CREATE SEQUENCE public.seq_activity
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+    CYCLE;
+
+--
+-- TOC entry 3890 (class 0 OID 0)
+-- Dependencies: 274
+-- Name: seq_activity; Type: SEQUENCE OWNED BY; Schema: public;
+--
+
+ALTER SEQUENCE public.seq_activity OWNED BY public.activity.id_activity;
+--
+-- TOC entry 3311 (class 2604 OID 25126)
+-- Name: activity id_activity; Type: DEFAULT; Schema: public;
+--
+
+ALTER TABLE ONLY public.activity ALTER COLUMN id_activity SET DEFAULT nextval('public.seq_activity'::regclass);
+
+
+--
+-- TOC entry 3365 (class 2606 OID 25172)
+-- Name: activity pk_activity; Type: CONSTRAINT; Schema: public;
+--
+
+ALTER TABLE ONLY public.activity
+    ADD CONSTRAINT pk_activity PRIMARY KEY (id_activity);
+
+--
 -- TOC entry 201 (class 1259 OID 24666)
 -- Name: activity_researcher; Type: TABLE; Schema: public; 
 --
@@ -253,6 +289,63 @@ CREATE TABLE public.education (
 );
 
 
+CREATE SEQUENCE public.type_educational_output_id_type_seq_1
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE public.type_educational_output
+(
+    id_type     integer NOT NULL DEFAULT nextval('public.type_educational_output_id_type_seq_1'::regclass) PRIMARY KEY,
+    name_choice character varying
+);
+
+CREATE TABLE public.educational_output
+(
+    id_activity     integer NOT NULL PRIMARY KEY REFERENCES public.activity,
+    id_type         integer REFERENCES public.type_educational_output,
+    completion_date date,
+    description     character varying
+);
+
+INSERT INTO public.type_educational_output (id_type, name_choice)
+VALUES (1, 'Books');
+INSERT INTO public.type_educational_output (id_type, name_choice)
+VALUES (2, 'E-learning, MOOCS, multimedia courses, scientific workshops, etc.');
+SELECT pg_catalog.setval('public.type_educational_output_id_type_seq_1', 2, true);
+
+
+
+CREATE SEQUENCE public.type_involvement_in_training_id_type_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE public.type_involvement_in_training
+(
+    id_type     integer NOT NULL DEFAULT nextval('public.type_involvement_in_training_id_type_seq'::regclass) PRIMARY KEY,
+    name_choice character varying
+);
+
+CREATE TABLE public.involvement_training_pedagogical_responsibility
+(
+    id_activity integer NOT NULL PRIMARY KEY REFERENCES public.activity,
+    year        integer,
+    name_master character varying,
+    id_type     integer REFERENCES public.type_involvement_in_training
+);
+
+INSERT INTO public.type_involvement_in_training (id_type, name_choice)
+VALUES (1, 'Pedagogical responsibility for a masters degree or course');
+INSERT INTO public.type_involvement_in_training (id_type, name_choice)
+VALUES (2,
+        'Pedagogical responsibility for a masters degree or course with international accreditation (e. g. erasmus mundus)');
+SELECT pg_catalog.setval('public.type_involvement_in_training_id_type_seq', 2, true);
+
 --
 -- TOC entry 217 (class 1259 OID 24728)
 -- Name: education_involvment; Type: TABLE; Schema: public; 
@@ -358,6 +451,40 @@ CREATE TABLE public.function_editorial_activity (
     function_editorial_activity_name character varying(2048)
 );
 
+
+--
+-- TOC entry 283 (class 1259 OID 24999)
+-- Name: seq_function_editorial_activity; Type: SEQUENCE; Schema: public;
+--
+
+CREATE SEQUENCE public.seq_function_editorial_activity
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3899 (class 0 OID 0)
+-- Dependencies: 283
+-- Name: seq_function_editorial_activity; Type: SEQUENCE OWNED BY; Schema: public;
+--
+
+ALTER SEQUENCE public.seq_function_editorial_activity OWNED BY public.function_editorial_activity.function_editorial_activity_id;
+
+
+INSERT INTO public.function_editorial_activity (function_editorial_activity_id, function_editorial_activity_name)
+VALUES (1, 'Editor in chief');
+INSERT INTO public.function_editorial_activity (function_editorial_activity_id, function_editorial_activity_name)
+VALUES (2, 'Associate editor');
+INSERT INTO public.function_editorial_activity (function_editorial_activity_id, function_editorial_activity_name)
+VALUES (3, 'Review editor');
+INSERT INTO public.function_editorial_activity (function_editorial_activity_id, function_editorial_activity_name)
+VALUES (4, 'Board member');
+INSERT INTO public.function_editorial_activity (function_editorial_activity_id, function_editorial_activity_name)
+VALUES (5, 'Other');
+SELECT pg_catalog.setval('public.seq_function_editorial_activity', 5, true);
 
 --
 -- TOC entry 225 (class 1259 OID 24750)
@@ -535,6 +662,36 @@ CREATE TABLE public.learned_scientific_society_role (
     name_choice character varying(2048)
 );
 
+--
+-- TOC entry 290 (class 1259 OID 25013)
+-- Name: seq_learned_scientific_society_role; Type: SEQUENCE; Schema: public;
+--
+
+CREATE SEQUENCE public.seq_learned_scientific_society_role
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3906 (class 0 OID 0)
+-- Dependencies: 290
+-- Name: seq_learned_scientific_society_role; Type: SEQUENCE OWNED BY; Schema: public;
+--
+
+ALTER SEQUENCE public.seq_learned_scientific_society_role OWNED BY public.learned_scientific_society_role.learned_scientific_society_role_id;
+
+
+INSERT INTO public.learned_scientific_society_role (learned_scientific_society_role_id, name_choice) VALUES (1, 'President');
+INSERT INTO public.learned_scientific_society_role (learned_scientific_society_role_id, name_choice) VALUES (2, 'Vice president');
+INSERT INTO public.learned_scientific_society_role (learned_scientific_society_role_id, name_choice) VALUES (3, 'Board member');
+INSERT INTO public.learned_scientific_society_role (learned_scientific_society_role_id, name_choice) VALUES (4, 'Other');
+SELECT pg_catalog.setval('public.seq_learned_scientific_society_role', 5, true);
+
+
+
 
 --
 -- TOC entry 238 (class 1259 OID 24801)
@@ -652,6 +809,43 @@ CREATE TABLE public.oral_communication (
     oral_communication_dat date NOT NULL,
     meeting_id integer NOT NULL,
     authors text NOT NULL
+);
+
+
+--  oral communication poster is different from oral communication
+CREATE SEQUENCE public.type_oral_com_poster_id_type_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE public.type_oral_com_poster
+(
+    id_type_com integer NOT NULL PRIMARY KEY DEFAULT nextval('public.type_oral_com_poster_id_type_seq'::regclass),
+    name_choice character varying
+);
+
+
+INSERT INTO public.type_oral_com_poster (id_type_com, name_choice)
+VALUES (1, 'Oral communication');
+INSERT INTO public.type_oral_com_poster (id_type_com, name_choice)
+VALUES (2, 'Poster');
+SELECT pg_catalog.setval('public.type_oral_com_poster_id_type_seq', 2, true);
+
+
+
+CREATE TABLE public.oral_communication_poster
+(
+    id_activity          integer NOT NULL PRIMARY KEY REFERENCES public.activity,
+    year                 integer,
+    id_type_com          integer REFERENCES public.type_oral_com_poster,
+    id_choice_meeting    integer,
+    titleoral_com_poster character varying,
+    authors              character varying,
+    meeting_name         character varying,
+    date                 date,
+    location             character varying
 );
 
 
@@ -859,6 +1053,34 @@ CREATE TABLE public.public_outreach_type (
     public_outreach_type_name character varying(2048)
 );
 
+--
+-- TOC entry 300 (class 1259 OID 25033)
+-- Name: seq_public_outreach_type; Type: SEQUENCE; Schema: public;
+--
+
+CREATE SEQUENCE public.seq_public_outreach_type
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+--
+-- TOC entry 3916 (class 0 OID 0)
+-- Dependencies: 300
+-- Name: seq_public_outreach_type; Type: SEQUENCE OWNED BY; Schema: public;
+--
+
+ALTER SEQUENCE public.seq_public_outreach_type OWNED BY public.public_outreach_type.public_outreach_type_id;
+
+
+INSERT INTO public.public_outreach_type (public_outreach_type_id, public_outreach_type_name)
+VALUES (1, 'Radio broadcasts, TV shows, magazines');
+INSERT INTO public.public_outreach_type (public_outreach_type_id, public_outreach_type_name)
+VALUES (2,
+        'Articles, interviews, book editions, videos, scientific mediation products, science and society debates, etc.');
+SELECT pg_catalog.setval('public.seq_public_outreach_type', 2, true);
+
 
 --
 -- TOC entry 259 (class 1259 OID 24904)
@@ -1009,6 +1231,15 @@ CREATE SEQUENCE public.scientific_expertise_type_scientific_expertise_type_id_se
 ALTER SEQUENCE public.scientific_expertise_type_scientific_expertise_type_id_seq OWNED BY public.scientific_expertise_type.scientific_expertise_type_id;
 
 
+
+INSERT INTO public.scientific_expertise_type (scientific_expertise_type_id, name_choice) VALUES (1, 'Consulting');
+INSERT INTO public.scientific_expertise_type (scientific_expertise_type_id, name_choice) VALUES (2, 'Participation in expert committees (such as ANSES) or standardisation bodies');
+INSERT INTO public.scientific_expertise_type (scientific_expertise_type_id, name_choice) VALUES (3, 'Legal expertise');
+INSERT INTO public.scientific_expertise_type (scientific_expertise_type_id, name_choice) VALUES (4, 'Coordination of national or international research networks, of a National Reference Centre, etc.');
+INSERT INTO public.scientific_expertise_type (scientific_expertise_type_id, name_choice) VALUES (5, 'Expert and standardization reports');
+SELECT pg_catalog.setval('public.scientific_expertise_type_scientific_expertise_type_id_seq', 5, true);
+
+
 --
 -- TOC entry 269 (class 1259 OID 24951)
 -- Name: sei_cifre_fellowship; Type: TABLE; Schema: public; 
@@ -1092,29 +1323,6 @@ CREATE TABLE public.sei_network_unit_creation (
     network_end_date date,
     associated_publi_ref character varying(2048)
 );
-
-
---
--- TOC entry 274 (class 1259 OID 24981)
--- Name: seq_activity; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_activity
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-    CYCLE;
-
-
---
--- TOC entry 3890 (class 0 OID 0)
--- Dependencies: 274
--- Name: seq_activity; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_activity OWNED BY public.activity.id_activity;
 
 
 --
@@ -1295,28 +1503,6 @@ ALTER SEQUENCE public.seq_employer OWNED BY public.employer.id_employer;
 
 
 --
--- TOC entry 283 (class 1259 OID 24999)
--- Name: seq_function_editorial_activity; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_function_editorial_activity
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3899 (class 0 OID 0)
--- Dependencies: 283
--- Name: seq_function_editorial_activity; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_function_editorial_activity OWNED BY public.function_editorial_activity.function_editorial_activity_id;
-
-
---
 -- TOC entry 284 (class 1259 OID 25001)
 -- Name: seq_funder; Type: SEQUENCE; Schema: public; 
 --
@@ -1448,26 +1634,6 @@ CREATE SEQUENCE public.seq_language
 ALTER SEQUENCE public.seq_language OWNED BY public.language.language_id;
 
 
---
--- TOC entry 290 (class 1259 OID 25013)
--- Name: seq_learned_scientific_society_role; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_learned_scientific_society_role
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3906 (class 0 OID 0)
--- Dependencies: 290
--- Name: seq_learned_scientific_society_role; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_learned_scientific_society_role OWNED BY public.learned_scientific_society_role.learned_scientific_society_role_id;
 
 
 --
@@ -1666,28 +1832,6 @@ CREATE SEQUENCE public.seq_project_evaluation_role
 --
 
 ALTER SEQUENCE public.seq_project_evaluation_role OWNED BY public.project_evaluation_role.project_evaluation_role_id;
-
-
---
--- TOC entry 300 (class 1259 OID 25033)
--- Name: seq_public_outreach_type; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_public_outreach_type
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3916 (class 0 OID 0)
--- Dependencies: 300
--- Name: seq_public_outreach_type; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_public_outreach_type OWNED BY public.public_outreach_type.public_outreach_type_id;
 
 
 --
@@ -1948,7 +2092,6 @@ CREATE TABLE public.type_collab (
     name_choice character varying(2048)
 );
 
-
 --
 -- TOC entry 317 (class 1259 OID 25079)
 -- Name: seq_type_collab; Type: SEQUENCE; Schema: public; 
@@ -1969,6 +2112,13 @@ CREATE SEQUENCE public.seq_type_collab
 --
 
 ALTER SEQUENCE public.seq_type_collab OWNED BY public.type_collab.type_collab_id;
+
+INSERT INTO public.type_collab (type_collab_id, name_choice) VALUES (1, 'Thesis co-supervision');
+INSERT INTO public.type_collab (type_collab_id, name_choice) VALUES (2, 'Joint research project');
+INSERT INTO public.type_collab (type_collab_id, name_choice) VALUES (3, 'International laboratory (LIA, LEA)');
+INSERT INTO public.type_collab (type_collab_id, name_choice) VALUES (4, 'Others');
+SELECT pg_catalog.setval('public.seq_type_collab', 4, true);
+
 
 
 --
@@ -2070,6 +2220,25 @@ CREATE SEQUENCE public.seq_type_research
 --
 
 ALTER SEQUENCE public.seq_type_research OWNED BY public.type_research_contract.id_type;
+
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (1, 'ERC grants - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (2, 'Other European grants (H2020, MSCA,…) - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (3, 'Other European grants (H2020, MSCA,…) - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (4, 'International (outside Europe) ((NSF, JSPS, NIH, World Bank, FAO, etc.) grants - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (5, 'International (outside Europe) ((NSF, JSPS, NIH, World Bank, FAO, etc.) grants - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (6, 'National public grants (ANR, PHRC, FUI, INCA, etc.) - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (7, 'National public grants (ANR, PHRC, FUI, INCA, etc.) - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (8, 'PIA (labex, equipex etc.) grants - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (9, 'PIA (labex, equipex etc.) grants - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (10, 'Grants from foundations and charities (ARC, FMR, FRM, etc.) - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (11, 'Grants from foundations and charities (ARC, FMR, FRM, etc.) - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (12, 'Local grants (collectivités territoriales) - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (13, 'Local grants (collectivités territoriales) - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (14, 'Internal calls in the frame of PIA (Labex, Idex, I-Site) from the university, hospital centre,... - coordination');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (15, 'Internal calls in the frame of PIA (Labex, Idex, I-Site) from the university, hospital centre,... - partnership');
+INSERT INTO public.type_research_contract (id_type, name_choice) VALUES (16, 'Others');
+SELECT pg_catalog.setval('public.seq_type_research', 16, true);
+
 
 
 --
@@ -2191,14 +2360,6 @@ CREATE SEQUENCE public.type_thesis_type_thesis_id_seq
 --
 
 ALTER SEQUENCE public.type_thesis_type_thesis_id_seq OWNED BY public.type_thesis.type_thesis_id;
-
-
---
--- TOC entry 3311 (class 2604 OID 25126)
--- Name: activity id_activity; Type: DEFAULT; Schema: public; 
---
-
-ALTER TABLE ONLY public.activity ALTER COLUMN id_activity SET DEFAULT nextval('public.seq_activity'::regclass);
 
 
 --
@@ -2700,7 +2861,7 @@ ALTER TABLE ONLY public.type_thesis ALTER COLUMN type_thesis_id SET DEFAULT next
 INSERT INTO public.institution (institution_id, institution_name) VALUES (1, 'CNRS');
 INSERT INTO public.institution (institution_id, institution_name) VALUES (2, 'INSERM');
 INSERT INTO public.institution (institution_id, institution_name) VALUES (3, 'INRIA');
-SELECT pg_catalog.setval('public.seq_institution', 4, true);
+SELECT pg_catalog.setval('public.seq_institution', 3, true);
 
 --
 -- TOC entry 3779 (class 0 OID 24765)
@@ -2739,7 +2900,7 @@ SELECT pg_catalog.setval('public.seq_institution', 4, true);
 --
 
 INSERT INTO public.laboratory (laboratory_id, laboratory_name, laboratory_acronym, institution_id) VALUES (1, 'Centre de Recherche en Transplantation et Immunologie', 'CRTI', 2);
-SELECT pg_catalog.setval('public.seq_laboratory', 2, true);
+SELECT pg_catalog.setval('public.seq_laboratory', 1, true);
 
 --
 -- TOC entry 3784 (class 0 OID 24786)
@@ -2765,7 +2926,7 @@ SELECT pg_catalog.setval('public.seq_laboratory', 2, true);
 
 INSERT INTO public.language (language_id, language_name) VALUES (1, 'Français');
 INSERT INTO public.language (language_id, language_name) VALUES (2, 'English');
-SELECT pg_catalog.setval('public.seq_language', 3, false);
+SELECT pg_catalog.setval('public.seq_language', 2, false);
 
 --
 -- TOC entry 3787 (class 0 OID 24795)
@@ -3023,7 +3184,7 @@ INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (193, '
 INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (194, 'Yougoslave');
 INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (195, 'Zambien');
 INSERT INTO public.nationality (nationality_id, nationality_name) VALUES (196, 'Zimbabwen');
-SELECT pg_catalog.setval('public.seq_nationality', 197, true);
+SELECT pg_catalog.setval('public.seq_nationality', 196, true);
 
 --
 -- TOC entry 3795 (class 0 OID 24828)
@@ -3053,7 +3214,7 @@ SELECT pg_catalog.setval('public.seq_nationality', 197, true);
 --
 
 INSERT INTO public.parameter (parameter_id, parameter_name, parameter_value) VALUES (1, 'loadCsv', 'true');
-SELECT pg_catalog.setval('public.seq_parameter', 2, true);
+SELECT pg_catalog.setval('public.seq_parameter', 1, true);
 
 --
 -- TOC entry 3799 (class 0 OID 24852)
@@ -3087,7 +3248,7 @@ SELECT pg_catalog.setval('public.seq_parameter', 2, true);
 
 INSERT INTO public.phd_type (phd_type_id, phd_type_name) VALUES (1, 'Academic');
 INSERT INTO public.phd_type (phd_type_id, phd_type_name) VALUES (2, 'CIFRE');
-SELECT pg_catalog.setval('public.seq_phd_type', 3, true);
+SELECT pg_catalog.setval('public.seq_phd_type', 2, true);
 
 --
 -- TOC entry 3803 (class 0 OID 24874)
@@ -3165,7 +3326,7 @@ SELECT pg_catalog.setval('public.seq_phd_type', 3, true);
 --
 
 INSERT INTO public.publication_type (publication_type_id, publication_type_name) VALUES (1, 'Publication');
-SELECT pg_catalog.setval('public.seq_choice_publication', 2, true);
+SELECT pg_catalog.setval('public.seq_choice_publication', 1, true);
 
 --
 -- TOC entry 3813 (class 0 OID 24919)
@@ -3273,7 +3434,7 @@ INSERT INTO public.status (id_status, name_status) VALUES (9, 'Chercheurs non ti
 INSERT INTO public.status (id_status, name_status) VALUES (10, 'Doctorants');
 INSERT INTO public.status (id_status, name_status) VALUES (11, 'Autres personnels non titulaires');
 INSERT INTO public.status (id_status, name_status) VALUES (12, 'Enseignants-chercheurs non titulaires, émérites et autres');
-SELECT pg_catalog.setval('public.seq_status', 13, true);
+SELECT pg_catalog.setval('public.seq_status', 12, true);
 
 
 --
@@ -3399,7 +3560,7 @@ INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (41, 'Sei 
 --
 
 INSERT INTO public.type_oral_communication (type_oral_communication_id, type_oral_communication_name) VALUES (1, 'vD');
-SELECT pg_catalog.setval('public.seq_type_oral_communication', 2, true);
+SELECT pg_catalog.setval('public.seq_type_oral_communication', 1, true);
 
 
 --
@@ -3433,15 +3594,6 @@ SELECT pg_catalog.setval('public.seq_type_oral_communication', 2, true);
 
 ALTER TABLE ONLY public.connection
     ADD CONSTRAINT connection_pkey PRIMARY KEY (connection_code);
-
-
---
--- TOC entry 3365 (class 2606 OID 25172)
--- Name: activity pk_activity; Type: CONSTRAINT; Schema: public; 
---
-
-ALTER TABLE ONLY public.activity
-    ADD CONSTRAINT pk_activity PRIMARY KEY (id_activity);
 
 
 --
