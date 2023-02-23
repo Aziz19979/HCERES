@@ -52,3 +52,13 @@ Usage exemple :
 * The import system is intended to be used in first stage for deploying the web application, it is not intended to be
   used for updating the database in a regular basis. Although it is possible to use it for adding new entries in the
   database, current implementation does not allow using it for updating existing entries in the database.
+  There is a plan to implement possibility of updating fields that doesn't contribute to the merging keys of the
+  entity, but it is not implemented yet.
+
+
+Advanced usage :
+
+* The user upload list of 10 entities, the merging keys of 2 entities are the same, the system will detect that the
+  merging keys are the same and will insert only 9 entities in the database.
+  Take an example of expertise_scientific, there is 2 entities with same start_date, description, end_date and 
+  researcher_id, the system will take the last occurrence i.e. the second entity line and discard the first.

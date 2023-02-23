@@ -582,9 +582,10 @@ class SupportedCsvTemplate {
             "description",
             "end_date"
         ],
-        mergingRules: ["Merge based on start_date, id_type, description, end_date and the researcher getting it",
+        mergingRules: ["Merge based on start_date, id_type, description and the researcher getting it",
+            "Id type => scientific_expertise_type is already present in database inserted via SQL."
         ],
-        dependencies: [this.ACTIVITY, this.SCIENTIFIC_EXPERTISE_TYPE],
+        dependencies: [this.ACTIVITY],
     }
 
     SEI_CLINICAL_TRIAL = {

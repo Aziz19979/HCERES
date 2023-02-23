@@ -112,6 +112,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvResearchContractFundedCharit importCsvResearchContractFundedCharit;
 
+    @Autowired
+    private ImportCsvScientificExpertise importCsvScientificExpertise;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -324,6 +327,11 @@ public class DataImporterService {
                             TypeActivity.IdTypeActivity.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST,
                             k -> new HashMap<>());
                     importCsvResearchContractFundedCharit.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case SCIENTIFIC_EXPERTISE:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SCIENTIFIC_EXPERTISE, k -> new HashMap<>());
+                    importCsvScientificExpertise.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;

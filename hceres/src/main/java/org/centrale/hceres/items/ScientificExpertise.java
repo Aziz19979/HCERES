@@ -57,7 +57,14 @@ public class ScientificExpertise implements Serializable {
     private String description;
 
 
-    @JoinColumn(name = "scientific_expertise_type_id", referencedColumnName = "scientific_expertise_type_id")
+    @Column(name = "scientific_expertise_type_id")
+    private Integer scientificExpertiseTypeId;
+    @JoinColumn(
+            name = "scientific_expertise_type_id",
+            referencedColumnName = "scientific_expertise_type_id",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    private ScientificExpertiseType scientificExpertiseTypeId;
+    private ScientificExpertiseType scientificExpertiseType;
 }

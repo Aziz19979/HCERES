@@ -92,6 +92,14 @@ public class RequestParser {
         return getAsDate(date, CSV_DEFAULT_DATE_FORMAT);
     }
 
+    public static Date getAsDateCsvFormatOrDefault(Object date, Date defaultValue) {
+        try {
+            return getAsDateCsvFormat(date);
+        } catch (RequestParseException e) {
+            return defaultValue;
+        }
+    }
+
     public static Date getAsDate(Object date, String dateFormat) throws RequestParseException {
         Date returnedValue = null;
         // try to convert
