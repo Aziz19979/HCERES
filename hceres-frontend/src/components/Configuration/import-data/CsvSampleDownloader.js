@@ -24,6 +24,7 @@ import ToolProductDatabaseCsv from "../../../assets/csvSamples/tool_product_data
 import ToolProductDecisionSupportToolCsv from "../../../assets/csvSamples/tool_product_decision_support_tool.csv";
 import ToolProductSoftwareCsv from "../../../assets/csvSamples/tool_product_software.csv";
 import ReviewingJournalArticlesCsv from "../../../assets/csvSamples/reviewing_journal_articles.csv";
+import EditorialActivityCsv from "../../../assets/csvSamples/editorial_activity.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -56,6 +57,7 @@ export default function CsvSampleDownloader() {
         ToolProductDecisionSupportToolCsv,
         ToolProductSoftwareCsv,
         ReviewingJournalArticlesCsv,
+        EditorialActivityCsv,
     ]
 
     return supportedCsvSample.map((file) => {

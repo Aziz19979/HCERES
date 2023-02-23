@@ -196,8 +196,9 @@ class SupportedCsvTemplate {
             "id_function"
         ],
         mergingRules: ["Merge based on start_date, end_date, name_journal, impact_factor_journal, id_function and the researcher getting it",
+            "Id function is already present in database inserted via SQL."
         ],
-        dependencies: [this.ACTIVITY, this.FUNCTION_EDITORIAL_ACTIVITY],
+        dependencies: [this.ACTIVITY],
     }
     INVITED_ORAL_COMMUNICATION = {
         key: "INVITED_ORAL_COMMUNICATION",

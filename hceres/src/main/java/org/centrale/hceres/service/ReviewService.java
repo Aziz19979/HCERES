@@ -60,7 +60,10 @@ public class ReviewService {
         if (journal == null) {
             journal = new Journal();
             journal.setJournalName(journalName);
+            journal = journalRepository.save(journal);
+            journalRepository.flush();
         }
+        reviewArticle.setJournalId(journal.getJournalId());
         reviewArticle.setJournal(journal);
 
         // Activity :

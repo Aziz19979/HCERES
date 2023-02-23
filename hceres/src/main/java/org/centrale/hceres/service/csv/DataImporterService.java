@@ -94,6 +94,8 @@ public class DataImporterService {
 
     @Autowired
     private ImportCsvReviewArticle importCsvReviewArticle;
+    @Autowired
+    private ImportCsvEditorialActivity importCsvEditorialActivity;
 
 
     /**
@@ -275,6 +277,11 @@ public class DataImporterService {
                     importCsvReviewArticle.importCsvList(csvList, importCsvSummary,
                             specificActivityMap,
                             journalCreatorCache);
+                    break;
+                case EDITORIAL_ACTIVITY:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY, k -> new HashMap<>());
+                    importCsvEditorialActivity.importCsvList(csvList, importCsvSummary, specificActivityMap, journalCreatorCache);
                     break;
                 default:
                     break;

@@ -41,6 +41,6 @@ public class FunctionEditorialActivity implements Serializable {
     @Size(max = 256)
     @Column(name = "function_editorial_activity_name")
     private String functionEditorialActivityName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "functionEditorialActivityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "functionEditorialActivity")
     private List<EditorialActivity> editorialActivityList;
 }
