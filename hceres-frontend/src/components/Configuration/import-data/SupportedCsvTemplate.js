@@ -419,7 +419,7 @@ class SupportedCsvTemplate {
         ],
         mergingRules: ["Merge based on description, id_type and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY, this.PUBLIC_OUTREACH_TYPE],
+        dependencies: [this.ACTIVITY],
     }
 
     // publication_type

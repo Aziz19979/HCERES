@@ -17,7 +17,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -50,7 +49,15 @@ public class PublicOutreach implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @JoinColumn(name = "public_outreach_type_id", referencedColumnName = "public_outreach_type_id")
+    @Column(name = "public_outreach_type_id")
+    private Integer publicOutreachTypeId;
+
+    @JoinColumn(
+            name = "public_outreach_type_id",
+            referencedColumnName = "public_outreach_type_id",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne(optional = false)
-    private PublicOutreachType publicOutreachTypeId;
+    private PublicOutreachType publicOutreachType;
 }

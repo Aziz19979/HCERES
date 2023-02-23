@@ -106,6 +106,9 @@ public class DataImporterService {
     @Autowired
     private ImportCsvInternationalCollaboration importCsvInternationalCollaboration;
 
+    @Autowired
+    private ImportCsvPublicOutreach importCsvPublicOutreach;
+
 
     /**
      * @param request map from csv format to list of csv rows
@@ -306,6 +309,11 @@ public class DataImporterService {
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION, k -> new HashMap<>());
                     importCsvInternationalCollaboration.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case PUBLIC_OUTREACH:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PUBLIC_OUTREACH, k -> new HashMap<>());
+                    importCsvPublicOutreach.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:
                     break;
