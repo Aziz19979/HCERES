@@ -257,6 +257,22 @@ class SupportedCsvTemplate {
         dependencies: [this.ACTIVITY],
     }
 
+    INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY = {
+        key: "INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY",
+        label: "Liste des responsabilités pédagogiques",
+        fileNamePattern: [
+            /^involvement_training_pedagogical_responsibility.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "year",
+            "name_master"
+        ],
+        mergingRules: ["Merge based on year, name_master and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
     LANGUAGE = {
         key: "LANGUAGE",
         label: "Liste des langues",
