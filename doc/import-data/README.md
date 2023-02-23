@@ -55,10 +55,28 @@ Usage exemple :
   There is a plan to implement possibility of updating fields that doesn't contribute to the merging keys of the
   entity, but it is not implemented yet.
 
-
 Advanced usage :
 
 * The user upload list of 10 entities, the merging keys of 2 entities are the same, the system will detect that the
   merging keys are the same and will insert only 9 entities in the database.
-  Take an example of expertise_scientific, there is 2 entities with same start_date, description, end_date and 
+  Take an example of expertise_scientific, there is 2 entities with same start_date, description, end_date and
   researcher_id, the system will take the last occurrence i.e. the second entity line and discard the first.
+
+
+## Concept of merging keys
+
+The concept of merging keys is to enable the import of a CSV file multiple times without creating duplicate entries.
+When importing an entry from the CSV file into the database, it is important to detect whether the entry has already
+been inserted. Several solutions have been proposed:
+
+* Solution 1 involves inserting the entry into the database with the same ID as the one used in the CSV file. However,
+  this approach has been abandoned due to the potential for conflicts and the risk of occupying IDs that are already in
+  use.
+
+* Solution 2 involves adding an additional column to the database for mapping purposes, which would require significant
+  changes to the schema and result in redundant data. This approach may not be practical for standalone applications
+  that do not rely on imported CSV files.
+
+* Solution 3 involves generating a merging key that substitutes for the entry's identifier. For example, a merging key
+  could be constructed by concatenating the researcher's name, surname, and email. If the merging key is already present
+  in the database, no action is taken. However, the merging key must be created manually and may not include all fields.
