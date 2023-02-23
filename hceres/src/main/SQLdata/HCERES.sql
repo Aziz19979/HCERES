@@ -1121,7 +1121,7 @@ CREATE TABLE public.research_contract_funded_public_charitable_inst (
     id_activity integer NOT NULL,
     id_type integer NOT NULL,
     date_contract_award date,
-    funding_intitution character varying(2048),
+    funding_institution character varying(2048),
     project_title character varying(2048),
     start_year integer,
     end_year integer,

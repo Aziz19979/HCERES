@@ -488,16 +488,16 @@ class SupportedCsvTemplate {
         fields: [
             "id_activity",
             "date_contract_award",
-            "funding_intitution",
+            "funding_institution",
             "project_title",
             "start_year",
             "end_year",
             "grant_amount",
             "id_type"
         ],
-        mergingRules: ["Merge based on date_contract_award, funding_intitution, project_title, start_year, end_year, grant_amount, id_type and the researcher getting it",
+        mergingRules: ["Merge based on date_contract_award, funding_institution, project_title, start_year, end_year, grant_amount, id_type and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY, this.TYPE_RESEARCH_CONTRACT],
+        dependencies: [this.ACTIVITY],
     }
 
     // laboratory_evaluation_role

@@ -17,7 +17,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -30,7 +29,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResearchContractFundedPublicCharitableInst implements Serializable {
+public class ResearchContractFundedCharit implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,8 +46,8 @@ public class ResearchContractFundedPublicCharitableInst implements Serializable 
     @Temporal(TemporalType.DATE)
     private Date dateContractAward;
     @Size(max = 256)
-    @Column(name = "funding_intitution")
-    private String fundingIntitution;
+    @Column(name = "funding_institution")
+    private String fundingInstitution;
     @Size(max = 256)
     @Column(name = "project_title")
     private String projectTitle;
@@ -59,7 +58,16 @@ public class ResearchContractFundedPublicCharitableInst implements Serializable 
     @Column(name = "grant_amount")
     private Integer grantAmount;
 
-    @JoinColumn(name = "id_type", referencedColumnName = "id_type")
+
+    @Column(name = "id_type")
+    private Integer typeResearchContractId;
+
+    @JoinColumn(
+            name = "id_type",
+            referencedColumnName = "id_type",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne(optional = false)
-    private TypeResearchContract idType;
+    private TypeResearchContract typeResearchContract;
 }

@@ -29,6 +29,7 @@ import EducationalOutputCsv from "../../../assets/csvSamples/educational_output.
 import InvolvementTrainingPedagogicalResponsibilityCsv from "../../../assets/csvSamples/involvement_training_pedagogical_responsibility.csv";
 import NationalInternationalCollaborationCsv from "../../../assets/csvSamples/national_international_collaboration.csv";
 import PublicOutreachCsv from "../../../assets/csvSamples/public_outreach.csv";
+import ResearchContractFundedPublicCharitableInstCsv from "../../../assets/csvSamples/research_contract_funded_public_charitable_inst.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -66,6 +67,7 @@ export default function CsvSampleDownloader() {
         InvolvementTrainingPedagogicalResponsibilityCsv,
         NationalInternationalCollaborationCsv,
         PublicOutreachCsv,
+        ResearchContractFundedPublicCharitableInstCsv,
     ]
 
     return supportedCsvSample.map((file) => {
