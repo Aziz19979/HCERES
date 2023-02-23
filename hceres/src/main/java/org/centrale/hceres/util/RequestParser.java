@@ -26,6 +26,14 @@ public class RequestParser {
         } else throw new RequestParseException("Error while parsing number");
     }
 
+    public static Integer getAsIntegerOrDefault(Object number, Integer defaultValue) {
+        try {
+            return getAsInteger(number);
+        } catch (RequestParseException e) {
+            return defaultValue;
+        }
+    }
+
     public static List<?> getAsList(Object objectList) {
         List<?> list = null;
         if (objectList.getClass().isArray()) {
@@ -58,6 +66,14 @@ public class RequestParser {
                 throw new RequestParseException(e);
             }
         } else throw new RequestParseException("Error while parsing number");
+    }
+
+    public static BigDecimal getAsBigDecimalOrDefault(Object number, BigDecimal defaultValue) {
+        try {
+            return getAsBigDecimal(number);
+        } catch (RequestParseException e) {
+            return defaultValue;
+        }
     }
 
     public static String getAsString(Object string) throws RequestParseException {
