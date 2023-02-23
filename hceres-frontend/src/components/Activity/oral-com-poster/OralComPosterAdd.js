@@ -3,11 +3,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ResearcherSelect from "../../util/ResearcherSelect";
 import LoadingIcon from "../../util/LoadingIcon";
-import {addOralCommunication} from "../../../services/Activity/oral-communication/OralCommunicationActions";
+import {addOralComPoster} from "../../../services/Activity/oral-com-poster/OralComPosterActions";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
-function OralCommunicationAdd(props) {
+function OralComPosterAdd(props) {
     // parameter constant (Add Template)
     const targetResearcher = props.targetResearcher;
     const onHideParentAction = props.onHideAction
@@ -21,15 +21,15 @@ function OralCommunicationAdd(props) {
 
     // Form state (Add Template)
     const [researcherId, setResearcherId] = React.useState(targetResearcher ? targetResearcher.researcherId : "");
-    const [OralCommunicationTitle, setOralCommunicationTitle] = React.useState("");
-    const [OralCommunicationDate, setOralCommunicationDate] = React.useState("");
+    const [OralComPosterTitle, setOralComPosterTitle] = React.useState("");
+    const [OralComPosterDate, setOralComPosterDate] = React.useState("");
     const [Authors, setAuthors] = React.useState("");
     const [MeetingName, setMeetingName] = React.useState("");
     const [MeetingYear, setMeetingYear] = React.useState("");
     const [MeetingLocation, setMeetingLocation] = React.useState("");
     const [MeetingStart, setMeetingStart] = React.useState("");
     const [MeetingEnd, setMeetingEnd] = React.useState("");
-    const [TypeOralCommunicationName, setTypeOralCommunicationName] = React.useState("");
+    const [TypeOralComPosterName, setTypeOralComPosterName] = React.useState("");
 
 
     const handleClose = (msg = null) => {
@@ -43,28 +43,28 @@ function OralCommunicationAdd(props) {
         setIsLoading(true);
         let data = {
             researcherId: researcherId,
-            TypeOralCommunicationName: TypeOralCommunicationName,
+            TypeOralComPosterName: TypeOralComPosterName,
             MeetingEnd: MeetingEnd,
             MeetingStart: MeetingStart,
             MeetingLocation: MeetingLocation,
             MeetingYear: MeetingYear,
             MeetingName: MeetingName,
             Authors: Authors,
-            OralCommunicationDate: OralCommunicationDate,
-            OralCommunicationTitle: OralCommunicationTitle
+            OralComPosterDate: OralComPosterDate,
+            OralComPosterTitle: OralComPosterTitle
         };
 
-        addOralCommunication(data).then(response => {
+        addOralComPoster(data).then(response => {
             // const activityId = response.data.researcherId;
             const msg = {
-                "successMsg": "OralCommunication ajouté avec un id " + response.data.idActivity,
+                "successMsg": "OralComPoster ajouté avec un id " + response.data.idActivity,
             }
             handleClose(msg);
         })
             .finally(() => setIsLoading(false)).catch(error => {
             console.log(error);
             const msg = {
-                "errorMsg": "Erreur OralCommunication non ajouté, response status: " + error.response.status,
+                "errorMsg": "Erreur OralComPoster non ajouté, response status: " + error.response.status,
             }
             handleClose(msg);
         })
@@ -76,7 +76,7 @@ function OralCommunicationAdd(props) {
             <Modal show={showModal} onHide={handleClose}>
                 <form onSubmit={handleSubmit}>
                     <Modal.Header closeButton>
-                        <Modal.Title>OralCommunication</Modal.Title>
+                        <Modal.Title>OralComPoster</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
 
@@ -93,12 +93,12 @@ function OralCommunicationAdd(props) {
                             Oral Communication Title
                         </label>
                         <input
-                            placeholder='OralCommunicationTitle'
+                            placeholder='OralComPosterTitle'
                             className='input-container'
-                            name="OralCommunicationTitle"
-                            type="OralCommunicationTitle"
-                            value={OralCommunicationTitle}
-                            onChange={e => setOralCommunicationTitle(e.target.value)}
+                            name="OralComPosterTitle"
+                            type="OralComPosterTitle"
+                            value={OralComPosterTitle}
+                            onChange={e => setOralComPosterTitle(e.target.value)}
                             required/>
 
                         <label className='label'>
@@ -107,7 +107,7 @@ function OralCommunicationAdd(props) {
                         <input
                             type="date"
                             className='input-container'
-                            onChange={e => setOralCommunicationDate(e.target.value)}
+                            onChange={e => setOralComPosterDate(e.target.value)}
                             required/>
 
 
@@ -180,12 +180,12 @@ function OralCommunicationAdd(props) {
                             Type Oral CommunicationName
                         </label>
                         <input
-                            placeholder='TypeOralCommunicationName '
+                            placeholder='TypeOralComPosterName '
                             className='input-container'
-                            name="TypeOralCommunicationName"
-                            type="TypeOralCommunicationName"
-                            value={TypeOralCommunicationName}
-                            onChange={e => setTypeOralCommunicationName(e.target.value)}
+                            name="TypeOralComPosterName"
+                            type="TypeOralComPosterName"
+                            value={TypeOralComPosterName}
+                            onChange={e => setTypeOralComPosterName(e.target.value)}
                             required/>
 
                     </Modal.Body>
@@ -205,4 +205,4 @@ function OralCommunicationAdd(props) {
     );
 }
 
-export default OralCommunicationAdd;
+export default OralComPosterAdd;

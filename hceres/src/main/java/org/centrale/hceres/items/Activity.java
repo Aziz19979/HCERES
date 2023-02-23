@@ -149,7 +149,7 @@ public class Activity implements Serializable {
     private SeiClinicalTrial seiClinicalTrial;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
-    private OralCommunication oralCommunication;
+    private OralComPoster oralComPoster;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore

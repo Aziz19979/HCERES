@@ -799,20 +799,9 @@ CREATE TABLE public.network (
 
 --
 -- TOC entry 245 (class 1259 OID 24834)
--- Name: oral_communication; Type: TABLE; Schema: public; 
+-- Name: oral_communication_poster; Type: TABLE; Schema: public;
 --
 
-CREATE TABLE public.oral_communication (
-    id_activity integer NOT NULL,
-    oral_communication_title character varying(512),
-    type_oral_communication_id integer NOT NULL,
-    oral_communication_dat date NOT NULL,
-    meeting_id integer NOT NULL,
-    authors text NOT NULL
-);
-
-
---  oral communication poster is different from oral communication
 CREATE SEQUENCE public.type_oral_com_poster_id_type_seq
     START WITH 1
     INCREMENT BY 1
@@ -822,32 +811,31 @@ CREATE SEQUENCE public.type_oral_com_poster_id_type_seq
 
 CREATE TABLE public.type_oral_com_poster
 (
-    id_type_com integer NOT NULL PRIMARY KEY DEFAULT nextval('public.type_oral_com_poster_id_type_seq'::regclass),
+    type_oral_com_poster_id integer NOT NULL PRIMARY KEY DEFAULT nextval('public.type_oral_com_poster_id_type_seq'::regclass),
     name_choice character varying
 );
 
 
-INSERT INTO public.type_oral_com_poster (id_type_com, name_choice)
+INSERT INTO public.type_oral_com_poster (type_oral_com_poster_id, name_choice)
 VALUES (1, 'Oral communication');
-INSERT INTO public.type_oral_com_poster (id_type_com, name_choice)
+INSERT INTO public.type_oral_com_poster (type_oral_com_poster_id, name_choice)
 VALUES (2, 'Poster');
 SELECT pg_catalog.setval('public.type_oral_com_poster_id_type_seq', 2, true);
 
 
 
-CREATE TABLE public.oral_communication_poster
-(
-    id_activity          integer NOT NULL PRIMARY KEY REFERENCES public.activity,
-    year                 integer,
-    id_type_com          integer REFERENCES public.type_oral_com_poster,
-    id_choice_meeting    integer,
-    titleoral_com_poster character varying,
-    authors              character varying,
-    meeting_name         character varying,
-    date                 date,
-    location             character varying
+CREATE TABLE public.oral_communication_poster(
+         id_activity integer NOT NULL,
+         type_oral_com_poster_id integer NOT NULL,
+         oral_communication_title character varying(512),
+         oral_communication_date date NOT NULL,
+         meeting_id integer NOT NULL,
+         authors text NOT NULL
 );
 
+ALTER TABLE public.oral_communication_poster
+    ADD CONSTRAINT oral_communication_poster_type_oral_com_poster_id_fkey FOREIGN KEY (type_oral_com_poster_id)
+    REFERENCES public.type_oral_com_poster (type_oral_com_poster_id);
 
 --
 -- TOC entry 246 (class 1259 OID 24840)
@@ -2120,42 +2108,6 @@ INSERT INTO public.type_collab (type_collab_id, name_choice) VALUES (4, 'Others'
 SELECT pg_catalog.setval('public.seq_type_collab', 4, true);
 
 
-
---
--- TOC entry 318 (class 1259 OID 25081)
--- Name: type_oral_communication; Type: TABLE; Schema: public; 
---
-
-CREATE TABLE public.type_oral_communication (
-    type_oral_communication_id integer NOT NULL,
-    type_oral_communication_name character varying(2048) NOT NULL
-);
-
-create unique index type_oral_communication_type_oral_communication_name_uindex
-    on public.type_oral_communication (type_oral_communication_name);
-
---
--- TOC entry 319 (class 1259 OID 25084)
--- Name: seq_type_oral_communication; Type: SEQUENCE; Schema: public; 
---
-
-CREATE SEQUENCE public.seq_type_oral_communication
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 3926 (class 0 OID 0)
--- Dependencies: 319
--- Name: seq_type_oral_communication; Type: SEQUENCE OWNED BY; Schema: public; 
---
-
-ALTER SEQUENCE public.seq_type_oral_communication OWNED BY public.type_oral_communication.type_oral_communication_id;
-
-
 --
 -- TOC entry 320 (class 1259 OID 25086)
 -- Name: type_patent; Type: TABLE; Schema: public; 
@@ -2656,14 +2608,6 @@ ALTER TABLE ONLY public.type_collab ALTER COLUMN type_collab_id SET DEFAULT next
 --
 
 ALTER TABLE ONLY public.type_consortium ALTER COLUMN type_consortium_id SET DEFAULT nextval('public.type_consortium_type_consortium_id_seq'::regclass);
-
-
---
--- TOC entry 3359 (class 2604 OID 25165)
--- Name: type_oral_communication type_oral_communication_id; Type: DEFAULT; Schema: public; 
---
-
-ALTER TABLE ONLY public.type_oral_communication ALTER COLUMN type_oral_communication_id SET DEFAULT nextval('public.seq_type_oral_communication'::regclass);
 
 
 --
@@ -3553,15 +3497,6 @@ INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (41, 'Sei 
 -- Data for Name: type_consortium; Type: TABLE DATA; Schema: public; 
 --
 
---
--- TOC entry 3869 (class 0 OID 25081)
--- Dependencies: 318
--- Data for Name: type_oral_communication; Type: TABLE DATA; Schema: public; 
---
-
-INSERT INTO public.type_oral_communication (type_oral_communication_id, type_oral_communication_name) VALUES (1, 'vD');
-SELECT pg_catalog.setval('public.seq_type_oral_communication', 1, true);
-
 
 --
 -- TOC entry 3871 (class 0 OID 25086)
@@ -3940,10 +3875,10 @@ ALTER TABLE ONLY public.network
 
 --
 -- TOC entry 3445 (class 2606 OID 25250)
--- Name: oral_communication pk_oral_communication; Type: CONSTRAINT; Schema: public; 
+-- Name: oral_communication pk_oral_communication; Type: CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.oral_communication
+ALTER TABLE ONLY public.oral_communication_poster
     ADD CONSTRAINT pk_oral_communication PRIMARY KEY (id_activity);
 
 
@@ -4297,16 +4232,6 @@ ALTER TABLE ONLY public.type_collab
 ALTER TABLE ONLY public.type_consortium
     ADD CONSTRAINT pk_type_consortium PRIMARY KEY (type_consortium_id);
 
-
---
--- TOC entry 3517 (class 2606 OID 25330)
--- Name: type_oral_communication pk_type_oral_communication; Type: CONSTRAINT; Schema: public; 
---
-
-ALTER TABLE ONLY public.type_oral_communication
-    ADD CONSTRAINT pk_type_oral_communication PRIMARY KEY (type_oral_communication_id);
-
-
 --
 -- TOC entry 3519 (class 2606 OID 25332)
 -- Name: type_patent pk_type_patent; Type: CONSTRAINT; Schema: public; 
@@ -4453,10 +4378,10 @@ ALTER TABLE ONLY public.network
 
 --
 -- TOC entry 3576 (class 2606 OID 25402)
--- Name: oral_communication activity_oral_communication_poster_fk; Type: FK CONSTRAINT; Schema: public; 
+-- Name: oral_communication activity_oral_communication_poster_fk; Type: FK CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.oral_communication
+ALTER TABLE ONLY public.oral_communication_poster
     ADD CONSTRAINT activity_oral_communication_poster_fk FOREIGN KEY (id_activity) REFERENCES public.activity(id_activity);
 
 
@@ -4858,10 +4783,10 @@ ALTER TABLE ONLY public.meeting_congress_org
 
 --
 -- TOC entry 3577 (class 2606 OID 25627)
--- Name: oral_communication meeting_oral_communication_fk; Type: FK CONSTRAINT; Schema: public; 
+-- Name: oral_communication meeting_oral_communication_fk; Type: FK CONSTRAINT; Schema: public;
 --
 
-ALTER TABLE ONLY public.oral_communication
+ALTER TABLE ONLY public.oral_communication_poster
     ADD CONSTRAINT meeting_oral_communication_fk FOREIGN KEY (meeting_id) REFERENCES public.meeting(meeting_id);
 
 
@@ -5115,15 +5040,6 @@ ALTER TABLE ONLY public.activity
 
 ALTER TABLE ONLY public.sei_lead_consortium_industry
     ADD CONSTRAINT type_consortium_socio_economic_interaction_lead_consortium_i423 FOREIGN KEY (type_consortium_id) REFERENCES public.type_consortium(type_consortium_id);
-
-
---
--- TOC entry 3578 (class 2606 OID 25772)
--- Name: oral_communication type_oral_communication_oral_communication_fk; Type: FK CONSTRAINT; Schema: public; 
---
-
-ALTER TABLE ONLY public.oral_communication
-    ADD CONSTRAINT type_oral_communication_oral_communication_fk FOREIGN KEY (type_oral_communication_id) REFERENCES public.type_oral_communication(type_oral_communication_id);
 
 
 --

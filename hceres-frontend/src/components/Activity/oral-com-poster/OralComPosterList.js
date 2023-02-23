@@ -14,22 +14,22 @@ import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStra
 import {ImFilter} from "react-icons/im";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
-import OralCommunicationAdd from "./OralCommunicationAdd";
+import OralComPosterAdd from "./OralComPosterAdd";
 
 import ActivityTypes from "../../../const/ActivityTypes";
-import {fetchListOralCommunications} from "../../../services/Activity/oral-communication/OralCommunicationActions";
+import {fetchListOralComPosters} from "../../../services/Activity/oral-com-poster/OralComPosterActions";
 import {fetchResearcherActivities} from "../../../services/Researcher/ResearcherActions";
-import OralCommunicationDelete from "./OralCommunicationDelete";
+import OralComPosterDelete from "./OralComPosterDelete";
 import Tooltip from "react-bootstrap/Tooltip";
 
 // If targetResearcher is set in props display related information only (
-// else load list des tous les oralCommunications du database
-function OralCommunicationList(props) {
+// else load list des tous les oralComPosters du database
+function OralComPosterList(props) {
     // parameter constant (List Template)
     const targetResearcher = props.targetResearcher;
 
     // Cached state (List Template)
-    const [oralCommunicationList, setOralCommunicationList] = React.useState(null);
+    const [oralComPosterList, setOralComPosterList] = React.useState(null);
 
     // UI states (List Template)
     const [successActivityAlert, setSuccessActivityAlert] = React.useState('');
@@ -39,15 +39,15 @@ function OralCommunicationList(props) {
 
 
     // Form state (List Template)
-    const [targetOralCommunication, setTargetOralCommunication] = React.useState(false);
-    const [showOralCommunicationAdd, setShowOralCommunicationAdd] = React.useState(false);
-    const [showOralCommunicationDelete, setShowOralCommunicationDelete] = React.useState(false);
+    const [targetOralComPoster, setTargetOralComPoster] = React.useState(false);
+    const [showOralComPosterAdd, setShowOralComPosterAdd] = React.useState(false);
+    const [showOralComPosterDelete, setShowOralComPosterDelete] = React.useState(false);
     const [listChangeCount, setListChangeCount] = React.useState(0);
 
 
     const handleHideModal = (msg = null) => {
-        setShowOralCommunicationAdd(false);
-        setShowOralCommunicationDelete(false);
+        setShowOralComPosterAdd(false);
+        setShowOralComPosterDelete(false);
         if (msg) {
             // an add or delete did occur
             // re render the table to load new data
@@ -74,31 +74,31 @@ function OralCommunicationList(props) {
     React.useEffect(() => {
         if (!targetResearcher) {
             // attention that method always change reference to variable not only its content
-            fetchListOralCommunications().then(list => setOralCommunicationList(list))
+            fetchListOralComPosters().then(list => setOralComPosterList(list))
         } else
             fetchResearcherActivities(targetResearcher.researcherId)
                 .then(list => {
-                    setOralCommunicationList(list.filter(a => a.idTypeActivity === ActivityTypes.INVITED_ORAL_COMMUNICATION));
+                    setOralComPosterList(list.filter(a => a.idTypeActivity === ActivityTypes.INVITED_ORAL_COMMUNICATION));
                 })
     }, [listChangeCount, targetResearcher]);
 
 
-    if (!oralCommunicationList) {
+    if (!oralComPosterList) {
         return <div className="d-flex align-items-center justify-content-center">
             <Circles stroke={"black"}/>
         </div>
     } else {
-        if (oralCommunicationList.length === 0) {
+        if (oralComPosterList.length === 0) {
             return <div className={"row"}>
                 <br/>
                 <div className={"col-8"}>
                     <h3>Aucune Communication Orale est enregistrée</h3>
                 </div>
                 <div className={"col-4"}>
-                    {showOralCommunicationAdd &&
-                        <OralCommunicationAdd targetResearcher={targetResearcher} onHideAction={handleHideModal}/>}
+                    {showOralComPosterAdd &&
+                        <OralComPosterAdd targetResearcher={targetResearcher} onHideAction={handleHideModal}/>}
                     <button className="btn btn-success" data-bs-toggle="button"
-                            onClick={() => setShowOralCommunicationAdd(true)}>
+                            onClick={() => setShowOralComPosterAdd(true)}>
                         <AiOutlinePlusCircle/> &nbsp; Ajouter une Communication Oral
                     </button>
                 </div>
@@ -121,8 +121,8 @@ function OralCommunicationList(props) {
                         overlay={deleteTooltip}
                     >
                         <button className="btn btn-outline-danger btn-sm" onClick={() => {
-                            setTargetOralCommunication(row)
-                            setShowOralCommunicationDelete(true)
+                            setTargetOralComPoster(row)
+                            setShowOralComPosterDelete(true)
                         }}><AiFillDelete/></button>
                     </OverlayTrigger>
                     &nbsp;  &nbsp;
@@ -130,46 +130,47 @@ function OralCommunicationList(props) {
                 </div>)
             }
         }, {
-            dataField: 'oralCommunication.oralCommunicationTitle',
+            dataField: 'oralComPoster.oralComPosterTitle',
             text: 'Titre',
             sort: true,
         }, {
-            dataField: 'oralCommunication.authors',
+            dataField: 'oralComPoster.authors',
             text: 'Auteurs',
         }, {
-            dataField: 'oralCommunication.oralCommunicationDat',
+            dataField: 'oralComPoster.oralComPosterDat',
             text: 'Date',
             sort: true,
+            hidden: true, // for csv only
         }, {
-            dataField: 'oralCommunication.meeting.meetingId',
+            dataField: 'oralComPoster.meeting.meetingId',
             text: 'Identifiant de la réunion',
             hidden: true, // for csv only
         }, {
-            dataField: 'oralCommunication.meeting.meetingName',
+            dataField: 'oralComPoster.meeting.meetingName',
             text: 'Nom de la réunion',
-            hidden: true, // for csv only
+            hidden: false,
         }, {
-            dataField: 'oralCommunication.meeting.meetingYear',
+            dataField: 'oralComPoster.meeting.meetingYear',
             text: 'Année de réunion',
             hidden: true, // for csv only
         }, {
-            dataField: 'oralCommunication.meeting.meetingLocation',
+            dataField: 'oralComPoster.meeting.meetingLocation',
             text: 'Lieu de réunion',
             hidden: true, // for csv only
         }, {
-            dataField: 'oralCommunication.meeting.meetingStart',
-            text: 'Date de début de la réunion',
-            hidden: true, // for csv only
+            dataField: 'oralComPoster.meeting.meetingStart',
+            text: 'Date de la réunion',
+            hidden: false,
         }, {
-            dataField: 'oralCommunication.meeting.meetingEnd',
+            dataField: 'oralComPoster.meeting.meetingEnd',
             text: 'Date de fin de réunion',
             hidden: true, // for csv only
         },];
 
-        let title = "OralCommunication"
+        let title = "OralComPoster"
         if (!targetResearcher) {
             columns.push(chercheursColumnOfActivity)
-            title = "Liste des communications orales"
+            title = "Liste des communications orales posters"
         }
         const CaptionElement = <div>
             <h3> {title} - &nbsp;
@@ -201,10 +202,10 @@ function OralCommunicationList(props) {
                 <ToolkitProvider
                     bootstrap4
                     keyField="idActivity"
-                    data={oralCommunicationList}
+                    data={oralComPosterList}
                     columns={columns}
                     exportCSV={{
-                        fileName: 'oralCommunicationList.csv',
+                        fileName: 'oralComPosterList.csv',
                         onlyExportSelection: true,
                         exportAll: true
                     }}
@@ -219,15 +220,15 @@ function OralCommunicationList(props) {
                                         <h3>{CaptionElement}</h3>
                                     </div>
                                     <div className={"col-4"}>
-                                        {showOralCommunicationAdd &&
-                                            <OralCommunicationAdd targetResearcher={targetResearcher}
-                                                                  onHideAction={handleHideModal}/>}
-                                        {showOralCommunicationDelete &&
-                                            <OralCommunicationDelete targetOralCommunication={targetOralCommunication}
-                                                                     onHideAction={handleHideModal}/>}
+                                        {showOralComPosterAdd &&
+                                            <OralComPosterAdd targetResearcher={targetResearcher}
+                                                              onHideAction={handleHideModal}/>}
+                                        {showOralComPosterDelete &&
+                                            <OralComPosterDelete targetOralComPoster={targetOralComPoster}
+                                                                 onHideAction={handleHideModal}/>}
                                         <button className="btn btn-success" data-bs-toggle="button"
-                                                onClick={() => setShowOralCommunicationAdd(true)}>
-                                            <AiOutlinePlusCircle/> &nbsp; Ajouter une oralCommunication
+                                                onClick={() => setShowOralComPosterAdd(true)}>
+                                            <AiOutlinePlusCircle/> &nbsp; Ajouter une oralComPoster
                                         </button>
                                     </div>
                                 </div>
@@ -251,7 +252,7 @@ function OralCommunicationList(props) {
                                 <BootstrapTable
                                     bootstrap4
                                     filter={filterFactory()}
-                                    pagination={paginationFactory(paginationOptions(oralCommunicationList.length))}
+                                    pagination={paginationFactory(paginationOptions(oralComPosterList.length))}
                                     striped
                                     hover
                                     condensed
@@ -266,4 +267,4 @@ function OralCommunicationList(props) {
     }
 }
 
-export default OralCommunicationList;
+export default OralComPosterList;

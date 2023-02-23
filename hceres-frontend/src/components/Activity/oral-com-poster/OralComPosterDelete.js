@@ -2,13 +2,13 @@ import {useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
-import OralCommunicationElement from "./OralCommunicationElement";
-import {deleteOralCommunication} from "../../../services/Activity/oral-communication/OralCommunicationActions";
+import OralComPosterElement from "./OralComPosterElement";
+import {deleteOralComPoster} from "../../../services/Activity/oral-com-poster/OralComPosterActions";
 
-function OralCommunicationDelete(props) {
+function OralComPosterDelete(props) {
     const [show, setShow] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const targetOralCommunication = props.targetOralCommunication;
+    const targetOralComPoster = props.targetOralComPoster;
 
     const handleClose = (msg = null) => {
         setShow(false);
@@ -17,16 +17,16 @@ function OralCommunicationDelete(props) {
 
     const handleDelete = () => {
         setIsLoading(true);
-        deleteOralCommunication(targetOralCommunication.idActivity)
+        deleteOralComPoster(targetOralComPoster.idActivity)
             .then(response => {
                 const msg = {
-                    "successMsg": "OralCommunication supprimé ayant l'id " + targetOralCommunication.idActivity,
+                    "successMsg": "OralComPoster supprimé ayant l'id " + targetOralComPoster.idActivity,
                 }
                 handleClose(msg);
             }).catch(error => {
             console.log(error);
             const msg = {
-                "errorMsg": "OralCommunication non supprimé, response status: " + error.response.status,
+                "errorMsg": "OralComPoster non supprimé, response status: " + error.response.status,
             }
             handleClose(msg);
         })
@@ -36,10 +36,10 @@ function OralCommunicationDelete(props) {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Êtes-vous sûr de vouloir supprimer l'oralCommunication sélectionné?</Modal.Title>
+                <Modal.Title>Êtes-vous sûr de vouloir supprimer l'oralComPoster sélectionné?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <OralCommunicationElement targetOralCommunication={targetOralCommunication}/>
+                <OralComPosterElement targetOralComPoster={targetOralComPoster}/>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
@@ -55,5 +55,5 @@ function OralCommunicationDelete(props) {
 }
 
 
-export default OralCommunicationDelete;
+export default OralComPosterDelete;
 

@@ -101,7 +101,7 @@ class Researcher extends Component {
     }
 
     render() {
-        if (this.state.researchers && this.state.researchers.length) {
+        if (this.state.researchers) {
             const columns = [{
                 dataField: 'researcherId',
                 text: 'ID',

@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 // currently invited oral communication does not have associated activity
-// it seem that OralCommunication defined in the project correspond
-// OralCommunicationPoster
+// it seem that OralComPoster defined in the project correspond
+// OralComPoster
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer> {
@@ -24,7 +24,7 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     // id activity in activity.csv
     // to get the id activity use both key:
     // the type of activity and the specific count
-    private Integer idCsvOralCommunication;
+    private Integer idCsvOralComPoster;
     private Date dateCommunication;
     private String title;
     private String nameMeeting;
@@ -45,7 +45,7 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
         int fieldNumber = 0;
         try {
-            this.setIdCsvOralCommunication(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
+            this.setIdCsvOralComPoster(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
             this.setDateCommunication(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
             this.setTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
             this.setNameMeeting(RequestParser.getAsString(csvData.get(fieldNumber++)));
@@ -58,9 +58,9 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
 
     @Override
     public void initializeDependencies() throws CsvDependencyException {
-        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvOralCommunication());
+        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvOralComPoster());
         if (this.csvActivity == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvOralCommunication());
+            throw new CsvDependencyException("No activity found for id " + this.getIdCsvOralComPoster());
         }
     }
 
@@ -69,11 +69,11 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
         Activity activity = this.csvActivity.convertToEntity();
         activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
 
-        OralCommunication oralCommunication = new OralCommunication();
-        oralCommunication.setOralCommunicationDat(this.getDateCommunication());
-        oralCommunication.setOralCommunicationTitle(this.getTitle());
+        OralComPoster oralComPoster = new OralComPoster();
+        oralComPoster.setOralComPosterDate(this.getDateCommunication());
+        oralComPoster.setOralComPosterTitle(this.getTitle());
         // using default value for authors as imported by csv
-        oralCommunication.setAuthors("Importé par csv");
+        oralComPoster.setAuthors("Importé par csv");
 
         Meeting meeting = new Meeting();
         meeting.setMeetingName(this.getNameMeeting());
@@ -82,14 +82,14 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
         meeting.setMeetingYear(calendar.get(Calendar.YEAR));
         meeting.setMeetingStart(this.getDateMeeting());
         meeting.setMeetingLocation(this.getLocation());
-        oralCommunication.setMeeting(meeting);
+        oralComPoster.setMeeting(meeting);
 
         // currently taking default type
-        oralCommunication.setTypeOralCommunicationId(1);
+        oralComPoster.setTypeOralComPosterId(1);
 
-        oralCommunication.setActivity(activity);
+        oralComPoster.setActivity(activity);
 
-        activity.setOralCommunication(oralCommunication);
+        activity.setOralComPoster(oralComPoster);
         return activity;
     }
 
@@ -106,11 +106,11 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     @Override
     public String getMergingKey(Activity entity) {
         return (entity.getResearcherList().get(0).getResearcherId()
-                + "_" + entity.getOralCommunication().getOralCommunicationDat()
-                + "_" + entity.getOralCommunication().getOralCommunicationTitle()
-                + "_" + entity.getOralCommunication().getMeeting().getMeetingName()
-                + "_" + entity.getOralCommunication().getMeeting().getMeetingStart()
-                + "_" + entity.getOralCommunication().getMeeting().getMeetingLocation()).toLowerCase();
+                + "_" + entity.getOralComPoster().getOralComPosterDate()
+                + "_" + entity.getOralComPoster().getOralComPosterTitle()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingName()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingStart()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingLocation()).toLowerCase();
     }
 
     @Override
@@ -120,6 +120,6 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
 
     @Override
     public Integer getIdCsv() {
-        return this.getIdCsvOralCommunication();
+        return this.getIdCsvOralComPoster();
     }
 }

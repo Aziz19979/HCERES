@@ -27,12 +27,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author kwyhr
  */
 @Entity
-@Table(name = "oral_communication")
+@Table(name = "oral_communication_poster")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OralCommunication implements Serializable {
+public class OralComPoster implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,13 +48,13 @@ public class OralCommunication implements Serializable {
     
     @Size(max = 512)
     @Column(name = "oral_communication_title")
-    private String oralCommunicationTitle;
+    private String oralComPosterTitle;
     
     @Basic(optional = false)
     @NotNull
-    @Column(name = "oral_communication_dat")
+    @Column(name = "oral_communication_date")
     @Temporal(TemporalType.DATE)
-    private Date oralCommunicationDat;
+    private Date oralComPosterDate;
     
     @Basic(optional = false)
     @NotNull
@@ -68,11 +68,16 @@ public class OralCommunication implements Serializable {
     private Meeting meeting;
 
 
-    @Column(name = "type_oral_communication_id")
-    private Integer typeOralCommunicationId;
+    @Column(name = "type_oral_com_poster_id")
+    private Integer typeOralComPosterId;
 
     @JsonIgnore
-    @JoinColumn(name = "type_oral_communication_id", referencedColumnName = "type_oral_communication_id", insertable = false, updatable = false)
+    @JoinColumn(
+            name = "type_oral_com_poster_id",
+            referencedColumnName = "type_oral_com_poster_id",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne
-    private TypeOralCommunication typeOralCommunication;
+    private TypeOralComPoster typeOralComPoster;
 }

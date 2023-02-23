@@ -71,5 +71,5 @@ public class Meeting implements Serializable {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "meeting")
-    private List<OralCommunication> oralCommunicationList;
+    private List<OralComPoster> oralComPosterList;
 }

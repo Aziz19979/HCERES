@@ -25,27 +25,27 @@ import javax.validation.constraints.Size;
  * @author kwyhr
  */
 @Entity
-@Table(name = "type_oral_communication")
+@Table(name = "type_oral_com_poster")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TypeOralCommunication implements Serializable {
+public class TypeOralComPoster implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "type_oral_communication_id")
-    private Integer typeOralCommunicationId;
+    @Column(name = "type_oral_com_poster_id")
+    private Integer typeOralComPosterId;
     
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
-    @Column(name = "type_oral_communication_name")
-    private String typeOralCommunicationName;
+    @Column(name = "name_choice")
+    private String nameChoice;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeOralCommunication")
-    private List<OralCommunication> oralCommunicationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeOralComPoster")
+    private List<OralComPoster> oralComPosterList;
 }
