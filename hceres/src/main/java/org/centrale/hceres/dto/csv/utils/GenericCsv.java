@@ -14,7 +14,7 @@ public interface GenericCsv<E, I> {
      *
      * @param csvData List of data representing a row from the csv
      */
-    void fillCsvData(List<?> csvData) throws CsvParseException, CsvDependencyException;
+    void fillCsvData(List<?> csvData) throws CsvAllFieldExceptions;
 
 
     /**

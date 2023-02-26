@@ -78,7 +78,7 @@ function EducationList(props) {
         } else
             fetchResearcherActivities(targetResearcher.researcherId)
                 .then(list => {
-                    setEducationList(list.filter(a => a.idTypeActivity === ActivityTypes.EDUCATIONAL_OUTPUT));
+                    setEducationList(list.filter(a => a.idTypeActivity === ActivityTypes.EDUCATION_FORMATION));
                 })
     }, [listChangeCount, targetResearcher]);
 

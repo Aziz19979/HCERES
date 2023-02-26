@@ -10,7 +10,7 @@ class MyClass {
         this.listeEducations = null;
         this.listeSrAwards = null;
         this.listePlatforms = null;
-        this.listeOralCommunications = null;
+        this.listeOralComPosters = null;
         this.listeIndustrialContracts = null;
         this.listeInternationalCollaborations = null;
         this.listeScientificExpertises = null;

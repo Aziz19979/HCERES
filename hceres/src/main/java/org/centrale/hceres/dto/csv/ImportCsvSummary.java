@@ -9,33 +9,30 @@ import java.util.List;
 
 @Data
 public class ImportCsvSummary implements Serializable {
-    private HashMap<String, Integer> entityToInsertedCount;
-    private HashMap<String, List<String>> entityToErrorMsg;
+    private HashMap<String, ImportCsvMetric> entityToCsvMetrics;
+    private HashMap<String, List<ImportCsvError>> entityToCsvErrors;
 
     public ImportCsvSummary() {
-        entityToInsertedCount = new HashMap<>();
-        entityToErrorMsg = new HashMap<>();
+        entityToCsvMetrics = new HashMap<>();
+        entityToCsvErrors = new HashMap<>();
     }
 
-    public void addToTotalActivityCountInserted(int newActivitiesInserted) {
-        String activityKey = SupportedCsvTemplate.ACTIVITY.toString();
-        if (!this.getEntityToInsertedCount().containsKey(activityKey)) {
-            this.getEntityToInsertedCount().put(activityKey,
-                    this.getEntityToInsertedCount().get(activityKey) + newActivitiesInserted);
-        } else {
-            this.getEntityToInsertedCount().put(activityKey, newActivitiesInserted);
-        }
-    }
-
-    public void updateTotalActivityCount() {
+    public void updateActivityMetric() {
         SupportedCsvTemplate[] templates = SupportedCsvTemplate.values();
+        ImportCsvMetric activityMetric = this.getEntityToCsvMetrics().get(SupportedCsvTemplate.ACTIVITY.toString());
         for (SupportedCsvTemplate template : templates) {
             if (template.getDependencies().contains(SupportedCsvTemplate.ACTIVITY)) {
-                Integer count = this.getEntityToInsertedCount().get(template.toString());
-                if (count != null) {
-                    this.addToTotalActivityCountInserted(count);
+                ImportCsvMetric metric = this.getEntityToCsvMetrics().get(template.toString());
+                if (metric != null) {
+                    activityMetric.setTotalInDatabase(activityMetric.getTotalInDatabase() + metric.getTotalInDatabase());
+                    activityMetric.setTotalMergedWithDatabase(activityMetric.getTotalMergedWithDatabase() + metric.getTotalMergedWithDatabase());
+                    activityMetric.setTotalInserted(activityMetric.getTotalInserted() + metric.getTotalInserted());
                 }
             }
+        }
+
+        if (activityMetric.getTotalInCsv() > 0) {
+            this.getEntityToCsvMetrics().put(SupportedCsvTemplate.ACTIVITY.toString(), activityMetric);
         }
     }
 }

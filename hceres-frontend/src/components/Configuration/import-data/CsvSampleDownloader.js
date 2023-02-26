@@ -24,6 +24,15 @@ import ToolProductDatabaseCsv from "../../../assets/csvSamples/tool_product_data
 import ToolProductDecisionSupportToolCsv from "../../../assets/csvSamples/tool_product_decision_support_tool.csv";
 import ToolProductSoftwareCsv from "../../../assets/csvSamples/tool_product_software.csv";
 import ReviewingJournalArticlesCsv from "../../../assets/csvSamples/reviewing_journal_articles.csv";
+import EditorialActivityCsv from "../../../assets/csvSamples/editorial_activity.csv";
+import EducationalOutputCsv from "../../../assets/csvSamples/educational_output.csv";
+import InvolvementTrainingPedagogicalResponsibilityCsv from "../../../assets/csvSamples/involvement_training_pedagogical_responsibility.csv";
+import NationalInternationalCollaborationCsv from "../../../assets/csvSamples/national_international_collaboration.csv";
+import PublicOutreachCsv from "../../../assets/csvSamples/public_outreach.csv";
+import ResearchContractFundedPublicCharitableInstCsv from "../../../assets/csvSamples/research_contract_funded_public_charitable_inst.csv";
+import ScientificExpertiseCsv from "../../../assets/csvSamples/scientific_expertise.csv";
+import LearnedScientificSocietyCsv from "../../../assets/csvSamples/sr_responsibility_learned_scientific_society.csv";
+import InstitutionalComiteeCsv from "../../../assets/csvSamples/responsibility_institutional_comitee_jury.csv";
 import React from "react";
 
 // <a href={Logo} download>Download File</a>
@@ -56,6 +65,15 @@ export default function CsvSampleDownloader() {
         ToolProductDecisionSupportToolCsv,
         ToolProductSoftwareCsv,
         ReviewingJournalArticlesCsv,
+        EditorialActivityCsv,
+        EducationalOutputCsv,
+        InvolvementTrainingPedagogicalResponsibilityCsv,
+        NationalInternationalCollaborationCsv,
+        PublicOutreachCsv,
+        ResearchContractFundedPublicCharitableInstCsv,
+        ScientificExpertiseCsv,
+        LearnedScientificSocietyCsv,
+        InstitutionalComiteeCsv,
     ]
 
     return supportedCsvSample.map((file) => {

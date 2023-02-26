@@ -82,7 +82,7 @@ public class EditorialService {
             // Setting the function Name
             functionEditorialActivity.setFunctionEditorialActivityName(functionName);
         }
-        editorial.setFunctionEditorialActivityId(functionEditorialActivity);
+        editorial.setFunctionEditorialActivity(functionEditorialActivity);
 
         activity = activityRepo.save(activity);
 

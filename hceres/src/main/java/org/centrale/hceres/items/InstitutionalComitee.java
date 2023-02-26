@@ -16,7 +16,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -48,7 +47,15 @@ public class InstitutionalComitee implements Serializable {
     @Column(name = "year")
     private Integer year;
 
-    @JoinColumn(name = "laboratory_evaluation_role_id", referencedColumnName = "laboratory_evaluation_role_id")
+    @Column(name = "laboratory_evaluation_role_id")
+    private Integer laboratoryEvaluationRoleId;
+
+    @JoinColumn(
+            name = "laboratory_evaluation_role_id",
+            referencedColumnName = "laboratory_evaluation_role_id",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne(optional = false)
-    private LaboratoryEvaluationRole laboratoryEvaluationRoleId;
+    private LaboratoryEvaluationRole laboratoryEvaluationRole;
 }

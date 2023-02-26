@@ -2,14 +2,11 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.GenericCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.BelongsTeam;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.Team;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
 import java.util.List;
@@ -22,10 +19,12 @@ public class CsvBelongTeam extends DependentCsv<BelongsTeam, String> {
     // id activity in activity.csv
     // to get the id activity use both key:
     // the type of activity and the specific count
-    private int idCsvResearcher;
+    private Integer idCsvResearcher;
+    private static final int ID_CSV_RESEARCHER_ORDER = 0;
     private GenericCsv<Researcher, Integer> csvResearcher;
     private final Map<Integer, GenericCsv<Researcher, Integer>> researcherIdCsvMap;
     private Integer idTeamCsv;
+    private static final int ID_TEAM_CSV_ORDER = 1;
     private GenericCsv<Team, Integer> csvTeam;
     private final Map<Integer, GenericCsv<Team, Integer>> teamIdCsvMap;
 
@@ -36,26 +35,31 @@ public class CsvBelongTeam extends DependentCsv<BelongsTeam, String> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvResearcher(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setIdTeamCsv(RequestParser.getAsInteger(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_RESEARCHER_ORDER,
+                        f -> this.setIdCsvResearcher(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ID_TEAM_CSV_ORDER,
+                        f -> this.setIdTeamCsv(RequestParser.getAsInteger(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvResearcher = this.researcherIdCsvMap.get(this.getIdCsvResearcher());
-        if (this.csvResearcher == null) {
-            throw new CsvDependencyException("Researcher with id " + this.getIdCsvResearcher() + " not found");
-        }
-        this.csvTeam = this.teamIdCsvMap.get(this.getIdTeamCsv());
-        if (this.csvTeam == null) {
-            throw new CsvDependencyException("Team with id " + this.getIdTeamCsv() + " not found");
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_RESEARCHER_ORDER,
+                        this.getIdCsvResearcher(),
+                        SupportedCsvTemplate.RESEARCHER,
+                        this.researcherIdCsvMap.get(this.getIdCsvResearcher()),
+                        this::setCsvResearcher),
+
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_TEAM_CSV_ORDER,
+                        this.getIdTeamCsv(),
+                        SupportedCsvTemplate.TEAM,
+                        this.teamIdCsvMap.get(this.getIdTeamCsv()),
+                        this::setCsvTeam)
+        );
     }
 
     @Override

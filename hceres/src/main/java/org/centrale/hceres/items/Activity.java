@@ -82,6 +82,8 @@ public class Activity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private ScientificExpertise scientificExpertise;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
+    private InvolvementTrainingPedagogical involvementTrainingPedagogical;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private CompanyCreation companyCreation;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
@@ -132,6 +134,8 @@ public class Activity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private EditorialActivity editorialActivity;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
+    private EducationalOutput educationalOutput;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private SeiIndustrialRDContract seiIndustrialRDContract;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
@@ -144,11 +148,11 @@ public class Activity implements Serializable {
     private SeiClinicalTrial seiClinicalTrial;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
-    private OralCommunication oralCommunication;
+    private OralComPoster oralComPoster;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
-    private ResearchContractFundedPublicCharitableInst researchContractFundedPublicCharitableInst;
+    private ResearchContractFundedCharit researchContractFundedCharit;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     @JsonIgnore
     private SeiLeadConsortiumIndustry seiLeadConsortiumIndustry;

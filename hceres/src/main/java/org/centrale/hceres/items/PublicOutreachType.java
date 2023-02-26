@@ -39,6 +39,6 @@ public class PublicOutreachType implements Serializable {
     @Size(max = 256)
     @Column(name = "public_outreach_type_name")
     private String publicOutreachTypeName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicOutreachTypeId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "publicOutreachType")
     private List<PublicOutreach> publicOutreachList;
 }

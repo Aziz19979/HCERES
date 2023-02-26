@@ -2,10 +2,10 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
+import org.centrale.hceres.dto.csv.utils.CsvAllFieldExceptions;
+import org.centrale.hceres.dto.csv.utils.CsvParserUtil;
 import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.Language;
-import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
 import java.util.List;
@@ -14,16 +14,16 @@ import java.util.List;
 @Data
 public class CsvLanguage extends InDependentCsv<Language, Integer> {
     private String languageName;
+    private static final int LANGUAGE_NAME_ORDER = 1;
 
     @Override
-    public void fillCsvData(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setLanguageName(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvData(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_ORDER,
+                        f -> this.setIdCsv(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(LANGUAGE_NAME_ORDER,
+                        f -> this.setLanguageName(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override

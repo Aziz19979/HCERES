@@ -1,4 +1,4 @@
-id_activity;date_contract_award;funding_intitution;project_title;start_year;end_year;grant_amount;id_type
+id_activity;date_contract_award;funding_institution;project_title;start_year;end_year;grant_amount;id_type
 1;01/01/19;EU / ERA NET NEURON;MulioBio - Multi-level integrative ‘omics to identify biomarkers in a Schizophrenia and other major psychoses;2020;2023;249372;2
 2;01/01/15;EU / H2020 - MSCA Individual fellowship;MINERVA - Micro-RNAs of Neutrophils in Renal ANCA-associated Vasculitis;2015;2017;173000;2
 3;01/01/18;EU / H2020 - MSCA Individual fellowship;KiT-FIG - Kidney Transplantation - Functional ImmunoGenomics;2019;2021;196707;2

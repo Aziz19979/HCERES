@@ -55,7 +55,7 @@ public class DataImporterService {
     private ImportCsvInvitedOralCommunication importCsvInvitedOralCommunication;
 
     @Autowired
-    private ImportCsvOralCommunicationPoster importCsvOralCommunicationPoster;
+    private ImportCsvOralComPoster importCsvOralComPoster;
 
     @Autowired
     private ImportCsvMeetingCongressOrg importCsvMeetingCongressOrg;
@@ -94,6 +94,32 @@ public class DataImporterService {
 
     @Autowired
     private ImportCsvReviewArticle importCsvReviewArticle;
+    @Autowired
+    private ImportCsvEditorialActivity importCsvEditorialActivity;
+
+    @Autowired
+    private ImportCsvEducationalOutput importCsvEducationalOutput;
+
+    @Autowired
+    private ImportCsvInvolvementTrainingPedagogical importCsvInvolvementTrainingPedagogical;
+
+    @Autowired
+    private ImportCsvInternationalCollaboration importCsvInternationalCollaboration;
+
+    @Autowired
+    private ImportCsvPublicOutreach importCsvPublicOutreach;
+
+    @Autowired
+    private ImportCsvResearchContractFundedCharit importCsvResearchContractFundedCharit;
+
+    @Autowired
+    private ImportCsvScientificExpertise importCsvScientificExpertise;
+
+    @Autowired
+    private ImportCsvLearnedScientificSociety importCsvLearnedScientificSociety;
+
+    @Autowired
+    private ImportCsvInstitutionalComitee importCsvInstitutionalComitee;
 
 
     /**
@@ -195,7 +221,7 @@ public class DataImporterService {
                 case ORAL_COMMUNICATION_POSTER:
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER, k -> new HashMap<>());
-                    importCsvOralCommunicationPoster.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    importCsvOralComPoster.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case MEETING_CONGRESS_ORG:
                     assert activityMap != null;
@@ -276,11 +302,58 @@ public class DataImporterService {
                             specificActivityMap,
                             journalCreatorCache);
                     break;
+                case EDITORIAL_ACTIVITY:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY, k -> new HashMap<>());
+                    importCsvEditorialActivity.importCsvList(csvList, importCsvSummary, specificActivityMap, journalCreatorCache);
+                    break;
+                case EDUCATIONAL_OUTPUT:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT, k -> new HashMap<>());
+                    importCsvEducationalOutput.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY, k -> new HashMap<>());
+                    importCsvInvolvementTrainingPedagogical.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case NATIONAL_INTERNATIONAL_COLLABORATION:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION, k -> new HashMap<>());
+                    importCsvInternationalCollaboration.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case PUBLIC_OUTREACH:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PUBLIC_OUTREACH, k -> new HashMap<>());
+                    importCsvPublicOutreach.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(
+                            TypeActivity.IdTypeActivity.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST,
+                            k -> new HashMap<>());
+                    importCsvResearchContractFundedCharit.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case SCIENTIFIC_EXPERTISE:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SCIENTIFIC_EXPERTISE, k -> new HashMap<>());
+                    importCsvScientificExpertise.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY, k -> new HashMap<>());
+                    importCsvLearnedScientificSociety.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
+                case RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY:
+                    assert activityMap != null;
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY, k -> new HashMap<>());
+                    importCsvInstitutionalComitee.importCsvList(csvList, importCsvSummary, specificActivityMap);
+                    break;
                 default:
                     break;
             }
         }
-        importCsvSummary.updateTotalActivityCount();
+        importCsvSummary.updateActivityMetric();
         return importCsvSummary;
     }
 }

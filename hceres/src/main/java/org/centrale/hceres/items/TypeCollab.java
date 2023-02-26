@@ -41,6 +41,6 @@ public class TypeCollab implements Serializable {
     @Column(name = "name_choice")
     private String nameChoice;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeCollabId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeCollab")
     private List<InternationalCollaboration> InternationalCollaborationList;
 }

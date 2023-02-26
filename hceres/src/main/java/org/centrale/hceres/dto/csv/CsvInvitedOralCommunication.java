@@ -2,21 +2,18 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.*;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 // currently invited oral communication does not have associated activity
-// it seem that OralCommunication defined in the project correspond
-// OralCommunicationPoster
+// it seem that OralComPoster defined in the project correspond
+// OralComPoster
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer> {
@@ -24,13 +21,18 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     // id activity in activity.csv
     // to get the id activity use both key:
     // the type of activity and the specific count
-    private Integer idCsvOralCommunication;
-    private Date dateCommunication;
+    private Integer idCsvOralComPoster;
+    private static final int ID_CSV_ORAL_COM_POSTER_ORDER = 0;
+    private java.sql.Date dateCommunication;
+    private static final int DATE_COMMUNICATION_ORDER = 1;
     private String title;
+    private static final int TITLE_ORDER = 2;
     private String nameMeeting;
-    private Date dateMeeting;
+    private static final int NAME_MEETING_ORDER = 3;
+    private java.sql.Date dateMeeting;
+    private static final int DATE_MEETING_ORDER = 4;
     private String location;
-
+    private static final int LOCATION_ORDER = 5;
 
     // dependency element
     private CsvActivity csvActivity;
@@ -42,26 +44,32 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
 
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvOralCommunication(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setDateCommunication(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setNameMeeting(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setDateMeeting(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setLocation(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_ORAL_COM_POSTER_ORDER,
+                        f -> this.setIdCsvOralComPoster(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(DATE_COMMUNICATION_ORDER,
+                        f -> this.setDateCommunication(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(TITLE_ORDER,
+                        f -> this.setTitle(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(NAME_MEETING_ORDER,
+                        f -> this.setNameMeeting(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(DATE_MEETING_ORDER,
+                        f -> this.setDateMeeting(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(LOCATION_ORDER,
+                        f -> this.setLocation(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvOralCommunication());
-        if (this.csvActivity == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvOralCommunication());
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_ORAL_COM_POSTER_ORDER,
+                        this.getIdCsvOralComPoster(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvOralComPoster()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override
@@ -69,11 +77,11 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
         Activity activity = this.csvActivity.convertToEntity();
         activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
 
-        OralCommunication oralCommunication = new OralCommunication();
-        oralCommunication.setOralCommunicationDat(this.getDateCommunication());
-        oralCommunication.setOralCommunicationTitle(this.getTitle());
+        OralComPoster oralComPoster = new OralComPoster();
+        oralComPoster.setOralComPosterDate(this.getDateCommunication());
+        oralComPoster.setOralComPosterTitle(this.getTitle());
         // using default value for authors as imported by csv
-        oralCommunication.setAuthors("Importé par csv");
+        oralComPoster.setAuthors("Importé par csv");
 
         Meeting meeting = new Meeting();
         meeting.setMeetingName(this.getNameMeeting());
@@ -82,14 +90,14 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
         meeting.setMeetingYear(calendar.get(Calendar.YEAR));
         meeting.setMeetingStart(this.getDateMeeting());
         meeting.setMeetingLocation(this.getLocation());
-        oralCommunication.setMeeting(meeting);
+        oralComPoster.setMeeting(meeting);
 
         // currently taking default type
-        oralCommunication.setTypeOralCommunicationId(1);
+        oralComPoster.setTypeOralComPosterId(1);
 
-        oralCommunication.setActivity(activity);
+        oralComPoster.setActivity(activity);
 
-        activity.setOralCommunication(oralCommunication);
+        activity.setOralComPoster(oralComPoster);
         return activity;
     }
 
@@ -106,11 +114,11 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     @Override
     public String getMergingKey(Activity entity) {
         return (entity.getResearcherList().get(0).getResearcherId()
-                + "_" + entity.getOralCommunication().getOralCommunicationDat()
-                + "_" + entity.getOralCommunication().getOralCommunicationTitle()
-                + "_" + entity.getOralCommunication().getMeeting().getMeetingName()
-                + "_" + entity.getOralCommunication().getMeeting().getMeetingStart()
-                + "_" + entity.getOralCommunication().getMeeting().getMeetingLocation()).toLowerCase();
+                + "_" + entity.getOralComPoster().getOralComPosterDate()
+                + "_" + entity.getOralComPoster().getOralComPosterTitle()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingName()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingStart()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingLocation()).toLowerCase();
     }
 
     @Override
@@ -120,6 +128,6 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
 
     @Override
     public Integer getIdCsv() {
-        return this.getIdCsvOralCommunication();
+        return this.getIdCsvOralComPoster();
     }
 }

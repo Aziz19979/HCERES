@@ -45,6 +45,6 @@ public class ScientificExpertiseType implements Serializable {
     private String nameChoice;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "scientificExpertiseTypeId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "scientificExpertiseType")
     private List<ScientificExpertise> scientificExpertiseList;
 }

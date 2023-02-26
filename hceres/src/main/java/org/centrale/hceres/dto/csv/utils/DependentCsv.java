@@ -21,9 +21,11 @@ public abstract class DependentCsv<E, I> implements GenericCsv<E, I> {
      * @param csvData List of data from the csv
      */
     @Override
-    public final void fillCsvData(List<?> csvData) throws CsvParseException, CsvDependencyException {
-        this.fillCsvDataWithoutDependency(csvData);
-        this.initializeDependencies();
+    public final void fillCsvData(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> this.fillCsvDataWithoutDependency(csvData),
+                this::initializeDependencies
+        );
     }
 
     /**
@@ -31,11 +33,11 @@ public abstract class DependentCsv<E, I> implements GenericCsv<E, I> {
      *
      * @param csvData List of data from the csv
      */
-    public abstract void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException;
+    public abstract void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions;
 
     /**
      * Initialize dependencies of the entity after filling the csv data containing foreign keys
      * to be used in mapping.
      */
-    public abstract void initializeDependencies() throws CsvDependencyException;
+    public abstract void initializeDependencies() throws CsvAllFieldExceptions;
 }
