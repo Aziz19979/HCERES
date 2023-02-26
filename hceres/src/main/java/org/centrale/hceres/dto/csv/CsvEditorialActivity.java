@@ -2,16 +2,13 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.*;
 import org.centrale.hceres.service.csv.JournalCreatorCache;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +22,19 @@ public class CsvEditorialActivity extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvEditorialActivity;
+    private static final int ID_CSV_EDITORIAL_ACTIVITY_ORDER = 0;
 
-    private Date startDate;
-    private Date endDate;
+    private java.sql.Date startDate;
+    private static final int START_DATE_ORDER = 1;
+    private java.sql.Date endDate;
+    private static final int END_DATE_ORDER = 2;
     private String nameJournal;
+    private static final int NAME_JOURNAL_ORDER = 3;
     private BigDecimal impactFactorJournal;
+    private static final int IMPACT_FACTOR_JOURNAL_ORDER = 4;
 
     private Integer idFunction;
+    private static final int ID_FUNCTION_ORDER = 5;
 
     // dependency element
     private CsvActivity csvActivity;
@@ -45,30 +48,38 @@ public class CsvEditorialActivity extends DependentCsv<Activity, Integer> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvEditorialActivity(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setStartDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setEndDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setNameJournal(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setImpactFactorJournal(RequestParser.getAsBigDecimal(csvData.get(fieldNumber++)));
-            this.setIdFunction(RequestParser.getAsInteger(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_EDITORIAL_ACTIVITY_ORDER,
+                        f -> this.setIdCsvEditorialActivity(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(START_DATE_ORDER,
+                        f -> this.setStartDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(END_DATE_ORDER,
+                        f -> this.setEndDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(NAME_JOURNAL_ORDER,
+                        f -> this.setNameJournal(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(IMPACT_FACTOR_JOURNAL_ORDER,
+                        f -> this.setImpactFactorJournal(RequestParser.getAsBigDecimal(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ID_FUNCTION_ORDER,
+                        f -> this.setIdFunction(RequestParser.getAsInteger(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // get the activity
-        CsvActivity csvActivityDep = this.activityIdCsvMap.get(this.getIdCsvEditorialActivity());
-        if (csvActivityDep == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvEditorialActivity());
-        }
-        this.setCsvActivity(csvActivityDep);
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_EDITORIAL_ACTIVITY_ORDER,
+                        this.getIdCsvEditorialActivity(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvEditorialActivity()),
+                        this::setCsvActivity)
+        );
     }
-
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();

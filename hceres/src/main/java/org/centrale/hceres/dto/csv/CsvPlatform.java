@@ -2,18 +2,14 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.GenericCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.Platform;
 import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +22,20 @@ public class CsvPlatform extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvPlatform;
+    private static final int ID_CSV_PLATFORM_ORDER = 0;
 
-    private Date creationDate;
+    private java.sql.Date creationDate;
+    private static final int CREATION_DATE_ORDER = 1;
     private String description;
+    private static final int DESCRIPTION_ORDER = 2;
     private String managers;
+    private static final int MANAGERS_ORDER = 3;
     private String affiliation;
+    private static final int AFFILIATION_ORDER = 4;
     private String labellisation;
+    private static final int LABELLISATION_ORDER = 5;
     private Boolean openPrivateResearchers;
+    private static final int OPEN_PRIVATE_RESEARCHERS_ORDER = 6;
 
     // dependency element
     private CsvActivity csvActivity;
@@ -43,29 +46,40 @@ public class CsvPlatform extends DependentCsv<Activity, Integer> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvPlatform(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setCreationDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setDescription(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setManagers(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setAffiliation(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setLabellisation(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setOpenPrivateResearchers(RequestParser.getAsBoolean(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_PLATFORM_ORDER,
+                        f -> this.setIdCsvPlatform(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(CREATION_DATE_ORDER,
+                        f -> this.setCreationDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(DESCRIPTION_ORDER,
+                        f -> this.setDescription(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(MANAGERS_ORDER,
+                        f -> this.setManagers(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(AFFILIATION_ORDER,
+                        f -> this.setAffiliation(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(LABELLISATION_ORDER,
+                        f -> this.setLabellisation(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(OPEN_PRIVATE_RESEARCHERS_ORDER,
+                        f -> this.setOpenPrivateResearchers(RequestParser.getAsBoolean(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // get the activity
-        CsvActivity csvActivityDep = this.activityIdCsvMap.get(this.getIdCsvPlatform());
-        if (csvActivityDep == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvPlatform());
-        }
-        this.setCsvActivity(csvActivityDep);
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_PLATFORM_ORDER,
+                        this.getIdCsvPlatform(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvPlatform()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override

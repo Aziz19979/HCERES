@@ -353,7 +353,7 @@ public class DataImporterService {
                     break;
             }
         }
-        importCsvSummary.updateTotalActivityCount();
+        importCsvSummary.updateActivityMetric();
         return importCsvSummary;
     }
 }

@@ -2,12 +2,10 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.GenericCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Laboratory;
 import org.centrale.hceres.items.Team;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
@@ -18,9 +16,11 @@ import java.util.Map;
 @Data
 public class CsvTeam extends DependentCsv<Team, Integer> {
     private Integer idTeamCsv;
+    private static final int ID_TEAM_CSV_ORDER = 0;
     private String teamName;
+    private static final int TEAM_NAME_ORDER = 1;
     private Integer laboratoryIdCsv;
-
+    private static final int LABORATORY_ID_CSV_ORDER = 2;
 
     private GenericCsv<Laboratory, Integer> csvLaboratory;
     private final Map<Integer, GenericCsv<Laboratory, Integer>> laboratoryIdCsvMap;
@@ -29,37 +29,29 @@ public class CsvTeam extends DependentCsv<Team, Integer> {
         this.laboratoryIdCsvMap = laboratoryIdCsvMap;
     }
 
-
     @Override
-    public void setIdDatabaseFromEntity(Team entity) {
-        setIdDatabase(entity.getTeamId());
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_TEAM_CSV_ORDER,
+                        f -> this.setIdTeamCsv(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(TEAM_NAME_ORDER,
+                        f -> this.setTeamName(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(LABORATORY_ID_CSV_ORDER,
+                        f -> this.setLaboratoryIdCsv(RequestParser.getAsInteger(csvData.get(f))))
+        );
     }
 
     @Override
-    public Integer getIdCsv() {
-        return this.idTeamCsv;
-    }
-
-    @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdTeamCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setTeamName(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setLaboratoryIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
-    }
-
-    @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // Set dependency on laboratory
-        if (!this.laboratoryIdCsvMap.containsKey(this.getLaboratoryIdCsv())) {
-            throw new CsvDependencyException("Laboratory with id " + this.getLaboratoryIdCsv()
-                    + " not found for team with id " + this.getIdTeamCsv());
-        }
-        this.setCsvLaboratory(this.laboratoryIdCsvMap.get(this.getLaboratoryIdCsv()));
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(LABORATORY_ID_CSV_ORDER,
+                        this.getLaboratoryIdCsv(),
+                        SupportedCsvTemplate.LABORATORY,
+                        this.laboratoryIdCsvMap.get(this.getLaboratoryIdCsv()),
+                        this::setCsvLaboratory)
+        );
     }
 
     @Override
@@ -83,4 +75,15 @@ public class CsvTeam extends DependentCsv<Team, Integer> {
                 + "_" + entity.getLaboratoryId())
                 .toLowerCase();
     }
+
+    @Override
+    public void setIdDatabaseFromEntity(Team entity) {
+        setIdDatabase(entity.getTeamId());
+    }
+
+    @Override
+    public Integer getIdCsv() {
+        return this.idTeamCsv;
+    }
+
 }

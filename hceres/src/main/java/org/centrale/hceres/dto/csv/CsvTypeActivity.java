@@ -2,7 +2,9 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
+import org.centrale.hceres.dto.csv.utils.CsvAllFieldExceptions;
+import org.centrale.hceres.dto.csv.utils.CsvParseFieldException;
+import org.centrale.hceres.dto.csv.utils.CsvParserUtil;
 import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.util.RequestParseException;
@@ -14,16 +16,16 @@ import java.util.List;
 @Data
 public class CsvTypeActivity extends InDependentCsv<TypeActivity, Integer> {
     private String nameType;
+    private static final int NAME_TYPE_ORDER = 1;
 
     @Override
-    public void fillCsvData(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setNameType(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvData(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_ORDER,
+                        f -> this.setIdCsv(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(NAME_TYPE_ORDER,
+                        f -> this.setNameType(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override

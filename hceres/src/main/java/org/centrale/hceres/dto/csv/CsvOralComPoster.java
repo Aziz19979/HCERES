@@ -2,10 +2,9 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.*;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
@@ -25,15 +24,23 @@ public class CsvOralComPoster extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvOralComPoster;
+    private static final int ID_CSV_ORAL_COM_POSTER_ORDER = 0;
     private Integer year;
+    private static final int YEAR_ORDER = 1;
     private Integer idTypeCom;
+    private static final int ID_TYPE_COM_ORDER = 2;
     private Integer idChoiceMeeting;
+    private static final int ID_CHOICE_MEETING_ORDER = 3;
     private String title;
+    private static final int TITLE_ORDER = 4;
     private String authors;
+    private static final int AUTHORS_ORDER = 5;
     private String nameMeeting;
-    private Date date;
+    private static final int NAME_MEETING_ORDER = 6;
+    private java.sql.Date date;
+    private static final int DATE_ORDER = 7;
     private String location;
-
+    private static final int LOCATION_ORDER = 8;
 
 
     // dependency element
@@ -45,42 +52,51 @@ public class CsvOralComPoster extends DependentCsv<Activity, Integer> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvOralComPoster(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setYear(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setIdTypeCom(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setIdChoiceMeeting(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setAuthors(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setNameMeeting(RequestParser.getAsString(csvData.get(fieldNumber++)));
-
-            // there is a big problem parsing date in this field as it is not in the same format as the other date
-            // it may contain also interval of dates
-            // this.setDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, this.getYear());
-            this.setDate(calendar.getTime());
-            fieldNumber++;
-            this.setLocation(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions{
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_ORAL_COM_POSTER_ORDER,
+                        f -> this.setIdCsvOralComPoster(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(YEAR_ORDER,
+                        f -> this.setYear(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(ID_TYPE_COM_ORDER,
+                        f -> this.setIdTypeCom(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(ID_CHOICE_MEETING_ORDER,
+                        f -> this.setIdChoiceMeeting(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(TITLE_ORDER,
+                        f -> this.setTitle(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(AUTHORS_ORDER,
+                        f -> this.setAuthors(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(NAME_MEETING_ORDER,
+                        f -> this.setNameMeeting(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(DATE_ORDER,
+                        f -> {
+                            // there is a big problem parsing date in this field as it is not in the same format as the other date
+                            // it may contain also interval of dates
+                            /// this.setDate(RequestParser.getAsDateCsvFormatCsvFormat(csvData.get(f)))
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.YEAR, this.getYear());
+                            this.setDate(new java.sql.Date(calendar.getTime().getTime()));
+                        }),
+                () -> CsvParserUtil.wrapCsvParseException(LOCATION_ORDER,
+                        f -> this.setLocation(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvOralComPoster());
-        if (this.csvActivity == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvOralComPoster());
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_ORAL_COM_POSTER_ORDER,
+                        this.getIdCsvOralComPoster(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvOralComPoster()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId());
 
         OralComPoster oralComPoster = new OralComPoster();
         // direct use of id present in database via sql type_oral_com_poster
@@ -111,8 +127,10 @@ public class CsvOralComPoster extends DependentCsv<Activity, Integer> {
     @Override
     public String getMergingKey() {
         return (this.getCsvActivity().getCsvResearcher().getIdDatabase()
-                + "_" + this.getDate()
+                + "_" + this.getYear()
+                + "_" + this.getIdTypeCom()
                 + "_" + this.getTitle()
+                + "_" + this.getAuthors()
                 + "_" + this.getNameMeeting()
                 + "_" + this.getDate()
                 + "_" + this.getLocation()).toLowerCase();
@@ -121,11 +139,14 @@ public class CsvOralComPoster extends DependentCsv<Activity, Integer> {
     @Override
     public String getMergingKey(Activity entity) {
         return (entity.getResearcherList().get(0).getResearcherId()
-                + "_" + entity.getOralComPoster().getOralComPosterDate()
+                + "_" + entity.getOralComPoster().getMeeting().getMeetingYear()
+                + "_" + entity.getOralComPoster().getTypeOralComPosterId()
                 + "_" + entity.getOralComPoster().getOralComPosterTitle()
+                + "_" + entity.getOralComPoster().getAuthors()
                 + "_" + entity.getOralComPoster().getMeeting().getMeetingName()
-                + "_" + entity.getOralComPoster().getMeeting().getMeetingStart()
+                + "_" + entity.getOralComPoster().getOralComPosterDate()
                 + "_" + entity.getOralComPoster().getMeeting().getMeetingLocation()).toLowerCase();
+
     }
 
     @Override

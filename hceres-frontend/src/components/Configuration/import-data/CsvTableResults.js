@@ -3,13 +3,13 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import {paginationOptions} from "../../util/BootStrapTableOptions";
 
-export default function CsvTableResults({csvResults}) {
+export default function CsvTableResults({csvResultsData, csvResultsMetaFields}) {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const headers = csvResults?.meta?.fields || [];
+    const headers = csvResultsMetaFields || [];
     const data = useMemo(()=> {
-        return csvResults?.data || [];
-    }, [csvResults]);
+        return csvResultsData || [];
+    }, [csvResultsData]);
 
     const columns = headers.map((header, index) => (
         {dataField: header, text: header}
@@ -38,6 +38,7 @@ export default function CsvTableResults({csvResults}) {
                 />
             </div>
             <BootstrapTable
+                bootstrap4={true}
                 keyField='row'
                 data={filteredData}
                 columns={columns}

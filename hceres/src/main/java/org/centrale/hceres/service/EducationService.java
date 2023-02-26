@@ -98,7 +98,7 @@ public class EducationService {
         Activity activity = new Activity();
         education.setActivity(activity);
         activity.setEducation(education);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT.getId());
+        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDUCATION_FORMATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

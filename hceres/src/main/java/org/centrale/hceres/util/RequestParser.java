@@ -81,18 +81,19 @@ public class RequestParser {
             throw new RequestParseException(new NullPointerException());
         String returnedValue = String.valueOf(string);
         if (returnedValue.length() > MAX_STRING_LENGTH)
-            throw new RequestParseException("String exceeds maximum length " + MAX_STRING_LENGTH);
+            throw new RequestParseException("String of length #[ " + returnedValue.length() + " ] exceeds maximum length "
+                    + MAX_STRING_LENGTH);
         return returnedValue.trim();
     }
 
-    public static Date getAsDate(Object date) throws RequestParseException {
+    public static java.sql.Date getAsDate(Object date) throws RequestParseException {
         return getAsDate(date, DEFAULT_DATE_FORMAT);
     }
-    public static Date getAsDateCsvFormat(Object date) throws RequestParseException {
+    public static java.sql.Date getAsDateCsvFormat(Object date) throws RequestParseException {
         return getAsDate(date, CSV_DEFAULT_DATE_FORMAT);
     }
 
-    public static Date getAsDateCsvFormatOrDefault(Object date, Date defaultValue) {
+    public static java.sql.Date getAsDateCsvFormatOrDefault(Object date, java.sql.Date defaultValue) {
         try {
             return getAsDateCsvFormat(date);
         } catch (RequestParseException e) {
@@ -100,14 +101,14 @@ public class RequestParser {
         }
     }
 
-    public static Date getAsDate(Object date, String dateFormat) throws RequestParseException {
+    public static java.sql.Date getAsDate(Object date, String dateFormat) throws RequestParseException {
         Date returnedValue = null;
         // try to convert
         SimpleDateFormat aFormater = new SimpleDateFormat(dateFormat);
         try {
             returnedValue = aFormater.parse(getAsString(date));
         } catch (ParseException e) {
-            throw new RequestParseException(e);
+            throw new RequestParseException(e.getMessage() + " Expected format: " + dateFormat, e);
         }
         return new java.sql.Date(returnedValue.getTime());
     }
