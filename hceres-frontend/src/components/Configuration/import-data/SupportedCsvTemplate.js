@@ -283,7 +283,8 @@ class SupportedCsvTemplate {
         fields: [
             "id_activity",
             "year",
-            "name_master"
+            "name_master",
+            "type_involvement_in_training",
         ],
         mergingRules: ["Merge based on year, name_master and the researcher getting it",
         ],

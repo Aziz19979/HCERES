@@ -2,15 +2,12 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.*;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +22,17 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvOralComPoster;
-    private Date dateCommunication;
+    private static final int ID_CSV_ORAL_COM_POSTER_ORDER = 0;
+    private java.sql.Date dateCommunication;
+    private static final int DATE_COMMUNICATION_ORDER = 1;
     private String title;
+    private static final int TITLE_ORDER = 2;
     private String nameMeeting;
-    private Date dateMeeting;
+    private static final int NAME_MEETING_ORDER = 3;
+    private java.sql.Date dateMeeting;
+    private static final int DATE_MEETING_ORDER = 4;
     private String location;
-
+    private static final int LOCATION_ORDER = 5;
 
     // dependency element
     private CsvActivity csvActivity;
@@ -42,26 +44,32 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
 
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvOralComPoster(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setDateCommunication(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setNameMeeting(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setDateMeeting(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setLocation(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_ORAL_COM_POSTER_ORDER,
+                        f -> this.setIdCsvOralComPoster(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(DATE_COMMUNICATION_ORDER,
+                        f -> this.setDateCommunication(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(TITLE_ORDER,
+                        f -> this.setTitle(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(NAME_MEETING_ORDER,
+                        f -> this.setNameMeeting(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(DATE_MEETING_ORDER,
+                        f -> this.setDateMeeting(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(LOCATION_ORDER,
+                        f -> this.setLocation(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvOralComPoster());
-        if (this.csvActivity == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvOralComPoster());
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_ORAL_COM_POSTER_ORDER,
+                        this.getIdCsvOralComPoster(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvOralComPoster()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override

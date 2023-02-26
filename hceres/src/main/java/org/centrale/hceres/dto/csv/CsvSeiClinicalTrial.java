@@ -2,18 +2,14 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.GenericCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.SeiClinicalTrial;
 import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,15 +24,25 @@ public class CsvSeiClinicalTrial extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvSeiClinicalTrial;
-    private Date startDate;
+    private static final int ID_CSV_SEI_CLINICAL_TRIAL_ORDER = 0;
+    private java.sql.Date startDate;
+    private static final int START_DATE_ORDER = 1;
     private Boolean coordinatorPartner;
+    private static final int COORDINATOR_PARTNER_ORDER = 2;
     private String titleClinicalTrial;
-    private Date endDate;
+    private static final int TITLE_CLINICAL_TRIAL_ORDER = 3;
+    private java.sql.Date endDate;
+    private static final int END_DATE_ORDER = 4;
     private String registrationNb;
+    private static final int REGISTRATION_NB_ORDER = 5;
     private String sponsorName;
+    private static final int SPONSOR_NAME_ORDER = 6;
     private Integer includedPatientsNb;
+    private static final int INCLUDED_PATIENTS_NB_ORDER = 7;
     private String funding;
+    private static final int FUNDING_ORDER = 8;
     private Integer fundingAmount;
+    private static final int FUNDING_AMOUNT_ORDER = 9;
 
     // dependency element
     private CsvActivity csvActivity;
@@ -47,32 +53,49 @@ public class CsvSeiClinicalTrial extends DependentCsv<Activity, Integer> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvSeiClinicalTrial(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setStartDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setCoordinatorPartner(RequestParser.getAsBoolean(csvData.get(fieldNumber++)));
-            this.setTitleClinicalTrial(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setEndDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setRegistrationNb(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setSponsorName(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setIncludedPatientsNb(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setFunding(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setFundingAmount(RequestParser.getAsInteger(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_SEI_CLINICAL_TRIAL_ORDER,
+                        f -> this.setIdCsvSeiClinicalTrial(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(START_DATE_ORDER,
+                        f -> this.setStartDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(COORDINATOR_PARTNER_ORDER,
+                        f -> this.setCoordinatorPartner(RequestParser.getAsBoolean(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(TITLE_CLINICAL_TRIAL_ORDER,
+                        f -> this.setTitleClinicalTrial(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(END_DATE_ORDER,
+                        f -> this.setEndDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(REGISTRATION_NB_ORDER,
+                        f -> this.setRegistrationNb(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(SPONSOR_NAME_ORDER,
+                        f -> this.setSponsorName(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(INCLUDED_PATIENTS_NB_ORDER,
+                        f -> this.setIncludedPatientsNb(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(FUNDING_ORDER,
+                        f -> this.setFunding(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(FUNDING_AMOUNT_ORDER,
+                        f -> this.setFundingAmount(RequestParser.getAsInteger(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // get the activity
-        CsvActivity csvActivityDep = this.activityIdCsvMap.get(this.getIdCsvSeiClinicalTrial());
-        if (csvActivityDep == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvSeiClinicalTrial());
-        }
-        this.setCsvActivity(csvActivityDep);
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_SEI_CLINICAL_TRIAL_ORDER,
+                        this.getIdCsvSeiClinicalTrial(),
+                        SupportedCsvTemplate.SEI_CLINICAL_TRIAL,
+                        this.activityIdCsvMap.get(this.getIdCsvSeiClinicalTrial()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override

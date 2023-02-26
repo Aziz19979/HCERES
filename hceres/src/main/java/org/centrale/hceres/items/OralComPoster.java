@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -53,7 +53,6 @@ public class OralComPoster implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "oral_communication_date")
-    @Temporal(TemporalType.DATE)
     private Date oralComPosterDate;
     
     @Basic(optional = false)

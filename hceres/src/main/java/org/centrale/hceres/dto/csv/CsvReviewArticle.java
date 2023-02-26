@@ -2,14 +2,13 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Journal;
 import org.centrale.hceres.items.ReviewArticle;
 import org.centrale.hceres.items.TypeActivity;
 import org.centrale.hceres.service.csv.JournalCreatorCache;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
@@ -25,11 +24,16 @@ public class CsvReviewArticle extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvReviewArticle;
-
+    private static final int ID_CSV_REVIEW_ARTICLE_ORDER = 0;
     private Integer year;
+    private static final int YEAR_ORDER = 1;
     private String nameJournal;
+    private static final int NAME_JOURNAL_ORDER = 2;
     private Integer nbReviewedArticles;
+    private static final int NB_REVIEWED_ARTICLES_ORDER = 3;
     private BigDecimal impactFactorJournal;
+    private static final int IMPACT_FACTOR_JOURNAL_ORDER = 4;
+
 
     // dependency element
     private CsvActivity csvActivity;
@@ -44,27 +48,34 @@ public class CsvReviewArticle extends DependentCsv<Activity, Integer> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvReviewArticle(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setYear(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setNameJournal(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setNbReviewedArticles(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setImpactFactorJournal(RequestParser.getAsBigDecimal(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_REVIEW_ARTICLE_ORDER,
+                        f -> this.setIdCsvReviewArticle(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(YEAR_ORDER,
+                        f -> this.setYear(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(NAME_JOURNAL_ORDER,
+                        f -> this.setNameJournal(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(NB_REVIEWED_ARTICLES_ORDER,
+                        f -> this.setNbReviewedArticles(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(IMPACT_FACTOR_JOURNAL_ORDER,
+                        f -> this.setImpactFactorJournal(RequestParser.getAsBigDecimal(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // get the activity
-        CsvActivity csvActivityDep = this.activityIdCsvMap.get(this.getIdCsvReviewArticle());
-        if (csvActivityDep == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvReviewArticle());
-        }
-        this.setCsvActivity(csvActivityDep);
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_REVIEW_ARTICLE_ORDER,
+                        this.getIdCsvReviewArticle(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvReviewArticle()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override

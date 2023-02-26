@@ -2,19 +2,13 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.GenericCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.InternationalCollaboration;
 import org.centrale.hceres.items.TypeActivity;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,19 +20,32 @@ public class CsvInternationalCollaboration extends DependentCsv<Activity, Intege
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvInternationalCollaboration;
+    private static final int ID_CSV_INTERNATIONAL_COLLABORATION_ORDER = 0;
 
-    private Date dateProjectStart;
+    private java.sql.Date dateProjectStart;
+    private static final int DATE_PROJECT_START_ORDER = 1;
     private Integer idType;
+    private static final int ID_TYPE_ORDER = 2;
     private String partnerEntity;
+    private static final int PARTNER_ENTITY_ORDER = 3;
     private String countryStateCity;
+    private static final int COUNTRY_STATE_CITY_ORDER = 4;
     private String piPartners;
+    private static final int PI_PARTNERS_ORDER = 5;
     private String mailPartners;
+    private static final int MAIL_PARTNERS_ORDER = 6;
     private Boolean activeProject;
+    private static final int ACTIVE_PROJECT_ORDER = 7;
     private String refJointPublication;
+    private static final int REF_JOINT_PUBLICATION_ORDER = 8;
     private Boolean umr1064Coordinated;
+    private static final int UMR1064_COORDINATED_ORDER = 9;
     private Boolean agreementSigned;
+    private static final int AGREEMENT_SIGNED_ORDER = 10;
     private Integer numberResultingPublications;
+    private static final int NUMBER_RESULTING_PUBLICATIONS_ORDER = 11;
     private String associatedFunding;
+    private static final int ASSOCIATED_FUNDING_ORDER = 12;
 
 
     // dependency element
@@ -50,35 +57,58 @@ public class CsvInternationalCollaboration extends DependentCsv<Activity, Intege
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvInternationalCollaboration(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setDateProjectStart(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setIdType(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setPartnerEntity(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setCountryStateCity(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setPiPartners(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setMailPartners(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setActiveProject(RequestParser.getAsBoolean(csvData.get(fieldNumber++)));
-            this.setRefJointPublication(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setUmr1064Coordinated(RequestParser.getAsBoolean(csvData.get(fieldNumber++)));
-            this.setAgreementSigned(RequestParser.getAsBoolean(csvData.get(fieldNumber++)));
-            this.setNumberResultingPublications(RequestParser.getAsIntegerOrDefault(csvData.get(fieldNumber++), 0));
-            this.setAssociatedFunding(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_INTERNATIONAL_COLLABORATION_ORDER,
+                        f -> this.setIdCsvInternationalCollaboration(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(DATE_PROJECT_START_ORDER,
+                        f -> this.setDateProjectStart(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ID_TYPE_ORDER,
+                        f -> this.setIdType(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(PARTNER_ENTITY_ORDER,
+                        f -> this.setPartnerEntity(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(COUNTRY_STATE_CITY_ORDER,
+                        f -> this.setCountryStateCity(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(PI_PARTNERS_ORDER,
+                        f -> this.setPiPartners(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(MAIL_PARTNERS_ORDER,
+                        f -> this.setMailPartners(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ACTIVE_PROJECT_ORDER,
+                        f -> this.setActiveProject(RequestParser.getAsBoolean(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(REF_JOINT_PUBLICATION_ORDER,
+                        f -> this.setRefJointPublication(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(UMR1064_COORDINATED_ORDER,
+                        f -> this.setUmr1064Coordinated(RequestParser.getAsBoolean(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(AGREEMENT_SIGNED_ORDER,
+                        f -> this.setAgreementSigned(RequestParser.getAsBoolean(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(NUMBER_RESULTING_PUBLICATIONS_ORDER,
+                        f -> this.setNumberResultingPublications(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ASSOCIATED_FUNDING_ORDER,
+                        f -> this.setAssociatedFunding(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // get the activity
-        CsvActivity csvActivityDep = this.activityIdCsvMap.get(this.getIdCsvInternationalCollaboration());
-        if (csvActivityDep == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvInternationalCollaboration());
-        }
-        this.setCsvActivity(csvActivityDep);
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_INTERNATIONAL_COLLABORATION_ORDER,
+                        this.getIdCsvInternationalCollaboration(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvInternationalCollaboration()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override

@@ -3494,6 +3494,10 @@ INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (39, 'Sei 
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (40, 'Sei Industrial R D Contract');
 INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (41, 'Sei Clinical Trial');
 
+-- Application defined activity types
+
+INSERT INTO public.type_activity (id_type_activity, name_type) VALUES (1001, 'Education Formation');
+
 
 --
 -- TOC entry 3867 (class 0 OID 25076)
