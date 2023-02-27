@@ -124,7 +124,7 @@ public class CsvPublication extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.PUBLICATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.PUBLICATION.getId());
         Publication publication = new Publication();
         publication.setTitle(this.getTitle());
         publication.setAuthors(this.getAuthors());

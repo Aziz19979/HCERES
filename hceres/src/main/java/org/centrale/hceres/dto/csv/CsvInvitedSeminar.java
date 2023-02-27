@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.InvitedSeminar;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
@@ -69,7 +69,7 @@ public class CsvInvitedSeminar extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_SEMINAR.getId());
+        activity.setIdTypeActivity(TypeActivityId.INVITED_SEMINAR.getId());
         InvitedSeminar invitedSeminar = new InvitedSeminar();
         invitedSeminar.setDate(this.getDate());
         invitedSeminar.setTitleSeminar(this.getTitleSeminar());

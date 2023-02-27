@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.InstitutionalComitee;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
@@ -66,7 +66,7 @@ public class CsvInstitutionalComitee extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY.getId());
+        activity.setIdTypeActivity(TypeActivityId.RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY.getId());
         InstitutionalComitee institutionalComitee = new InstitutionalComitee();
         institutionalComitee.setYear(this.getYear());
         institutionalComitee.setInstitutionalComiteeName(this.getNameInstitutionalComitee());

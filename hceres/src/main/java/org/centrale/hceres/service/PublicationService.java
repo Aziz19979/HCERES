@@ -1,12 +1,9 @@
 package org.centrale.hceres.service;
 
-import java.text.ParseException;
 import java.util.*;
 
-import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Publication;
-import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.*;
+
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -29,7 +26,7 @@ public class PublicationService {
      * permet de retourner la liste
      */
     public List<Activity> getPublications() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.PUBLICATION.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.PUBLICATION.getId());
     }
 
     /**
@@ -60,7 +57,7 @@ public class PublicationService {
         Activity activity = new Activity();
         publication.setActivity(activity);
         activity.setPublication(publication);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.PUBLICATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.PUBLICATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

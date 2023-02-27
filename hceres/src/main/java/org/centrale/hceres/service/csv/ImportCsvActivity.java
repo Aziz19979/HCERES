@@ -8,6 +8,7 @@ import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,14 @@ import java.util.*;
 public class ImportCsvActivity {
     /**
      * @param activityRows list of array having fields as defined in csv
-     * @return map from csv Activity type as defined in {@link org.centrale.hceres.items.TypeActivity.IdTypeActivity}
+     * @return map from csv Activity type as defined in {@link org.centrale.hceres.items.TypeActivityId}
      * to all activities of that type using specific activity count as key from csv file
      */
-    public Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> importCsvList(List<?> activityRows, ImportCsvSummary importCsvSummary,
+    public Map<TypeActivityId, Map<Integer, CsvActivity>> importCsvList(List<?> activityRows, ImportCsvSummary importCsvSummary,
                                                                  Map<Integer, GenericCsv<Researcher, Integer>> csvIdToResearcherMap,
                                                                  Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap) {
         // map to store imported Activity from csv,
-        EnumMap<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = new EnumMap<>(TypeActivity.IdTypeActivity.class);
+        EnumMap<TypeActivityId, Map<Integer, CsvActivity>> activityMap = new EnumMap<>(TypeActivityId.class);
         List<ImportCsvError> errors = new ArrayList<>();
 
         // parse and collect data from csv
@@ -46,7 +47,7 @@ public class ImportCsvActivity {
                 continue;
             }
             int activityTypeId = csvActivity.getCsvTypeActivity().getIdDatabase();
-            TypeActivity.IdTypeActivity activityType = TypeActivity.IdTypeActivity.fromId(activityTypeId);
+            TypeActivityId activityType = TypeActivityId.fromId(activityTypeId);
             activityMap.computeIfAbsent(activityType, k -> new HashMap<>());
             activityMap.get(activityType).put(csvActivity.getSpecificActivityCount(), csvActivity);
         }

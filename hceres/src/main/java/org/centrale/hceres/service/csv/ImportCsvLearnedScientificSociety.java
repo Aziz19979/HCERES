@@ -6,7 +6,7 @@ import org.centrale.hceres.dto.csv.CsvLearnedScientificSociety;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -31,7 +31,7 @@ public class ImportCsvLearnedScientificSociety {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 learnedScientificSocietyRows,
                 () -> new CsvLearnedScientificSociety(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY,
                 importCsvSummary);

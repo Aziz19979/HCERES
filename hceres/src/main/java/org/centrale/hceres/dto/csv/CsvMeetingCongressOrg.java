@@ -73,7 +73,7 @@ public class CsvMeetingCongressOrg extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.MEETING_CONGRESS_ORG.getId());
+        activity.setIdTypeActivity(TypeActivityId.MEETING_CONGRESS_ORG.getId());
 
         MeetingCongressOrg meetingCongressOrg = new MeetingCongressOrg();
 

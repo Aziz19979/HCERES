@@ -6,7 +6,7 @@ import org.centrale.hceres.dto.csv.CsvBook;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -33,7 +33,7 @@ public class ImportCsvBook {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 bookRows,
                 () -> new CsvBook(activityMap, languageCreatorCache),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.BOOK.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.BOOK.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.BOOK,
                 importCsvSummary);

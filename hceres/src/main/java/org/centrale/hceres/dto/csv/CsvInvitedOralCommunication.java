@@ -75,7 +75,7 @@ public class CsvInvitedOralCommunication extends DependentCsv<Activity, Integer>
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.INVITED_ORAL_COMMUNICATION.getId());
 
         OralComPoster oralComPoster = new OralComPoster();
         oralComPoster.setOralComPosterDate(this.getDateCommunication());

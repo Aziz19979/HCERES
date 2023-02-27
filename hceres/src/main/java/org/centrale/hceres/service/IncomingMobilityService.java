@@ -7,7 +7,7 @@ import java.util.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.IncomingMobility;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.IncomingMobilityRepository;
 import org.centrale.hceres.repository.ResearchRepository;
@@ -35,7 +35,7 @@ public class IncomingMobilityService {
      * permet de retourner la liste
      */
     public List<Activity> getIncomingMobilities() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INCOMING_MOBILITY.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.INCOMING_MOBILITY.getId());
     }
 
     /**
@@ -104,7 +104,7 @@ public class IncomingMobilityService {
         Activity activity = new Activity();
         incomingMobility.setActivity(activity);
         activity.setIncomingMobility(incomingMobility);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INCOMING_MOBILITY.getId());
+        activity.setIdTypeActivity(TypeActivityId.INCOMING_MOBILITY.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

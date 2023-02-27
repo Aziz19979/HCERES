@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Book;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.LanguageCreatorCache;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
@@ -82,7 +82,7 @@ public class CsvBook extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.BOOK.getId());
+        activity.setIdTypeActivity(TypeActivityId.BOOK.getId());
 
         Book book = new Book();
         book.setPublicationDate(this.getPublicationDate());

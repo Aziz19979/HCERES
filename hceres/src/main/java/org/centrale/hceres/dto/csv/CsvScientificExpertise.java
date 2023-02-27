@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.ScientificExpertise;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -77,7 +77,7 @@ public class CsvScientificExpertise extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SCIENTIFIC_EXPERTISE.getId());
+        activity.setIdTypeActivity(TypeActivityId.SCIENTIFIC_EXPERTISE.getId());
         ScientificExpertise scientificExpertise = new ScientificExpertise();
         scientificExpertise.setStartDate(this.getStartDate());
         // direct use of id saved in database scientific_expertise_type
