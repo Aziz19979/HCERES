@@ -7,7 +7,9 @@ import {Alert, ListGroup, OverlayTrigger, Tooltip} from "react-bootstrap";
 
 
 export default function ImportCsvErrors({targetCsvTemplate, csvFormatToFileNamesMap, csvResults, importCsvErrorList}) {
-    const headers = csvResults?.meta?.fields || [];
+    const headers = useMemo(() => {
+        return csvResults.meta.fields;
+    }, [csvResults]);
     // Example of sent data
     // {
     //     "type": "CsvParseFieldException",
@@ -25,7 +27,7 @@ export default function ImportCsvErrors({targetCsvTemplate, csvFormatToFileNames
             rowValue: csvResults.data[error.row - 1],
             errorKey: error.type + error.code + error.row + error.fieldNumber,
         }));
-    }, [importCsvErrorList]);
+    }, [importCsvErrorList, csvResults, headers]);
 
     function showTooltip(props) {
         return <Tooltip id={"on-hover-row-content"}>

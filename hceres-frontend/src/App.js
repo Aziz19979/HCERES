@@ -12,7 +12,6 @@ import PageNotExist from "./components/pageNotExist";
 import ActivityList from "./components/Activity/ActivityList";
 import DataImporter from "./components/Configuration/import-data/DataImporter";
 import Statistiques from "./components/Statistiques/Statistiques";
-import PublicationStats from './components/Statistiques/publications/PublicationStats';
 
 function App() {
     return (

@@ -57,10 +57,6 @@ public class Team implements Serializable {
     private Date teamLastReport;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "teamList")
-    private List<Activity> activityList;
-
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
     private List<TeamReferent> teamReferentList;
 

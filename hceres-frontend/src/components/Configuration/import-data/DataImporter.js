@@ -10,7 +10,6 @@ import CsvSampleDownloader from "./CsvSampleDownloader";
 import MyGlobalVar from "../../../services/MyGlobalVar";
 import {purgeDatabase} from "../../../services/Configuration/DataPurgerActions";
 import ImportCsvSummary from "./ImportCsvSummary";
-import ImportCsvErrors from "./ImportCsvErrors";
 
 function createInverseMap(originalMap) {
     return Array.from(originalMap.entries()).reduce(
