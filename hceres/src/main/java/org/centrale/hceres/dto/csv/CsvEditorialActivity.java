@@ -83,7 +83,7 @@ public class CsvEditorialActivity extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY.getId());
+        activity.setIdTypeActivity(TypeActivityId.EDITORIAL_ACTIVITY.getId());
         EditorialActivity editorialActivity = new EditorialActivity();
         editorialActivity.setStartDate(this.getStartDate());
         editorialActivity.setEndDate(this.getEndDate());

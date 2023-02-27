@@ -3,11 +3,9 @@ package org.centrale.hceres.dto.csv;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.CsvAllFieldExceptions;
-import org.centrale.hceres.dto.csv.utils.CsvParseFieldException;
 import org.centrale.hceres.dto.csv.utils.CsvParserUtil;
 import org.centrale.hceres.dto.csv.utils.InDependentCsv;
 import org.centrale.hceres.items.TypeActivity;
-import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
 import java.util.List;

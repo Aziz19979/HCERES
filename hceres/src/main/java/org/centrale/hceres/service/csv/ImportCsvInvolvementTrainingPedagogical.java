@@ -6,7 +6,7 @@ import org.centrale.hceres.dto.csv.CsvInvolvementTrainingPedagogical;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -31,7 +31,7 @@ public class ImportCsvInvolvementTrainingPedagogical {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 involvementTrainingPedagogicalRows,
                 () -> new CsvInvolvementTrainingPedagogical(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY,
                 importCsvSummary);

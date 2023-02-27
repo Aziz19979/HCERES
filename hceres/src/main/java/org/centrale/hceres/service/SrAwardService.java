@@ -6,7 +6,7 @@ import java.util.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SrAward;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -29,7 +29,7 @@ public class SrAwardService {
      * permet de retourner la liste
      */
     public List<Activity> getSrAwards() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SR_AWARD.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.SR_AWARD.getId());
     }
 
     /**
@@ -63,7 +63,7 @@ public class SrAwardService {
         Activity activity = new Activity();
         srAward.setActivity(activity);
         activity.setSrAward(srAward);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SR_AWARD.getId());
+        activity.setIdTypeActivity(TypeActivityId.SR_AWARD.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

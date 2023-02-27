@@ -50,17 +50,17 @@ public class ToolProductType implements Serializable {
 
     @Getter
     public enum IdToolProductType {
-        UNDEFINED(0, TypeActivity.IdTypeActivity.UNDEFINED),
-        DECISION_SUPPORT_TOOL(1, TypeActivity.IdTypeActivity.TOOL_PRODUCT_DECISION_SUPPORT_TOOL),
-        BIOCOLLECTION(2, TypeActivity.IdTypeActivity.TOOL_PRODUCT_BIOCOLLECTION),
-        SOFTWARE(3, TypeActivity.IdTypeActivity.TOOL_PRODUCT_SOFTWARE),
-        DATABASE(4, TypeActivity.IdTypeActivity.TOOL_PRODUCT_DATABASE),
-        COHORT(5, TypeActivity.IdTypeActivity.TOOL_PRODUCT_COHORT);
+        UNDEFINED(0, TypeActivityId.UNDEFINED),
+        DECISION_SUPPORT_TOOL(1, TypeActivityId.TOOL_PRODUCT_DECISION_SUPPORT_TOOL),
+        BIOCOLLECTION(2, TypeActivityId.TOOL_PRODUCT_BIOCOLLECTION),
+        SOFTWARE(3, TypeActivityId.TOOL_PRODUCT_SOFTWARE),
+        DATABASE(4, TypeActivityId.TOOL_PRODUCT_DATABASE),
+        COHORT(5, TypeActivityId.TOOL_PRODUCT_COHORT);
 
         private final int id;
-        private final TypeActivity.IdTypeActivity idTypeActivity;
+        private final TypeActivityId idTypeActivity;
 
-        IdToolProductType(int id, TypeActivity.IdTypeActivity idTypeActivity) {
+        IdToolProductType(int id, TypeActivityId idTypeActivity) {
             this.id = id;
             this.idTypeActivity = idTypeActivity;
         }

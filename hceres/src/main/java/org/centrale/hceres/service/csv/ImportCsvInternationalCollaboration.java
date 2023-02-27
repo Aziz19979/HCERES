@@ -6,7 +6,7 @@ import org.centrale.hceres.dto.csv.CsvInternationalCollaboration;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -31,7 +31,7 @@ public class ImportCsvInternationalCollaboration {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 internationalCollaborationRows,
                 () -> new CsvInternationalCollaboration(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.NATIONAL_INTERNATIONAL_COLLABORATION.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.NATIONAL_INTERNATIONAL_COLLABORATION,
                 importCsvSummary);

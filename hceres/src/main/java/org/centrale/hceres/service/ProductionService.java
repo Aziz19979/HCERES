@@ -4,9 +4,7 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
-import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.ResearchRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
@@ -17,11 +15,6 @@ import org.springframework.stereotype.Service;
 import lombok.Data;
 
 //items
-import org.centrale.hceres.items.ToolProductType;
-import org.centrale.hceres.items.ToolProduct;
-import org.centrale.hceres.items.ToolProductInvolvement;
-import org.centrale.hceres.items.ToolProductInvolvementPK;
-import org.centrale.hceres.items.ToolProductRole;
 //repository
 import org.centrale.hceres.repository.ProductionRepository;
 import org.centrale.hceres.repository.ProductInvolvementRepository;

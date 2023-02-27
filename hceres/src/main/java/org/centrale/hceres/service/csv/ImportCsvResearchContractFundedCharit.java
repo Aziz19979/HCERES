@@ -6,7 +6,7 @@ import org.centrale.hceres.dto.csv.CsvResearchContractFundedCharit;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -31,7 +31,7 @@ public class ImportCsvResearchContractFundedCharit {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 researchContractFundedCharitRows,
                 () -> new CsvResearchContractFundedCharit(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST,
                 importCsvSummary);

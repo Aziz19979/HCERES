@@ -26,7 +26,7 @@ public class EditorialService {
      * permet de retourner la liste
      */
     public List<Activity> getEditorialActivities() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.EDITORIAL_ACTIVITY.getId());
     }
 
     /**
@@ -57,7 +57,7 @@ public class EditorialService {
         Activity activity = new Activity();
         editorial.setActivity(activity);
         activity.setEditorialActivity(editorial);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY.getId());
+        activity.setIdTypeActivity(TypeActivityId.EDITORIAL_ACTIVITY.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

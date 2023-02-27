@@ -96,7 +96,7 @@ public class CsvOralComPoster extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId());
+        activity.setIdTypeActivity(TypeActivityId.ORAL_COMMUNICATION_POSTER.getId());
 
         OralComPoster oralComPoster = new OralComPoster();
         // direct use of id present in database via sql type_oral_com_poster

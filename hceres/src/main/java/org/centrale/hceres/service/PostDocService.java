@@ -26,7 +26,7 @@ public class PostDocService {
      * permet de retourner la liste
      */
     public List<Activity> getPostDocs() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.POST_DOC.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.POST_DOC.getId());
     }
 
     /**
@@ -72,7 +72,7 @@ public class PostDocService {
         Activity activity = new Activity();
         postDocToSave.setActivity(activity);
         activity.setPostDoc(postDocToSave);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.POST_DOC.getId());
+        activity.setIdTypeActivity(TypeActivityId.POST_DOC.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

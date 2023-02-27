@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SrAward;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -70,7 +70,7 @@ public class CsvSrAward extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SR_AWARD.getId());
+        activity.setIdTypeActivity(TypeActivityId.SR_AWARD.getId());
         SrAward srAward = new SrAward();
         srAward.setAwardDate(this.getAwardDate());
         srAward.setAwardeeName(this.getAwardeeName());

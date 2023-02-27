@@ -67,7 +67,7 @@ public class CsvLearnedScientificSociety extends DependentCsv<Activity, Integer>
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY.getId());
+        activity.setIdTypeActivity(TypeActivityId.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY.getId());
         LearnedScientificSociety learnedScientificSociety = new LearnedScientificSociety();
         learnedScientificSociety.setStartDate(this.getStartDate());
         learnedScientificSociety.setEndDate(this.getEndDate());
