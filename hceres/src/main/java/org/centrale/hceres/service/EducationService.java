@@ -10,7 +10,7 @@ import org.centrale.hceres.items.Education;
 import org.centrale.hceres.items.EducationInvolvement;
 import org.centrale.hceres.items.EducationLevel;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.EducationInvolvementRespository;
 import org.centrale.hceres.repository.EducationLevelRepository;
@@ -48,7 +48,7 @@ public class EducationService {
      * permet de retourner la liste
      */
     public List<Activity> getEducations() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.EDUCATIONAL_OUTPUT.getId());
     }
 
     /**
@@ -98,7 +98,7 @@ public class EducationService {
         Activity activity = new Activity();
         education.setActivity(activity);
         activity.setEducation(education);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDUCATION_FORMATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.EDUCATION_FORMATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

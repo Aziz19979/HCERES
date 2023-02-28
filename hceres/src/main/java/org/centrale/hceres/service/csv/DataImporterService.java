@@ -157,7 +157,7 @@ public class DataImporterService {
         Map<String, GenericCsv<BelongsTeam, String>> csvIdToBelongsTeamMap = null;
         Map<Integer, GenericCsv<Nationality, Integer>> csvIdToNationalityMap = null;
         Map<Integer, GenericCsv<TypeActivity, Integer>> csvIdToTypeActivityMap = null;
-        Map<TypeActivity.IdTypeActivity, Map<Integer, CsvActivity>> activityMap = null;
+        Map<TypeActivityId, Map<Integer, CsvActivity>> activityMap = null;
         Map<Integer, CsvActivity> specificActivityMap = null;
         for (Map.Entry<SupportedCsvTemplate, List<?>> entry : csvDataRequest.entrySet()) {
             SupportedCsvTemplate supportedCsvTemplate = entry.getKey();
@@ -202,35 +202,35 @@ public class DataImporterService {
                     break;
                 case SR_AWARD:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SR_AWARD, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.SR_AWARD, k -> new HashMap<>());
                     importCsvSrAward.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case BOOK:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.BOOK, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.BOOK, k -> new HashMap<>());
                     importCsvBook.importCsvList(csvList, importCsvSummary,
                             specificActivityMap,
                             languageCreatorCache);
                     break;
                 case INVITED_ORAL_COMMUNICATION:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.INVITED_ORAL_COMMUNICATION, k -> new HashMap<>());
                     importCsvInvitedOralCommunication.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
 
                 case ORAL_COMMUNICATION_POSTER:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.ORAL_COMMUNICATION_POSTER, k -> new HashMap<>());
                     importCsvOralComPoster.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case MEETING_CONGRESS_ORG:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.MEETING_CONGRESS_ORG, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.MEETING_CONGRESS_ORG, k -> new HashMap<>());
                     importCsvMeetingCongressOrg.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case INVITED_SEMINAR:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVITED_SEMINAR, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.INVITED_SEMINAR, k -> new HashMap<>());
                     importCsvInvitedSeminar.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case LANGUAGE:
@@ -244,7 +244,7 @@ public class DataImporterService {
                     break;
                 case PUBLICATION:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PUBLICATION, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.PUBLICATION, k -> new HashMap<>());
                     importCsvPublication.importCsvList(csvList, importCsvSummary,
                             specificActivityMap,
                             csvIdToPublicationTypeMap);
@@ -254,99 +254,99 @@ public class DataImporterService {
                     break;
                 case SEI_CLINICAL_TRIAL:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.SEI_CLINICAL_TRIAL, k -> new HashMap<>());
                     importCsvSeiClinicalTrial.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case PLATFORM:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PLATFORM, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.PLATFORM, k -> new HashMap<>());
                     importCsvPlatform.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case SEI_INDUSTRIAL_R_D_CONTRACT:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.SEI_INDUSTRIAL_R_D_CONTRACT, k -> new HashMap<>());
                     importCsvSeiIndustrialRDContract.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case TOOL_PRODUCT_COHORT:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_COHORT, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.TOOL_PRODUCT_COHORT, k -> new HashMap<>());
                     importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
                             ToolProductType.IdToolProductType.COHORT,
                             supportedCsvTemplate);
                     break;
                 case TOOL_PRODUCT_DATABASE:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_DATABASE, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.TOOL_PRODUCT_DATABASE, k -> new HashMap<>());
                     importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
                             ToolProductType.IdToolProductType.DATABASE,
                             supportedCsvTemplate);
                     break;
                 case TOOL_PRODUCT_SOFTWARE:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_SOFTWARE, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.TOOL_PRODUCT_SOFTWARE, k -> new HashMap<>());
                     importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
                             ToolProductType.IdToolProductType.SOFTWARE,
                             supportedCsvTemplate);
                     break;
                 case TOOL_PRODUCT_DECISION_SUPPORT_TOOL:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.TOOL_PRODUCT_DECISION_SUPPORT_TOOL, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.TOOL_PRODUCT_DECISION_SUPPORT_TOOL, k -> new HashMap<>());
                     importCsvToolProduct.importCsvList(csvList, importCsvSummary, specificActivityMap,
                             ToolProductType.IdToolProductType.DECISION_SUPPORT_TOOL,
                             supportedCsvTemplate);
                     break;
                 case REVIEWING_JOURNAL_ARTICLES:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.REVIEWING_JOURNAL_ARTICLES, k -> new HashMap<>());
                     importCsvReviewArticle.importCsvList(csvList, importCsvSummary,
                             specificActivityMap,
                             journalCreatorCache);
                     break;
                 case EDITORIAL_ACTIVITY:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDITORIAL_ACTIVITY, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.EDITORIAL_ACTIVITY, k -> new HashMap<>());
                     importCsvEditorialActivity.importCsvList(csvList, importCsvSummary, specificActivityMap, journalCreatorCache);
                     break;
                 case EDUCATIONAL_OUTPUT:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.EDUCATIONAL_OUTPUT, k -> new HashMap<>());
                     importCsvEducationalOutput.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY, k -> new HashMap<>());
                     importCsvInvolvementTrainingPedagogical.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case NATIONAL_INTERNATIONAL_COLLABORATION:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.NATIONAL_INTERNATIONAL_COLLABORATION, k -> new HashMap<>());
                     importCsvInternationalCollaboration.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case PUBLIC_OUTREACH:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.PUBLIC_OUTREACH, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.PUBLIC_OUTREACH, k -> new HashMap<>());
                     importCsvPublicOutreach.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST:
                     assert activityMap != null;
                     specificActivityMap = activityMap.computeIfAbsent(
-                            TypeActivity.IdTypeActivity.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST,
+                            TypeActivityId.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST,
                             k -> new HashMap<>());
                     importCsvResearchContractFundedCharit.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case SCIENTIFIC_EXPERTISE:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SCIENTIFIC_EXPERTISE, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.SCIENTIFIC_EXPERTISE, k -> new HashMap<>());
                     importCsvScientificExpertise.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY, k -> new HashMap<>());
                     importCsvLearnedScientificSociety.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 case RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY:
                     assert activityMap != null;
-                    specificActivityMap = activityMap.computeIfAbsent(TypeActivity.IdTypeActivity.RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY, k -> new HashMap<>());
+                    specificActivityMap = activityMap.computeIfAbsent(TypeActivityId.RESPONSIBILITY_INSTITUTIONAL_COMITEE_JURY, k -> new HashMap<>());
                     importCsvInstitutionalComitee.importCsvList(csvList, importCsvSummary, specificActivityMap);
                     break;
                 default:

@@ -6,7 +6,7 @@ import org.centrale.hceres.dto.csv.CsvPlatform;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -31,7 +31,7 @@ public class ImportCsvPlatform {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 platformRows,
                 () -> new CsvPlatform(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.PLATFORM.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.PLATFORM.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.PLATFORM,
                 importCsvSummary);

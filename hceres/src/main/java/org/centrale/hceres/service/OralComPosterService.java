@@ -6,7 +6,7 @@ import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.OralComPoster;
 import org.centrale.hceres.items.Meeting;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.MeetingCongressOrgRepository;
 import org.centrale.hceres.repository.MeetingRepository;
@@ -44,7 +44,7 @@ public class OralComPosterService {
     private MeetingCongressOrgRepository meetingCongressOrgRepo;
 
     public List<Activity> getOralComPosters() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.INVITED_ORAL_COMMUNICATION.getId());
     }
 
     public void deleteOralComPoster(Integer id) {
@@ -89,7 +89,7 @@ public class OralComPosterService {
         Activity activity = new Activity();
         oralComPoster.setActivity(activity);
         activity.setOralComPoster(oralComPoster);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVITED_ORAL_COMMUNICATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.INVITED_ORAL_COMMUNICATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

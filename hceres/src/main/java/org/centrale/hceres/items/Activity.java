@@ -52,13 +52,6 @@ public class Activity implements Serializable {
         if (typeActivity != null) setIdTypeActivity(typeActivity.getIdTypeActivity());
     }
 
-    @JoinTable(name = "activity_team", joinColumns = {
-            @JoinColumn(name = "id_activity", referencedColumnName = "id_activity")}, inverseJoinColumns = {
-            @JoinColumn(name = "team_id", referencedColumnName = "team_id")})
-    @ManyToMany
-    @JsonIgnore
-    private List<Team> teamList;
-
     @JoinTable(name = "activity_researcher", joinColumns = {
             @JoinColumn(name = "id_activity", referencedColumnName = "id_activity")}, inverseJoinColumns = {
             @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")})
@@ -78,7 +71,6 @@ public class Activity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private InternationalCollaboration internationalCollaboration;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
-    @JsonIgnore
     private Publication publication;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "activity")
     private ScientificExpertise scientificExpertise;

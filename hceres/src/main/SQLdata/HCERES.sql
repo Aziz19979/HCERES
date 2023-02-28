@@ -77,18 +77,6 @@ CREATE TABLE public.activity_researcher (
     id_activity integer NOT NULL
 );
 
-
---
--- TOC entry 202 (class 1259 OID 24669)
--- Name: activity_team; Type: TABLE; Schema: public; 
---
-
-CREATE TABLE public.activity_team (
-    id_activity integer NOT NULL,
-    team_id integer NOT NULL
-);
-
-
 --
 -- TOC entry 203 (class 1259 OID 24672)
 -- Name: admin; Type: TABLE; Schema: public; 
@@ -2658,13 +2646,6 @@ ALTER TABLE ONLY public.type_thesis ALTER COLUMN type_thesis_id SET DEFAULT next
 --
 
 
---
--- TOC entry 3753 (class 0 OID 24669)
--- Dependencies: 202
--- Data for Name: activity_team; Type: TABLE DATA; Schema: public; 
---
-
-
 
 --
 -- TOC entry 3754 (class 0 OID 24672)
@@ -3554,16 +3535,6 @@ ALTER TABLE ONLY public.connection
 ALTER TABLE ONLY public.activity_researcher
     ADD CONSTRAINT pk_activity_researcher PRIMARY KEY (researcher_id, id_activity);
 
-
---
--- TOC entry 3369 (class 2606 OID 25176)
--- Name: activity_team pk_activity_team; Type: CONSTRAINT; Schema: public; 
---
-
-ALTER TABLE ONLY public.activity_team
-    ADD CONSTRAINT pk_activity_team PRIMARY KEY (id_activity, team_id);
-
-
 --
 -- TOC entry 3371 (class 2606 OID 25178)
 -- Name: admin pk_admin; Type: CONSTRAINT; Schema: public; 
@@ -4282,16 +4253,6 @@ ALTER TABLE ONLY public.type_thesis
 ALTER TABLE ONLY public.activity_researcher
     ADD CONSTRAINT activity_activity_researcher_fk FOREIGN KEY (id_activity) REFERENCES public.activity(id_activity);
 
-
---
--- TOC entry 3535 (class 2606 OID 25342)
--- Name: activity_team activity_activity_team_fk; Type: FK CONSTRAINT; Schema: public; 
---
-
-ALTER TABLE ONLY public.activity_team
-    ADD CONSTRAINT activity_activity_team_fk FOREIGN KEY (id_activity) REFERENCES public.activity(id_activity);
-
-
 --
 -- TOC entry 3542 (class 2606 OID 25347)
 -- Name: book_chapter activity_book_chapter_fk; Type: FK CONSTRAINT; Schema: public; 
@@ -4974,16 +4935,6 @@ ALTER TABLE ONLY public.evaluation_thesis
 
 ALTER TABLE ONLY public.contract
     ADD CONSTRAINT status_contract_fk FOREIGN KEY (id_status) REFERENCES public.status(id_status);
-
-
---
--- TOC entry 3536 (class 2606 OID 25727)
--- Name: activity_team team_activity_team_fk; Type: FK CONSTRAINT; Schema: public; 
---
-
-ALTER TABLE ONLY public.activity_team
-    ADD CONSTRAINT team_activity_team_fk FOREIGN KEY (team_id) REFERENCES public.team(team_id);
-
 
 --
 -- TOC entry 3539 (class 2606 OID 25732)

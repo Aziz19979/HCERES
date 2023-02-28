@@ -7,7 +7,7 @@ import org.centrale.hceres.dto.csv.CsvOralComPoster;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
@@ -33,7 +33,7 @@ public class ImportCsvOralComPoster {
         return new GenericCsvImporter<Activity, Integer>().importCsvList(
                 oralComPosterRows,
                 () -> new CsvOralComPoster(activityMap),
-                () -> activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.ORAL_COMMUNICATION_POSTER.getId()),
+                () -> activityRepo.findByIdTypeActivity(TypeActivityId.ORAL_COMMUNICATION_POSTER.getId()),
                 activityRepo::saveAll,
                 SupportedCsvTemplate.ORAL_COMMUNICATION_POSTER,
                 importCsvSummary);

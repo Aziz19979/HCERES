@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.PublicOutreach;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -65,7 +65,7 @@ public class CsvPublicOutreach extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.PUBLIC_OUTREACH.getId());
+        activity.setIdTypeActivity(TypeActivityId.PUBLIC_OUTREACH.getId());
         PublicOutreach publicOutreach = new PublicOutreach();
         publicOutreach.setDescription(this.getDescription());
         // direct use of id present in database public_outreach_type

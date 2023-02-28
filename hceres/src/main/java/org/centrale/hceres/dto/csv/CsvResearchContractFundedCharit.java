@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.ResearchContractFundedCharit;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -147,7 +147,7 @@ public class CsvResearchContractFundedCharit extends DependentCsv<Activity, Inte
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST.getId());
+        activity.setIdTypeActivity(TypeActivityId.RESEARCH_CONTRACT_FUNDED_PUBLIC_CHARITABLE_INST.getId());
         ResearchContractFundedCharit researchContractFundedCharit = new ResearchContractFundedCharit();
         researchContractFundedCharit.setDateContractAward(this.getDateContractAward());
         researchContractFundedCharit.setFundingInstitution(this.getFundingInstitution());

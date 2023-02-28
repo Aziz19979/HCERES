@@ -74,7 +74,7 @@ function ReviewArticleList(props) {
     React.useEffect(() => {
         if (!targetResearcher) {
             // attention that method always change reference to variable not only its content
-            fetchListReviewArticles().then(list => setReviewArticleList(list))
+                    fetchListReviewArticles().then(list => setReviewArticleList(list))
         } else
             fetchResearcherActivities(targetResearcher.researcherId)
                 .then(list => {

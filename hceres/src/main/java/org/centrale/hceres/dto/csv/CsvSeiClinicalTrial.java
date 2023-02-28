@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SeiClinicalTrial;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -101,7 +101,7 @@ public class CsvSeiClinicalTrial extends DependentCsv<Activity, Integer> {
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL.getId());
+        activity.setIdTypeActivity(TypeActivityId.SEI_CLINICAL_TRIAL.getId());
         SeiClinicalTrial seiClinicalTrial = new SeiClinicalTrial();
         seiClinicalTrial.setStartDate(this.getStartDate());
         seiClinicalTrial.setCoordinatorPartner(this.getCoordinatorPartner());

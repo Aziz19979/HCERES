@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.InvolvementTrainingPedagogical;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
@@ -72,7 +72,7 @@ public class CsvInvolvementTrainingPedagogical extends DependentCsv<Activity, In
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY.getId());
+        activity.setIdTypeActivity(TypeActivityId.INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY.getId());
         InvolvementTrainingPedagogical involvementTrainingPedagogical = new InvolvementTrainingPedagogical();
         involvementTrainingPedagogical.setYear(this.getYear());
         involvementTrainingPedagogical.setNameMaster(this.getNameMaster());

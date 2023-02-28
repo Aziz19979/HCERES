@@ -6,7 +6,7 @@ import java.util.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.CompanyCreation;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.EducationRepository;
 import org.centrale.hceres.repository.ResearchRepository;
@@ -34,7 +34,7 @@ public class CompanyCreationService {
      * permet de retourner la liste
      */
     public List<Activity> getCompanyCreations() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SEI_COMPANY_CREATION.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.SEI_COMPANY_CREATION.getId());
     }
 
     /**
@@ -62,7 +62,7 @@ public class CompanyCreationService {
         Activity activity = new Activity();
         companyCreation.setActivity(activity);
         activity.setCompanyCreation(companyCreation);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_COMPANY_CREATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.SEI_COMPANY_CREATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

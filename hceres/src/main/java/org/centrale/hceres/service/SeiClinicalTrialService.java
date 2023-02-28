@@ -7,7 +7,7 @@ import java.util.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.SeiClinicalTrial;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.SeiClinicalTrialRepository;
 import org.centrale.hceres.repository.ResearchRepository;
@@ -34,7 +34,7 @@ public class SeiClinicalTrialService {
      * permet de retourner la liste
      */
     public List<Activity> getSeiClinicalTrials() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.SEI_CLINICAL_TRIAL.getId());
     }
 
     /**
@@ -86,7 +86,7 @@ public class SeiClinicalTrialService {
         Activity activity = new Activity();
         seiClinicalTrial.setActivity(activity);
         activity.setSeiClinicalTrial(seiClinicalTrial);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_CLINICAL_TRIAL.getId());
+        activity.setIdTypeActivity(TypeActivityId.SEI_CLINICAL_TRIAL.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

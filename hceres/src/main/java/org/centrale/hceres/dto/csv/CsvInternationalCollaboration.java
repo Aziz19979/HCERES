@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.InternationalCollaboration;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
@@ -114,7 +114,7 @@ public class CsvInternationalCollaboration extends DependentCsv<Activity, Intege
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
         InternationalCollaboration internationalCollaboration = new InternationalCollaboration();
         internationalCollaboration.setDateProjectStart(this.getDateProjectStart());
         internationalCollaboration.setTypeCollabId(this.getIdType());
