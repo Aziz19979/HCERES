@@ -202,7 +202,6 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     groupKeyMap[group.groupKey].count++;
                 })
             })
-            console.log(groupKeyMap);
 
             chartData = Object.keys(groupKeyMap).map((groupKey) => {
                 return {
@@ -211,7 +210,6 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     count: groupKeyMap[groupKey].count,
                 }
             });
-            console.log(chartData);
         }
 
         setChartOptions(prevState => ({
