@@ -2,6 +2,7 @@ package org.centrale.hceres.dto.stat.utils;
 
 
 import lombok.Data;
+import org.centrale.hceres.items.Activity;
 
 import java.io.Serializable;
 import java.util.SortedSet;
@@ -14,5 +15,12 @@ public class ActivityStatDto implements Serializable {
 
     public ActivityStatDto() {
         this.teamIds = new TreeSet<>();
+    }
+
+    public void fillDataFromActivity(Activity activity) {
+        this.idActivity = activity.getIdActivity();
+        activity.getResearcherList().forEach(researcher ->
+                researcher.getBelongsTeamList().forEach(belongsTeams ->
+                        this.teamIds.add(belongsTeams.getTeamId())));
     }
 }

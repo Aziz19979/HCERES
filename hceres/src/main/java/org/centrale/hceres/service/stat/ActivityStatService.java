@@ -34,21 +34,12 @@ public class ActivityStatService {
         switch (typeActivityId) {
             case PUBLICATION:
                 activityStatDto = new PublicationStatDto();
-                ((PublicationStatDto) activityStatDto).setPublicationDate(activity.getPublication().getPublicationDate());
                 break;
             case BOOK:
             default:
                 activityStatDto = new ActivityStatDto();
         }
-
-        fillBasicActivityStatDto(activityStatDto, activity);
+        activityStatDto.fillDataFromActivity(activity);
         return activityStatDto;
-    }
-
-    private void fillBasicActivityStatDto(ActivityStatDto activityStatDto, Activity activity) {
-        activityStatDto.setIdActivity(activity.getIdActivity());
-        activity.getResearcherList().forEach(researcher ->
-                researcher.getBelongsTeamList().forEach(belongsTeams ->
-                        activityStatDto.getTeamIds().add(belongsTeams.getTeamId())));
     }
 }
