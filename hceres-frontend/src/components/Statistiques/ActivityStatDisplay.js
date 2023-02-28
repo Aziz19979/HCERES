@@ -8,122 +8,13 @@ import {fetchListInstitutions} from "../../services/institution/InstitutionActio
 import {
     Bar,
     BarChart,
-    CartesianGrid, Cell,
-    Legend, Pie, PieChart,
+    CartesianGrid, Cell, LabelList, Pie, PieChart,
     ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis
 } from "recharts";
 import getRandomBackgroundColor from "../util/ColorGenerator";
-
-
-const data = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
-//         if (groupBy.key === 'none') {
-//             let count = activityStatFilteredList.length;
-//             chartData.push({name: 'Total', count: count})
-//         } else if (groupBy.key === 'team') {
-//             let groupMap = {};
-//             activityStatFilteredList.forEach((activity) => {
-//                 activity.teamIds.forEach((teamId) => {
-//                     if (groupMap[teamId] === undefined) {
-//                         groupMap[teamId] = 0;
-//                     }
-//                     groupMap[teamId]++;
-//                 })
-//             })
-//             chartData = Object.keys(groupMap).map((teamId) => {
-//                 let team = teamIdMap[teamId];
-//                 let teamName = team ? team.teamName : 'Team id ' + teamId;
-//                 return {name: teamName, count: groupMap[teamId]}
-//             });
-//         } else if (groupBy.key === 'laboratory') {
-//             let groupMap = {};
-//             activityStatFilteredList.forEach((activity) => {
-//                 activity.teamIds.forEach((teamId) => {
-//                     let team = teamIdMap[teamId];
-//                     if (team) {
-//                         let laboratoryId = team.laboratoryId;
-//                         if (groupMap[laboratoryId] === undefined) {
-//                             groupMap[laboratoryId] = 0;
-//                         }
-//                         groupMap[laboratoryId]++;
-//                     }
-//                 })
-//             })
-//             chartData = Object.keys(groupMap).map((laboratoryId) => {
-//                 let laboratory = laboratoryIdMap[laboratoryId];
-//                 let labName = laboratory ? laboratory.laboratoryName : 'laboratory id ' + laboratoryId;
-//                 return {name: labName, count: groupMap[laboratoryId]}
-//             });
-//         } else if (groupBy.key === 'institution') {
-//             console.log('institution')
-//             let groupMap = {};
-//             activityStatFilteredList.forEach((activity) => {
-//                 activity.teamIds.forEach((teamId) => {
-//                     let team = teamIdMap[teamId];
-//                     if (team) {
-//                         let laboratoryId = team.laboratoryId;
-//                         let laboratory = laboratoryIdMap[laboratoryId];
-//                         if (laboratory) {
-//                             let institutionId = laboratory.institutionId;
-//                             if (groupMap[institutionId] === undefined) {
-//                                 groupMap[institutionId] = 0;
-//                             }
-//                             groupMap[institutionId]++;
-//                         }
-//                     }
-//                 })
-//             })
-//             chartData = Object.keys(groupMap).map((institutionId) => {
-//                 let institution = institutionIdMap[institutionId];
-//                 let institutionName = institution ? institution.institutionName : 'Institution id ' + institutionId;
-//                 return {name: institutionName, count: groupMap[institutionId]}
-//             });
-//         }
 
 
 export default function ActivityStatDisplay({activityStatEntry}) {
@@ -138,7 +29,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     const groupByNoneCallback = React.useCallback((activityStat) => {
         return [
             {
-                groupKey: 'none',
+                // random group key value to generate blue color
+                groupKey: 20,
                 groupLabel: 'Total',
             }
         ]
@@ -154,7 +46,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     }, [teamIdMap])
 
     const groupByLaboratoryCallback = React.useCallback((activityStat) => {
-        return activityStat.teamIds.map((teamId) => {
+        return activityStat.teamIds.map((teamId, index) => {
             let team = teamIdMap[teamId];
             if (team) {
                 let laboratoryId = team.laboratoryId;
@@ -163,11 +55,15 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     groupLabel: laboratoryIdMap[laboratoryId] ? laboratoryIdMap[laboratoryId].laboratoryName : 'Laboratory id ' + laboratoryId,
                 }
             }
+            return {
+                groupKey: index,
+                groupLabel: 'No laboratory for team id ' + teamId,
+            }
         })
     }, [teamIdMap, laboratoryIdMap])
 
     const groupByInstitutionCallback = React.useCallback((activityStat) => {
-        return activityStat.teamIds.map((teamId) => {
+        return activityStat.teamIds.map((teamId, index) => {
             let team = teamIdMap[teamId];
             if (team) {
                 let laboratoryId = team.laboratoryId;
@@ -179,6 +75,10 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         groupLabel: institutionIdMap[institutionId] ? institutionIdMap[institutionId].institutionName : 'Institution id ' + institutionId,
                     }
                 }
+            }
+            return {
+                groupKey: index,
+                groupLabel: 'No institution for team id ' + teamId,
             }
         })
     }, [teamIdMap, laboratoryIdMap, institutionIdMap])
@@ -200,11 +100,21 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     const [chartOptions, setChartOptions] = React.useState({
         data: [],
+        dataNameMap: {},
+        chartWidth: 500,
+        chartHeight: 300,
+        showCountLabel: true,
+        showPercentageLabel: false,
     });
-    const [chartWidth, setChartWidth] = React.useState(500);
-    const [chartHeight, setChartHeight] = React.useState(300);
+    const handleChartOptionChange = (event) => {
+        const {name, value, type, checked} = event.target
+        setChartOptions(prevState => ({
+            ...prevState,
+            [name]: type === "checkbox" ? checked : value
+        }))
+    }
 
-    const [chartTemplateList, setChartTemplateList] = React.useState([
+    const [chartTemplateList] = React.useState([
         {key: 'bar', label: 'Bar chart', checked: true},
         {key: 'pie', label: 'Pie chart'},
         {key: 'line', label: 'Line chart'},
@@ -250,7 +160,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             .finally(() => {
                 setLoading(false);
             });
-    }, [activityStatEntry.idTypeActivity]);
+    }, [activityStatEntry, groupByList, groupBy.key]);
 
     React.useEffect(() => {
         let filteredList = activityStatList.filter((activity) => {
@@ -291,22 +201,70 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             });
         }
 
-        setChartOptions({
+        setChartOptions(prevState => ({
+            ...prevState,
             data: chartData,
-        });
+            dataNameMap: chartData.reduce((map, obj) => {
+                map[obj.name] = obj;
+                return map;
+            }, {}),
+        }))
     }, [activityStatFilteredList, groupBy])
 
-    // pie chart options
-    const renderCustomizedLabel = (entry) => {
+    const renderBarCustomizedLabel = (props) => {
+        const {x, y, width, height} = props;
+        const entry = chartOptions.dataNameMap[props.name];
+        const percentage = (entry.count / activityStatFilteredList.length * 100).toFixed(0);
+        const {backgroundColor, color} = getRandomBackgroundColor(entry.key);
+        const radius = 10;
         return (
-            <text {...entry}
-                  fill={"#000000"}
-                  stroke={entry.fill}
-                  strokeWidth={2}
-                  paintOrder="stroke"
-            >
-                {entry.name} ({entry.count})
-            </text>
+            <g>
+                {chartOptions.showCountLabel &&
+                    <>
+                        <ellipse cx={x + width / 2} cy={y - radius} rx={radius * 2} ry={radius} fill={backgroundColor}/>
+                        <text x={x + width / 2} y={y - radius} fill={color} textAnchor="middle" dominantBaseline="middle">
+                            {entry.count}
+                        </text>
+                    </>
+                }
+
+                {chartOptions.showPercentageLabel && percentage > 0 &&
+                    <text x={x + width / 2} y={y + height / 2} fill={color} textAnchor="middle"
+                          dominantBaseline="middle">
+                        {`${percentage}%`}
+                    </text>
+                }
+            </g>
+        );
+    };
+
+    // pie chart options
+    const RADIAN = Math.PI / 180;
+    const renderPieCustomizedLabel = (entry) => {
+        const {cx, cy, midAngle, innerRadius, outerRadius, percent} = entry;
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+        const percentage = (percent * 100).toFixed(0);
+        console.log(entry.key);
+        const {color} = getRandomBackgroundColor(entry.key);
+        return (
+            <>
+                {chartOptions.showPercentageLabel && percentage > 0 &&
+                    <text x={x} y={y} fill={color} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+                        {`${percentage}%`}
+                    </text>
+                }
+                <text {...entry}
+                      fill={"#000000"}
+                      stroke={entry.fill}
+                      strokeWidth={2}
+                      paintOrder="stroke"
+                >
+                    {entry.name}
+                    {chartOptions.showCountLabel && ` (${entry.count})`}
+                </text>
+            </>
         );
     };
 
@@ -379,17 +337,40 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 <label className={"label"}>Width</label>
                                 <input
                                     type={"number"}
-                                    value={chartWidth}
-                                    onChange={(e) => setChartWidth(e.target.value)}
+                                    value={chartOptions.chartWidth}
+                                    name={"chartWidth"}
+                                    onChange={handleChartOptionChange}
                                 />
                                 <label className={"label"}>Height</label>
                                 <input
                                     type={"number"}
-                                    value={chartHeight}
-                                    onChange={(e) => setChartHeight(e.target.value)}
+                                    value={chartOptions.chartHeight}
+                                    name={"chartHeight"}
+                                    onChange={handleChartOptionChange}
                                 />
                             </div>
                         </div>
+
+                        <div>
+                            <label className={"label"}>Chart Labels</label>
+                            <div style={{display: 'flex'}}>
+                                <label className={"label"}>Count</label>
+                                <input
+                                    type={"checkbox"}
+                                    checked={chartOptions.showCountLabel}
+                                    name={"showCountLabel"}
+                                    onChange={handleChartOptionChange}
+                                />
+                                <label className={"label"}>Percentage</label>
+                                <input
+                                    type={"checkbox"}
+                                    checked={chartOptions.showPercentageLabel}
+                                    name={"showPercentageLabel"}
+                                    onChange={handleChartOptionChange}
+                                />
+                            </div>
+                        </div>
+
                         <label className={"label"}>Activités regroupées par </label>
                         <div style={{display: 'flex'}}>
                             {groupByList.map((group) => (
@@ -415,8 +396,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
                 <div
                     style={{
-                        width: chartWidth + "px",
-                        height: chartHeight + "px",
+                        width: chartOptions.chartWidth + "px",
+                        height: chartOptions.chartHeight + "px",
                     }}
                 >
                     {chartTemplate.key === 'bar' ?
@@ -434,8 +415,13 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 <XAxis dataKey="name"/>
                                 <YAxis/>
                                 <Tooltip/>
-                                <Legend/>
-                                <Bar dataKey="count" stackId="a" fill="#8884d8"/>
+                                <Bar dataKey="count" stackId="a" fill="#8884d8">
+                                    {chartOptions.data.map((entry, index) => (
+                                        <Cell key={entry.key}
+                                              fill={getRandomBackgroundColor(entry.key).backgroundColor}/>
+                                    ))}
+                                    <LabelList dataKey="name" content={renderBarCustomizedLabel}/>
+                                </Bar>
                             </BarChart>
                         </ResponsiveContainer>
                         : <></>
@@ -449,7 +435,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                     cx="50%"
                                     cy="50%"
                                     outerRadius={80}
-                                    label={renderCustomizedLabel}
+                                    label={renderPieCustomizedLabel}
                                     fill="#8884d8"
                                 >
                                     {chartOptions.data.map((entry, index) => (
