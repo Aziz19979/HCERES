@@ -160,7 +160,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             .finally(() => {
                 setLoading(false);
             });
-    }, [activityStatEntry, groupByList, groupBy.key]);
+    }, [activityStatEntry]);
 
     React.useEffect(() => {
         let filteredList = activityStatList.filter((activity) => {
@@ -178,27 +178,40 @@ export default function ActivityStatDisplay({activityStatEntry}) {
         let chartData = [];
         if (groupBy.callbackGroupBy) {
             // custom group by
-            let groupMap = {};
+            let groupKeyMap = {};
+            let groupLabelMap = {};
             activityStatFilteredList.forEach((activity) => {
                 const groupList = groupBy.callbackGroupBy(activity);
                 groupList.forEach((group) => {
-                    if (groupMap[group.groupKey] === undefined) {
-                        groupMap[group.groupKey] = {
+                    if (groupKeyMap[group.groupKey] === undefined) {
+                        let groupLabel = group.groupLabel;
+                        let groupLabelIndex = 2;
+                        // use groupLabelMap to avoid duplicate groupLabel
+                        while (groupLabelMap[groupLabel] !== undefined) {
+                            groupLabel = group.groupLabel + ' (' + groupLabelIndex + ')';
+                            groupLabelIndex++;
+                        }
+                        groupLabelMap[groupLabel] = true;
+                        groupKeyMap[group.groupKey] = {
                             groupKey: group.groupKey,
-                            groupLabel: group.groupLabel,
+                            groupLabel: groupLabel,
                             count: 0,
-                        };
+                        }
+
                     }
-                    groupMap[group.groupKey].count++;
+                    groupKeyMap[group.groupKey].count++;
                 })
             })
-            chartData = Object.keys(groupMap).map((groupKey) => {
+            console.log(groupKeyMap);
+
+            chartData = Object.keys(groupKeyMap).map((groupKey) => {
                 return {
-                    key: groupMap[groupKey].groupKey,
-                    name: groupMap[groupKey].groupLabel,
-                    count: groupMap[groupKey].count
+                    key: groupKeyMap[groupKey].groupKey,
+                    name: groupKeyMap[groupKey].groupLabel,
+                    count: groupKeyMap[groupKey].count,
                 }
             });
+            console.log(chartData);
         }
 
         setChartOptions(prevState => ({
@@ -209,7 +222,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 return map;
             }, {}),
         }))
-    }, [activityStatFilteredList, groupBy])
+    }, [groupBy, activityStatFilteredList])
 
     const renderBarCustomizedLabel = (props) => {
         const {x, y, width, height} = props;
