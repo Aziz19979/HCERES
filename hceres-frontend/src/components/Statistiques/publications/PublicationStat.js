@@ -1,8 +1,14 @@
 import ActivityTypes from "../../../const/ActivityTypes";
+import {ActivityStatTemplate} from "../ActivityStatTemplate";
 
-class PublicationStat {
-    idTypeActivity = ActivityTypes.PUBLICATION;
-    label = "Publications";
+class PublicationStat extends ActivityStatTemplate {
+
+    constructor() {
+        super({
+            idTypeActivity: ActivityTypes.PUBLICATION,
+            label: "Publications"
+        });
+    }
 
     prepareData = (publicationList) => {
         return publicationList.map((publication) => {
@@ -57,7 +63,14 @@ class PublicationStat {
             // label displayed for the chart
             label: "année",
             // callback function to group the data
-            callbackGroupBy: (publication) => publication.publicationDateObj.getFullYear(),
+            callbackGroupBy: (publication) => {
+                return [
+                    {
+                        groupKey: publication.publicationDateObj.getFullYear(),
+                        groupLabel: publication.publicationDateObj.getFullYear(),
+                    }
+                ]
+            },
         }
     ]
 }

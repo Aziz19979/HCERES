@@ -8,13 +8,14 @@ import {fetchListInstitutions} from "../../services/institution/InstitutionActio
 import {
     Bar,
     BarChart,
-    CartesianGrid,
-    Legend,
+    CartesianGrid, Cell,
+    Legend, Pie, PieChart,
     ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis
 } from "recharts";
+import getRandomBackgroundColor from "../util/ColorGenerator";
 
 
 const data = [
@@ -61,23 +62,137 @@ const data = [
         amt: 2100,
     },
 ];
+//         if (groupBy.key === 'none') {
+//             let count = activityStatFilteredList.length;
+//             chartData.push({name: 'Total', count: count})
+//         } else if (groupBy.key === 'team') {
+//             let groupMap = {};
+//             activityStatFilteredList.forEach((activity) => {
+//                 activity.teamIds.forEach((teamId) => {
+//                     if (groupMap[teamId] === undefined) {
+//                         groupMap[teamId] = 0;
+//                     }
+//                     groupMap[teamId]++;
+//                 })
+//             })
+//             chartData = Object.keys(groupMap).map((teamId) => {
+//                 let team = teamIdMap[teamId];
+//                 let teamName = team ? team.teamName : 'Team id ' + teamId;
+//                 return {name: teamName, count: groupMap[teamId]}
+//             });
+//         } else if (groupBy.key === 'laboratory') {
+//             let groupMap = {};
+//             activityStatFilteredList.forEach((activity) => {
+//                 activity.teamIds.forEach((teamId) => {
+//                     let team = teamIdMap[teamId];
+//                     if (team) {
+//                         let laboratoryId = team.laboratoryId;
+//                         if (groupMap[laboratoryId] === undefined) {
+//                             groupMap[laboratoryId] = 0;
+//                         }
+//                         groupMap[laboratoryId]++;
+//                     }
+//                 })
+//             })
+//             chartData = Object.keys(groupMap).map((laboratoryId) => {
+//                 let laboratory = laboratoryIdMap[laboratoryId];
+//                 let labName = laboratory ? laboratory.laboratoryName : 'laboratory id ' + laboratoryId;
+//                 return {name: labName, count: groupMap[laboratoryId]}
+//             });
+//         } else if (groupBy.key === 'institution') {
+//             console.log('institution')
+//             let groupMap = {};
+//             activityStatFilteredList.forEach((activity) => {
+//                 activity.teamIds.forEach((teamId) => {
+//                     let team = teamIdMap[teamId];
+//                     if (team) {
+//                         let laboratoryId = team.laboratoryId;
+//                         let laboratory = laboratoryIdMap[laboratoryId];
+//                         if (laboratory) {
+//                             let institutionId = laboratory.institutionId;
+//                             if (groupMap[institutionId] === undefined) {
+//                                 groupMap[institutionId] = 0;
+//                             }
+//                             groupMap[institutionId]++;
+//                         }
+//                     }
+//                 })
+//             })
+//             chartData = Object.keys(groupMap).map((institutionId) => {
+//                 let institution = institutionIdMap[institutionId];
+//                 let institutionName = institution ? institution.institutionName : 'Institution id ' + institutionId;
+//                 return {name: institutionName, count: groupMap[institutionId]}
+//             });
+//         }
 
 
 export default function ActivityStatDisplay({activityStatEntry}) {
-    const [teamList, setTeamList] = React.useState([]);
-    const [labList, setLabList] = React.useState([]);
-    const [institutionList, setInstitutionList] = React.useState([]);
+    const [teamIdMap, setTeamIdMap] = React.useState({});
+    const [laboratoryIdMap, setLaboratoryIdMap] = React.useState({});
+    const [institutionIdMap, setInstitutionIdMap] = React.useState({});
 
     const [activityStatList, setActivityStatList] = React.useState([]);
     const [activityStatFilteredList, setActivityStatFilteredList] = React.useState([]);
     const [isLoading, setLoading] = React.useState(false);
-    const groupByList = [
-        {key: 'none', label: 'No group', checked: true},
-        {key: 'team', label: 'Equipe'},
-        {key: 'lab', label: 'Laboratoire'},
-        {key: 'institution', label: 'Institution'},
+
+    const groupByNoneCallback = React.useCallback((activityStat) => {
+        return [
+            {
+                groupKey: 'none',
+                groupLabel: 'Total',
+            }
+        ]
+    }, [])
+
+    const groupByTeamCallback = React.useCallback((activityStat) => {
+        return activityStat.teamIds.map((teamId) => {
+            return {
+                groupKey: teamId,
+                groupLabel: teamIdMap[teamId] ? teamIdMap[teamId].teamName : 'Team id ' + teamId,
+            }
+        })
+    }, [teamIdMap])
+
+    const groupByLaboratoryCallback = React.useCallback((activityStat) => {
+        return activityStat.teamIds.map((teamId) => {
+            let team = teamIdMap[teamId];
+            if (team) {
+                let laboratoryId = team.laboratoryId;
+                return {
+                    groupKey: laboratoryId,
+                    groupLabel: laboratoryIdMap[laboratoryId] ? laboratoryIdMap[laboratoryId].laboratoryName : 'Laboratory id ' + laboratoryId,
+                }
+            }
+        })
+    }, [teamIdMap, laboratoryIdMap])
+
+    const groupByInstitutionCallback = React.useCallback((activityStat) => {
+        return activityStat.teamIds.map((teamId) => {
+            let team = teamIdMap[teamId];
+            if (team) {
+                let laboratoryId = team.laboratoryId;
+                let laboratory = laboratoryIdMap[laboratoryId];
+                if (laboratory) {
+                    let institutionId = laboratory.institutionId;
+                    return {
+                        groupKey: institutionId,
+                        groupLabel: institutionIdMap[institutionId] ? institutionIdMap[institutionId].institutionName : 'Institution id ' + institutionId,
+                    }
+                }
+            }
+        })
+    }, [teamIdMap, laboratoryIdMap, institutionIdMap])
+
+    const groupByList = React.useMemo(() => [
+        {key: 'none', label: 'No group', checked: true, callbackGroupBy: groupByNoneCallback},
+        {key: 'team', label: 'Equipe', callbackGroupBy: groupByTeamCallback},
+        {key: 'laboratory', label: 'Laboratoire', callbackGroupBy: groupByLaboratoryCallback},
+        {key: 'institution', label: 'Institution', callbackGroupBy: groupByInstitutionCallback},
         ...activityStatEntry.customGroupByList
-    ]
+    ], [activityStatEntry, groupByNoneCallback,
+        groupByTeamCallback, groupByLaboratoryCallback,
+        groupByInstitutionCallback]);
+
     const [groupBy, setGroupBy] = React.useState(groupByList[0]);
 
 
@@ -99,6 +214,13 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     React.useEffect(() => {
         setLoading(true);
+        // if groupBy is in groupByList, leave it, else set groupBy to first element of groupByList
+        // this check is necessary when activityStatEntry is updated
+        if (groupByList.find((groupByItem) => groupByItem.key === groupBy.key) === undefined) {
+            setGroupBy(groupByList[0]);
+        }
+        // setActivityStatFilteredList([]); // uncomment in production
+        // setActivityStatList([]); // uncomment in production
         Promise.all([
             fetchActivityStatOfType(activityStatEntry.idTypeActivity),
             fetchListTeams(),
@@ -109,9 +231,18 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 activityStatList = activityStatEntry.prepareData(activityStatList);
                 setActivityStatList(activityStatList);
                 setActivityStatFilteredList(activityStatList);
-                setTeamList(teamList);
-                setLabList(labList);
-                setInstitutionList(institutionList);
+                setTeamIdMap(teamList.reduce((map, obj) => {
+                    map[obj.teamId] = obj;
+                    return map;
+                }, {}));
+                setLaboratoryIdMap(labList.reduce((map, obj) => {
+                    map[obj.laboratoryId] = obj;
+                    return map;
+                }, {}));
+                setInstitutionIdMap(institutionList.reduce((map, obj) => {
+                    map[obj.institutionId] = obj;
+                    return map;
+                }, {}));
             })
             .catch(error => {
                 // handle error
@@ -119,7 +250,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             .finally(() => {
                 setLoading(false);
             });
-    }, []);
+    }, [activityStatEntry.idTypeActivity]);
 
     React.useEffect(() => {
         let filteredList = activityStatList.filter((activity) => {
@@ -135,51 +266,49 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     }, [filters, activityStatList])
     React.useEffect(() => {
         let chartData = [];
-        if (groupBy.key === 'none') {
-            let count = activityStatFilteredList.length;
-            chartData.push({name: 'Total', count: count})
-        } else if (groupBy.key === 'team') {
-            let groupMap = {};
-            activityStatFilteredList.forEach((activity) => {
-                activity.teamIds.forEach((teamId) => {
-                    if (groupMap[teamId] === undefined) {
-                        groupMap[teamId] = 0;
-                    }
-                    groupMap[teamId]++;
-                })
-            })
-            let teamIdMap = {};
-            teamList.forEach((team) => {
-                teamIdMap[team.teamId] = team;
-            })
-            chartData = Object.keys(groupMap).map((teamId) => {
-                let team = teamIdMap[teamId];
-                let teamName = team ? team.teamName : 'Team id ' + teamId;
-                return {name: teamName, count: groupMap[teamId]}
-            });
-        } else if (groupBy.key === 'lab') {
-            console.log('lab')
-        } else if (groupBy.key === 'institution') {
-            console.log('institution')
-        } else if (groupBy.callbackGroupBy) {
+        if (groupBy.callbackGroupBy) {
             // custom group by
             let groupMap = {};
             activityStatFilteredList.forEach((activity) => {
-                let groupKey = groupBy.callbackGroupBy(activity);
-                if (groupMap[groupKey] === undefined) {
-                    groupMap[groupKey] = 0;
-                }
-                groupMap[groupKey]++;
+                const groupList = groupBy.callbackGroupBy(activity);
+                groupList.forEach((group) => {
+                    if (groupMap[group.groupKey] === undefined) {
+                        groupMap[group.groupKey] = {
+                            groupKey: group.groupKey,
+                            groupLabel: group.groupLabel,
+                            count: 0,
+                        };
+                    }
+                    groupMap[group.groupKey].count++;
+                })
             })
             chartData = Object.keys(groupMap).map((groupKey) => {
-                return {name: groupKey, count: groupMap[groupKey]}
+                return {
+                    key: groupMap[groupKey].groupKey,
+                    name: groupMap[groupKey].groupLabel,
+                    count: groupMap[groupKey].count
+                }
             });
         }
 
         setChartOptions({
             data: chartData,
         });
-    }, [activityStatFilteredList, groupBy, teamList, labList, institutionList])
+    }, [activityStatFilteredList, groupBy])
+
+    // pie chart options
+    const renderCustomizedLabel = (entry) => {
+        return (
+            <text {...entry}
+                  fill={"#000000"}
+                  stroke={entry.fill}
+                  strokeWidth={2}
+                  paintOrder="stroke"
+            >
+                {entry.name} ({entry.count})
+            </text>
+        );
+    };
 
     return (
         <div>
@@ -194,7 +323,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 <div>Total count: {activityStatList?.length}</div>
                 <div>Total Filtered count: {activityStatFilteredList?.length}</div>
 
-                <div className={"card"}>
+                <div className={"card"} hidden={activityStatEntry?.filters?.length <= 0}>
                     <div className={"card-header alert-primary"}>
                         <h3 className={"card-header-title"}>Filtres</h3>
                     </div>
@@ -290,8 +419,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         height: chartHeight + "px",
                     }}
                 >
-                    <ResponsiveContainer>
-                        {chartTemplate.key === 'bar' ?
+                    {chartTemplate.key === 'bar' ?
+                        <ResponsiveContainer>
                             <BarChart
                                 data={chartOptions.data}
                                 margin={{
@@ -308,11 +437,31 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 <Legend/>
                                 <Bar dataKey="count" stackId="a" fill="#8884d8"/>
                             </BarChart>
-                            : <></>
-                        }
-
-
-                    </ResponsiveContainer>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+                    {chartTemplate.key === 'pie' ?
+                        <ResponsiveContainer>
+                            <PieChart>
+                                <Pie
+                                    data={chartOptions.data}
+                                    dataKey="count"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={80}
+                                    label={renderCustomizedLabel}
+                                    fill="#8884d8"
+                                >
+                                    {chartOptions.data.map((entry, index) => (
+                                        <Cell key={entry.key}
+                                              fill={getRandomBackgroundColor(entry.key).backgroundColor}/>
+                                    ))}
+                                </Pie>
+                                <Tooltip/>
+                            </PieChart>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
                 </div>
 
                 <div className={"title"}>

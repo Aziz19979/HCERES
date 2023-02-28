@@ -47,11 +47,8 @@ public class ActivityStatService {
 
     private void fillBasicActivityStatDto(ActivityStatDto activityStatDto, Activity activity) {
         activityStatDto.setIdActivity(activity.getIdActivity());
-        activity.getResearcherList().forEach(researcher -> {
-            activityStatDto.getResearcherIds().add(researcher.getResearcherId());
-
-            researcher.getBelongsTeamList().forEach(belongsTeams ->
-                    activityStatDto.getTeamIds().add(belongsTeams.getTeamId()));
-        });
+        activity.getResearcherList().forEach(researcher ->
+                researcher.getBelongsTeamList().forEach(belongsTeams ->
+                        activityStatDto.getTeamIds().add(belongsTeams.getTeamId())));
     }
 }
