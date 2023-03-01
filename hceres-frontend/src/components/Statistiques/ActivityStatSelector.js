@@ -26,25 +26,7 @@ const activityStatOptions = activityStatTemplates.map(activityStatTemplate => {
         label: activityStatTemplate.label,
     }
 });
-//     const csvTemplateOptions = Object.keys(SupportedCsvTemplate).map(template => {
-//         return {
-//             value: SupportedCsvTemplate[template],
-//             label: SupportedCsvTemplate[template].label,
-//         }
-//     });
-//                                             Associated Csv Template:
-//                                             <FixRequiredSelect
-//                                                 SelectComponent={Select}
-//                                                 options={csvTemplateOptions}
-//                                                 onChange={(option) => {
-//                                                     dispatch({
-//                                                         type: 'change-target-template',
-//                                                         payload: option
-//                                                     })
-//                                                 }}
-//                                                 value={state.associatedCsvTemplateOption}
-//                                                 required={true}
-//                                             />
+
 export default function ActivityStatSelector() {
     const [selectedActivityStat, setSelectedActivityStat] = React.useState(activityStatTemplates[0]);
 

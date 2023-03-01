@@ -1,6 +1,8 @@
 package org.centrale.hceres.controller.stat;
 
 import org.centrale.hceres.dto.stat.utils.ActivityStatDto;
+import org.centrale.hceres.dto.stat.utils.ActivityStatSumDto;
+import org.centrale.hceres.dto.stat.utils.StatSummaryDto;
 import org.centrale.hceres.service.stat.ActivityStatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +19,7 @@ public class ActivityStatController {
     private ActivityStatService activityStatService;
 
     @GetMapping("/ActivityStat/typeActivity/{idTypeActivity}")
-    public List<ActivityStatDto> getStatByTypeActivity(@PathVariable("idTypeActivity") final Integer idTypeActivity) {
+    public ActivityStatSumDto getStatByTypeActivity(@PathVariable("idTypeActivity") final Integer idTypeActivity) {
         return activityStatService.getStatByTypeActivity(idTypeActivity);
     }
 }

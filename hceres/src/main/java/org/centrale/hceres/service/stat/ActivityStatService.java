@@ -1,10 +1,12 @@
 package org.centrale.hceres.service.stat;
 
 import lombok.Data;
-import org.centrale.hceres.dto.stat.PublicationStatDto;
+import org.centrale.hceres.dto.stat.publication.PublicationStatDto;
+import org.centrale.hceres.dto.stat.publication.PublicationStatSumDto;
 import org.centrale.hceres.dto.stat.utils.ActivityStatDto;
+import org.centrale.hceres.dto.stat.utils.ActivityStatSumDto;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.PublicationType;
 import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,30 @@ public class ActivityStatService {
     @Autowired
     private ActivityRepository activityRepo;
 
-    public List<ActivityStatDto> getStatByTypeActivity(Integer idTypeActivity) {
+    @Autowired
+    private PublicationStatService publicationStatService;
+
+    public ActivityStatSumDto getStatByTypeActivity(Integer idTypeActivity) {
+        ActivityStatSumDto activityStatSumDto = createStatSumActivity(idTypeActivity);
+
         List<ActivityStatDto> activityStatDtoList = new ArrayList<>();
         activityRepo.findByIdTypeActivity(idTypeActivity).forEach(activity ->
                 activityStatDtoList.add(createStatActivity(activity)));
 
-        return activityStatDtoList;
+        activityStatSumDto.setItems(activityStatDtoList);
+
+        return activityStatSumDto;
+    }
+
+    private ActivityStatSumDto createStatSumActivity(Integer idTypeActivity) {
+        TypeActivityId typeActivityId = TypeActivityId.fromId(idTypeActivity);
+        switch (typeActivityId) {
+            case PUBLICATION:
+                return publicationStatService.createStatSumPublication();
+            case BOOK:
+            default:
+                return new ActivityStatSumDto();
+        }
     }
 
     private ActivityStatDto createStatActivity(Activity activity) {
@@ -33,13 +53,14 @@ public class ActivityStatService {
         TypeActivityId typeActivityId = TypeActivityId.fromId(activity.getIdTypeActivity());
         switch (typeActivityId) {
             case PUBLICATION:
-                activityStatDto = new PublicationStatDto();
+                activityStatDto = publicationStatService.createStatPublication(activity);
                 break;
             case BOOK:
             default:
                 activityStatDto = new ActivityStatDto();
+                activityStatDto.fillDataFromActivity(activity);
+                break;
         }
-        activityStatDto.fillDataFromActivity(activity);
         return activityStatDto;
     }
 }

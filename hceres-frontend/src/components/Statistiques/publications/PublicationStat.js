@@ -2,7 +2,7 @@ import ActivityTypes from "../../../const/ActivityTypes";
 import {ActivityStatTemplate} from "../ActivityStatTemplate";
 
 class PublicationStat extends ActivityStatTemplate {
-
+    publicationTypeIdMap = [];
     constructor() {
         super({
             idTypeActivity: ActivityTypes.PUBLICATION,
@@ -10,8 +10,13 @@ class PublicationStat extends ActivityStatTemplate {
         });
     }
 
-    prepareData = (publicationList) => {
-        return publicationList.map((publication) => {
+    prepareData = (publicationStatSum) => {
+        // create a map from publicationTypeId to publicationType object
+        this.publicationTypeIdMap = {};
+        publicationStatSum.publicationTypes.forEach((publicationType) => {
+            this.publicationTypeIdMap[publicationType.publicationTypeId] = publicationType;
+        })
+        return publicationStatSum.items.map((publication) => {
             return {
                 ...publication,
                 publicationDateObj: new Date(publication.publicationDate),
@@ -53,6 +58,24 @@ class PublicationStat extends ActivityStatTemplate {
                 })
                 return maxDate;
             }
+        },
+        {
+            key: "publicationType",
+            label: "Type de publication",
+            inputType: "select",
+            selectOptions: () => {
+                return Object.values(this.publicationTypeIdMap).map((publicationType) => {
+                    return {
+                        // unique key across all options
+                        key: publicationType.publicationTypeId,
+                        // label displayed for the option
+                        label: publicationType.publicationTypeName,
+                        // value of the option to be used in the callbackFilter
+                        value: publicationType.publicationTypeId,
+                    }
+                })
+            },
+            callbackFilter: (publication, selectedOptionValues) => selectedOptionValues.includes(publication.publicationTypeId),
         }
     ]
 
@@ -71,6 +94,18 @@ class PublicationStat extends ActivityStatTemplate {
                     }
                 ]
             },
+        },
+        {
+            key: "publicationType",
+            label: "type de publication",
+            callbackGroupBy: (publication) => {
+                return [
+                    {
+                        groupKey: publication.publicationTypeId,
+                        groupLabel: this.publicationTypeIdMap[publication.publicationTypeId].publicationTypeName,
+                    }
+                ]
+            }
         }
     ]
 }

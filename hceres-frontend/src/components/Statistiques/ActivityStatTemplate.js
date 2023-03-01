@@ -5,7 +5,7 @@ export class ActivityStatTemplate {
         this.label = label;
     }
 
-    prepareData = (activityList) => activityList;
+    prepareData = (activityList) => activityList.items;
     filters = [];
     customGroupByList = [];
 

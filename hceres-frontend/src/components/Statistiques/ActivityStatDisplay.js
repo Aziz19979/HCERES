@@ -15,6 +15,7 @@ import {
     YAxis
 } from "recharts";
 import getRandomBackgroundColor from "../util/ColorGenerator";
+import SelectFilterDisplay from "./SelectFilterDisplay";
 
 
 export default function ActivityStatDisplay({activityStatEntry}) {
@@ -29,7 +30,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     const groupByNoneCallback = React.useCallback((activityStat) => {
         return [
             {
-                // random group key value to generate blue color
+                // random group key value to generate color
+                // it must be unique for each group
                 groupKey: 20,
                 groupLabel: 'Total',
             }
@@ -95,6 +97,10 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     const [groupBy, setGroupBy] = React.useState(groupByList[0]);
 
+    React.useEffect(() => {
+        setGroupBy(groupByList[0]);
+    }, [groupByList])
+
 
     const [filters, setFilters] = React.useState({});
 
@@ -124,11 +130,6 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     React.useEffect(() => {
         setLoading(true);
-        // if groupBy is in groupByList, leave it, else set groupBy to first element of groupByList
-        // this check is necessary when activityStatEntry is updated
-        if (groupByList.find((groupByItem) => groupByItem.key === groupBy.key) === undefined) {
-            setGroupBy(groupByList[0]);
-        }
         // setActivityStatFilteredList([]); // uncomment in production
         // setActivityStatList([]); // uncomment in production
         Promise.all([
@@ -137,10 +138,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             fetchListLaboratories(),
             fetchListInstitutions(),
         ])
-            .then(([activityStatList, teamList, labList, institutionList]) => {
-                activityStatList = activityStatEntry.prepareData(activityStatList);
-                setActivityStatList(activityStatList);
-                setActivityStatFilteredList(activityStatList);
+            .then(([activityStatSum, teamList, labList, institutionList]) => {
+                setActivityStatList(activityStatEntry.prepareData(activityStatSum));
                 setTeamIdMap(teamList.reduce((map, obj) => {
                     map[obj.teamId] = obj;
                     return map;
@@ -162,6 +161,27 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             });
     }, [activityStatEntry]);
 
+    const handleSelectFilterChange = React.useCallback((filter, selectedOptionsValues) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [filter.key]: {
+                callbackFilter: filter.callbackFilter,
+                value: selectedOptionsValues,
+            },
+        }));
+    }, [setFilters]);
+
+    const handleFilterChange = React.useCallback((filter, value) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [filter.key]: {
+                callbackFilter: filter.callbackFilter,
+                value: value,
+            },
+        }));
+
+    }, [setFilters]);
+
     React.useEffect(() => {
         let filteredList = activityStatList.filter((activity) => {
             let keep = true;
@@ -173,7 +193,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
             return keep;
         })
         setActivityStatFilteredList(filteredList)
-    }, [filters, activityStatList])
+    }, [filters, activityStatList]);
+
     React.useEffect(() => {
         let chartData = [];
         if (groupBy.callbackGroupBy) {
@@ -257,7 +278,6 @@ export default function ActivityStatDisplay({activityStatEntry}) {
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
         const percentage = (percent * 100).toFixed(0);
-        console.log(entry.key);
         const {color} = getRandomBackgroundColor(entry.key);
         return (
             <>
@@ -297,22 +317,30 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         <h3 className={"card-header-title"}>Filtres</h3>
                     </div>
                     <div className={"card-content"}>
-                        {activityStatEntry.filters.map((filter) => (
-                            <div key={filter.key}>
-                                <label className={"label"}>{filter.label}</label>
-                                <input
-                                    type={filter.inputType}
-                                    defaultValue={filter.initialValueCallback ? filter.initialValueCallback(activityStatList) : ''}
-                                    onChange={(e) => setFilters({
-                                        ...filters,
-                                        [filter.key]: {
-                                            callbackFilter: filter.callbackFilter,
-                                            value: e.target.value
-                                        }
-                                    })}
-                                />
-                            </div> /*filter*/
-                        ))}
+                        {activityStatEntry.filters.map((filter) => {
+                            if (filter.inputType === 'select') {
+                                return (
+                                    <div key={filter.key}>
+                                        <label className={"label"}>{filter.label}</label>
+                                        <SelectFilterDisplay
+                                            key={filter.key}
+                                            selectOptions={filter.selectOptions()}
+                                            onChange={(selectedOptionsValues) => handleSelectFilterChange(filter, selectedOptionsValues)}
+                                        />
+                                    </div>
+                                )
+                            } else return (
+                                // other input type
+                                <div key={filter.key}>
+                                    <label className={"label"}>{filter.label}</label>
+                                    <input
+                                        type={filter.inputType}
+                                        defaultValue={filter.initialValueCallback ? filter.initialValueCallback(activityStatList) : ''}
+                                        onChange={(event) => handleFilterChange(filter, event.target.value)}
+                                    />
+                                </div> /*filter*/
+                            )
+                        })}
                         <br/>
                     </div>
                     {/*card-content*/}
