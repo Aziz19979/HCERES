@@ -9,7 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 @Data
-public class ActivityStatDto implements Serializable {
+public class ActivityStatDto implements Serializable, StatItemDto {
     private int idActivity;
     private SortedSet<Integer> teamIds;
 
