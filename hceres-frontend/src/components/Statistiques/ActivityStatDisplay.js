@@ -6,11 +6,24 @@ import {fetchListTeams} from "../../services/Team/TeamActions";
 import {fetchListLaboratories} from "../../services/laboratory/LaboratoryActions";
 import {fetchListInstitutions} from "../../services/institution/InstitutionActions";
 import {
+    Area,
+    AreaChart,
     Bar,
     BarChart,
-    CartesianGrid, Cell, LabelList, Pie, PieChart,
+    CartesianGrid,
+    Cell, Funnel, FunnelChart,
+    LabelList,
+    Legend,
+    Line,
+    LineChart,
+    Pie,
+    PieChart,
+    PolarAngleAxis,
+    PolarGrid, PolarRadiusAxis,
+    Radar,
+    RadarChart,
     ResponsiveContainer,
-    Tooltip,
+    Tooltip, Treemap,
     XAxis,
     YAxis
 } from "recharts";
@@ -99,6 +112,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     React.useEffect(() => {
         setGroupBy(groupByList[0]);
+        setFilters({});
     }, [groupByList])
 
 
@@ -123,7 +137,13 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     const [chartTemplateList] = React.useState([
         {key: 'bar', label: 'Bar chart', checked: true},
         {key: 'pie', label: 'Pie chart'},
+        {key: 'radar', label: 'Radar chart'},
         {key: 'line', label: 'Line chart'},
+        {key: 'area', label: 'Area chart'},
+        {key: 'treemap', label: 'Treemap chart'},
+        {key: 'funnel', label: 'Funnel chart'},
+
+
     ]);
     const [chartTemplate, setChartTemplate] = React.useState(chartTemplateList[0]);
 
@@ -299,6 +319,20 @@ export default function ActivityStatDisplay({activityStatEntry}) {
         );
     };
 
+    const renderFunnelCustomizedLabel = (props) => {
+        const {x, y, width, height} = props;
+        const entry = chartOptions.dataNameMap[props.name];
+        const percentage = (entry.count / activityStatFilteredList.length * 100).toFixed(0);
+        return (
+            <text x={x + width / 2} y={y + height / 2} fill={"#000"} textAnchor="middle"
+                  dominantBaseline="middle">
+                {entry.name}
+                {chartOptions.showCountLabel && ` (#${entry.count})`}
+                {chartOptions.showPercentageLabel && ` (${percentage}%)`}
+            </text>
+        );
+    };
+
     return (
         <div>
             <h1 style={{fontSize: 24, marginBottom: 20}}>Des statistiques sur les {activityStatEntry.label} </h1>
@@ -455,7 +489,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 <YAxis/>
                                 <Tooltip/>
                                 <Bar dataKey="count" stackId="a" fill="#8884d8">
-                                    {chartOptions.data.map((entry, index) => (
+                                    {chartOptions.data.map((entry) => (
                                         <Cell key={entry.key}
                                               fill={getRandomBackgroundColor(entry.key).backgroundColor}/>
                                     ))}
@@ -487,6 +521,103 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         </ResponsiveContainer>
                         : <></>
                     }
+
+
+                    {chartTemplate.key === 'radar' ?
+                        <ResponsiveContainer>
+                            <RadarChart outerRadius={90} data={chartOptions.data}>
+                                <PolarGrid/>
+                                <PolarAngleAxis dataKey="name"/>
+                                <PolarRadiusAxis/>
+                                <Radar name="count" dataKey="count" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
+                                <Tooltip/>
+                            </RadarChart>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+
+                    {chartTemplate.key === 'line' ?
+                        <ResponsiveContainer>
+                            <LineChart
+                                data={chartOptions.data}
+                                margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <Tooltip/>
+                                <Legend/>
+                                <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{r: 8}}/>
+                            </LineChart>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+
+                    {chartTemplate.key === 'area' ?
+                        <ResponsiveContainer>
+                            <AreaChart
+                                data={chartOptions.data}
+                                margin={{
+                                    top: 10,
+                                    right: 30,
+                                    left: 0,
+                                    bottom: 0,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <Tooltip/>
+                                <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8"/>
+                            </AreaChart>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+                    {chartTemplate.key === 'treemap' ?
+                        <ResponsiveContainer>
+                            <Treemap
+                                width={chartOptions.chartWidth}
+                                height={chartOptions.chartHeight}
+                                data={chartOptions.data}
+                                dataKey="count"
+                                ratio={4 / 3}
+                                stroke="#fff"
+                            >
+                                {chartOptions.data.map((entry, index) => (
+                                    <Cell key={entry.key}
+                                          fill={getRandomBackgroundColor(entry.key).backgroundColor}/>
+                                ))}
+                                <Tooltip/>
+                            </Treemap>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+
+                    {chartTemplate.key === 'funnel' ?
+                        <ResponsiveContainer>
+                            <FunnelChart width={chartOptions.chartWidth} height={chartOptions.chartHeight}>
+                                <Tooltip/>
+                                <Funnel
+                                    dataKey="count"
+                                    data={chartOptions.data}
+                                    isAnimationActive={true}
+                                >
+                                    {chartOptions.data.map((entry, index) => (
+                                        <Cell key={entry.key}
+                                              fill={getRandomBackgroundColor(entry.key).backgroundColor}/>
+                                    ))}
+                                    <LabelList dataKey="name" position="inside" content={renderFunnelCustomizedLabel}/>
+                                </Funnel>
+                            </FunnelChart>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+
                 </div>
 
                 <div className={"title"}>

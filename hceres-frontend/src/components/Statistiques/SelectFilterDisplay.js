@@ -1,13 +1,13 @@
 import React from 'react';
 import BootstrapTable from "react-bootstrap-table-next";
 import getRandomBackgroundColor from "../util/ColorGenerator";
+import filterFactory, {textFilter} from "react-bootstrap-table2-filter";
 
 export default React.memo(function SelectFilterDisplay({selectOptions, onChange}) {
     const [selectedRows, setSelectedRows] = React.useState([]);
 
     const optionsKeyMap = React.useMemo(() => {
         // select all rows by default
-        console.log("selectOptions: ", selectOptions);
         return selectOptions.reduce((map, obj) => {
             map[obj.key] = obj.value;
             return map;
@@ -29,6 +29,7 @@ export default React.memo(function SelectFilterDisplay({selectOptions, onChange}
         {
             dataField: 'label',
             text: 'label',
+            filter: optionsKeyMap?.length > 5 ? textFilter(): null,
         },
         {
             dataField: 'value',
@@ -67,6 +68,7 @@ export default React.memo(function SelectFilterDisplay({selectOptions, onChange}
                 data={data}
                 columns={columns}
                 selectRow={selectRow}
+                filter={filterFactory()}
             />
         </div>
     );
