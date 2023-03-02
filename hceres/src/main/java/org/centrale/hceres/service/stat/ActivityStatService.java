@@ -25,6 +25,9 @@ public class ActivityStatService {
     @Autowired
     private PublicationStatService publicationStatService;
 
+    @Autowired
+    private BookStatService bookStatService;
+
     public ActivityStatSumDto getStatByTypeActivity(Integer idTypeActivity) {
         ActivityStatSumDto activityStatSumDto = createStatSumActivity(idTypeActivity);
 
@@ -56,6 +59,8 @@ public class ActivityStatService {
                 activityStatDto = publicationStatService.createStatPublication(activity);
                 break;
             case BOOK:
+                activityStatDto = bookStatService.createStatBook(activity);
+                break;
             default:
                 activityStatDto = new ActivityStatDto();
                 activityStatDto.fillDataFromActivity(activity);
