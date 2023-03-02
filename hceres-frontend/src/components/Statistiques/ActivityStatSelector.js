@@ -5,9 +5,11 @@ import ActivityTypes from "../../const/ActivityTypes";
 import {ActivityStatTemplate} from "./ActivityStatTemplate";
 import FixRequiredSelect from "../util/FixRequiredSelect";
 import Select from "react-select";
+import BookStat from "./books/BookStat";
 
 const activityStatTemplates = [
     PublicationStat,
+    BookStat,
     ...Object.keys(ActivityTypes).map(activityType => new ActivityStatTemplate({
         idTypeActivity: ActivityTypes[activityType],
         label: activityType,
