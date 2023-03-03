@@ -365,7 +365,9 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         {`${percentage}%`}
                     </text>
                 }
-                <text {...entry}
+                <text x={entry.x}
+                      y={entry.y}
+                      textAnchor={entry.textAnchor}
                       fill={"#000000"}
                       stroke={entry.fill}
                       strokeWidth={2}
@@ -390,6 +392,14 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 {chartOptions.showPercentageLabel && ` (${percentage}%)`}
             </text>
         );
+    };
+
+    const barStackLegendFormatter = (value, entry, index) => {
+        const {backgroundColor, color} = getRandomBackgroundColor(entry.payload.groupkey);
+        return <span style={{
+            color: color,
+            backgroundColor: backgroundColor,
+        }}>{value}</span>;
     };
 
     return (
@@ -592,13 +602,18 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 <XAxis dataKey="name"/>
                                 <YAxis/>
                                 <Tooltip/>
+
                                 {chartOptions.group2KeyToLabelMap && (Object.keys(chartOptions.group2KeyToLabelMap).map((group2Key) => (
+                                        // groupkey can be accessed later with functional update via entry.payload.groupkey
                                         <Bar key={group2Key} dataKey={chartOptions.group2KeyToLabelMap[group2Key]} stackId="a"
+                                             groupkey={group2Key}
                                              fill={getRandomBackgroundColor(group2Key).backgroundColor}>
                                         </Bar>
                                     ))
                                 )}
-                                <Legend/>
+                                <Legend
+                                    formatter={barStackLegendFormatter}
+                                />
                             </BarChart>
                         </ResponsiveContainer>
                         : <></>
