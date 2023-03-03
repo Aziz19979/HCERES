@@ -36,9 +36,34 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     const [laboratoryIdMap, setLaboratoryIdMap] = React.useState({});
     const [institutionIdMap, setInstitutionIdMap] = React.useState({});
 
-    const [activityStatList, setActivityStatList] = React.useState([]);
+    // useReducer for activityStatList instead of useState for the following reason:
+    //  When a user changes a selection in a list, it triggers an update to the activityStateEntry props of this component,
+    //  and we make an API request to get a new list of data to be stored in a state variable.
+    //  If two consecutive selection changes happen quickly and the first API request takes longer than the second one,
+    //  the list may be updated based on the outdated activityStateEntry props, leading to incorrect data being displayed.
+    // Making multiple API requests in parallel, and the order in which they return is affecting the final result.
+    const [activityStatList, dispatchActivityStatList] = React.useReducer((state, action) => {
+        if (action.idTypeActivity !== activityStatEntry.idTypeActivity) {
+            return state;
+        }
+        switch (action.type) {
+            case 'set':
+                return action.payload;
+            case 'add':
+                return [...state, action.payload];
+            default:
+                return state;
+        }
+    }, []);
+
     const [activityStatFilteredList, setActivityStatFilteredList] = React.useState([]);
+    const [isChargingMetaList, setChargingMetaList] = React.useState(false);
+    const [isChargingActivities, setChargingActivities] = React.useState(false);
     const [isLoading, setLoading] = React.useState(false);
+
+    React.useEffect(() => {
+        setLoading(isChargingActivities || isChargingMetaList);
+    }, [isChargingActivities, isChargingMetaList]);
 
     const groupByNoneCallback = React.useCallback((activityStat) => {
         return [
@@ -153,19 +178,30 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     ]);
     const [chartTemplate, setChartTemplate] = React.useState(chartTemplateList[0]);
 
-
     React.useEffect(() => {
-        setLoading(true);
+        setChargingActivities(true);
         // setActivityStatFilteredList([]); // uncomment in production
         // setActivityStatList([]); // uncomment in production
+        fetchActivityStatOfType(activityStatEntry.idTypeActivity).then((activityStatSum) => {
+            // setActivityStatList(activityStatEntry.prepareData(activityStatSum));
+            dispatchActivityStatList({
+                type: 'set',
+                payload: activityStatEntry.prepareData(activityStatSum),
+                idTypeActivity: activityStatEntry.idTypeActivity,
+            });
+        }).finally(() => {
+            setChargingActivities(false);
+        })
+    }, [activityStatEntry, dispatchActivityStatList]);
+
+    React.useEffect(() => {
+        setChargingMetaList(true);
         Promise.all([
-            fetchActivityStatOfType(activityStatEntry.idTypeActivity),
             fetchListTeams(),
             fetchListLaboratories(),
             fetchListInstitutions(),
         ])
-            .then(([activityStatSum, teamList, labList, institutionList]) => {
-                setActivityStatList(activityStatEntry.prepareData(activityStatSum));
+            .then(([teamList, labList, institutionList]) => {
                 setTeamIdMap(teamList.reduce((map, obj) => {
                     map[obj.teamId] = obj;
                     return map;
@@ -179,13 +215,10 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     return map;
                 }, {}));
             })
-            .catch(error => {
-                // handle error
-            })
             .finally(() => {
-                setLoading(false);
+                setChargingMetaList(false);
             });
-    }, [activityStatEntry]);
+    }, []);
 
     const handleSelectFilterChange = React.useCallback((filter, selectedOptionsValues) => {
         setFilters((prevFilters) => ({
@@ -222,6 +255,9 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     }, [filters, activityStatList]);
 
     React.useEffect(() => {
+        if (isLoading) {
+            return;
+        }
         let chartData = [];
         let group2KeyToLabelMap = {};
         if (groupBy.callbackGroupBy) {
@@ -320,7 +356,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 return map;
             }, {}),
         }))
-    }, [groupBy, activityStatFilteredList, chartTemplate.isStack, groupBy2])
+    }, [groupBy, activityStatFilteredList, chartTemplate.isStack, groupBy2, isLoading])
 
     const renderBarCustomizedLabel = (props) => {
         const {x, y, width, height} = props;
@@ -365,7 +401,9 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         {`${percentage}%`}
                     </text>
                 }
-                <text {...entry}
+                <text x={entry.x}
+                      y={entry.y}
+                      textAnchor={entry.textAnchor}
                       fill={"#000000"}
                       stroke={entry.fill}
                       strokeWidth={2}
@@ -390,6 +428,14 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 {chartOptions.showPercentageLabel && ` (${percentage}%)`}
             </text>
         );
+    };
+
+    const barStackLegendFormatter = (value, entry, index) => {
+        const {backgroundColor, color} = getRandomBackgroundColor(entry.payload.groupkey);
+        return <span style={{
+            color: color,
+            backgroundColor: backgroundColor,
+        }}>{value}</span>;
     };
 
     return (
@@ -592,13 +638,18 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 <XAxis dataKey="name"/>
                                 <YAxis/>
                                 <Tooltip/>
+
                                 {chartOptions.group2KeyToLabelMap && (Object.keys(chartOptions.group2KeyToLabelMap).map((group2Key) => (
+                                        // groupkey can be accessed later with functional update via entry.payload.groupkey
                                         <Bar key={group2Key} dataKey={chartOptions.group2KeyToLabelMap[group2Key]} stackId="a"
+                                             groupkey={group2Key}
                                              fill={getRandomBackgroundColor(group2Key).backgroundColor}>
                                         </Bar>
                                     ))
                                 )}
-                                <Legend/>
+                                <Legend
+                                    formatter={barStackLegendFormatter}
+                                />
                             </BarChart>
                         </ResponsiveContainer>
                         : <></>
@@ -728,7 +779,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                 <div className={"title"}>
                     <h1 style={{fontSize: 24, marginBottom: 20}}>
                         {chartTemplate?.label} des {activityStatEntry.label}
-                        {groupBy.key !== 'noGroupBy' && " regroupées par " + groupBy.label}
+                        {groupBy.key !== 'none' && " regroupées par " + groupBy.label}
                     </h1>
                 </div>
             </div>
