@@ -109,9 +109,11 @@ export default function ActivityStatDisplay({activityStatEntry}) {
         groupByInstitutionCallback]);
 
     const [groupBy, setGroupBy] = React.useState(groupByList[0]);
+    const [groupBy2, setGroupBy2] = React.useState(groupByList[0]);
 
     React.useEffect(() => {
         setGroupBy(groupByList[0]);
+        setGroupBy2(groupByList[0]);
         setFilters({});
     }, [groupByList])
 
@@ -125,6 +127,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
         chartHeight: 300,
         showCountLabel: true,
         showPercentageLabel: false,
+        group2KeyToLabelMap: {},
     });
     const handleChartOptionChange = (event) => {
         const {name, value, type, checked} = event.target
@@ -135,7 +138,10 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     }
 
     const [chartTemplateList] = React.useState([
+        // bar chart is the default
         {key: 'bar', label: 'Bar chart', checked: true},
+        // isStack is used to differntiate charts that can be stacked, i.e. use double group by
+        {key: 'barStack', label: 'Bar stack chart', isStack: true},
         {key: 'pie', label: 'Pie chart'},
         {key: 'radar', label: 'Radar chart'},
         {key: 'line', label: 'Line chart'},
@@ -217,10 +223,12 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     React.useEffect(() => {
         let chartData = [];
+        let group2KeyToLabelMap = {};
         if (groupBy.callbackGroupBy) {
             // custom group by
             let groupKeyMap = {};
             let groupLabelMap = {};
+            let group2LabelMap = {};
             activityStatFilteredList.forEach((activity) => {
                 const groupList = groupBy.callbackGroupBy(activity);
                 groupList.forEach((group) => {
@@ -233,35 +241,86 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                             groupLabelIndex++;
                         }
                         groupLabelMap[groupLabel] = true;
-                        groupKeyMap[group.groupKey] = {
-                            groupKey: group.groupKey,
-                            groupLabel: groupLabel,
-                            count: 0,
+                        if (chartTemplate.isStack) {
+                            groupKeyMap[group.groupKey] = {
+                                groupKey: group.groupKey,
+                                groupLabel: groupLabel,
+                                group2: {},
+                            }
+                        } else {
+                            groupKeyMap[group.groupKey] = {
+                                groupKey: group.groupKey,
+                                groupLabel: groupLabel,
+                                count: 0,
+                            }
                         }
 
                     }
-                    groupKeyMap[group.groupKey].count++;
+                    if (chartTemplate.isStack) {
+                        let group2List = groupBy2.callbackGroupBy(activity);
+                        group2List.forEach((group2) => {
+                            if (groupKeyMap[group.groupKey]['group2'][group2.groupKey] === undefined) {
+                                let group2Label = group2.groupLabel;
+                                let groupLabelIndex = 2;
+                                if (group2LabelMap[group.groupKey] === undefined) {
+                                    group2LabelMap[group.groupKey] = {};
+                                }
+                                while (group2LabelMap[group.groupKey][group2Label] !== undefined) {
+                                    group2Label = group2.groupLabel + ' (' + groupLabelIndex + ')';
+                                    groupLabelIndex++;
+                                }
+                                group2LabelMap[group.groupKey][group2Label] = true;
+                                group2KeyToLabelMap[group2.groupKey] = group2Label;
+                                groupKeyMap[group.groupKey]['group2'][group2.groupKey] = 0;
+                            }
+                            groupKeyMap[group.groupKey]['group2'][group2.groupKey]++;
+                        })
+                    } else {
+                        groupKeyMap[group.groupKey].count++;
+                    }
                 })
             })
 
-            chartData = Object.keys(groupKeyMap).map((groupKey) => {
-                return {
-                    key: groupKeyMap[groupKey].groupKey,
-                    name: groupKeyMap[groupKey].groupLabel,
-                    count: groupKeyMap[groupKey].count,
-                }
-            });
+            if (chartTemplate.isStack) {
+                chartData = Object.keys(groupKeyMap).map((groupKey) => {
+                    let group2Bars = {};
+                    let group2 = Object.keys(groupKeyMap[groupKey]['group2']).map((group2Key) => {
+                        group2Bars[group2KeyToLabelMap[group2Key]] = groupKeyMap[groupKey]['group2'][group2Key];
+                        return {
+                            [group2KeyToLabelMap[group2Key]]: groupKeyMap[groupKey]['group2'][group2Key],
+                            key: group2Key,
+                            name: group2KeyToLabelMap[group2Key],
+                            count: groupKeyMap[groupKey]['group2'][group2Key],
+                        }
+                    });
+                    return {
+                        key: groupKeyMap[groupKey].groupKey,
+                        name: groupKeyMap[groupKey].groupLabel,
+                        group2: group2,
+                        ...group2Bars,
+                    }
+                });
+            } else {
+                chartData = Object.keys(groupKeyMap).map((groupKey) => {
+                    return {
+                        key: groupKeyMap[groupKey].groupKey,
+                        name: groupKeyMap[groupKey].groupLabel,
+                        count: groupKeyMap[groupKey].count,
+                    }
+                });
+            }
         }
 
         setChartOptions(prevState => ({
             ...prevState,
             data: chartData,
+            group2KeyToLabelMap: chartTemplate?.isStack ? group2KeyToLabelMap : undefined,
             dataNameMap: chartData.reduce((map, obj) => {
                 map[obj.name] = obj;
                 return map;
             }, {}),
         }))
-    }, [groupBy, activityStatFilteredList])
+    }, [groupBy, activityStatFilteredList, chartTemplate.isStack, groupBy2])
 
     const renderBarCustomizedLabel = (props) => {
         const {x, y, width, height} = props;
@@ -424,7 +483,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                             </div>
                         </div>
 
-                        <div>
+                        <div hidden={!['bar', 'pie', 'funnel'].includes(chartTemplate.key)}>
                             <label className={"label"}>Chart Labels</label>
                             <div style={{display: 'flex'}}>
                                 <label className={"label"}>Count</label>
@@ -459,6 +518,25 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 </div>
                             ))}
                         </div>
+                        {chartTemplate?.isStack && (
+                            <>
+                                <label className={"label"}>Stacked par</label>
+                                <div style={{display: 'flex'}}>
+                                    {groupByList.map((group) => (
+                                        <div key={group.key} className={"ml-2"}>
+                                            <Form.Check
+                                                type={"radio"}
+                                                name={"groupBy2"}
+                                                id={`${group.key}-2`}
+                                                label={group.label}
+                                                defaultChecked={group.checked}
+                                                onChange={() => setGroupBy2(group)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        )}
                         <br/>
                     </div>
                     {/*card-content*/}
@@ -499,6 +577,33 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                         </ResponsiveContainer>
                         : <></>
                     }
+                    {chartTemplate.key === 'barStack' ?
+                        <ResponsiveContainer>
+                            <BarChart
+                                data={chartOptions.data}
+                                margin={{
+                                    top: 20,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <Tooltip/>
+                                {chartOptions.group2KeyToLabelMap && (Object.keys(chartOptions.group2KeyToLabelMap).map((group2Key) => (
+                                        <Bar key={group2Key} dataKey={chartOptions.group2KeyToLabelMap[group2Key]} stackId="a"
+                                             fill={getRandomBackgroundColor(group2Key).backgroundColor}>
+                                        </Bar>
+                                    ))
+                                )}
+                                <Legend/>
+                            </BarChart>
+                        </ResponsiveContainer>
+                        : <></>
+                    }
+
                     {chartTemplate.key === 'pie' ?
                         <ResponsiveContainer>
                             <PieChart>
