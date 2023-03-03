@@ -2862,7 +2862,7 @@ SELECT pg_catalog.setval('public.seq_laboratory', 1, true);
 
 INSERT INTO public.language (language_id, language_name) VALUES (1, 'Français');
 INSERT INTO public.language (language_id, language_name) VALUES (2, 'English');
-SELECT pg_catalog.setval('public.seq_language', 2, false);
+SELECT pg_catalog.setval('public.seq_language', 2, true);
 
 --
 -- TOC entry 3787 (class 0 OID 24795)
