@@ -60,6 +60,21 @@ class PublicationStat extends ActivityStatTemplate {
             }
         },
         {
+            key: "minimalImpactFactor",
+            label: "Facteur d'impact minimal",
+            inputType: "number",
+            callbackFilter: (publication, impactFactor) => publication.impactFactor >= impactFactor,
+            initialValueCallback: (publicationList)=> {
+                let minImpactFactor = publicationList[0]?.impactFactor;
+                publicationList.forEach((publication) => {
+                    if (publication.impactFactor < minImpactFactor) {
+                        minImpactFactor = publication.publicationDate;
+                    }
+                })
+                return minImpactFactor;
+            }
+        },
+        {
             key: "publicationType",
             label: "Type de publication",
             inputType: "select",
