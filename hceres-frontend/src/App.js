@@ -11,6 +11,7 @@ import AuthWrapper from "./utils/AuthWrapper";
 import PageNotExist from "./components/pageNotExist";
 import ActivityList from "./components/Activity/ActivityList";
 import DataImporter from "./components/Configuration/import-data/DataImporter";
+import Statistiques from "./components/Statistiques/Statistiques";
 
 function App() {
     return (
@@ -24,6 +25,8 @@ function App() {
                     <Route path='/Home' exact element={<Navbar/>}/>
                     <Route path='/Researcher' exact element={<Navbar/>}/>
                     <Route path='/Activity' exact element={<Navbar/>}/>
+                    <Route path='/Statistiques' exact element={<Navbar/>}/>
+
                     <Route path='*' exact element={<></>}/>
                 </Routes>
 
@@ -37,6 +40,7 @@ function App() {
                         <Route path='/Home' exact element={<Home/>}/>
                         <Route path='/Researcher' exact element={<Researcher/>}/>
                         <Route path='/Activity' exact element={<ActivityList/>}/>
+                        <Route path='/Statistiques' exact element={<Statistiques/>}/>
                     </Route>
 
                 </Routes>

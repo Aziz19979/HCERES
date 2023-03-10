@@ -535,6 +535,7 @@ const CsvValidator = (props) => {
 
                     {state.errorLines.length > 0 &&
                         <BootstrapTable
+                            bootstrap4={true}
                             keyField='row'
                             data={state.errorLines}
                             columns={errorTableColumns}
@@ -544,10 +545,8 @@ const CsvValidator = (props) => {
 
                     {state.showCsvTableResults
                         && <CsvTableResults
-                            csvResults={state.csvResults}
-                            onHide={() => dispatch({
-                                type: 'hide-csv-viewer'
-                            })}
+                            csvResultsData={state.csvResults.data}
+                            csvResultsMetaFields={state.csvResults.meta.fields}
                         />
                     }
                 </Card.Body>

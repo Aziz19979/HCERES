@@ -27,7 +27,7 @@ public class ReviewService {
      * permet de retourner la liste
      */
     public List<Activity> getReviewArticle() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.REVIEWING_JOURNAL_ARTICLES.getId());
     }
 
     /**
@@ -60,14 +60,17 @@ public class ReviewService {
         if (journal == null) {
             journal = new Journal();
             journal.setJournalName(journalName);
+            journal = journalRepository.save(journal);
+            journalRepository.flush();
         }
+        reviewArticle.setJournalId(journal.getJournalId());
         reviewArticle.setJournal(journal);
 
         // Activity :
         Activity activity = new Activity();
         reviewArticle.setActivity(activity);
         activity.setReviewArticle(reviewArticle);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.REVIEWING_JOURNAL_ARTICLES.getId());
+        activity.setIdTypeActivity(TypeActivityId.REVIEWING_JOURNAL_ARTICLES.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

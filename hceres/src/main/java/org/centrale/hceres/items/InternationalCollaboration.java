@@ -16,7 +16,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -91,8 +90,16 @@ public class InternationalCollaboration implements Serializable {
     @Column(name = "agreement_signed")
     private Boolean agreementSigned;
 
+    @Column(name = "type_collab_id")
+    private Integer typeCollabId;
+
     @JsonIgnore
-    @JoinColumn(name = "type_collab_id", referencedColumnName = "type_collab_id")
+    @JoinColumn(
+            name = "type_collab_id",
+            referencedColumnName = "type_collab_id",
+            insertable = false,
+            updatable = false
+    )
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    private TypeCollab typeCollabId;
+    private TypeCollab typeCollab;
 }

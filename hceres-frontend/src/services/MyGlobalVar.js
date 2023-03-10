@@ -10,7 +10,7 @@ class MyClass {
         this.listeEducations = null;
         this.listeSrAwards = null;
         this.listePlatforms = null;
-        this.listeOralCommunications = null;
+        this.listeOralComPosters = null;
         this.listeIndustrialContracts = null;
         this.listeInternationalCollaborations = null;
         this.listeScientificExpertises = null;
@@ -26,6 +26,9 @@ class MyClass {
         this.listeContracts = null;
         this.listeStatutes = null;
         this.listeContractTypes = null
+        this.listePublications = null;
+        this.listeLaboratories = null;
+        this.listeActivityStats = {};
     }
 
     deleteActivity(activityList, idActivity) {

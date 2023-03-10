@@ -54,12 +54,30 @@ public class EditorialActivity implements Serializable {
     @Column(name = "impact_factor")
     private BigDecimal impactFactor;
 
-    @JsonIgnore
-    @JoinColumn(name = "function_editorial_activity_id", referencedColumnName = "function_editorial_activity_id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private FunctionEditorialActivity functionEditorialActivityId;
 
-    @JoinColumn(name = "journal_id", referencedColumnName = "journal_id")
-    @ManyToOne(optional = false, cascade=CascadeType.ALL)
+    @Column(name = "function_editorial_activity_id")
+    private Integer functionEditorialActivityId;
+
+    @JsonIgnore
+    @JoinColumn(
+            name = "function_editorial_activity_id",
+            referencedColumnName = "function_editorial_activity_id",
+            insertable = false,
+            updatable = false
+    )
+    @ManyToOne(optional = false)
+    private FunctionEditorialActivity functionEditorialActivity;
+
+
+    @Column(name = "journal_id")
+    private Integer journalId;
+
+    @JoinColumn(
+            name = "journal_id",
+            referencedColumnName = "journal_id",
+            insertable = false,
+            updatable = false
+    )
+    @ManyToOne(optional = false)
     private Journal journal;
 }

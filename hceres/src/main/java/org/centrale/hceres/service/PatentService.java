@@ -28,7 +28,7 @@ public class PatentService {
      * permet de retourner la liste
      */
     public List<Activity> getPatents() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.PATENT_LICENCE_INVENTION_DISCLOSURE.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.PATENT_LICENCE_INVENTION_DISCLOSURE.getId());
     }
 
     /**
@@ -77,7 +77,7 @@ public class PatentService {
         Activity activity = new Activity();
         patent.setActivity(activity);
         activity.setPatent(patent);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.PATENT_LICENCE_INVENTION_DISCLOSURE.getId());
+        activity.setIdTypeActivity(TypeActivityId.PATENT_LICENCE_INVENTION_DISCLOSURE.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

@@ -5,12 +5,12 @@ import java.util.*;
 
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Education;
-import org.centrale.hceres.items.EducationInvolvment;
+import org.centrale.hceres.items.EducationInvolvement;
 import org.centrale.hceres.items.EducationLevel;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
-import org.centrale.hceres.repository.EducationInvolvmentRespository;
+import org.centrale.hceres.repository.EducationInvolvementRespository;
 import org.centrale.hceres.repository.EducationLevelRepository;
 import org.centrale.hceres.repository.EducationRepository;
 import org.centrale.hceres.util.RequestParseException;
@@ -32,7 +32,7 @@ public class EducationService {
     private EducationRepository educationRepo;
 
     @Autowired
-    private EducationInvolvmentRespository educationInvolvmentRepo;
+    private EducationInvolvementRespository educationInvolvementRepo;
 
     @Autowired
     private EducationLevelRepository educationLevelRepo;
@@ -44,7 +44,7 @@ public class EducationService {
      * permet de retourner la liste
      */
     public List<Activity> getEducations() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.EDUCATIONAL_OUTPUT.getId());
     }
 
     /**
@@ -79,10 +79,10 @@ public class EducationService {
         education.setEducationFormation(RequestParser.getAsString(request.get("educationFormation")));
 
 
-        // EducationInvolvment
-        EducationInvolvment educationInvolvment = new EducationInvolvment();
-        educationInvolvment.setEducationInvolvementName(RequestParser.getAsString(request.get("educationInvolvementName")));
-        education.setEducationInvolvmentId(educationInvolvment);
+        // EducationInvolvement
+        EducationInvolvement educationInvolvement = new EducationInvolvement();
+        educationInvolvement.setEducationInvolvementName(RequestParser.getAsString(request.get("educationInvolvementName")));
+        education.setEducationInvolvementId(educationInvolvement);
 
 
         // EducationLevel :
@@ -94,7 +94,7 @@ public class EducationService {
         Activity activity = new Activity();
         education.setActivity(activity);
         activity.setEducation(education);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.EDUCATIONAL_OUTPUT.getId());
+        activity.setIdTypeActivity(TypeActivityId.EDUCATION_FORMATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

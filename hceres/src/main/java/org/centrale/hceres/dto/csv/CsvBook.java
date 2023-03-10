@@ -2,17 +2,14 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Book;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.service.csv.LanguageCreatorCache;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +21,18 @@ public class CsvBook extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvBook;
+    private static final int ID_CSV_BOOK_ORDER = 0;
 
-    private Date publicationDate;
+    private java.sql.Date publicationDate;
+    private static final int PUBLICATION_DATE_ORDER = 1;
     private String title;
+    private static final int TITLE_ORDER = 2;
     private String editor;
+    private static final int EDITOR_ORDER = 3;
     private String authors;
+    private static final int AUTHORS_ORDER = 4;
     private String language;
+    private static final int LANGUAGE_ORDER = 5;
 
 
     // dependency element
@@ -43,32 +46,43 @@ public class CsvBook extends DependentCsv<Activity, Integer> {
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvBook(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setPublicationDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setEditor(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setAuthors(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setLanguage(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_BOOK_ORDER,
+                        f -> this.setIdCsvBook(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(PUBLICATION_DATE_ORDER,
+                        f -> this.setPublicationDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(TITLE_ORDER,
+                        f -> this.setTitle(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(EDITOR_ORDER,
+                        f -> this.setEditor(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(AUTHORS_ORDER,
+                        f -> this.setAuthors(RequestParser.getAsString(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(LANGUAGE_ORDER,
+                        f -> this.setLanguage(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvBook());
-        if (this.csvActivity == null) {
-            throw new CsvDependencyException("Activity not found for id " + this.getIdCsvBook());
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_BOOK_ORDER,
+                        this.getIdCsvBook(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvBook()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.BOOK.getId());
+        activity.setIdTypeActivity(TypeActivityId.BOOK.getId());
 
         Book book = new Book();
         book.setPublicationDate(this.getPublicationDate());

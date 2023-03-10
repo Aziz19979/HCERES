@@ -9,6 +9,14 @@ import LoadingIcon from "../../util/LoadingIcon";
 import CsvSampleDownloader from "./CsvSampleDownloader";
 import MyGlobalVar from "../../../services/MyGlobalVar";
 import {purgeDatabase} from "../../../services/Configuration/DataPurgerActions";
+import ImportCsvSummary from "./ImportCsvSummary";
+
+function createInverseMap(originalMap) {
+    return Array.from(originalMap.entries()).reduce(
+        (inverseMap, [key, value]) => inverseMap.set(value, key),
+        new Map()
+    );
+}
 
 const DataImporter = () => {
     const initialState = {
@@ -25,17 +33,15 @@ const DataImporter = () => {
 
         // Generated state
         missingCsvDependencies: new Set(),
+
+        // Received from backend
+        importCsvSummary: {},
     }
     const fileInputRef = useRef(null);
     const [state, dispatch] = useReducer(reducerFunction, initialState);
-
+    const csvFormatToFileNamesMap = createInverseMap(state.csvTemplateAssociations);
     function reducerFunction(state, action) {
-        function createInverseMap(originalMap) {
-            return Array.from(originalMap.entries()).reduce(
-                (inverseMap, [key, value]) => inverseMap.set(value, key),
-                new Map()
-            );
-        }
+
 
         function getMissingDependencies(csvTemplateAssociations) {
             let missingDependencies = new Set();
@@ -54,7 +60,6 @@ const DataImporter = () => {
 
         switch (action.type) {
             case 'download-csv-samples':
-                console.log(CsvSampleDownloader())
                 setTimeout(() => dispatch({
                     type: 'download-csv-samples-done',
                 }), 1000);
@@ -174,34 +179,35 @@ const DataImporter = () => {
                 };
             case 'purge-database-success':
                 // Changer par un alert dans la page plus tard
-                setTimeout(()=>{
+                setTimeout(() => {
                     alert("Database cleared successfully!");
                 }, 500);
                 MyGlobalVar.initializeLists();
                 return {
                     ...state,
                     isPurgingDatabase: false,
+                    importCsvSummary: {},
                 };
             case 'purge-database-failed':
                 // Changer par un alert dans la page plus tard
-                setTimeout(()=>{
+                setTimeout(() => {
                     alert("There was an error during clear, check logs!")
                 }, 500);
                 return {
                     ...state,
                     isPurgingDatabase: false,
+                    importCsvSummary: {},
                 };
             case 'insert-database-success':
                 // Changer par un alert dans la page plus tard
-                setTimeout(()=>{
-                    alert("insert success!" + JSON.stringify(action?.payload?.data?.entityToInsertedCount));
+                setTimeout(() => {
+                    alert("Insertion réussie !");
                 }, 500);
-                console.log("insert success");
-                console.log(action.payload);
                 MyGlobalVar.initializeLists();
                 return {
                     ...state,
                     isInsertingIntoDataBase: false,
+                    importCsvSummary: action.payload?.data,
                 };
             case 'insert-database-failed':
                 console.log("insert failed");
@@ -209,6 +215,7 @@ const DataImporter = () => {
                 return {
                     ...state,
                     isInsertingIntoDataBase: false,
+                    importCsvSummary: {},
                 };
             case 'clear-file':
                 setTimeout(() => {
@@ -242,6 +249,7 @@ const DataImporter = () => {
                     csvValidators: new Map(),
                     csvParseResults: new Map(),
                     csvTemplateAssociations: new Map(),
+                    importCsvSummary: {},
                 };
             case 'clear-non-associated-files':
                 const formatToFileName = createInverseMap(state.csvTemplateAssociations);
@@ -283,6 +291,18 @@ const DataImporter = () => {
                     Import Csv Data into database
                 </h3>
             </div>
+            {state.importCsvSummary?.entityToCsvMetrics ?
+                <div className={"row"}>
+                    <ImportCsvSummary
+                        entityToCsvMetrics={state.importCsvSummary?.entityToCsvMetrics}
+                        entityToCsvErrors={state.importCsvSummary?.entityToCsvErrors}
+                        csvParseResults={state.csvParseResults}
+                        csvFormatToFileNamesMap={csvFormatToFileNamesMap}
+                    />
+                </div>:
+                <></>
+            }
+
             <div className={"row"}>
                 {state.missingCsvDependencies.size > 0 ?
                     <Alert variant={"danger"}>

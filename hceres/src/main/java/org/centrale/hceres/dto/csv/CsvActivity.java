@@ -4,10 +4,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Institution;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.TypeActivity;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
 import java.util.Collections;
@@ -21,22 +20,27 @@ import java.util.Map;
 @Data
 public class CsvActivity extends DependentCsv<Activity, Integer> {
     // id_type;id_activity;id_researcher;specific_activity_count;activity_name_type
-    private int idCsvTypeActivity;
+    private Integer idCsvTypeActivity;
+    private static final int ID_CSV_TYPE_ACTIVITY_ORDER = 0;
     private GenericCsv<TypeActivity, Integer> csvTypeActivity;
     private final Map<Integer, GenericCsv<TypeActivity, Integer>> typeActivityIdCsvMap;
 
-    private int idCsv;
+    private Integer idCsv;
+    private static final int ID_CSV_ORDER = 1;
 
-    private int idCsvResearcher;
+    private Integer idCsvResearcher;
+    private static final int ID_CSV_RESEARCHER_ORDER = 2;
     private GenericCsv<Researcher, Integer> csvResearcher;
     private final Map<Integer, GenericCsv<Researcher, Integer>> researcherIdCsvMap;
 
     // specific count along with idCsvTypeActivity give the id
     // of activity
-    private int specificActivityCount;
+    private Integer specificActivityCount;
+    private static final int SPECIFIC_ACTIVITY_COUNT_ORDER = 3;
 
     // ignored
     private String activityNameType;
+    private static final int ACTIVITY_NAME_TYPE_ORDER = 4;
 
     public CsvActivity(Map<Integer, GenericCsv<TypeActivity, Integer>> typeActivityIdCsvMap,
                        Map<Integer, GenericCsv<Researcher, Integer>> researcherIdCsvMap) {
@@ -46,29 +50,40 @@ public class CsvActivity extends DependentCsv<Activity, Integer> {
 
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvTypeActivity(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setIdCsv(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setIdCsvResearcher(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setSpecificActivityCount(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setActivityNameType(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_TYPE_ACTIVITY_ORDER,
+                        f -> this.setIdCsvTypeActivity(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_ORDER,
+                        f -> this.setIdCsv(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_RESEARCHER_ORDER,
+                        f -> this.setIdCsvResearcher(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(SPECIFIC_ACTIVITY_COUNT_ORDER,
+                        f -> this.setSpecificActivityCount(RequestParser.getAsInteger(csvData.get(f)))),
+
+                () -> CsvParserUtil.wrapCsvParseException(ACTIVITY_NAME_TYPE_ORDER,
+                        f -> this.setActivityNameType(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvTypeActivity = this.typeActivityIdCsvMap.get(this.idCsvTypeActivity);
-        if (this.csvTypeActivity == null) {
-            throw new CsvDependencyException("TypeActivity with id " + this.idCsvTypeActivity + " not found");
-        }
-        this.csvResearcher = this.researcherIdCsvMap.get(this.idCsvResearcher);
-        if (this.csvResearcher == null) {
-            throw new CsvDependencyException("Researcher with id " + this.idCsvResearcher + " not found");
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_TYPE_ACTIVITY_ORDER,
+                        this.getIdCsvTypeActivity(),
+                        SupportedCsvTemplate.TYPE_ACTIVITY,
+                        this.typeActivityIdCsvMap.get(this.getIdCsvTypeActivity()),
+                        this::setCsvTypeActivity),
+
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_RESEARCHER_ORDER,
+                        this.getIdCsvResearcher(),
+                        SupportedCsvTemplate.RESEARCHER,
+                        this.researcherIdCsvMap.get(this.getIdCsvResearcher()),
+                        this::setCsvResearcher)
+        );
     }
 
     private static final String IMPLEMENTATION_ERROR = "Should not be called, convert Specific Activity instead";

@@ -62,7 +62,7 @@ public class ResearcherController {
 	 * Delete - Delete an element
 	 * @param id - The id of the element
 	 */
-	@DeleteMapping("/Researcher/{id}/Delete")
+	@DeleteMapping("/Researcher/Delete/{id}")
 	public void deleteEducation(@RequestBody @PathVariable("id") final Integer id) {
 		rs.deleteResearcher(id);
 	}
@@ -83,7 +83,7 @@ public class ResearcherController {
 	 * @param request - The element to update
 	 * @return The updated element
 	 */
-	@PutMapping("/Researcher/{id}/Update")
+	@PutMapping("/Researcher/Update/{id}")
 	public Researcher updateResearcher(@PathVariable("id") final Integer id, @RequestBody Map<String, Object> request) throws RequestParseException {
 		return rs.updateResearcher(id, request);
 	}

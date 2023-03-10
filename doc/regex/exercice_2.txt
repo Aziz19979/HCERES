@@ -51,7 +51,7 @@
                 <ToolkitProvider
                     bootstrap4
                     keyField="idActivity"
-                    data={oralCommunicationList}
+                    data={oralComPosterList}
                     columns={columns}
                     search
                 >

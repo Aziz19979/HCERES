@@ -60,9 +60,9 @@ public class Education implements Serializable {
     private String educationFormation;
 
     @JsonIgnore
-    @JoinColumn(name = "education_involvment_id", referencedColumnName = "education_involvment_id")
+    @JoinColumn(name = "education_involvement_id", referencedColumnName = "education_involvement_id")
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    private EducationInvolvment educationInvolvmentId;
+    private EducationInvolvement educationInvolvementId;
     @JsonIgnore
     @JoinColumn(name = "education_level_id", referencedColumnName = "education_level_id")
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)

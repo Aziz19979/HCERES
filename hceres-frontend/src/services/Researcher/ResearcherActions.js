@@ -24,7 +24,7 @@ export const addResearcher = async (data) => {
 }
 
 export const updateResearcher = async (idResearcher, data) => {
-    const response = await axios.put(`${API_URL}/Researcher/${idResearcher}/Update`, data);
+    const response = await axios.put(`${API_URL}/Researcher/Update/${idResearcher}`, data);
     if (MyGlobalVar.listeChercheurs) {
         // 1. Make a shallow copy of the items
         let items = [...MyGlobalVar.listeChercheurs];
@@ -41,7 +41,7 @@ export const updateResearcher = async (idResearcher, data) => {
 }
 
 export const deleteResearcher = async (idResearcher) => {
-    const response = await axios.delete(API_URL + "/Researcher/" + idResearcher + "/Delete");
+    const response = await axios.delete(API_URL + "/Researcher/Delete" + idResearcher);
     if (MyGlobalVar.listeChercheurs) {
         let items = [...MyGlobalVar.listeChercheurs];
         let indexDeleted = MyGlobalVar.listeChercheurs.findIndex(r => r.researcherId === idResearcher)

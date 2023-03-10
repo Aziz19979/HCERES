@@ -2,15 +2,11 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.*;
-import org.centrale.hceres.util.RequestParseException;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParser;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +18,18 @@ public class CsvMeetingCongressOrg extends DependentCsv<Activity, Integer> {
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvMeetingCongressOrg;
+    private static final int ID_CSV_MEETING_CONGRESS_ORG_ORDER = 0;
 
     private Integer year;
+    private static final int YEAR_ORDER = 1;
     private Integer idType;
+    private static final int ID_TYPE_ORDER = 2;
     private String nameCongress;
-    private Date date;
+    private static final int NAME_CONGRESS_ORDER = 3;
+    private java.sql.Date date;
+    private static final int DATE_ORDER = 4;
     private String location;
+    private static final int LOCATION_ORDER = 5;
 
 
 
@@ -39,34 +41,39 @@ public class CsvMeetingCongressOrg extends DependentCsv<Activity, Integer> {
         this.activityIdCsvMap = activityIdCsvMap;
     }
 
-
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvMeetingCongressOrg(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setYear(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setIdType(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setNameCongress(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setLocation(RequestParser.getAsString(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_MEETING_CONGRESS_ORG_ORDER,
+                        f -> this.setIdCsvMeetingCongressOrg(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(YEAR_ORDER,
+                        f -> this.setYear(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(ID_TYPE_ORDER,
+                        f -> this.setIdType(RequestParser.getAsIntegerOrDefault(csvData.get(f), 0))),
+                () -> CsvParserUtil.wrapCsvParseException(NAME_CONGRESS_ORDER,
+                        f -> this.setNameCongress(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(DATE_ORDER,
+                        f -> this.setDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(LOCATION_ORDER,
+                        f -> this.setLocation(RequestParser.getAsString(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        this.csvActivity = this.activityIdCsvMap.get(this.getIdCsvMeetingCongressOrg());
-        if (this.csvActivity == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvMeetingCongressOrg());
-        }
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_MEETING_CONGRESS_ORG_ORDER,
+                        this.getIdCsvMeetingCongressOrg(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvMeetingCongressOrg()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override
     public Activity convertToEntity() {
         Activity activity = this.csvActivity.convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.MEETING_CONGRESS_ORG.getId());
+        activity.setIdTypeActivity(TypeActivityId.MEETING_CONGRESS_ORG.getId());
 
         MeetingCongressOrg meetingCongressOrg = new MeetingCongressOrg();
 

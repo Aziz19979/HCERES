@@ -29,7 +29,7 @@ public class InternationalCollaborationService {
      * permet de retourner la liste
      */
     public List<Activity> getInternationalCollaborations() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
     }
 
     /**
@@ -92,16 +92,14 @@ public class InternationalCollaborationService {
         internationalCollaboration.setAgreementSigned(Boolean.valueOf(RequestParser.getAsString(request.get("AgreementSigned"))));
 
 
-        // TypeCollab :
-        TypeCollab typeCollab = new TypeCollab();
-        typeCollab.setNameChoice(RequestParser.getAsString(request.get("NameChoice")));
-        internationalCollaboration.setTypeCollabId(typeCollab);
+        // TypeCollab, TODO make a selection list in the front end and send the id
+        internationalCollaboration.setTypeCollabId(1);
 
         // Activity :
         Activity activity = new Activity();
         internationalCollaboration.setActivity(activity);
         activity.setInternationalCollaboration(internationalCollaboration);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
+        activity.setIdTypeActivity(TypeActivityId.NATIONAL_INTERNATIONAL_COLLABORATION.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(RequestParser.getAsList(

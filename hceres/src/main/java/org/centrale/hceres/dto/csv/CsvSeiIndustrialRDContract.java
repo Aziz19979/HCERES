@@ -2,18 +2,14 @@ package org.centrale.hceres.dto.csv;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.centrale.hceres.dto.csv.utils.CsvDependencyException;
-import org.centrale.hceres.dto.csv.utils.CsvParseException;
-import org.centrale.hceres.dto.csv.utils.DependentCsv;
-import org.centrale.hceres.dto.csv.utils.GenericCsv;
+import org.centrale.hceres.dto.csv.utils.*;
 import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.SeiIndustrialRDContract;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
+import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +22,17 @@ public class CsvSeiIndustrialRDContract extends DependentCsv<Activity, Integer> 
     // to get the id activity use both key:
     // the type of activity and the specific count
     private Integer idCsvSeiIndustrialRDContract;
-    private Date startDate;
+    private static final int ID_CSV_SEI_INDUSTRIAL_RD_CONTRACT_ORDER = 0;
+    private java.sql.Date startDate;
+    private static final int START_DATE_ORDER = 1;
     private String nameCompanyInvolved;
+    private static final int NAME_COMPANY_INVOLVED_ORDER = 2;
     private String projectTitle;
+    private static final int PROJECT_TITLE_ORDER = 3;
     private Integer agreementAmount;
-    private Date endDate;
+    private static final int AGREEMENT_AMOUNT_ORDER = 4;
+    private java.sql.Date endDate;
+    private static final int END_DATE_ORDER = 5;
 
 
     // dependency element
@@ -42,34 +44,38 @@ public class CsvSeiIndustrialRDContract extends DependentCsv<Activity, Integer> 
     }
 
     @Override
-    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvParseException {
-        int fieldNumber = 0;
-        try {
-            this.setIdCsvSeiIndustrialRDContract(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setStartDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber++)));
-            this.setNameCompanyInvolved(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setProjectTitle(RequestParser.getAsString(csvData.get(fieldNumber++)));
-            this.setAgreementAmount(RequestParser.getAsInteger(csvData.get(fieldNumber++)));
-            this.setEndDate(RequestParser.getAsDateCsvFormat(csvData.get(fieldNumber)));
-        } catch (RequestParseException e) {
-            throw new CsvParseException(e.getMessage() + " at column " + fieldNumber + " at id " + csvData);
-        }
+    public void fillCsvDataWithoutDependency(List<?> csvData) throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvParseException(ID_CSV_SEI_INDUSTRIAL_RD_CONTRACT_ORDER,
+                        f -> this.setIdCsvSeiIndustrialRDContract(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(START_DATE_ORDER,
+                        f -> this.setStartDate(RequestParser.getAsDateCsvFormat(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(NAME_COMPANY_INVOLVED_ORDER,
+                        f -> this.setNameCompanyInvolved(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(PROJECT_TITLE_ORDER,
+                        f -> this.setProjectTitle(RequestParser.getAsString(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(AGREEMENT_AMOUNT_ORDER,
+                        f -> this.setAgreementAmount(RequestParser.getAsInteger(csvData.get(f)))),
+                () -> CsvParserUtil.wrapCsvParseException(END_DATE_ORDER,
+                        f -> this.setEndDate(RequestParser.getAsDateCsvFormat(csvData.get(f))))
+        );
     }
 
     @Override
-    public void initializeDependencies() throws CsvDependencyException {
-        // get the activity
-        CsvActivity csvActivityDep = this.activityIdCsvMap.get(this.getIdCsvSeiIndustrialRDContract());
-        if (csvActivityDep == null) {
-            throw new CsvDependencyException("No activity found for id " + this.getIdCsvSeiIndustrialRDContract());
-        }
-        this.setCsvActivity(csvActivityDep);
+    public void initializeDependencies() throws CsvAllFieldExceptions {
+        CsvParserUtil.wrapCsvAllFieldExceptions(
+                () -> CsvParserUtil.wrapCsvDependencyException(ID_CSV_SEI_INDUSTRIAL_RD_CONTRACT_ORDER,
+                        this.getIdCsvSeiIndustrialRDContract(),
+                        SupportedCsvTemplate.ACTIVITY,
+                        this.activityIdCsvMap.get(this.getIdCsvSeiIndustrialRDContract()),
+                        this::setCsvActivity)
+        );
     }
 
     @Override
     public Activity convertToEntity() {
         Activity activity = this.getCsvActivity().convertToEntity();
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
+        activity.setIdTypeActivity(TypeActivityId.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
         SeiIndustrialRDContract seiIndustrialRDContract = new SeiIndustrialRDContract();
         seiIndustrialRDContract.setStartDate(this.getStartDate());
         seiIndustrialRDContract.setNameCompanyInvolved(this.getNameCompanyInvolved());

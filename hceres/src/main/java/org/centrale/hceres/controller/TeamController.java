@@ -15,10 +15,6 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
-    /**
-     * return a list of teams of specified type only
-     */
-
     @GetMapping("/Teams")
     public List<Team> getTeams() {
         return teamService.getTeams();

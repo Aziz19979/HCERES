@@ -5,7 +5,7 @@ import java.util.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.OutgoingMobility;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.OutgoingMobilityRepository;
 import org.centrale.hceres.util.RequestParseException;
@@ -31,7 +31,7 @@ public class OutgoingMobilityService {
      * permet de retourner la liste
      */
     public List<Activity> getOutgoingMobilities() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.OUTGOING_MOBILITY.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.OUTGOING_MOBILITY.getId());
     }
 
     /**
@@ -71,7 +71,7 @@ public class OutgoingMobilityService {
         Activity activity = new Activity();
         outgoingMobility.setActivity(activity);
         activity.setOutgoingMobility(outgoingMobility);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.OUTGOING_MOBILITY.getId());
+        activity.setIdTypeActivity(TypeActivityId.OUTGOING_MOBILITY.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

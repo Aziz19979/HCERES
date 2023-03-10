@@ -1,6 +1,6 @@
 // Cette component est pour definir la barre de navigation
 import React, {useState} from 'react';
-import {FaBars, FaCog, FaHome, FaTimes, FaUserGraduate} from 'react-icons/fa';
+import {FaBars, FaCog, FaHome, FaTimes, FaUserGraduate , FaChartLine} from 'react-icons/fa';
 import {
     Nav,
     NavbarContainer,
@@ -63,6 +63,11 @@ const Navbar = () => {
                     <NavItem>
                         <NavLinks to="/Activity">
                             <BiTask/> Activités
+                        </NavLinks>
+                    </NavItem>
+                    <NavItem>
+                        <NavLinks to="/Statistiques">
+                            <FaChartLine/> Statistiques
                         </NavLinks>
                     </NavItem>
                     {/* ajouter bouton de deconnexion */}

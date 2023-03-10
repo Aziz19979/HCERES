@@ -11,7 +11,7 @@
 #        (exemple PostDoc).
 # if second argument specifying CSV data is given,
 # then CreateFormBootstrap.sh is called too
-# Example:  ./doc/code-generator/CreateFrontActivity.sh PostDoc
+# Example:  ./doc/code-generator/CreateActivityFrontEnd.sh PostDoc
 #################################################################################
 
 # project dependent initialization

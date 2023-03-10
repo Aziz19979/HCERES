@@ -5,7 +5,7 @@ import java.util.*;
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.items.SeiIndustrialRDContract;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.SeiIndustrialRDContractRepository;
 import org.centrale.hceres.util.RequestParseException;
@@ -34,7 +34,7 @@ public class SeiIndustrialRDContractService {
      * permet de retourner la liste
      */
     public List<Activity> getIndustrialContracts() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
     }
 
     /**
@@ -78,7 +78,7 @@ public class SeiIndustrialRDContractService {
         Activity activity = new Activity();
         seiIndustrialRDContract.setActivity(activity);
         activity.setSeiIndustrialRDContract(seiIndustrialRDContract);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
+        activity.setIdTypeActivity(TypeActivityId.SEI_INDUSTRIAL_R_D_CONTRACT.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

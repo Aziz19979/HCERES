@@ -9,7 +9,7 @@ import org.centrale.hceres.items.ScientificExpertise;
 
 import org.centrale.hceres.items.ScientificExpertiseType;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.TypeActivityId;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.ScientificExpertiseTypeRepository;
 import org.centrale.hceres.repository.ScientificExpertiseRepository;
@@ -37,7 +37,7 @@ public class ScientificExpertiseService {
      * permet de retourner la liste
      */
     public List<Activity> getScientificExpertises() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.SCIENTIFIC_EXPERTISE.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.SCIENTIFIC_EXPERTISE.getId());
     }
 
     /**
@@ -72,13 +72,13 @@ public class ScientificExpertiseService {
         // ScientificExpertiseType :
         ScientificExpertiseType scientificExpertiseType = new ScientificExpertiseType();
         scientificExpertiseType.setNameChoice(RequestParser.getAsString(request.get("ScientificExpertiseTypeName")));
-        scientificExpertise.setScientificExpertiseTypeId(scientificExpertiseType);
+        scientificExpertise.setScientificExpertiseType(scientificExpertiseType);
 
         // Activity :
         Activity activity = new Activity();
         scientificExpertise.setActivity(activity);
         activity.setScientificExpertise(scientificExpertise);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.SCIENTIFIC_EXPERTISE.getId());
+        activity.setIdTypeActivity(TypeActivityId.SCIENTIFIC_EXPERTISE.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));

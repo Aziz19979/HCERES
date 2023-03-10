@@ -4,9 +4,7 @@ import java.util.*;
 
 import javax.transaction.Transactional;
 
-import org.centrale.hceres.items.Activity;
-import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.items.TypeActivity;
+import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.ActivityRepository;
 import org.centrale.hceres.repository.ResearcherRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
@@ -17,14 +15,9 @@ import org.springframework.stereotype.Service;
 import lombok.Data;
 
 //items
-import org.centrale.hceres.items.ToolProductType;
-import org.centrale.hceres.items.ToolProduct;
-import org.centrale.hceres.items.ToolProductInvolvment;
-import org.centrale.hceres.items.ToolProductInvolvmentPK;
-import org.centrale.hceres.items.ToolProductRole;
 //repository
 import org.centrale.hceres.repository.ProductionRepository;
-import org.centrale.hceres.repository.ProductInvolvmentRepository;
+import org.centrale.hceres.repository.ProductInvolvementRepository;
 import org.centrale.hceres.repository.ProductRoleRepository;
 import org.centrale.hceres.repository.ProductTypeRepository;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +39,7 @@ public class ProductionService {
     @Autowired
     private ProductionRepository prodRepo;
     @Autowired
-    private ProductInvolvmentRepository prodInvolRepo;
+    private ProductInvolvementRepository prodInvolRepo;
     @Autowired
     private ProductRoleRepository prodRoleRepo;
     @Autowired
@@ -78,7 +71,7 @@ public class ProductionService {
 
         ToolProduct productionTosave = new ToolProduct();
 
-        ToolProductInvolvment productInvolvmentTosave = new ToolProductInvolvment();
+        ToolProductInvolvement productInvolvementTosave = new ToolProductInvolvement();
 
         // toolProductName :
         productionTosave.setToolProductName(RequestParser.getAsString(request.get("toolProductNam")));
@@ -120,19 +113,19 @@ public class ProductionService {
         Integer idProduction = activity.getIdActivity();
         productionTosave.setIdActivity(idProduction);
 
-        //toolProductInvolvmentResearchers
-        productInvolvmentTosave.setToolProductInvolvmentResearchers(RequestParser.getAsString(request.get("toolProductInvolvmentResearchers")));
+        //toolProductInvolvementResearchers
+        productInvolvementTosave.setToolProductInvolvementResearchers(RequestParser.getAsString(request.get("toolProductInvolvementResearchers")));
 
         //Add id_activity of ToolProduct
-        productInvolvmentTosave.setToolProduct(productionTosave);
+        productInvolvementTosave.setToolProduct(productionTosave);
 
         //Add ToolProductRole
         ToolProductRole toolProductRole = new ToolProductRole();
         toolProductRole.setToolProductRoleName(RequestParser.getAsString(request.get("toolProductRoleName")));
         ToolProductRole saveToolProductRole = prodRoleRepo.save(toolProductRole);
-        ToolProductInvolvmentPK saveProdInvoPK = new ToolProductInvolvmentPK();
+        ToolProductInvolvementPK saveProdInvoPK = new ToolProductInvolvementPK();
         saveProdInvoPK.setToolProductRoleId(saveToolProductRole.getToolProductRoleId());
-        productInvolvmentTosave.setToolProductInvolvmentPK(saveProdInvoPK);
+        productInvolvementTosave.setToolProductInvolvementPK(saveProdInvoPK);
 
         // Persist Production to database :
         ToolProduct saveProduction = prodRepo.save(productionTosave);

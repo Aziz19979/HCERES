@@ -167,6 +167,23 @@ class SupportedCsvTemplate {
         dependencies: [this.ACTIVITY],
     }
 
+    SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY = {
+        key: "SR_RESPONSIBILITY_LEARNED_SCIENTIFIC_SOCIETY",
+        label: "Liste des responsabilités dans les sociétés savantes",
+        fileNamePattern: [
+            /^sr_responsibility_learned_scientific_society.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "start_date",
+            "end_date",
+            "scientific_society_name"
+        ],
+        mergingRules: ["Merge based on start_date, end_date, scientific_society_name and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
     FUNCTION_EDITORIAL_ACTIVITY = {
         key: "FUNCTION_EDITORIAL_ACTIVITY",
         label: "Liste des fonctions des activités éditoriales",
@@ -196,8 +213,29 @@ class SupportedCsvTemplate {
             "id_function"
         ],
         mergingRules: ["Merge based on start_date, end_date, name_journal, impact_factor_journal, id_function and the researcher getting it",
+            "Id function => function_editorial_activity is already present in database inserted via SQL."
         ],
-        dependencies: [this.ACTIVITY, this.FUNCTION_EDITORIAL_ACTIVITY],
+        dependencies: [this.ACTIVITY],
+    }
+
+    // educational_output.csv
+    // id_activity;completion_date;id_type;description
+    EDUCATIONAL_OUTPUT = {
+        key: "EDUCATIONAL_OUTPUT",
+        label: "Liste des productions éducatives",
+        fileNamePattern: [
+            /^educational_output.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "completion_date",
+            "id_type",
+            "description"
+        ],
+        mergingRules: ["Merge based on completion_date, id_type, description and the researcher getting it",
+            "Id type => type_educational_output is already present in database inserted via SQL."
+        ],
+        dependencies: [this.ACTIVITY],
     }
     INVITED_ORAL_COMMUNICATION = {
         key: "INVITED_ORAL_COMMUNICATION",
@@ -232,6 +270,23 @@ class SupportedCsvTemplate {
             "invited_by"
         ],
         mergingRules: ["Merge based on date, title_seminar, location, invited_by and the researcher getting it",
+        ],
+        dependencies: [this.ACTIVITY],
+    }
+
+    INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY = {
+        key: "INVOLVEMENT_TRAINING_PEDAGOGICAL_RESPONSIBILITY",
+        label: "Liste des responsabilités pédagogiques",
+        fileNamePattern: [
+            /^involvement_training_pedagogical_responsibility.*csv/,
+        ],
+        fields: [
+            "id_activity",
+            "year",
+            "name_master",
+            "type_involvement_in_training",
+        ],
+        mergingRules: ["Merge based on year, name_master and the researcher getting it",
         ],
         dependencies: [this.ACTIVITY],
     }
@@ -382,7 +437,7 @@ class SupportedCsvTemplate {
         ],
         mergingRules: ["Merge based on description, id_type and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY, this.PUBLIC_OUTREACH_TYPE],
+        dependencies: [this.ACTIVITY],
     }
 
     // publication_type
@@ -451,16 +506,16 @@ class SupportedCsvTemplate {
         fields: [
             "id_activity",
             "date_contract_award",
-            "funding_intitution",
+            "funding_institution",
             "project_title",
             "start_year",
             "end_year",
             "grant_amount",
             "id_type"
         ],
-        mergingRules: ["Merge based on date_contract_award, funding_intitution, project_title, start_year, end_year, grant_amount, id_type and the researcher getting it",
+        mergingRules: ["Merge based on date_contract_award, funding_institution, project_title, start_year, end_year, grant_amount, id_type and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY, this.TYPE_RESEARCH_CONTRACT],
+        dependencies: [this.ACTIVITY],
     }
 
     // laboratory_evaluation_role
@@ -495,7 +550,7 @@ class SupportedCsvTemplate {
         ],
         mergingRules: ["Merge based on year, name_institutional_comitee, id_role_pi_lab_eval and the researcher getting it",
         ],
-        dependencies: [this.ACTIVITY, this.LABORATORY_EVALUATION_ROLE],
+        dependencies: [this.ACTIVITY],
     }
 
     // scientific_expertise_type
@@ -545,9 +600,10 @@ class SupportedCsvTemplate {
             "description",
             "end_date"
         ],
-        mergingRules: ["Merge based on start_date, id_type, description, end_date and the researcher getting it",
+        mergingRules: ["Merge based on start_date, id_type, description and the researcher getting it",
+            "Id type => scientific_expertise_type is already present in database inserted via SQL."
         ],
-        dependencies: [this.ACTIVITY, this.SCIENTIFIC_EXPERTISE_TYPE],
+        dependencies: [this.ACTIVITY],
     }
 
     SEI_CLINICAL_TRIAL = {

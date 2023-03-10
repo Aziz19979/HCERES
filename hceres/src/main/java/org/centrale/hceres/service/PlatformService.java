@@ -23,7 +23,7 @@ public class PlatformService {
 
 
     public List<Activity> getPlatforms() {
-        return activityRepo.findByIdTypeActivity(TypeActivity.IdTypeActivity.PLATFORM.getId());
+        return activityRepo.findByIdTypeActivity(TypeActivityId.PLATFORM.getId());
     }
 
 
@@ -63,7 +63,7 @@ public class PlatformService {
         Activity activity = new Activity();
         platform.setActivity(activity);
         activity.setPlatform(platform);
-        activity.setIdTypeActivity(TypeActivity.IdTypeActivity.PLATFORM.getId());
+        activity.setIdTypeActivity(TypeActivityId.PLATFORM.getId());
 
         // get list of researcher doing this activity - currently only one is sent
         activity.setResearcherList(Collections.singletonList(new Researcher(RequestParser.getAsInteger(request.get("researcherId")))));
