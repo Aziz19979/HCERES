@@ -1,9 +1,9 @@
 import React from "react";
 import Select from "react-select";
-import FixRequiredSelect from "./FixRequiredSelect";
 import {contractTypeToString} from "./ContractTypeToString";
 import {ListGroup} from "react-bootstrap";
-import {fetchListContractTypes} from "../../services/ContractType/ContractTypeActions";
+import FixRequiredSelect from "../../util/FixRequiredSelect";
+import {fetchListContractTypes} from "../../../services/ContractType/ContractTypeActions";
 
 /**
  * Return a <select> html element for all contract types in application

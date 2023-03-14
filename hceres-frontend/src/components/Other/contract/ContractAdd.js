@@ -1,11 +1,11 @@
 import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {addContract} from "../../../services/Activity/contract/ContractActions";
+import {addContract} from "../../../services/Other/contract/ContractActions";
 import ResearcherSelect from "../../util/ResearcherSelect";
 import StatusSelect from "../../util/StatusSelect";
-import ContractTypeSelect from "../../util/ContractTypeSelect";
 import LoadingIcon from "../../util/LoadingIcon";
+import ContractTypeSelect from "./ContractTypeSelect";
 
 // If targetResearcher is set in props use it as default without charging list from database
 // else load list de chercheurs from database
@@ -49,9 +49,9 @@ function ContractAdd(props) {
         };
 
         addContract(data).then(response => {
-            // const activityId = response.data.researcherId;
+            const contractId = response.data.contractId;
             const msg = {
-                "successMsg": "Contrat ajouté avec un id " + response.data.idActivity,
+                "successMsg": "Contrat ajouté avec un id " + response.data.contractId,
             }
             handleClose(msg);
         })
@@ -120,7 +120,7 @@ function ContractAdd(props) {
                             Type du contrat
                         </label>
                         <ContractTypeSelect
-                            onchange={React.useCallback(ids => setContractTypeId(ids), [])}/>
+                            onchange={React.useCallback(id => setContractTypeId(id), [])}/>
 
                         <label className='label'>
                             Employeur

@@ -1,5 +1,6 @@
 package org.centrale.hceres.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.centrale.hceres.items.BelongsTeam;
+import org.centrale.hceres.items.Contract;
 import org.centrale.hceres.items.Researcher;
 import org.centrale.hceres.repository.BelongsTeamRepository;
 import org.centrale.hceres.repository.ResearcherRepository;
@@ -42,7 +44,14 @@ public class ResearcherService {
     public List<Researcher> getResearchers() {
         // temporally implementation remove "admin" researcher and "user" researcher
         // and return the rest, to return all researchers, use: return researchRepo.findAll()
-        return researcherRepo.findAll().stream().filter(r ->
+        List<Researcher> researchers = researcherRepo.findAll();
+        // get last status of researcher
+        for (Researcher researcher : researchers) {
+            researcher.getContractList().stream().max(Comparator.comparingInt(Contract::getContractId))
+                    .ifPresent(c -> researcher.setLastResearcherStatus(c.getStatus().getStatusName()));
+        }
+        // remove "admin" researcher and "user" researcher and return the rest
+        return researchers.stream().filter(r ->
                         r.getResearcherLogin() == null ||
                                 (!r.getResearcherLogin().equalsIgnoreCase("admin")
                                         && !r.getResearcherLogin().equalsIgnoreCase("user")))

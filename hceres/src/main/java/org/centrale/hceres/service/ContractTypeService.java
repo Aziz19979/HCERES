@@ -40,7 +40,7 @@ public class ContractTypeService {
     public ContractType saveContractType(@RequestBody Map<String, Object> request) throws RequestParseException {
 
         ContractType contractType = new ContractType();
-        contractType.setContractTypeName(RequestParser.getAsString("contractTypeName"));
+        contractType.setContractTypeName(RequestParser.getAsString(request.get("contractTypeName")));
 
         contractTypeRepo.save(contractType);
         return contractType;

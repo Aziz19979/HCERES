@@ -160,19 +160,10 @@ class Researcher extends Component {
                     },
                 },
             {
-                dataField: 'contract',
+                dataField: 'lastResearcherStatus',
                 text: 'Statut',
                 sort: true,
                 filter: this.state.showFilter ? textFilter() : null,
-                formatter: (cell, row) => {
-                    let statusName = ''
-                    if (row?.contract?.length > 0) {
-                        statusName = row.contract[0].status.nameStatus
-                    } else {
-                        statusName = 'No contract'
-                    }
-                    return statusName;
-                },
             }, {
                 dataField: 'actionColumn',
                 isDummyField: true,

@@ -20,7 +20,7 @@ import {fetchListStatus} from "../../services/Status/StatusActions";
 function StatusSelect(props) {
     // parameter constant
     const onChangeStatusId = props.onchange;
-    const isMulti = props.isMulti ? props.isMulti : true;
+    const isMulti = props.isMulti ? props.isMulti : false;
     const placeHolder = isMulti ? "Choisie les statuts..." : "Choisie un statut...";
 
     const targetStatus = props.targetStatus;

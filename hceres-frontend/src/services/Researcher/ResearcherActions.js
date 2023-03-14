@@ -41,7 +41,7 @@ export const updateResearcher = async (idResearcher, data) => {
 }
 
 export const deleteResearcher = async (idResearcher) => {
-    const response = await axios.delete(API_URL + "/Researcher/Delete" + idResearcher);
+    const response = await axios.delete(API_URL + "/Researcher/Delete/" + idResearcher);
     if (MyGlobalVar.listeChercheurs) {
         let items = [...MyGlobalVar.listeChercheurs];
         let indexDeleted = MyGlobalVar.listeChercheurs.findIndex(r => r.researcherId === idResearcher)

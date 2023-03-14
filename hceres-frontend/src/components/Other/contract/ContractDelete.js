@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import LoadingIcon from "../../util/LoadingIcon";
 import ContractElement from "./ContractElement";
-import {deleteContract} from "../../../services/Activity/contract/ContractActions";
+import {deleteContract} from "../../../services/Other/contract/ContractActions";
 
 function ContractDelete(props) {
     const [show, setShow] = useState(true);
@@ -17,10 +17,10 @@ function ContractDelete(props) {
 
     const handleDelete = () => {
         setIsLoading(true);
-        deleteContract(targetContract.idActivity)
+        deleteContract(targetContract)
             .then(response => {
                 const msg = {
-                    "successMsg": "Contrat supprimé ayant l'id " + targetContract.idActivity,
+                    "successMsg": "Contrat supprimé ayant l'id " + targetContract.contractId,
                 }
                 handleClose(msg);
             }).catch(error => {

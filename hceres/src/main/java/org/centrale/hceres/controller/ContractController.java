@@ -1,6 +1,7 @@
 package org.centrale.hceres.controller;
 
 import org.centrale.hceres.items.Activity;
+import org.centrale.hceres.items.Contract;
 import org.centrale.hceres.service.ContractService;
 import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,13 @@ public class ContractController {
      * return a list of activities of specified type only
      */
     @GetMapping(value = "/Contracts")
-    public List<Activity> getContracts() {
+    public List<Contract> getContracts() {
         return contraService.getContracts();
+    }
+
+    @GetMapping(value = "/Contract/Researcher/{id}")
+    public List<Contract> getContractsByResearcher(@PathVariable("id") final Integer id) {
+        return contraService.getContractsByResearcher(id);
     }
 
     /**
@@ -33,7 +39,7 @@ public class ContractController {
      * @return Activity
      */
     @PostMapping(value = "/Contract/Create")
-    public Activity createContract(@RequestBody Map<String, Object> request) throws RequestParseException {
+    public Contract createContract(@RequestBody Map<String, Object> request) throws RequestParseException {
         return contraService.saveContract(request);
     }
 
@@ -43,7 +49,6 @@ public class ContractController {
      * @param id - The id of the element
      */
     @DeleteMapping("/Contract/Delete/{id}")
-
     public void deleteContract(@RequestBody @PathVariable("id") final Integer id) {
         contraService.deleteContract(id);
     }

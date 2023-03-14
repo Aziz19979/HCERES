@@ -45,6 +45,6 @@ public class ContractType implements Serializable {
     private String contractTypeName;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idContractType")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contractType")
     private List<Contract> contractList;
 }
