@@ -16,16 +16,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  *
  * @author ECN
  */
 @Repository
-public interface ResearchRepository extends JpaRepository<Researcher, Integer> {
+public interface ResearcherRepository extends JpaRepository<Researcher, Integer> {
 
     @Query("FROM Researcher WHERE researcherLogin=:researcherLogin")
     Researcher findByLogin(@Param("researcherLogin") String researcherLogin);

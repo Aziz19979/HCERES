@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.centrale.hceres.items.Activity;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.repository.ResearchRepository;
-import org.centrale.hceres.service.ResearchService;
+import org.centrale.hceres.repository.ResearcherRepository;
+import org.centrale.hceres.service.ResearcherService;
 import org.centrale.hceres.util.RequestParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +26,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 public class ResearcherController {
 	
 	/**
-	 * instanciation de ResearchService
+	 * instanciation de ResearcherService
 	 */
 	@Autowired
-	private ResearchService rs;
+	private ResearcherService rs;
 	/**
-	 * Instanciation de ResearchRepository
+	 * Instanciation de ResearcherRepository
 	 */
 	@Autowired
-	private ResearchRepository researchRepo;
+	private ResearcherRepository researcherRepo;
 	
 	/**
-	 * pour une requete GET dans localhost/researchs => fournir la liste des chercheurs
+	 * pour une requete GET dans localhost/Researchers => fournir la liste des chercheurs
 	 * le resultat est traduit automatiquement en JSON
 	 * @return : liste des chercheurs
 	 */
@@ -48,7 +48,7 @@ public class ResearcherController {
 
 	@GetMapping("/Researcher/{id}/Activities")
 	public List<Activity> getResearcherActivity(@RequestBody @PathVariable("id") final Integer id) {
-		return researchRepo.findById(id).map(researcher -> {
+		return researcherRepo.findById(id).map(researcher -> {
 			List<Activity> activities = researcher.getActivityList();
 			for (Activity activity : activities) {
 				// remove current researcher from researcher list to prevent redundant information of same researcher id

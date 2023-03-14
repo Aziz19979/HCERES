@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 import org.centrale.hceres.items.*;
 import org.centrale.hceres.repository.ActivityRepository;
-import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.repository.ResearcherRepository;
 import org.centrale.hceres.repository.TypeActivityRepository;
 import org.centrale.hceres.util.RequestParseException;
 import org.centrale.hceres.util.RequestParser;
@@ -31,7 +31,7 @@ public class ProductionService {
      * Instanciation
      */
     @Autowired
-    private ResearchRepository researchRepo;
+    private ResearcherRepository researchRepo;
     @Autowired
     private ActivityRepository activityRepo;
     @Autowired

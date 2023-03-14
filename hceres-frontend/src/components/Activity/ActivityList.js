@@ -21,6 +21,7 @@ import PostDocList from "./post-doc/PostDocList";
 import OutgoingMobilityList from "./outgoing-mobility/OutgoingMobilityList";
 import CompanyCreationList from "./company-creation/CompanyCreationList";
 import PatentList from "./patent/PatentList";
+import ContractList from "../Other/contract/ContractList";
 
 
 // if target researcher is set in props will show only related information of target researcher
@@ -47,6 +48,10 @@ export default function ActivityList(props) {
     const [showPatentList, setShowPatentList] = React.useState(showListByDefault);
     const [showReviewList, setShowReviewList] = React.useState(showListByDefault);
 
+
+    // Other list
+    const [showContractList, setShowContractList] = React.useState(showListByDefault);
+
     const setShowAllList = (isShow) => {
         setShowEducationList(isShow)
         setShowPrixList(isShow)
@@ -63,6 +68,9 @@ export default function ActivityList(props) {
         setShowPostDoctoratList(isShow)
         setShowPatentList(isShow)
         setShowReviewList(isShow)
+
+        // Other list
+        setShowContractList(isShow)
     }
 
     const showAllList = () => setShowAllList(true)
@@ -73,31 +81,34 @@ export default function ActivityList(props) {
 
         <div>
             <div>
-                <h1>
-                    Activités
-                </h1>
-                <div>
+                <div className={"card"}>
+                    <div className={"card-header"}>
+                        <h1>
+                            Activités
+                        </h1>
+                    </div>
+                    <div className={"card-body"}>
+                        <div className={"list_container"} role={"button"}>
+                            <ListGroup horizontal={true}>
+                                <ButtonGroup>
+                                    <Button onClick={showAllList} variant={"outline-primary"}
+                                            id={"showAllActivityListBtn"}>Voir tout</Button>
+                                    <Button onClick={hideAllList} variant={"outline-secondary"}>Cacher tout</Button>
+                                </ButtonGroup>
+                            </ListGroup>
+                            {targetResearcher && <ResearcherElement targetResearcher={targetResearcher} horizontal/>}
+                            <ListGroup horizontal={true}>
+                                <ListGroup.Item onClick={() => setShowEducationList(!showEducationList)}
+                                                className={showEducationList ? activeItemClass : inactiveItemClass}>
+                                    {showEducationList ? <BiShow/> : <BiHide/>}
+                                    &nbsp;
+                                    Education
+                                </ListGroup.Item>
 
-                    <div className={"list_container"} role={"button"}>
-                        <ListGroup horizontal={true}>
-                            <ButtonGroup>
-                                <Button onClick={showAllList} variant={"outline-primary"} id={"showAllActivityListBtn"}>Voir tout</Button>
-                                <Button onClick={hideAllList} variant={"outline-secondary"}>Cacher tout</Button>
-                            </ButtonGroup>
-                        </ListGroup>
-                        {targetResearcher && <ResearcherElement targetResearcher={targetResearcher} horizontal/>}
-                        <ListGroup horizontal={true}>
-                            <ListGroup.Item onClick={() => setShowEducationList(!showEducationList)}
-                                            className={showEducationList ? activeItemClass : inactiveItemClass}>
-                                {showEducationList ? <BiShow/> : <BiHide/>}
-                                &nbsp;
-                                Education
-                            </ListGroup.Item>
-
-                            <ListGroup.Item onClick={() => setShowPrixList(!showPrixList)}
-                                            className={showPrixList ? activeItemClass : inactiveItemClass}>
-                                {showPrixList ? <BiShow/> : <BiHide/>}
-                                &nbsp;
+                                <ListGroup.Item onClick={() => setShowPrixList(!showPrixList)}
+                                                className={showPrixList ? activeItemClass : inactiveItemClass}>
+                                    {showPrixList ? <BiShow/> : <BiHide/>}
+                                    &nbsp;
                                 Prix
                             </ListGroup.Item>
 
@@ -271,7 +282,30 @@ export default function ActivityList(props) {
                         </Collapse>
 
                         <Collapse in={showReviewList}>
-                            <div>{showReviewList && <ReviewArticleList targetResearcher={targetResearcher} />}</div>
+                            <div>{showReviewList && <ReviewArticleList targetResearcher={targetResearcher}/>}</div>
+                        </Collapse>
+                    </div>
+                    </div>
+                </div>
+
+                <div className="card">
+                    <div className="card-header">
+                        <h3 className="card-title">Autres</h3>
+                    </div>
+                    <div className="card-body">
+                        <div className={"list_container"} role={"button"}>
+                            <ListGroup horizontal={true}>
+                                <ListGroup.Item onClick={() => setShowContractList(!showContractList)}
+                                                className={showContractList ? activeItemClass : inactiveItemClass}>
+                                    {showContractList ? <BiShow/> : <BiHide/>}
+                                    &nbsp;
+                                    Contrat
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </div>
+                        <Collapse in={showContractList}>
+                            <div>{showContractList &&
+                                <ContractList targetResearcher={targetResearcher}/>}</div>
                         </Collapse>
                     </div>
                 </div>

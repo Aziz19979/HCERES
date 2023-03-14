@@ -54,3 +54,33 @@ export const chercheursColumnOfActivity = {
         onFilter: filterByResearcherList
     })
 }
+
+
+export const filterByResearcher = (filterVal, data) => {
+    if (filterVal) {
+        filterVal = filterVal.toLowerCase()
+        return data.filter(entity => entity.researcher
+            && (entity.researcher.researcherName.toLowerCase().includes(filterVal)
+                || entity.researcher.researcherSurname.toLowerCase().includes(filterVal)
+                || entity.researcher.researcherId.toString().includes(filterVal)));
+    }
+    return data;
+}
+
+export const chercheurColumnSingle = {
+    dataField: 'Chercheur',
+    text: 'Chercheur',
+    formatter: (cell, row) => {
+        if (row.researcher)
+            return researcherToString(row.researcher);
+        else return ""
+    },
+    csvFormatter: (cell, row, rowIndex) => {
+        if (row.researcher)
+            return researcherToString(row.researcher);
+        else return ""
+    },
+    filter: textFilter({
+        onFilter: filterByResearcher
+    })
+}

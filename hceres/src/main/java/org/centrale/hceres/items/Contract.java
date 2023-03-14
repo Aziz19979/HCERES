@@ -32,11 +32,13 @@ import javax.validation.constraints.Size;
 public class Contract implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_contract")
-    private Integer idContract;
+    private Integer contractId;
+
     @Column(name = "start_contract")
     @Temporal(TemporalType.DATE)
     private Date startContract;
@@ -46,18 +48,35 @@ public class Contract implements Serializable {
     @Size(max = 256)
     @Column(name = "function_contract")
     private String functionContract;
-    @JoinColumn(name = "id_contract_type", referencedColumnName = "id_contract_type")
+
+
+    @Column(name = "id_contract_type")
+    private Integer contractTypeId;
+
+    @JoinColumn(name = "id_contract_type", referencedColumnName = "id_contract_type",
+            insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private ContractType idContractType;
-    @JoinColumn(name = "id_employer", referencedColumnName = "id_employer")
-    @ManyToOne(optional = false)
-    private Employer idEmployer;
+    private ContractType contractType;
+    @JoinColumn(name = "id_employer", referencedColumnName = "id_employer",
+            insertable = true, updatable = true)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private Employer employer;
+
+    @Column(name = "researcher_id")
+    private Integer researcherId;
 
     @JsonIgnore
-    @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id")
+    @JoinColumn(name = "researcher_id", referencedColumnName = "researcher_id",
+            insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Researcher researcher;
-    @JoinColumn(name = "id_status", referencedColumnName = "id_status")
+
+
+    @Column(name = "id_status")
+    private Integer statusId;
+
+    @JoinColumn(name = "id_status", referencedColumnName = "id_status",
+            insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Status status;
 }

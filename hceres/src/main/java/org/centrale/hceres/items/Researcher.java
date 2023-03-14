@@ -77,6 +77,11 @@ public class Researcher implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
     private List<Contract> contractList;
+
+    // this is a dummy field just to return the last status of the researcher
+    @Transient
+    private String lastResearcherStatus;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcherId")
     private List<TeamReferent> teamReferentList;
@@ -92,7 +97,4 @@ public class Researcher implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
     private List<BelongsTeam> belongsTeamList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "researcher")
-    private List<Contract> contract;
 }
