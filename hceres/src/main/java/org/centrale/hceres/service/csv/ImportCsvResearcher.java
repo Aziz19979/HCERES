@@ -5,7 +5,7 @@ import org.centrale.hceres.dto.csv.CsvResearcher;
 import org.centrale.hceres.dto.csv.ImportCsvSummary;
 import org.centrale.hceres.dto.csv.utils.GenericCsv;
 import org.centrale.hceres.items.Researcher;
-import org.centrale.hceres.repository.ResearchRepository;
+import org.centrale.hceres.repository.ResearcherRepository;
 import org.centrale.hceres.service.csv.util.GenericCsvImporter;
 import org.centrale.hceres.service.csv.util.SupportedCsvTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ImportCsvResearcher {
      * Instanciation de ResearchRepository
      */
     @Autowired
-    private ResearchRepository researchRepo;
+    private ResearcherRepository researchRepo;
 
     /**
      * @param researchersRows  list of array having fields as defined in csv

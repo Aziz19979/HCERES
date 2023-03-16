@@ -62,7 +62,7 @@ class Researcher extends Component {
             })
         } else {
             this.setState(prevState => ({
-                // displate error message
+                // display error message
                 researcherErrorAlert: messages.errorMsg,
             }))
         }
@@ -125,7 +125,7 @@ class Researcher extends Component {
                 text: 'Email',
                 sort: true,
                 filter: this.state.showFilter ? textFilter() : null,
-            }, {
+            }, /**{
                 dataField: 'belongsTeamList',
                 text: 'Equipe',
                 sort: true,
@@ -144,20 +144,26 @@ class Researcher extends Component {
                     }
                     return allTeams;
                 }
-            }, {
-                dataField: 'contract',
+            },*/
+                {
+                    dataField: 'belongsTeamList.team.teamName',
+                    text: 'Equipe',
+                    sort: true,
+                    filter: this.state.showFilter ? textFilter() : null,
+                    formatter: (cell, row) => {
+                        const teamNames = row.belongsTeamList.map((bt) => bt.team.teamName);
+                        return teamNames.join(', ');
+                    },
+                    csvFormatter: (cell, row, rowIndex) => {
+                        const teamNames = row.belongsTeamList.map((bt) => bt.team.teamName);
+                        return teamNames.join(', ');
+                    },
+                },
+            {
+                dataField: 'lastResearcherStatus',
                 text: 'Statut',
                 sort: true,
                 filter: this.state.showFilter ? textFilter() : null,
-                formatter: (cell, row) => {
-                    let statusName = ''
-                    if (row?.contract?.length > 0) {
-                        statusName = row.contract[0].status.nameStatus
-                    } else {
-                        statusName = 'No contract'
-                    }
-                    return statusName;
-                },
             }, {
                 dataField: 'actionColumn',
                 isDummyField: true,

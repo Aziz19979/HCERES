@@ -42,6 +42,6 @@ public class Employer implements Serializable {
     private String nameEmployer;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employer")
     private List<Contract> contractList;
 }

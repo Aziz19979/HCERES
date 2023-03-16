@@ -23,6 +23,9 @@ class MyClass {
         this.listeCompanyCreations = null;
         this.listePatents = null;
         this.listeTeams = null;
+        this.listeContracts = null;
+        this.listeStatutes = null;
+        this.listeContractTypes = null
         this.listePublications = null;
         this.listeLaboratories = null;
         this.listeActivityStats = {};
@@ -43,6 +46,27 @@ class MyClass {
                 .map(r => this.listeChercheurs.find(f => f.researcherId === r.researcherId))
         }
         return response
+    }
+
+    addSingleResearcherDataToEntity(entity) {
+        if (this.listeChercheurs) {
+            entity.researcher = this.listeChercheurs.find(f => f.researcherId === entity.researcherId)
+        }
+        return entity
+    }
+
+    addStatuteDataToEntity(entity) {
+        if (this.listeStatutes) {
+            entity.statute = this.listeStatutes.find(f => f.statusId === entity.statusId)
+        }
+        return entity
+    }
+
+    addContractTypeDataToEntity(entity) {
+        if (this.listeContractTypes) {
+            entity.contractType = this.listeContractTypes.find(f => f.contractTypeId === entity.contractTypeId)
+        }
+        return entity
     }
 
     async addTeamDataToResearchers(researcherList) {
