@@ -266,7 +266,7 @@ class Researcher extends Component {
                                     showAddResearcher: true
                                 })
                             }}>
-                                <AiOutlinePlusCircle/> &nbsp; Ajouter un chercheur
+                                <AiOutlinePlusCircle/> &nbsp; Ajouter un membre
                             </button>
                             {this.state.researcherSuccessAlert && (
                                 <Alert className={"alert-success "} onClose={() => this.setState({
