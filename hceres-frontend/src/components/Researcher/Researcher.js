@@ -242,7 +242,7 @@ class Researcher extends Component {
                                 color: 'darkblue',
                                 border: '1px solid darkblue',
                                 padding: '0.5em'
-                            }}> Liste des chercheurs
+                            }}> Liste des membres
                             </h3>
                         </div>
                     </div>
