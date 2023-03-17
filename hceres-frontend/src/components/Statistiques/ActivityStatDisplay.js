@@ -254,6 +254,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     <>
                         <Oval
                             className={"ml-2"}
+                            width={20} height={20}
                         />
                         Chargement...
                     </> :
