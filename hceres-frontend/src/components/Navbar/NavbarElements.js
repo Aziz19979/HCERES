@@ -76,7 +76,7 @@ text-align: center;
     left: ${({click}) => (click ? 0 : '-100%')};
     opacity: 1;
     transition: all 0.5s ease;
-    background: black;
+    background-color: aliceblue;
 }
 `
 
@@ -90,23 +90,23 @@ export const NavLinks = styled(Link)`
     text-decoration: none;
     padding: 0.5rem 1rem;
     height: 100%;
-    
+
+  &:hover {
+    color: black;
+    transition: all 0.5s ease;
+  }
+
+  @media screen and (max-width: 960px) {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+
     &:hover {
-        color: black;
-        transition: all 0.5s ease;
+      color: black;
+      transition: all 0.5s ease;
     }
-
-    @media screen and (max-width: 960px) {
-        text-align: center;
-        padding: 2rem;
-        width: 100%;
-        display: table;
-
-        &:hover {
-            color: black;
-            transition: all 0.5s ease;
-        }
-    }
+  }
 `
 // styles de NavItemBtn
 export const NavItemBtn = styled.li`
