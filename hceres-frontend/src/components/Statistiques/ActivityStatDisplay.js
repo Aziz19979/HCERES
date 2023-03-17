@@ -29,7 +29,9 @@ import {
 } from "recharts";
 import getRandomBackgroundColor from "../util/ColorGenerator";
 import SelectFilterDisplay from "./SelectFilterDisplay";
-
+import {useCurrentPng} from "recharts-to-png";
+import FileSaver from "file-saver";
+import {AiOutlineDownload} from "react-icons/ai";
 
 export default function ActivityStatDisplay({activityStatEntry}) {
     const [teamIdMap, setTeamIdMap] = React.useState({});
@@ -177,6 +179,94 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
     ]);
     const [chartTemplate, setChartTemplate] = React.useState(chartTemplateList[0]);
+
+    // handle download to png file
+    const getPngFileName = React.useCallback(() => {
+        // include width / height size in file name
+        let fileName = activityStatEntry.label;
+        if (groupBy.key !== 'none') {
+            fileName += ' - Par ' + groupBy.label;
+        }
+        if (groupBy2.key !== 'none') {
+            fileName += ' - Par ' + groupBy2.label;
+        }
+        fileName += ' _ ' + chartTemplate.label;
+        fileName += ' - ' + chartOptions.chartWidth + 'x' + chartOptions.chartHeight;
+        return fileName;
+    }, [activityStatEntry, chartTemplate, chartOptions, groupBy, groupBy2]);
+    const [getBarChartPng, {ref: barChartRef}] = useCurrentPng();
+    const [getBarStackChartPng, {ref: barStackChartRef}] = useCurrentPng();
+    const [getPieChartPng, {ref: pieChartRef}] = useCurrentPng();
+    const [getRadarChartPng, {ref: radarChartRef}] = useCurrentPng();
+    const [getLineChartPng, {ref: lineChartRef}] = useCurrentPng();
+    const [getAreaChartPng, {ref: areaChartRef}] = useCurrentPng();
+    const [getFunnelChartPng, {ref: funnelChartRef}] = useCurrentPng();
+    const [isPngLoading, setIsPngLoading] = React.useState(false);
+
+    const handleChartDownload = React.useCallback(async (getPngCallBack) => {
+        setIsPngLoading(true);
+        const png = await getPngCallBack();
+        if (png) {
+            setIsPngLoading(false);
+            FileSaver.saveAs(png, getPngFileName() + '.png');
+        }
+    }, [getPngFileName]);
+
+    const renderDownloadButton = (chartTemplateKey) => {
+        // currently treemap is not supported
+        if (chartTemplateKey === 'treemap') {
+            return null;
+        }
+        return (
+            <button
+                className={'btn btn-primary'}
+                disabled={isPngLoading}
+                onClick={() => {
+                    switch (chartTemplateKey) {
+                        case 'bar':
+                            handleChartDownload(getBarChartPng);
+                            break;
+                        case 'barStack':
+                            handleChartDownload(getBarStackChartPng);
+                            break;
+                        case 'pie':
+                            handleChartDownload(getPieChartPng);
+                            break;
+                        case 'radar':
+                            handleChartDownload(getRadarChartPng);
+                            break;
+                        case 'line':
+                            handleChartDownload(getLineChartPng);
+                            break;
+                        case 'area':
+                            handleChartDownload(getAreaChartPng);
+                            break;
+                        case 'funnel':
+                            handleChartDownload(getFunnelChartPng);
+                            break;
+                        default:
+                            break;
+                    }
+                }}
+            >
+                {/*add download icon png */}
+                {isPngLoading ?
+                    <>
+                        <Oval
+                            className={"ml-2"}
+                        />
+                        Chargement...
+                    </> :
+                    <>
+                        <AiOutlineDownload/>
+                        Télécharger le graphique
+                    </>
+                }
+            </button>
+        )
+    }
+
+
 
     React.useEffect(() => {
         setChargingActivities(true);
@@ -600,6 +690,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     {chartTemplate.key === 'bar' ?
                         <ResponsiveContainer>
                             <BarChart
+                                ref={barChartRef}
                                 data={chartOptions.data}
                                 margin={{
                                     top: 20,
@@ -626,6 +717,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     {chartTemplate.key === 'barStack' ?
                         <ResponsiveContainer>
                             <BarChart
+                                ref={barStackChartRef}
                                 data={chartOptions.data}
                                 margin={{
                                     top: 20,
@@ -642,7 +734,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 {chartOptions.group2KeyToLabelMap && (Object.keys(chartOptions.group2KeyToLabelMap).map((group2Key) => (
                                         // groupkey can be accessed later with functional update via entry.payload.groupkey
                                         <Bar key={group2Key} dataKey={chartOptions.group2KeyToLabelMap[group2Key]}
-                                             // stackId="a"
+                                            // stackId="a"
                                              groupkey={group2Key}
                                              fill={getRandomBackgroundColor(group2Key).backgroundColor}>
                                         </Bar>
@@ -658,7 +750,9 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
                     {chartTemplate.key === 'pie' ?
                         <ResponsiveContainer>
-                            <PieChart>
+                            <PieChart
+                                ref={pieChartRef}
+                            >
                                 <Pie
                                     data={chartOptions.data}
                                     dataKey="count"
@@ -682,7 +776,9 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
                     {chartTemplate.key === 'radar' ?
                         <ResponsiveContainer>
-                            <RadarChart outerRadius={90} data={chartOptions.data}>
+                            <RadarChart
+                                ref={radarChartRef}
+                                outerRadius={90} data={chartOptions.data}>
                                 <PolarGrid/>
                                 <PolarAngleAxis dataKey="name"/>
                                 <PolarRadiusAxis/>
@@ -696,6 +792,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     {chartTemplate.key === 'line' ?
                         <ResponsiveContainer>
                             <LineChart
+                                ref={lineChartRef}
                                 data={chartOptions.data}
                                 margin={{
                                     top: 5,
@@ -718,6 +815,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     {chartTemplate.key === 'area' ?
                         <ResponsiveContainer>
                             <AreaChart
+                                ref={areaChartRef}
                                 data={chartOptions.data}
                                 margin={{
                                     top: 10,
@@ -757,7 +855,9 @@ export default function ActivityStatDisplay({activityStatEntry}) {
 
                     {chartTemplate.key === 'funnel' ?
                         <ResponsiveContainer>
-                            <FunnelChart width={chartOptions.chartWidth} height={chartOptions.chartHeight}>
+                            <FunnelChart
+                                ref={funnelChartRef}
+                                width={chartOptions.chartWidth} height={chartOptions.chartHeight}>
                                 <Tooltip/>
                                 <Funnel
                                     dataKey="count"
@@ -781,6 +881,8 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                     <h1 style={{fontSize: 24, marginBottom: 20}}>
                         {chartTemplate?.label} des {activityStatEntry.label}
                         {groupBy.key !== 'none' && " regroupées par " + groupBy.label}
+                        <br/>
+                        {renderDownloadButton(chartTemplate.key)}
                     </h1>
                 </div>
             </div>
