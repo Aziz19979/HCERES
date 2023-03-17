@@ -2,6 +2,8 @@
 
 [Liste de tous les doc](doc/README.md)
 
+Site currently hosted on [https://hceres.azurewebsites.net/](https://hceres.azurewebsites.net/)
+
 ## Initialisation du projet
 
 * Require java 8+, maven, npm, postgres
