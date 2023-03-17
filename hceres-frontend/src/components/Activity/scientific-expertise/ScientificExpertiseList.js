@@ -11,7 +11,7 @@ import {Alert, OverlayTrigger} from "react-bootstrap";
 import 'react-datepicker/dist/react-datepicker.css';
 import {Oval} from "react-loading-icons";
 import {chercheursColumnOfActivity, paginationOptions} from "../../util/BootStrapTableOptions";
-import {ImFilter} from "react-icons/im";
+import {MdSearch} from "react-icons/md";
 import {AiFillDelete, AiOutlinePlusCircle} from "react-icons/ai";
 import {GrDocumentCsv} from "react-icons/gr";
 import ScientificExpertiseAdd from "./ScientificExpertiseAdd";
@@ -99,7 +99,7 @@ function ScientificExpertiseList(props) {
                 <div className={"col-4"}>
                     {showScientificExpertiseAdd &&
                         <ScientificExpertiseAdd targetResearcher={targetResearcher} onHideAction={handleHideModal}/>}
-                    <button className="btn btn-success" data-bs-toggle="button"
+                    <button className="btn btn-primary" data-bs-toggle="button"
                             onClick={() => setShowScientificExpertiseAdd(true)}>
                         <AiOutlinePlusCircle/> &nbsp; Ajouter une scientificExpertise
                     </button>
@@ -155,11 +155,7 @@ function ScientificExpertiseList(props) {
             title = "Liste des scientificExpertises pour les Chercheurs"
         }
         const CaptionElement = <div>
-            <h3> {title} - &nbsp;
-                <button className={"border-0"}
-                        onClick={(e) => setShowFilter(!showFilter)}>{
-                    <ImFilter/>}
-                </button>
+            <h3> {title}
             </h3>
         </div>
 
@@ -209,20 +205,31 @@ function ScientificExpertiseList(props) {
                                             <ScientificExpertiseDelete
                                                 targetScientificExpertise={targetScientificExpertise}
                                                 onHideAction={handleHideModal}/>}
-                                        <button className="btn btn-success" data-bs-toggle="button"
+
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-4">
+                                        <button className={"border-0 btn-lg"}
+                                                onClick={(e) => setShowFilter(!showFilter)}>{
+                                            <MdSearch/>}
+                                        </button>
+                                    </div>
+                                    <div className="col-4">
+                                        <h3>{<MyExportCSV  {...props.csvProps}/>}</h3>
+                                    </div>
+                                    <div className="col-4">
+                                        <button className="btn btn-primary" data-bs-toggle="button"
                                                 onClick={() => setShowScientificExpertiseAdd(true)}>
                                             <AiOutlinePlusCircle/> &nbsp; Ajouter une scientificExpertise
                                         </button>
                                     </div>
                                 </div>
-                                <div className={"row"}>
+                                 <div className={"row"}>
                                     <div className={"col-4"}>
                                         {showFilter && <SearchBar {...props.searchProps} />}
                                     </div>
-                                    <div className={"col-4"}>
-                                        <h3>{showFilter && <MyExportCSV  {...props.csvProps}/>}</h3>
-                                    </div>
-                                    <div className={"col-4"}>
+                                    <div className={"col-8"}>
                                         {successActivityAlert && <Alert variant={"success"}
                                                                         onClose={() => setSuccessActivityAlert("")}
                                                                         dismissible={true}>{successActivityAlert}</Alert>}
