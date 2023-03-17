@@ -45,19 +45,20 @@ const Navbar = () => {
                 </MobileIcon>
                 {/* Le menu que va contenir le Navbar */}
                 <NavMenu onClick={handleClick} click={click}>
-                    <NavItem>
-                        <NavLinks to="/Configuration" className={(nav) => nav.isActive() ? "active" : ""}>
-                            <FaCog className={"mr-2"}/> Configuration
-                        </NavLinks>
-                    </NavItem>
+
                     <NavItem>
                         <NavLinks to="/Home" className={(nav) => nav.isActive() ? "active" : ""}>
                             <FaHome/> Accueil
                         </NavLinks>
                     </NavItem>
                     <NavItem>
+                        <NavLinks to="/Configuration" className={(nav) => nav.isActive() ? "active" : ""}>
+                            <FaCog className={"mr-2"}/> Importation de données
+                        </NavLinks>
+                    </NavItem>
+                    <NavItem>
                         <NavLinks to="/Researcher">
-                            <FaUserGraduate/> Chercheurs
+                            <FaUserGraduate/> Membres
                         </NavLinks>
                     </NavItem>
                     <NavItem>

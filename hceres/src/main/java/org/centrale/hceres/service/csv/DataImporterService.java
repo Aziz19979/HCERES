@@ -127,7 +127,7 @@ public class DataImporterService {
      * @return summary of import
      * @throws CsvTemplateException if csv format is not supported
      */
-    public ImportCsvSummary importCsvData(@RequestBody Map<String, Object> request)
+    public synchronized ImportCsvSummary importCsvData(@RequestBody Map<String, Object> request)
             throws CsvTemplateException {
         // reorder the map based on dependencies of csv format
         Map<SupportedCsvTemplate, List<?>> csvDataRequest = new TreeMap<>(SupportedCsvTemplate::compare);
