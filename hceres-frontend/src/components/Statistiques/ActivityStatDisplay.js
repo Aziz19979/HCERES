@@ -11,7 +11,7 @@ import {
     Bar,
     BarChart,
     CartesianGrid,
-    Cell, Funnel, FunnelChart,
+    Cell, Funnel, FunnelChart, Label,
     LabelList,
     Legend,
     Line,
@@ -150,7 +150,7 @@ export default function ActivityStatDisplay({activityStatEntry}) {
     const [chartOptions, setChartOptions] = React.useState({
         data: [],
         dataNameMap: {},
-        chartWidth: 500,
+        chartWidth: 1500,
         chartHeight: 300,
         showCountLabel: true,
         showPercentageLabel: false,
@@ -701,8 +701,14 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 }}
                             >
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="name"/>
-                                <YAxis/>
+                                <XAxis dataKey="name"
+                                       label={{ value: groupBy.key === 'none' ? "": groupBy.label, position: 'insideBottomRight', offset: 0 }}
+                                />
+                                <YAxis>
+                                    <Label angle={270} position='left' style={{ textAnchor: 'middle' }}>
+                                        {"Nombre de " + activityStatEntry.label}
+                                    </Label>
+                                </YAxis>
                                 <Tooltip/>
                                 <Bar dataKey="count" stackId="a" fill="#8884d8">
                                     {chartOptions.data.map((entry) => (
@@ -728,8 +734,14 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 }}
                             >
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="name"/>
-                                <YAxis/>
+                                <XAxis dataKey="name"
+                                       label={{ value: groupBy.key === 'none' ? "": groupBy.label, position: 'insideBottomRight', offset: 0 }}
+                                />
+                                <YAxis>
+                                    <Label angle={270} position='left' style={{ textAnchor: 'middle' }}>
+                                        {"Nombre de " + activityStatEntry.label}
+                                    </Label>
+                                </YAxis>
                                 <Tooltip/>
 
                                 {chartOptions.group2KeyToLabelMap && (Object.keys(chartOptions.group2KeyToLabelMap).map((group2Key) => (
@@ -803,8 +815,14 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 }}
                             >
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="name"/>
-                                <YAxis/>
+                                <XAxis dataKey="name"
+                                       label={{ value: groupBy.key === 'none' ? "": groupBy.label, position: 'insideBottomRight', offset: 0 }}
+                                />
+                                <YAxis>
+                                    <Label angle={270} position='left' style={{ textAnchor: 'middle' }}>
+                                        {"Nombre de " + activityStatEntry.label}
+                                    </Label>
+                                </YAxis>
                                 <Tooltip/>
                                 <Legend/>
                                 <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{r: 8}}/>
@@ -826,8 +844,14 @@ export default function ActivityStatDisplay({activityStatEntry}) {
                                 }}
                             >
                                 <CartesianGrid strokeDasharray="3 3"/>
-                                <XAxis dataKey="name"/>
-                                <YAxis/>
+                                <XAxis dataKey="name"
+                                       label={{ value: groupBy.key === 'none' ? "": groupBy.label, position: 'insideBottomRight', offset: 0 }}
+                                />
+                                <YAxis>
+                                    <Label angle={270} position='left' style={{ textAnchor: 'middle' }}>
+                                        {"Nombre de " + activityStatEntry.label}
+                                    </Label>
+                                </YAxis>
                                 <Tooltip/>
                                 <Area type="monotone" dataKey="count" stroke="#8884d8" fill="#8884d8"/>
                             </AreaChart>
