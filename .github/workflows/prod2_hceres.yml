@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - hceres-api
+name: Build and deploy Node.js app to Azure Web App - hceres
 
 on:
   push:
     branches:
-      - prod
+      - prod2
   workflow_dispatch:
 
 jobs:
@@ -16,23 +16,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Java version
-        uses: actions/setup-java@v1
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
         with:
-          java-version: '11'
+          node-version: '18.x'
 
-      - name: Build with Maven
-        run: cd hceres && mvn -Pazure clean install
+      - name: npm install, build, and test
+        run: |
+          cd hceres-frontend
+          rm src/constants.js
+          cp src/constants.js.azure src/constants.js
+          npm install
+          npm run build --if-present
+          npm run test --if-present
         env:
-          AzureHceresDB_URL: ${{ secrets.AzureHceresDB_URL }}
-          AzureHceresDB_username: ${{ secrets.AzureHceresDB_username }}
-          AzureHceresDB_password: ${{ secrets.AzureHceresDB_password }}
+          CI: false
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: java-app
-          path: '${{ github.workspace }}/hceres/target/*.jar'
+          name: node-app
+          path: hceres-frontend/build
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,18 +45,18 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: java-app
+          name: node-app
 
-      - name: Deploy to Azure Web App
+      - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'hceres-api'
+          app-name: 'hceres'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C058AA26701F48C1BA55E3C35893874F }}
-          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_67237A3EDEE84D5290F6329F440434A0 }}
+          package: .
