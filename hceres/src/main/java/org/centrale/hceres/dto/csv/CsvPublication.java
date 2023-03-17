@@ -85,7 +85,7 @@ public class CsvPublication extends DependentCsv<Activity, Integer> {
                         f -> this.setPmid(RequestParser.getAsString(csvData.get(f)))),
 
                 () -> CsvParserUtil.wrapCsvParseException(IMPACT_FACTOR_ORDER,
-                        f -> this.setImpactFactor(RequestParser.getAsBigDecimal(csvData.get(f)))),
+                        f -> this.setImpactFactor(RequestParser.getAsBigDecimalOrDefault(csvData.get(f), BigDecimal.ZERO))),
 
                 () -> CsvParserUtil.wrapCsvParseException(CLINIC_ORDER,
                         f -> this.setClinic(RequestParser.getAsBoolean(csvData.get(f)))),
